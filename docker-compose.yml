@@ -99,10 +99,10 @@ services:
         POSTGRES_DB: '${DB_DATABASE}'
         POSTGRES_USER: '${DB_USERNAME}'
         POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
-#        volumes:
-#            - 'sailpostgresql:/var/lib/postgresql/data'
-#        networks:
-#            - sail
+        volumes:
+            - 'sailpostgresql:/var/lib/postgresql/data'
+        networks:
+            - sail
   redis:
         image: 'redis:alpine'
         ports:
