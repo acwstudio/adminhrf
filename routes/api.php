@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\SocialLoginController;
+use App\Http\Controllers\TokenAuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
 
+    Route::middleware('guest')->group(
+        function () {
+            $limiter = config('fortify.limiters.login');
+
+            Route::post('/auth/token', [TokenAuthController::class, 'store'])->middleware(
+                array_filter([$limiter ? 'throttle:' . $limiter : null])
+            );
+        }
+    );
+
+
     // Social login
     Route::get('/login/{service}', [SocialLoginController::class, 'redirect'])
         ->name('social.redirect');
@@ -32,12 +44,15 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(
         function () {
 
+            Route::delete('/auth/token', [TokenAuthController::class, 'destroy']);
+
+
             Route::get('/me', [UserController::class, 'me']);
 
         }
     );
 
     // Common routes
-
     Route::get('/articles',[ArticleController::class, 'index']);
+
 });

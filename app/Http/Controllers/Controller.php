@@ -9,8 +9,19 @@ use Illuminate\Routing\Controller as BaseController;
 
 /**
  * @OA\Info(
- *    title="HistoryRF API",
- *    version="1.0.0",
+ *     title="HISTRF Swagger API documentation",
+ *     version="1.0.0",
+ *
+ * )
+ * @OA\Server(
+ *     description="Laravel Swagger API server",
+ *     url="http://histrf-api.test/api/v1"
+ * )
+ * @OA\SecurityScheme(
+ *     type="apiKey",
+ *     in="header",
+ *     name="X-APP-ID",
+ *     securityScheme="X-APP-ID"
  * )
  */
 
