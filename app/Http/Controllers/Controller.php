@@ -15,7 +15,7 @@ use Illuminate\Routing\Controller as BaseController;
  * )
  * @OA\Server(
  *     description="Laravel Swagger API server",
- *     url="http://histrf-api.test/api/v1"
+ *     url="https://medico-doctor.ru/api/v1"
  * )
  * @OA\SecurityScheme(
  *     type="apiKey",
