@@ -16,7 +16,7 @@ class CreateSocialUsersTable extends Migration
         Schema::create('social_users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->bigInteger('external_id');
+            $table->string('external_id');
             $table->string('service', 50);
             $table->json('external_user');
             $table->timestamps();
