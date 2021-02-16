@@ -26,7 +26,7 @@ Route::prefix('v1')->group(function () {
         function () {
             $limiter = config('fortify.limiters.login');
 
-            Route::post('/auth/token', [TokenAuthController::class, 'store'])->middleware(
+            Route::post('/token', [TokenAuthController::class, 'store'])->middleware(
                 array_filter([$limiter ? 'throttle:' . $limiter : null])
             );
         }
@@ -44,7 +44,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(
         function () {
 
-            Route::delete('/auth/token', [TokenAuthController::class, 'destroy']);
+            Route::delete('/token', [TokenAuthController::class, 'destroy']);
 
 
             Route::get('/me', [UserController::class, 'me']);
