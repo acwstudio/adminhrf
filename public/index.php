@@ -53,10 +53,3 @@ $response = tap($kernel->handle(
 ))->send();
 
 $kernel->terminate($request, $response);
-
-/*if(DB::connection()->getDatabaseName())
-   {
-     echo "conncted sucessfully to database ".DB::connection()->getDatabaseName();
-   }
-echo "ok";
-*/

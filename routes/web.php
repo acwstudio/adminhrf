@@ -14,12 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // Test database connection
-    try {
-        DB::connection()->getPdo();
-        echo "Connected successfully to: " . DB::connection()->getDatabaseName();
-    } catch (\Exception $e) {
-        die("Could not connect to the database. Please check your configuration. error:" . $e );
-    }
     return view('welcome');
 });
+
+
+#Route::resource('articles', \App\Http\Controllers\ArticleController::class);
+#Route::apiResource('articles', 'App\Http\Controllers\ArticleController');

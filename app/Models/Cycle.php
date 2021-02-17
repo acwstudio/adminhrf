@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Cycle extends Model
 {
     use HasFactory;
+
+    public $fillable = [
+        'announce',
+        'description',
+        'image_id',
+    ];
 }

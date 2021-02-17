@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cycleable extends Model
+class Authorable extends Model
 {
     use HasFactory;
 
+
     public $fillable = [
-        'cycle_id',
-        'cycleable_id',
-        'cycleable_type'
+        'used_id',
+        'authorable_id',
+        'authorable_type'
     ];
 
-
-
+    
 }

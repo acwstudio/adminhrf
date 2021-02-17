@@ -1,46 +1,28 @@
 # For more information: https://laravel.com/docs/sail
 version: '3'
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-#      image: 
-    container_name: app
-    restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
-    working_dir: /var/www/test/histrf.jet-mix.ru/histrf-api
-    volumes:
-      - ./:/var/www
-      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-#    networks:
-#      - app-network
-
-#    laravel.test:
-#        build:
-#            context: ./vendor/laravel/sail/runtimes/8.0
-#            dockerfile: Dockerfile
-#            args:
-#                WWWGROUP: '${WWWGROUP}'
-#        image: sail-8.0/app
-#        ports:
-#            - 8084:80
+    laravel.test:
+        build:
+            context: ./vendor/laravel/sail/runtimes/8.0
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: sail-8.0/app
+        ports:
+            - 8084:80
 #'${APP_PORT:-80}:80'
-#        environment:
-#            WWWUSER: '${WWWUSER}'
-#            LARAVEL_SAIL: 1
-#        volumes:
-#            - '.:/var/www/html'
-#        networks:
-#            - sail
-#        depends_on:
-#            #- mysql
-#            - pgsql
-#            - redis
-#            # - selenium
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            #- mysql
+            - pgsql
+            - redis
+            # - selenium
     # selenium:
     #     image: 'selenium/standalone-chrome'
     #     volumes:
@@ -51,59 +33,36 @@ services:
 #        image: 'mysql:8.0'
 #        ports:
 #            - '${FORWARD_DB_PORT:-3306}:3306'
-#        environment:
-#           MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+#       environment:
+#            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
 #            MYSQL_DATABASE: '${DB_DATABASE}'
 #            MYSQL_USER: '${DB_USERNAME}'
 #            MYSQL_PASSWORD: '${DB_PASSWORD}'
 #            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-#        volumes:
+#       volumes:
 #            - 'sailmysql:/var/lib/mysql'
 #        networks:
 #            - sail
-#       healthcheck:
+#        healthcheck:
 #          test: ["CMD", "mysqladmin", "ping"]
-#    webserver:
-#        image: nginx:alpine
-#        container_name: webserver
-#        restart: unless-stopped
-#        tty: true
-#        ports:
-#            - "80:80"
-#            - "443:443"
-#        volumes:
-#            - ./:/var/www/test/
-#            - ./nginx/conf.d/:/etc/nginx/conf.d/
-#        networks:
-#            - app-network
-  webserver:
-    image: nginx:alpine
-    container_name: webserver
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
-#    networks:
-#      - app-network
+    pgsql:
 
-  pgsql:
-     image: postgres:13
-     ports:
-        - '${FORWARD_DB_PORT:-5432}:5432'
-     environment:
-#            PGPASSWORD: '${DB_PASSWORD:-secret}'
-        POSTGRES_DB: '${DB_DATABASE}'
-        POSTGRES_USER: '${DB_USERNAME}'
-        POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+        image: "postgres"
+        ports:
+            - '${FORWARD_DB_PORT:-3306}:5432'
+        environment:
+#            PGPASSWORD: ''
+            POSTGRES_HOST_AUTH_METHOD: trust
+            POSTGRES_HOST: localhost
+            POSTGRES_DB: histrf_new
+            POSTGRES_USER: histrf_api
+            POSTGRES_PASSWORD: jetmix
+#            DATABASE_URL: postgres://histrf_api:jetmix@docker.for.mac.host.internal/histrf_new
         volumes:
-            - 'sailpostgresql:/var/lib/postgresql/data'
+            - 'psql'
         networks:
             - sail
-  redis:
+    redis:
         image: 'redis:alpine'
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
@@ -113,51 +72,26 @@ services:
             - sail
         healthcheck:
           test: ["CMD", "redis-cli", "ping"]
-
-
-#     pgsql:
-#        image: postgres:13
-#        ports:
-#            - '${FORWARD_DB_PORT:-5432}:5432'
-#        environment:
-#            PGPASSWORD: '${DB_PASSWORD:-secret}'
-#            POSTGRES_DB: '${DB_DATABASE}'
-#            POSTGRES_USER: '${DB_USERNAME}'
-#            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
-#        volumes:
-#            - 'sailpostgresql:/var/lib/postgresql/data'
-#        networks:
-#            - sail
-#    redis:
-#        image: 'redis:alpine'
-#        ports:
-#            - '${FORWARD_REDIS_PORT:-6379}:6379'
-#        volumes:
-#            - 'sailredis:/data'
-#        networks:
-#            - sail
-#        healthcheck:
-#          test: ["CMD", "redis-cli", "ping"]
     # memcached:
     #     image: 'memcached:alpine'
     #     ports:
     #         - '11211:11211'
     #     networks:
     #         - sail
-  mailhog:
-    image: 'mailhog/mailhog:latest'
-    ports:
-      - '${FORWARD_MAILHOG_PORT:-1025}:1025'
-      - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
-    networks:
-      - sail
+    mailhog:
+        image: 'mailhog/mailhog:latest'
+        ports:
+            - '${FORWARD_MAILHOG_PORT:-1025}:1025'
+            - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
+        networks:
+            - sail
 networks:
-  sail:
-    driver: bridge
+    sail:
+        driver: bridge
 volumes:
-  sailmysql:
-    driver: local
-#    sailpostgresql:
+#    sailmysql:
 #        driver: local
-  sailredis:
-    driver: local
+    sailpostgresql:
+        driver: local
+    sailredis:
+        driver: local
