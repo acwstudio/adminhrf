@@ -5,7 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Upvoteable extends Model
+class Authorable extends Model
 {
     use HasFactory;
+
+
+    public $fillable = [
+        'used_id',
+        'authorable_id',
+        'authorable_type'
+    ];
+
+    
 }

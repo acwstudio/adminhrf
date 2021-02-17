@@ -5,7 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Upvote extends Model
+class GroupMembers extends Model
 {
     use HasFactory;
+
+    public $fillable = [
+      'group_id',
+      'user_id',
+    ];
+
+
 }

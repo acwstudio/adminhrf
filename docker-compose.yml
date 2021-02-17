@@ -19,8 +19,8 @@ services:
         networks:
             - sail
         depends_on:
-            - mysql
-            # - pgsql
+            #- mysql
+            - pgsql
             - redis
             # - selenium
     # selenium:
@@ -29,35 +29,39 @@ services:
     #         - '/dev/shm:/dev/shm'
     #     networks:
     #         - sail
-    mysql:
-        image: 'mysql:8.0'
-        ports:
-            - '${FORWARD_DB_PORT:-3306}:3306'
-        environment:
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_DATABASE: '${DB_DATABASE}'
-            MYSQL_USER: '${DB_USERNAME}'
-            MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-        volumes:
-            - 'sailmysql:/var/lib/mysql'
-        networks:
-            - sail
-        healthcheck:
-          test: ["CMD", "mysqladmin", "ping"]
-#    pgsql:
-#        image: postgres:13
+#    mysql:
+#        image: 'mysql:8.0'
 #        ports:
-#            - '${FORWARD_DB_PORT:-5432}:5432'
-#        environment:
-#            PGPASSWORD: '${DB_PASSWORD:-secret}'
-#            POSTGRES_DB: '${DB_DATABASE}'
-#            POSTGRES_USER: '${DB_USERNAME}'
-#            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
-#        volumes:
-#            - 'sailpostgresql:/var/lib/postgresql/data'
+#            - '${FORWARD_DB_PORT:-3306}:3306'
+#       environment:
+#            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+#            MYSQL_DATABASE: '${DB_DATABASE}'
+#            MYSQL_USER: '${DB_USERNAME}'
+#            MYSQL_PASSWORD: '${DB_PASSWORD}'
+#            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+#       volumes:
+#            - 'sailmysql:/var/lib/mysql'
 #        networks:
 #            - sail
+#        healthcheck:
+#          test: ["CMD", "mysqladmin", "ping"]
+    pgsql:
+
+        image: "postgres"
+        ports:
+            - '${FORWARD_DB_PORT:-3306}:5432'
+        environment:
+#            PGPASSWORD: ''
+            POSTGRES_HOST_AUTH_METHOD: trust
+            POSTGRES_HOST: localhost
+            POSTGRES_DB: histrf_new
+            POSTGRES_USER: histrf_api
+            POSTGRES_PASSWORD: jetmix
+#            DATABASE_URL: postgres://histrf_api:jetmix@docker.for.mac.host.internal/histrf_new
+        volumes:
+            - 'psql'
+        networks:
+            - sail
     redis:
         image: 'redis:alpine'
         ports:
@@ -85,9 +89,9 @@ networks:
     sail:
         driver: bridge
 volumes:
-    sailmysql:
-        driver: local
-#    sailpostgresql:
+#    sailmysql:
 #        driver: local
+    sailpostgresql:
+        driver: local
     sailredis:
         driver: local

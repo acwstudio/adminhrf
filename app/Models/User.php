@@ -20,6 +20,16 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
+        'enabled',
+        'firstname',
+        'lastname',
+        'date_of_birth',
+        'gender',
+        'phone',
+        'place_of_birth',
+        'work',
+        'biography'
     ];
 
     /**
@@ -39,5 +49,25 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_login',
+
     ];
+
+    /* Define comments and user relation */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class,'user_id','id');
+    }
+
+    /* Define group and users relation through group members list */
+    public function groups()
+    {
+        return $this->hasManyThrough('groups', 'GroupMembers', 'group_id', 'id');
+    }
+
+    /*     */
+    public function articles()
+    {
+        return $this->hasMany(Article::class,'user_id','id');
+    }
 }

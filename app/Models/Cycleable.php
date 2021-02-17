@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Cycleable extends Model
 {
     use HasFactory;
+
+    public $fillable = [
+        'cycle_id',
+        'cycleable_id',
+        'cycleable_type'
+    ];
+
+
+
 }
