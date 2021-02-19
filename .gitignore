@@ -13,7 +13,5 @@ npm-debug.log
 yarn-error.log
 .idea
 resources/views
-
 config/database.php
-
 app/.DS_Store
