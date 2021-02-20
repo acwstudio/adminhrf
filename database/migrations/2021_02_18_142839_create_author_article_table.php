@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTaggablesTable extends Migration
+class CreateAuthorArticleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateTaggablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('taggables', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('author_article', function (Blueprint $table) {
+            $table->bigInteger('author_id');
+            $table->bigInteger('article_id');
         });
     }
 
@@ -26,6 +26,6 @@ class CreateTaggablesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taggables');
+        Schema::dropIfExists('author_article');
     }
 }

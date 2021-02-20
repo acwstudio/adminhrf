@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,15 +28,23 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Relation::morphMap([
+            'article' => 'App\Models\Article',
+        ]);
+
         ResetPassword::createUrlUsing(
             function ($notifiable, $token) {
-                return env("APP_CLIENT_URL", "http://histrf-api.test:5000") . "/reset-password/{$token}?email={$notifiable->getEmailForPasswordReset()}";
+                return env("APP_CLIENT_URL") . "/reset-password?token={$token}&email={$notifiable->getEmailForPasswordReset()}";
+
             }
         );
 
         VerifyEmail::createUrlUsing(
-            function () {
-                return env("APP_CLIENT_URL", "http://histrf-api.test:5000") . "/email-verified";
+            function ($notifiable) {
+                $email = $notifiable->getEmailForVerification();
+                $hash = Hash::make($email);
+
+                return env("APP_URL") . "/api/v1/email/verify/{$email}?hash={$hash}";
             }
         );
     }

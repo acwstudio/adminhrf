@@ -40,7 +40,7 @@ class SocialLoginController extends Controller
 
         $oauthUser = Socialite::driver($service)->stateless()->user();
 
-//        dd($oauthUser);
+        dd($oauthUser);
 
         $socialUser = SocialUser::where('external_id', $oauthUser->id)
             ->where('service', $service)

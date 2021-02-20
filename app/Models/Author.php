@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Article extends Model
+class Author extends Model
 {
     use HasFactory;
 
@@ -24,14 +24,14 @@ class Article extends Model
      * @var array
      */
     protected $casts = [
-        'published_at' => 'datetime',
+        'birth_date' => 'datetime',
     ];
 
     /**
-     * Get authors of the article.
+     * Get all articles of the author.
      */
-    public function authors(): BelongsToMany
+    public function articles(): BelongsToMany
     {
-        return $this->belongsToMany(Author::class, 'author_article', 'article_id', 'author_id');
+        return $this->belongsToMany(Article::class, 'author_article', 'author_id', 'article_id');
     }
 }

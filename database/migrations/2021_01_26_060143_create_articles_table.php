@@ -14,8 +14,18 @@ class CreateArticlesTable extends Migration
     public function up()
     {
         Schema::create('articles', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->foreignId('user_id')->nullable();
+            $table->string('title',255);
+            $table->string('slug',255)->unique();
+            $table->text('announce')->nullable();
+            $table->text('body');
+            $table->boolean('show_in_rss')->default(false);
+            $table->string('yatextid')->nullable();
+            $table->boolean('active')->default(true);
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
+
         });
     }
 

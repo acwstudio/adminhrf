@@ -5,14 +5,14 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'Swagger UI',
+                'title' => 'Histrf API',
             ],
 
             'routes' => [
                 /*
                  * Route for accessing api documentation interface
                 */
-                'api' => 'api/docs',
+                'api' => 'api/v1/docs',
             ],
             'paths' => [
                 /*
@@ -45,12 +45,12 @@ return [
             /*
              * Route for accessing parsed swagger annotations.
             */
-            'docs' => 'api/docs',
+            'docs' => 'api/v1/docs',
 
             /*
              * Route for Oauth2 authentication callback.
             */
-            'oauth2_callback' => 'api/oauth2-callback',
+            'oauth2_callback' => 'api/v1/oauth2-callback',
 
             /*
              * Middleware allows to prevent unexpected access to API documentation
@@ -141,18 +141,12 @@ return [
                 */
             ],
             'security' => [
-                /*
-                 * Examples of Securities
-                */
-                [
-                    /*
-                    'oauth2_security_example' => [
-                        'read',
-                        'write'
-                    ],
-
-                    'passport' => []
-                    */
+                'bearer' => [
+                    'type' => 'http',
+                    'description' => 'Authorization token obtained from logging in.',
+                    'name' => 'Authorization',
+                    'in' => 'header',
+                    'scheme' => 'bearer',
                 ],
             ],
         ],
@@ -196,8 +190,10 @@ return [
         /*
          * Uncomment to add constants which can be used in annotations
          */
-        // 'constants' => [
-        // 'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://my-default-host.com'),
-        // ],
+         'constants' => [
+             'L5_SWAGGER_LOCAL_SERVER' => env('L5_SWAGGER_LOCAL_SERVER'),
+             'L5_SWAGGER_DEV_SERVER' => env('L5_SWAGGER_DEV_SERVER'),
+             'L5_SWAGGER_PROD_SERVER' => env('L5_SWAGGER_PROD_SERVER'),
+         ],
     ],
 ];

@@ -9,21 +9,6 @@ class UserController extends Controller
 {
 
     /**
-     * @OA\Get(
-     *     path="/me",
-     *     operationId="user",
-     *     tags={"User"},
-     *     summary="Return logged in user",
-     *
-     *     @OA\Response(
-     *         response="200",
-     *         description="Everything is fine",
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *
-     *         )
-     *     ),
-     * )
      *
      * Return logged in user
      *

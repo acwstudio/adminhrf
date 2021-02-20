@@ -6,7 +6,9 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
+use Laravel\Fortify\Fortify;
 
 class TokenAuthController extends Controller
 {
@@ -15,12 +17,12 @@ class TokenAuthController extends Controller
      *
      * Issue token for device
      *
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws ValidationException
      */
-    public function store()
+    public function store(Request $request)
     {
-        $request = request();
 
         $request->validate(
             [
@@ -32,6 +34,17 @@ class TokenAuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
+        if ($user && $user->legacy) {
+            $status = (Password::broker(config('fortify.passwords')))->sendResetLink(['email' => $user->email]);
+
+            if ($status == Password::RESET_LINK_SENT) {
+                return response()->json(
+                    ['message' => 'Reset password link sent'],
+                    204
+                );
+            }
+        }
+
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages(
                 [
@@ -41,7 +54,7 @@ class TokenAuthController extends Controller
         }
 
         return response()->json(
-            ['user' => new UserResource($user), 'token' => $user->createToken($request->device_name)->plainTextToken]
+            ['token' => $user->createToken($request->device_name)->plainTextToken]
         );
     }
 

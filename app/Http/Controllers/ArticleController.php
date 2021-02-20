@@ -11,30 +11,6 @@ class ArticleController extends Controller
 
 
     /**
-     * @OA\Get(
-     *     path="/articles",
-     *     operationId="articlesAll",
-     *     tags={"Articles"},
-     *     summary="Display a listing of the resource",
-     *
-     *     @OA\Parameter(
-     *         name="page",
-     *         in="query",
-     *         description="The page number",
-     *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Everything is fine",
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *
-     *         )
-     *     ),
-     * )
      *
      * Display a listing of the resource.
      *
