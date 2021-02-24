@@ -18,17 +18,6 @@ class SocialLoginController extends Controller
      */
     protected $guard;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @param  StatefulGuard  $guard
-     * @return void
-     */
-    public function __construct(StatefulGuard $guard)
-    {
-        $this->guard = $guard;
-    }
-
 
     public function redirect($service)
     {
@@ -40,7 +29,6 @@ class SocialLoginController extends Controller
 
         $oauthUser = Socialite::driver($service)->stateless()->user();
 
-        dd($oauthUser);
 
         $socialUser = SocialUser::where('external_id', $oauthUser->id)
             ->where('service', $service)
@@ -62,12 +50,9 @@ class SocialLoginController extends Controller
 
         }
 
-        $this->guard->login($socialUser->user);
+        $token = $socialUser->user->createToken($service, ['user:social']);
 
-
-        dd($socialUser->user);
-
-//        return redirect(env('CLIENT_BASE_URL') . '/logged');
+        return redirect(env('CLIENT_BASE_URL') . '?type=social_login', 302, ['token' => $token->plainTextToken]);
     }
 
 
