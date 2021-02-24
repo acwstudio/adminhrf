@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
         ResetPassword::createUrlUsing(
             function ($notifiable, $token) {
-                return env("APP_CLIENT_URL") . "/reset-password?token={$token}&email={$notifiable->getEmailForPasswordReset()}";
+                return env("APP_CLIENT_URL") . "?type=reset_password&token={$token}&email={$notifiable->getEmailForPasswordReset()}";
 
             }
         );
