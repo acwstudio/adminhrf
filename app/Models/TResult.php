@@ -30,7 +30,5 @@ class TResult extends Model
         return $this->belongsTo(Test::class, 'test_id','id');
     }
 
-    public function
-
 
 }

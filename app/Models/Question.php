@@ -19,7 +19,7 @@ class Question extends Model
         return $this->belongsToMany(Test::class, 'tests_questions');
     }
 
-    public function answers():
+    public function answers()
     {
         return $this->belongsTo(TAnswer::class, 'question_id', 'id');
     }

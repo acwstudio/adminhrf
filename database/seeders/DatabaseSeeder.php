@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
 //
 //        });
 
-        Database::unprepared(file_get_contents(__dir__.'/imports/dumps/dbhistory_public_qcategories'))
+        //Database::unprepared(file_get_contents(__dir__.'/imports/dumps/dbhistory_public_qcategories'))
 
     }
 }
