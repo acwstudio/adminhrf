@@ -18,7 +18,7 @@ class CreatelikesTable extends Migration
             $table->timestamps();
             $table->integer('likeable_id');
             $table->string('likeable_type');
-            $table->integer('used_id');
+            $table->integer('user_id');
 
             $table->unique(['user_id','likeable_id','likeable_type']);
             $table->foreign('user_id')->references('id')->on('users')

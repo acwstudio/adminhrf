@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/imports
 .env
 .env.backup
 .phpunit.result.cache
@@ -15,3 +16,4 @@ yarn-error.log
 resources/views
 config/database.php
 app/.DS_Store
+

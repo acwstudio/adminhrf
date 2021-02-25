@@ -19,7 +19,7 @@ class CreateCommentsTable extends Migration
             $table->integer('user_id');
             $table->string('body',750);
             $table->date('date');
-            $table->integer('parent_id');
+            $table->string('parents')->nullable();
             $table->integer('commentable_id');
             $table->integer('commentable_type');
 

@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'v8.5.9',
-    'version' => '8.5.9.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => 'bff1ecdb1ffa538eb3094874123a926cb30481b8',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -51,6 +51,33 @@
       array (
       ),
       'reference' => '8f8a6e48c5ecb0f991c2fdcf5f154a47d85f9ffd',
+    ),
+    'doctrine/cache' => 
+    array (
+      'pretty_version' => '1.10.2',
+      'version' => '1.10.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '13e3381b25847283a91948d04640543941309727',
+    ),
+    'doctrine/dbal' => 
+    array (
+      'pretty_version' => '2.12.1',
+      'version' => '2.12.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'adce7a954a1c2f14f85e94aed90c8489af204086',
+    ),
+    'doctrine/event-manager' => 
+    array (
+      'pretty_version' => '1.1.1',
+      'version' => '1.1.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '41370af6a30faa9dc0368c4a6814d596e81aba7f',
     ),
     'doctrine/inflector' => 
     array (
@@ -422,6 +449,15 @@
         0 => 'v8.24.0',
       ),
     ),
+    'kitloong/laravel-migrations-generator' => 
+    array (
+      'pretty_version' => '4.4.2',
+      'version' => '4.4.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '15b36cbf38019bf5d96dd960c7a865fa5f931d48',
+    ),
     'kodova/hamcrest-php' => 
     array (
       'replaced' => 
@@ -440,12 +476,12 @@
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => 'v8.5.9',
-      'version' => '8.5.9.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => 'bff1ecdb1ffa538eb3094874123a926cb30481b8',
     ),
     'laravel/sail' => 
     array (
@@ -760,8 +796,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0',
-        1 => '1.0.0',
+        0 => '1.0.0',
+        1 => '1.0',
       ),
     ),
     'psr/simple-cache' => 
