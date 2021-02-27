@@ -13,23 +13,15 @@ class News extends Model
     protected $fillable = [
         'title',
         'slug',
-        'url',
         'announce',
         'listorder',
         'body',
-        'listorder',
-        'seo_title',
-        'seo_description',
-        'seo_keywords',
         'show_in_rss',
         'show_in_afisha',
         'yatextid',
         'status',
-        'image_id',
         'show_in_main',
         'close_commentation',
-        'gallery_id',
-        'date'
     ];
 
 

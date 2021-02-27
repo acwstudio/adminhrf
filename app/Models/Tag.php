@@ -23,7 +23,14 @@ class Tag extends Model
 
     public function news()
     {
-        return $this->morphedByMany(News::class, 'taggable');
+        return $this->morphedByMany(News::class, 'taggable')->select(['id',
+            'title',
+            'slug',
+            'announce',
+            'listorder',
+            'status',
+            'created_at',
+            'slug',]);
     }
 
     public function documents()

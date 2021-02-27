@@ -17,11 +17,10 @@ class CreateCommentsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->integer('user_id');
-            $table->string('body',750);
-            $table->date('date');
+            $table->string('text'); //TODO varchar 750 ;
             $table->string('parents')->nullable();
             $table->integer('commentable_id');
-            $table->integer('commentable_type');
+            $table->string('commentable_type',60);
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade');

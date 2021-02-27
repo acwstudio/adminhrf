@@ -9,6 +9,8 @@ class ResultAnswer extends Model
 {
     use HasFactory;
 
+    protected $table = 'result_answers';
+
     public $fillable = [
         'result_id',
         'question_id',

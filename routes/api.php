@@ -14,23 +14,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::prefix('v1')->group(function () {
+
+
+    Route::middleware('auth:api')->get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+// Common routes
+    Route::get('/articles',[ArticleController::class, 'index']);
+
+
+//Articles:
+    Route::get('articles-tags/{tagId}', 'App\Http\Controllers\ArticleController@getArticlesByTag');
+    Route::get('articles-author/{authorId}', 'App\Http\Controllers\ArticleController@getArticlesByAuthor');
+    Route::get('articles-announce', 'App\Http\Controllers\ArticleController@getAnnounceList');
+
+//News:
+    Route::get('/news/list/{page}', [\App\Http\Controllers\NewsController::class, 'getAnnounceNews']);
+    Route::get('/news/tags/{tagId}/{page}', [\App\Http\Controllers\NewsController::class, 'getNewsByTag']);
+#Route::get('/news/tags/{tagId}-page-{page}', [\App\Http\Controllers\NewsController::class, 'getNewsByTag']);
+    Route::get('/news/{id}', [\App\Http\Controllers\NewsController::class, 'getNews']);
+
+//Events
+    Route::get('/events/announce/century/{century}', [\App\Http\Controllers\EventController::class, 'getEventsForCentury']);
+    Route::get('/events/announce/decade/{decade}', [\App\Http\Controllers\EventController::class, 'getEventsForDecade']);
+    Route::get('/events/{id}', [\App\Http\Controllers\EventController::class, 'getEventById']);
+
+
+
+
+
 });
-
-#Route::apiResource('articles', \App\Http\Controllers\ArticleController::class);
-#Route::resource('articles', \App\Http\Controllers\ArticleController::class);
-#Route::apiResource('/v1/articles', 'App\Http\Controllers\ArticleController');
-#Route::get($uri, $callback);
-#Route::Resource('articles', 'App\Http\Controllers\ArticleController');
-Route::get('articles-tags/{tagId}', 'App\Http\Controllers\ArticleController@getArticlesByTag');
-Route::get('articles-author/{authorId}', 'App\Http\Controllers\ArticleController@getArticlesByAuthor');
-Route::get('articles-announce', 'App\Http\Controllers\ArticleController@getAnnounceList');
-#Route::get('articles', 'App\Http\Controllers\ArticleController@index');
-#Route::post('articles', 'App\Http\Controllers\ArticleController@store');
-#Route::get('articles/{id}', 'App\Http\Controllers\ArticleController@show');
-#Route::get('articles/create', 'App\Http\Controllers\ArticleController@create');
-#Route::put('students/{id}', 'ApiController@updateStudent');
-#Route::delete('students/{id}','ApiController@deleteStudent');
-
-

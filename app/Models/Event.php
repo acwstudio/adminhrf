@@ -10,30 +10,28 @@ class Event extends Model
     use HasFactory;
 
     public $fillable = [
-        'comment_id',
-        'commentable_id',
-        'commentable_type',
+        'title',
+        'start_date',
+        'end_date',
+        'title',
+        'slug',
+        'description',
+        'graph_announce',
+        'card_announce',
+        'is_date_bc',
+        'show_in_timeline',
+        'close_commentation',
+        'date_year',
+        'date_month',
+        'date_day',
+    ];
+
+    protected $casts = [
+      'created_at',
+      'updated_at',
     ];
 
 
 
-    public function articles()
-    {
-        return $this->morphMany(Article::class, 'commentable');
-    }
 
-    public function news()
-    {
-        return $this->morphMany(News::class, 'commentable');
-    }
-
-    public function documents()
-    {
-        return $this->morphMany(Document::class, 'commentable');
-    }
-
-    public function biographies()
-    {
-        return $this->morphMany(Biography::class, 'commentable');
-    }
 }
