@@ -16,10 +16,9 @@ class CreateTAnswersTable extends Migration
         Schema::create('tanswers', function (Blueprint $table) {
             $table->id();
             $table->smallInteger('question_id');
-            $table->string('title',100);
+            $table->string('title',255);
             $table->boolean('is_right');
-            $table->string('description');
-            $table->timestamps();
+            $table->string('description',511)->nullable();
 
             $table->foreign('question_id')->references('id')->
                 on('questions')->onDelete('cascade')->onUpdate('cascade');
