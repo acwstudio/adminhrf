@@ -17,4 +17,4 @@ yarn-error.log
 resources/views
 config/database.php
 app/.DS_Store
-
+/storage
