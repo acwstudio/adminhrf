@@ -15,16 +15,17 @@ class CreateBiographiesTable extends Migration
     {
         Schema::create('biographies', function (Blueprint $table) {
             $table->id();
-            $table->string('surname');
-            $table->string('firstname');
-            $table->string('patronymic');
-            $table->date('birth_date');
-            $table->date('death_date');
-            $table->string('slug');
+            $table->string('surname')->nullable();
+            $table->string('firstname')->nullable();
+            $table->string('patronymic')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->date('death_date')->nullable();
+            $table->string('slug')->unique();
             $table->timestamps();
-            $table->string('announce');
-            $table->smallInteger('government_start');
-            $table->smallInteger('government_end');
+            $table->text('announce')->nullable();
+	    $table->text('description')->nullable();
+            $table->smallInteger('government_start')->nullable();
+            $table->smallInteger('government_end')->nullable();
         });
     }
 
