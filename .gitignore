@@ -11,3 +11,13 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/imports
+/client
+/.idea
+npm-debug.log
+yarn-error.log
+/resources/views
+/config/database.php
+/app/.DS_Store
+/logs
+/storage/framework/cache
