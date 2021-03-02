@@ -1,10 +1,13 @@
 /node_modules
 /public/hot
 /public/storage
+/public/storage/api-docs
 /storage/*.key
 /vendor
 /imports
 /database/migrations/2021_01_24_082136_users.php
+/client
+/.idea
 .env
 .env.backup
 .phpunit.result.cache
@@ -13,9 +16,9 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-.idea
 /resources/views
 /config/database.php
 /app/.DS_Store
 /logs
 /storage/framework/cache
+logs/*

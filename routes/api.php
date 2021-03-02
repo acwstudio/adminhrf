@@ -1,7 +1,13 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\SocialLoginController;
+use App\Http\Controllers\TokenAuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\EmailVerificationNotificationController;
+use App\Actions\Fortify\EmailVerify;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,35 +21,56 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+
 Route::prefix('v1')->group(function () {
 
+    Route::middleware('guest')->group(
+        function () {
+            $limiter = config('fortify.limiters.login');
 
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
-    });
+            Route::post('/token', [TokenAuthController::class, 'store'])->middleware(
+                array_filter([$limiter ? 'throttle:' . $limiter : null])
+            );
 
-// Common routes
+            Route::get('/email/verify/{email}', [EmailVerify::class, 'verify'])
+                ->middleware(['throttle:6,1'])
+                ->name('verification.verify');
+
+        }
+
+    );
+
+
+    // Social login
+    Route::get('/login/{service}', [SocialLoginController::class, 'redirect'])
+        ->name('social.redirect');
+    Route::get('/login/{service}/callback', [SocialLoginController::class, 'callback'])
+        ->name('social.callback');
+
+    // Protected routes
+
+    Route::middleware('auth:sanctum')->group(
+        function () {
+
+            Route::delete('/token', [TokenAuthController::class, 'destroy']);
+
+            Route::get('/me', [UserController::class, 'me']);
+
+            Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+                ->middleware(['auth', 'throttle:6,1'])
+                ->name('verification.send');
+
+        }
+    );
+
+    // Common routes
     Route::get('/articles',[ArticleController::class, 'index']);
 
-
-//Articles:
-    Route::get('articles-tags/{tagId}', 'App\Http\Controllers\ArticleController@getArticlesByTag');
-    Route::get('articles-author/{authorId}', 'App\Http\Controllers\ArticleController@getArticlesByAuthor');
-    Route::get('articles-announce', 'App\Http\Controllers\ArticleController@getAnnounceList');
-
-//News:
+    //News:
     Route::get('/news/list/{page}', [\App\Http\Controllers\NewsController::class, 'getAnnounceNews']);
     Route::get('/news/tags/{tagId}/{page}', [\App\Http\Controllers\NewsController::class, 'getNewsByTag']);
 #Route::get('/news/tags/{tagId}-page-{page}', [\App\Http\Controllers\NewsController::class, 'getNewsByTag']);
     Route::get('/news/{id}', [\App\Http\Controllers\NewsController::class, 'getNews']);
-
-//Events
-    Route::get('/events/announce/century/{century}', [\App\Http\Controllers\EventController::class, 'getEventsForCentury']);
-    Route::get('/events/announce/decade/{decade}', [\App\Http\Controllers\EventController::class, 'getEventsForDecade']);
-    Route::get('/events/{id}', [\App\Http\Controllers\EventController::class, 'getEventById']);
-
-
-
 
 
 });
