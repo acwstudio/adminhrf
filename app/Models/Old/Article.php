@@ -24,4 +24,9 @@ class Article extends Model
             'person_id');
     }
 
+    public function image()
+    {
+        return $this->hasOne(Image::class, 'id', 'image_id');
+    }
+
 }

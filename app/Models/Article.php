@@ -28,6 +28,14 @@ class Article extends Model
     ];
 
     /**
+     * Get article's images.
+     */
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
+    /**
      * Get authors of the article.
      */
     public function authors(): BelongsToMany
