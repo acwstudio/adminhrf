@@ -48,6 +48,35 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(SocialUser::class);
     }
 
+    /**
+     * Get user role.
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Finds out if user has role 'admin'
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role && $this->role->role == 'admin';
+    }
+
+    /**
+     * Finds out if user has role 'admin' or 'redactor'
+     *
+     * @return bool
+     */
+    public function isAdminOrRedactor(): bool
+    {
+        return $this->role && ($this->role->role == 'admin' || $this->role->role == 'redactor');
+    }
+
+
     /* Define comments and user relation */
     public function comments()
     {

@@ -1,7 +1,8 @@
 /node_modules
 /public/hot
 /public/storage
-/public/storage/api-docs
+/storage/api-docs
+/storage/logs
 /storage/*.key
 /vendor
 /imports
