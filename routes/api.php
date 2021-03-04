@@ -65,7 +65,7 @@ Route::prefix('v1')->group(function () {
 
     // Common routes
     Route::get('/articles', [ArticleController::class, 'index']);
-    Route::get('/articles/{article}', [ArticleController::class, 'show']);
+    Route::get('/articles/{article:slug}', [ArticleController::class, 'show']);
 
     //News:
     Route::get('/news/list/{page}', [\App\Http\Controllers\NewsController::class, 'getAnnounceNews']);

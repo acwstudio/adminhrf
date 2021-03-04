@@ -20,7 +20,7 @@ class ArticleController extends Controller
 
     public function index(Request $request)
     {
-        $perPage = $request->get('per_page', $this->perPage);
+        $perPage = $request->get('per_page', 16);
 
         return new ArticleCollection(Article::where('active', true)
             ->where('published_at', '<', now())

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ArticleResource extends JsonResource
+class ArticleShortResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,10 +20,9 @@ class ArticleResource extends JsonResource
             'title'  => $this->title,
             'slug'  => $this->slug,
             'announce'  => $this->announce,
-            'body'  => $this->body,
             'published_at'  => $this->published_at,
             'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
-            'authors' => AuthorResource::collection($this->authors),
+            'authors' => AuthorShortResource::collection($this->authors),
             'views' => $this->viewed,
             'likes' => $this->liked,
             'comments' => $this->commented,
@@ -31,5 +30,4 @@ class ArticleResource extends JsonResource
             'has_bookmark'  => false
         ];
     }
-
 }

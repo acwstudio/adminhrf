@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ImageResource extends JsonResource
+class AuthorShortResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,15 +14,12 @@ class ImageResource extends JsonResource
      */
     public function toArray($request)
     {
-
         return [
-            'model_type' => 'image',
+            'model_type' => 'author',
             'id'     => $this->id,
-            'alt'  => $this->title,
-            'src'  => $this->src,
-            'preview'  => $this->preview,
-            'original'  => $this->original,
-            'order' => $this->order,
+            'firstname'  => $this->firstname,
+            'surname'  => $this->surname,
+            'patronymic'  => $this->patronymic
         ];
     }
 }
