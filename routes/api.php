@@ -68,9 +68,11 @@ Route::prefix('v1')->group(function () {
 
     //News:
     Route::get('/news/list/{page}', [\App\Http\Controllers\NewsController::class, 'getAnnounceNews']);
-    Route::get('/news/tags/{tagId}/{page}', [\App\Http\Controllers\NewsController::class, 'getNewsByTag']);
 #Route::get('/news/tags/{tagId}-page-{page}', [\App\Http\Controllers\NewsController::class, 'getNewsByTag']);
     Route::get('/news/{id}', [\App\Http\Controllers\NewsController::class, 'getNews']);
+
+    Route::get('/news/tags/{tagId}/{page}', [\App\Http\Controllers\NewsController::class, 'getNewsByTag']);
+
 
 
 });

@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
 //            $article->tags()->attach($randTag);
 //
 //        });
-//        Tag::factory(10)->create();
+        Tag::factory(10)->create();
 
         News::factory(10)->create()->each( function($news){
 //
