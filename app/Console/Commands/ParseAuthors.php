@@ -13,7 +13,7 @@ class ParseAuthors extends Command
      *
      * @var string
      */
-    protected $signature = 'parse:authors {type=articles : Type of related material: articles|videos} {--T|truncate : Clear articles table before parse}';
+    protected $signature = 'parse:authors {type=articles : Type of related material: articles|videos} {--T|truncate : Clear authors table before parse}';
 
     /**
      * The console command description.
@@ -55,7 +55,7 @@ class ParseAuthors extends Command
 
         $this->line('Parsing ' . $type . ' authors');
 
-        $persons = Person::with($type)->cursor();
+        $persons = Person::with($type)->where('stream_id', 16)->cursor();
 
         $bar = $this->output->createProgressBar($persons->count());
 

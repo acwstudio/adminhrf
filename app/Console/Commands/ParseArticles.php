@@ -44,12 +44,19 @@ class ParseArticles extends Command
 
         if ($truncate) {
             $this->line('Clearing table');
+
+            $this->withProgressBar(Article::all(), function ($article) {
+                $article->authors()->detach();
+
+            });
+
             Article::truncate();
         }
 
+        $this->newLine();
         $this->line('Parsing articles');
 
-        $oldArticles = OldArticle::with('authors')->cursor();
+        $oldArticles = OldArticle::cursor();
 
         $bar = $this->output->createProgressBar($oldArticles->count());
 
@@ -78,7 +85,9 @@ class ParseArticles extends Command
                     ]
                 );
 
-                $article->authors()->attach($oldArticle->authors->pluck('id'));
+                $authors = $oldArticle->authors()->where('stream_id', 16)->get()->pluck('id');
+
+                $article->authors()->attach($authors);
             }
 
             $bar->advance();

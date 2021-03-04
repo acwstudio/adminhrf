@@ -268,6 +268,15 @@
  *             type="integer",
  *         )
  *     ),
+ *     @OA\Parameter(
+ *         name="per_page",
+ *         in="query",
+ *         description="Number of items per page",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="integer",
+ *         )
+ *     ),
  *     @OA\Response(
  *         response="200",
  *         description="Everything is fine",
