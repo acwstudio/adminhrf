@@ -35,6 +35,11 @@ class Article extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
     /**
      * Get authors of the article.
      */

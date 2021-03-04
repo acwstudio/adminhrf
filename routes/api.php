@@ -68,11 +68,15 @@ Route::prefix('v1')->group(function () {
     Route::get('/articles/{article}', [ArticleController::class, 'show']);
 
     //News:
-    Route::get('/news/list/{page}', [\App\Http\Controllers\NewsController::class, 'getAnnounceNews']);
+    Route::get('/news/', [\App\Http\Controllers\NewsController::class, 'getAnnounceNews']);
 #Route::get('/news/tags/{tagId}-page-{page}', [\App\Http\Controllers\NewsController::class, 'getNewsByTag']);
     Route::get('/news/{id}', [\App\Http\Controllers\NewsController::class, 'getNews']);
 
-    Route::get('/news/tags/{tagId}/{page}', [\App\Http\Controllers\NewsController::class, 'getNewsByTag']);
+    #Route::get('/news/tags/{tagId}/{page}', [\App\Http\Controllers\NewsController::class, 'getNewsByTag']);
+    Route::get('/tags/news/{tagId}', [\App\Http\Controllers\TagController::class, 'getNews']);
+    Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
+    //Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
+    //Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
 
 
 

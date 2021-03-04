@@ -6,6 +6,7 @@ use App\Http\Resources\NewsCollection;
 use App\Http\Resources\NewsResource;
 use App\Models\News;
 use App\Models\Tag;
+use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
@@ -38,27 +39,29 @@ class NewsController extends Controller
         # return $articles;
     }
 
-    public function getAnnounceNews($page)
+    public function getAnnounceNews(Request $request)
     {
-        $news = News::all($this->announceColumns)->forPage($page,NewsController::$pagination)->sortByDesc('created_at');
-        $count = News::all()->count()/NewsController::$pagination;
-        $arr = [];
-        //TEST
-        foreach ($news as $it) {
-            $arr[]=$it;
-            //TODO: Count of likes, comments and views
-            //$it['comments'] = count($it->comments->toArray());
-            //$it['likes'] = count($it->likes->toArray());
-        }
-
-        //$news = new NewsCollection($news);
-        $obj['pages']=ceil($count);
-        $obj['cur_page']=(int)$page;
-        return [
-            'data' => $news->toArray(),
-            'pages' => ceil($count),
-            'cur_page' => (int)$page
-        ];
+        $perPage = $request->get('per_page', $this->perPage);
+        $news = News::where('status', true)->orderBy('created_at','desc')->paginate($perPage);
+        return NewsResource::collection($news);
+//        $count = News::all()->count()/NewsController::$pagination;
+//        $arr = [];
+//        //TEST
+//        foreach ($news as $it) {
+//            $arr[]=$it;
+//            //TODO: Count of likes, comments and views
+//            //$it['comments'] = count($it->comments->toArray());
+//            //$it['likes'] = count($it->likes->toArray());
+//        }
+//
+//        //$news = new NewsCollection($news);
+//        $obj['pages']=ceil($count);
+//       // $obj['cur_page']=(int)$page;
+//        return [
+//            'data' => $news->toArray(),
+//            'pages' => ceil($count),
+//            'cur_page' => (int)0
+//        ];
     }
 
     public function getNews($id)

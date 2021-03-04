@@ -22,6 +22,7 @@ class ArticleResource extends JsonResource
             'slug'  => $this->slug,
             'announce'  => $this->announce,
             'body'  => $this->body,
+            'tags' => TagResource::collection($this->tags),
             'show_in_rss'  => $this->show_in_rss,
             'yatextid'  => $this->yatextid,
             'published_at'  => $this->published_at,
