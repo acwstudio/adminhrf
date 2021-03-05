@@ -27,6 +27,7 @@ class NewsFactory extends Factory
             'announce'=>$this->faker->paragraph,
             'listorder'=>$this->faker->numberBetween(1,200),
             'body'=>$this->faker->paragraph(3),
+            'published_at' => $this->faker->dateTime(),
             'show_in_rss'=>true,
             'yatextid'=>null,
             'status'=>true,

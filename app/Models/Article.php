@@ -97,9 +97,34 @@ class Article extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
+    /**
+     * Get article's tags
+     */
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    /**
+     * Get article's comments
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    /**
+     * Get article's likes
+     */
+    public function likes(){
+        return $this->morphMany(Like::class,'likeable');
+    }
+
+    /**
+     * Get articles views
+     */
+    public function views(){
+        return $this->morphMany(View::class,'viewable');
     }
 
     /**

@@ -21,12 +21,17 @@ class CommentFactory extends Factory
      */
     public function definition()
     {
+        $models = [
+            'App\Models\Article',
+            'App\Models\News',
+        ];
         return $fillable = [
             'user_id'=>$this->faker->numberBetween(1,10),
-            'body'=>$this->faker->text(200),
-            'date'=>$this->faker->date(),
+            'text'=>$this->faker->text(200),
+            'created_at'=>$this->faker->date(),
+            'updated_at'=>$this->faker->date(),
             'commentable_id'=>$this->faker->numberBetween(1,30),
-            'commentable_type'=>'App\Models\News',
+            'commentable_type'=>$models[rand(0,1)],
             'parents'=>null,
         ];
     }

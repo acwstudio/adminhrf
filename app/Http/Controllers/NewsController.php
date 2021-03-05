@@ -7,6 +7,7 @@ use App\Http\Resources\NewsResource;
 use App\Models\News;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use OpenApi\Tests\Fixtures\NestedProperty;
 
 class NewsController extends Controller
 {
@@ -66,10 +67,11 @@ class NewsController extends Controller
 
     public function getNews($id)
     {
-        return News::findOrFail($id)->toArray();
+
         /*TODO: GET COMMENTS,LIKES,VIEWS IN THE OTHER QUERY */
-
-
+        return News::findOrFail($id)->likes();
+        #return NewsResource::make(News::findOrFail($id));
+        #return News::findOrFail($id)->countLikes()
     }
 
     public function getNewsByTag($tagId,$page){

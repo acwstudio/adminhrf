@@ -13,10 +13,18 @@ class Like extends Model
         'user_id',
         'likeable_id',
         'likeable_type',
-        'value',
     ];
 
-    public function articles() {
-
+    /* Define polymorphic relation from likes to all other Entities */
+    public function news()
+    {
+        return $this->morphedByMany(News::class, 'likeable');
     }
+
+    public function articles()
+    {
+        return $this->morphedByMany(Article::class, 'likeable');
+    }
+
+
 }

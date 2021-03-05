@@ -24,12 +24,11 @@ class News extends Model
         'close_commentation',
     ];
 
-
     protected $casts = [
         'updated_at' => 'datetime',
         'created_at'=> 'datetime',
+        'published_at' => 'datetime'
     ];
-
 
     public function tags()
     {
@@ -39,6 +38,22 @@ class News extends Model
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function likes(){
+        return $this->morphMany(Like::class,'likeable');
+    }
+
+    public function views(){
+        return $this->morphMany(View::class,'viewable','viewable_type','viewable_id');
+    }
+
+    public function countLikes(){
+        return $this->likes()->count();
+    }
+
+    public function getViews(){
+        return $this->views();
     }
 
 

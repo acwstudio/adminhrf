@@ -4,6 +4,7 @@
 /storage/api-docs
 /storage/logs
 /storage/*.key
+/storage/framework/cache
 /vendor
 /imports
 /database/migrations/2021_01_24_082136_users.php

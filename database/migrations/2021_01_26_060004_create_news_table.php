@@ -18,11 +18,11 @@ class CreateNewsTable extends Migration
             $table->timestamps();
             $table->string('title',255)->unique();
             $table->string('slug',100)->unique();
+            $table->string('yatextid')->nullable();
             $table->text('announce')->nullable(false);
             $table->integer('listorder')->default(200);
             $table->text('body')->nullable(false);
             $table->boolean('show_in_rss')->default(false);
-            $table->string('yatextid')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('show_in_main')->default(true);
             $table->boolean('show_in_afisha')->default(true);
