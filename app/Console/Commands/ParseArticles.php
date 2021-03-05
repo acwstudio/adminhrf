@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Article;
 use Illuminate\Console\Command;
 use App\Models\Old\Article as OldArticle;
+use Illuminate\Support\Facades\DB;
 
 class ParseArticles extends Command
 {
@@ -94,6 +95,8 @@ class ParseArticles extends Command
         }
 
         $bar->finish();
+
+        DB::unprepared("SELECT SETVAL('articles_id_seq', (SELECT MAX(id) + 1 FROM articles))");
 
         $this->newLine();
         $this->info('All articles processed!');

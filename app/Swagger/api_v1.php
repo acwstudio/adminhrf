@@ -287,5 +287,30 @@
  *     ),
  * )
  *
+ * @OA\Get(
+ *     path="/articles/{slug}",
+ *     operationId="articleItem",
+ *     tags={"Articles"},
+ *     summary="Display article by slug",
+ *
+ *     @OA\Parameter(
+ *         name="slug",
+ *         in="path",
+ *         description="Article slug",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="string",
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response="200",
+ *         description="Everything is fine",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *
+ *         )
+ *     ),
+ * )
+ *
  */
 

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Old\User as OldUser;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class ParseUsers extends Command
 {
@@ -81,6 +82,8 @@ class ParseUsers extends Command
         }
 
         $bar->finish();
+
+        DB::unprepared("SELECT SETVAL('users_id_seq', (SELECT MAX(id) + 1 FROM users))");
 
         $this->newLine();
         $this->info('All users processed!');

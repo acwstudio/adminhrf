@@ -24,4 +24,3 @@ yarn-error.log
 /logs
 /storage/framework/cache
 logs/*
-/storage/framework/cache

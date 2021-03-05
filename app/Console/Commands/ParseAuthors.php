@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Author;
 use App\Models\Old\Person;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class ParseAuthors extends Command
 {
@@ -80,6 +81,8 @@ class ParseAuthors extends Command
         }
 
         $bar->finish();
+
+        DB::unprepared("SELECT SETVAL('authors_id_seq', (SELECT MAX(id) + 1 FROM authors))");
 
         $this->newLine();
         $this->info('All authors processed!');
