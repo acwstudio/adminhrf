@@ -45,32 +45,14 @@ class NewsController extends Controller
         $perPage = $request->get('per_page', $this->perPage);
         $news = News::where('status', true)->orderBy('created_at','desc')->paginate($perPage);
         return NewsResource::collection($news);
-//        $count = News::all()->count()/NewsController::$pagination;
-//        $arr = [];
-//        //TEST
-//        foreach ($news as $it) {
-//            $arr[]=$it;
-//            //TODO: Count of likes, comments and views
-//            //$it['comments'] = count($it->comments->toArray());
-//            //$it['likes'] = count($it->likes->toArray());
-//        }
-//
-//        //$news = new NewsCollection($news);
-//        $obj['pages']=ceil($count);
-//       // $obj['cur_page']=(int)$page;
-//        return [
-//            'data' => $news->toArray(),
-//            'pages' => ceil($count),
-//            'cur_page' => (int)0
-//        ];
     }
 
     public function getNews($id)
     {
 
         /*TODO: GET COMMENTS,LIKES,VIEWS IN THE OTHER QUERY */
-        return News::findOrFail($id)->likes();
-        #return NewsResource::make(News::findOrFail($id));
+        #return News::findOrFail($id)->likes();
+        return NewsResource::make(News::findOrFail($id));
         #return News::findOrFail($id)->countLikes()
     }
 
