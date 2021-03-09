@@ -30,9 +30,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Relation::morphMap([
             'article' => 'App\Models\Article',
+            'document' => 'App\Models\Document',
             'news' => 'App\Models\News',
             'biography' => 'App\Models\Biography',
-
+            'author' => 'App\Models\Author',
         ]);
 
         ResetPassword::createUrlUsing(
