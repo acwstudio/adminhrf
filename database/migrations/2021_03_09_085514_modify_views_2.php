@@ -14,7 +14,7 @@ class ModifyViews2 extends Migration
     public function up()
     {
         Schema::table('views', function(Blueprint $table){
-            $table->dropUnique('viewable_id');
+//         #  $table->dropUnique('viewable_');
         });
     }
 
