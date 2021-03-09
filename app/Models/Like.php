@@ -26,5 +26,10 @@ class Like extends Model
         return $this->morphedByMany(Article::class, 'likeable');
     }
 
+    public function getUserId()
+    {
+        return $this->get('user_id');
+    }
+
 
 }

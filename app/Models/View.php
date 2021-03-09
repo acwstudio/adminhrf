@@ -18,9 +18,6 @@ class View extends Model
         'updated_at'
     ];
 
-    public function viewable(){
-
-    }
 
     public function updateView(){
         $this->increment('value');

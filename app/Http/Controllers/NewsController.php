@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\NewsCollection;
 use App\Http\Resources\NewsResource;
+use App\Http\Resources\NewsShortResource;
 use App\Models\News;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class NewsController extends Controller
         'announce',
         'listorder',
         'status',
-        'created_at',
+        'published_at',
         'slug',
     ];
 
@@ -28,7 +29,7 @@ class NewsController extends Controller
         'body',
         'show_in_main',
         'close_commentation',
-        'created_at',
+        'published_at',
     ];
 
     public static $pagination = 6;
@@ -43,8 +44,13 @@ class NewsController extends Controller
     public function getAnnounceNews(Request $request)
     {
         $perPage = $request->get('per_page', $this->perPage);
-        $news = News::where('status', true)->orderBy('created_at','desc')->paginate($perPage);
-        return NewsResource::collection($news);
+        $news = News::where('status', true)->where('published_at','<',now())->orderBy('published_at','desc')->paginate($perPage);
+        $data = NewsShortResource::collection($news);
+//        foreach ($data as $element){
+//            $element['is_liked'] = is_null($element->likes()->where('user_id','=',$request->get('user_id',0)));
+//        }
+        #$data['data']['is_liked'] = $news->likes()->where('user_id','=',$request->get('user_id',0));
+        return $data;
     }
 
     public function getNews($id)
@@ -56,23 +62,5 @@ class NewsController extends Controller
         #return News::findOrFail($id)->countLikes()
     }
 
-    public function getNewsByTag($tagId,$page){
-        $tag = Tag::find($tagId);
-        $news = $tag->news->forPage($page,NewsController::$pagination)->sortByDesc('created_at');
-        $count = $news->count()/NewsController::$pagination;
-        $arr = [];
-        //TEST
-        foreach ($news as $it) {
-            $arr[]=$it;
-            //TODO: Count of likes, comments and views
-            //$it['comments'] = count($it->comments->toArray());
-            //$it['likes'] = count($it->likes->toArray());
-        }
-        $obj['news']=$arr;
-        $obj['pages']=ceil($count);
-        $obj['cur_page']=(int)$page;
-
-        return $obj;
-    }
 
 }

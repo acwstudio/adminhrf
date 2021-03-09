@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateViewsTable extends Migration
+class ModifyViews2 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreateViewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('views', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('total');
-            $table->timestamps();
-            $table->integer('viewable_id');
-            $table->string('viewable_type',40);
-
+        Schema::table('views', function(Blueprint $table){
+            $table->dropUnique('viewable_id');
         });
     }
 
@@ -30,6 +25,8 @@ class CreateViewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('views');
+        Schema::table('views', function(Blueprint $table){
+            $table->dropUnique('total');
+        });
     }
 }

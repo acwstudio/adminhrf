@@ -2,12 +2,13 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Like;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NewsResource extends JsonResource
+class NewsShortResource extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -19,12 +20,9 @@ class NewsResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'body' => $this->body,
-            'close_commentation' => $this->close_commentation,
+            'announce' => $this->announce,
             #'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'published_at' => $this->published_at,
-            'tags' => TagResource::collection($this->tags),
-            'comments' => CommentResource::collection($this->comments),
             'likes' => $this->countLikes(),
             'views' => $this->getViews(),
             'has_liked' => $this->checkLiked($request->get('user_id', 1))

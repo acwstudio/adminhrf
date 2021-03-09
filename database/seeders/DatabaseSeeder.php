@@ -36,8 +36,9 @@ class DatabaseSeeder extends Seeder
             $news->tags()->attach($randTag);
         });
         Comment::factory()->count(10)->create();*/
-        View::factory()->count(10)->create();
-#        Like::factory(10)->create();
+
+        View::factory()->count(1)->create();
+       # Like::factory(10)->create();
 //        Comment::factory(10)->create();
         //Database::unprepared(file_get_contents(__dir__.'/imports/dumps/dbhistory_public_qcategories'))
 

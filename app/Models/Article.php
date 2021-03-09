@@ -128,6 +128,27 @@ class Article extends Model
     }
 
     /**
+     * Get count of likes for article
+     */
+    public function countLikes(){
+        return $this->likes()->count();
+    }
+
+    /**
+     * Get total views for article
+     */
+    public function getViews(){
+        return $this->views()->first()->total;
+    }
+
+    /**
+     * Check if specific article is liked
+     */
+    public function checkLiked($userId){
+        return $this->likes()->first()->user_id == $userId;
+    }
+
+    /**
      * Get authors of the article.
      */
     public function authors(): BelongsToMany
@@ -145,6 +166,8 @@ class Article extends Model
     {
         return strpos($date, ' BC') ? Carbon::make('-' . rtrim($date, ' BC')) : Carbon::make($date);
     }
+
+
 
     /**
      * Convert date to 'Y-m-d BC' format if year is negative

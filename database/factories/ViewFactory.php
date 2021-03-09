@@ -28,8 +28,8 @@ class ViewFactory extends Factory
 
         return [
             'total' => $this->faker->numberBetween(0,1000),
-            'viewable_id' =>$this->faker->unique()->numberBetween(1,10),
             'viewable_type' => $model[rand(0,1)],
+            'viewable_id' =>$this->faker->unique()->numberBetween(1,10),
             'created_at' => $this->faker->dateTimeAd(),
             'updated_at' => $this->faker->dateTimeAd(),
         ];

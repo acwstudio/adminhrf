@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -53,7 +54,11 @@ class News extends Model
     }
 
     public function getViews(){
-        return $this->views();
+        return $this->views()->first()->total;
+    }
+
+    public function checkLiked($userId){
+        return $this->likes()->first()->user_id == $userId;
     }
 
 
