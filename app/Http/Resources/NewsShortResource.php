@@ -25,8 +25,8 @@ class NewsShortResource extends JsonResource
             'published_at' => $this->published_at,
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
-            'tags' => TagResource::collection($this->tags),
-            'has_liked' => $this->checkLiked($request->get('user_id', 1))
+            #'tags' => TagResource::collection($this->tags),
+            'has_like' => $this->checkLiked($request->get('user_id', 1))
         ];
     }
 }
