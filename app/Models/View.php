@@ -9,9 +9,12 @@ class View extends Model
 {
     use HasFactory;
 
-    protected $hidden = [
-        'value'
+    public $fillable = [
+        'total'
     ];
+//    protected $hidden = [
+//        'total'
+//    ];
 
     public $casts = [
         'created_at',

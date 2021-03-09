@@ -37,4 +37,20 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function likes(){
+        return $this->morphMany(Like::class,'likeable');
+    }
+
+    public function countLikes(){
+        return $this->likes()->count();
+    }
+
+    /**
+     * Check if specific article is liked
+     */
+    public function checkLiked($userId){
+        $val = $this->likes()->first(['user_id']);
+        return $val?$val->user_id==$userId:false;
+    }
 }

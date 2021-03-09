@@ -11,12 +11,11 @@ class CommentsController extends Controller
 {
     //Fulfilling all existing models in this array_
     private $models = [
-       'article'=> '\Article',
-       'news' => '\News',
-       'document' => '\Documents',
-       'biography' => '\Biography',
-       'video' => '\Video',
-        'user' => '\User',
+       'article'=> 'article',
+       'news' => 'news',
+       'document' => 'document',
+       'biography' => 'biography',
+       'video' => 'video',
     ];
 
 
@@ -31,9 +30,8 @@ class CommentsController extends Controller
         if(!isset($this->models[$model])){
             return ['404_err'=>'Sorry, we dont have comments for such material, try to search for another entity'];
         }
-        $val = $this->models[$model];
         return $model!='user'?CommentResource::collection(
-            Comment::get()->where('commentable_type','=',"App\Models".$val)->where('commentable_id','=',$id)
+            Comment::get()->where('commentable_type','=',$this->models[$model])->where('commentable_id','=',$id)
         ):CommentResource::collection(User::findOrFail($id)->comments)
             ;
     }

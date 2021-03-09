@@ -24,7 +24,8 @@ class NewsShortResource extends JsonResource
             #'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'published_at' => $this->published_at,
             'likes' => $this->countLikes(),
-            'views' => $this->getViews(),
+            'views' => $this->viewed,
+            'tags' => TagResource::collection($this->tags),
             'has_liked' => $this->checkLiked($request->get('user_id', 1))
         ];
     }

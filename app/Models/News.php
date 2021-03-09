@@ -14,6 +14,7 @@ class News extends Model
     protected $fillable = [
         'title',
         'slug',
+        'viewed',
         'announce',
         'listorder',
         'body',
@@ -45,21 +46,16 @@ class News extends Model
         return $this->morphMany(Like::class,'likeable');
     }
 
-    public function views(){
-        return $this->morphMany(View::class,'viewable','viewable_type','viewable_id');
-    }
-
     public function countLikes(){
         return $this->likes()->count();
     }
 
-    public function getViews(){
-        return $this->views()->first()->total;
-    }
-
+    /**
+     * Check if specific article is liked
+     */
     public function checkLiked($userId){
-        return $this->likes()->first()->user_id == $userId;
+        $val = $this->likes()->first(['user_id']);
+        return $val?$val->user_id==$userId:false;
     }
-
 
 }

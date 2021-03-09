@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Biography extends Model
 {
     use HasFactory;
-    
+
     public $fillable = [
         'surname',
         'firstname',
@@ -20,7 +20,7 @@ class Biography extends Model
         'government_start',
         'government_end',
         'url',
-        'slug',        
+        'slug',
         'show_in_rss',
         'close_commentation',
         'period_id',
@@ -37,6 +37,6 @@ class Biography extends Model
 
     public function tags()
     {
-        return $this->morphToMany('App\Tag', 'taggable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 }

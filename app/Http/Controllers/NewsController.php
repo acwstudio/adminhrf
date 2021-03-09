@@ -16,6 +16,7 @@ class NewsController extends Controller
         'id',
         'title',
         'slug',
+        'viewed',
         'announce',
         'listorder',
         'status',
@@ -27,6 +28,7 @@ class NewsController extends Controller
         'title',
         'slug',
         'body',
+        'viewed',
         'show_in_main',
         'close_commentation',
         'published_at',
@@ -44,13 +46,12 @@ class NewsController extends Controller
     public function getAnnounceNews(Request $request)
     {
         $perPage = $request->get('per_page', $this->perPage);
-        $news = News::where('status', true)->where('published_at','<',now())->orderBy('published_at','desc')->paginate($perPage);
-        $data = NewsShortResource::collection($news);
+        return NewsShortResource::collection(News::where('status', true)->where('published_at','<',now())->orderBy('published_at','desc')->paginate($perPage));
 //        foreach ($data as $element){
 //            $element['is_liked'] = is_null($element->likes()->where('user_id','=',$request->get('user_id',0)));
 //        }
         #$data['data']['is_liked'] = $news->likes()->where('user_id','=',$request->get('user_id',0));
-        return $data;
+        //return $data;
     }
 
     public function getNews($id)

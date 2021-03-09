@@ -23,11 +23,11 @@ class ArticleShortResource extends JsonResource
             'published_at'  => $this->published_at,
             'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'authors' => AuthorShortResource::collection($this->authors),
-            'views' => $this->viewed,
-            'likes' => $this->liked,
             'comments' => $this->commented,
-            'has_like'  => false,
-            'has_bookmark'  => false
+            'likes' => $this->countLikes(),
+            'views' => $this->viewed,
+            'has_like' => $this->checkLiked($request->get('user_id', 0)),
+            'has_bookmark'  => false,
         ];
     }
 }

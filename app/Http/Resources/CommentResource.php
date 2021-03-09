@@ -21,7 +21,8 @@ class CommentResource extends JsonResource
             'user_id' => $this->user_id,
             'text' => $this->text,
             'parents' => $this->parents,
-            #'likes' => $this->likes()->count(),
+            'likes' => $this->countLikes(),
+            'has_like' => $this->checkLiked($request->get('user_id',0)),
             'commented_model_id' => $this->commentable_id,
             'commented_model_type' => $this->commentable_type,
         ];
