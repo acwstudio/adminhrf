@@ -22,8 +22,8 @@ class CommentFactory extends Factory
     public function definition()
     {
         $models = [
-            'App\Models\Article',
-            'App\Models\News',
+            'article',
+            'news',
         ];
         return $fillable = [
             'user_id'=>$this->faker->numberBetween(1,10),
