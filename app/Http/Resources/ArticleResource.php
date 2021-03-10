@@ -14,6 +14,19 @@ class ArticleResource extends JsonResource
      */
     public function toArray($request)
     {
+        $tagsMock = [
+            [
+                'id' => 1,
+                'title' => 'Test Tag',
+                'slug' => 'test-tag'
+            ],
+            [
+                'id' => 2,
+                'title' => 'Test Tag 2',
+                'slug' => 'test-tag-2'
+            ]
+        ];
+
         return [
             'model_type' => 'article',
             'id'     => $this->id,
@@ -22,7 +35,7 @@ class ArticleResource extends JsonResource
             'slug'  => $this->slug,
             'announce'  => $this->announce,
             'body'  => $this->body,
-            'tags' => TagResource::collection($this->tags),
+            'tags' => $tagsMock, //TagResource::collection($this->tags),
             'published_at'  => $this->published_at,
             'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'authors' => AuthorResource::collection($this->authors),

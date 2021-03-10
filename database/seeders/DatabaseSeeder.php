@@ -24,12 +24,12 @@ class DatabaseSeeder extends Seeder
 
 
         //Generate some articles
-//        User::factory(10)->create();
+        User::factory(10)->create();
 //        Tag::factory(10)->create();
-        Article::factory(3)->create()->each( function($article){
-            $randTag = Tag::all()->random(rand(0,2))->pluck('id');
-            $article->tags()->attach($randTag);
-        });
+//        Article::factory(10)->create()->each( function($article){
+//            $randTag = Tag::all()->random(rand(0,2))->pluck('id');
+//            $article->tags()->attach($randTag);
+//        });
 
 //        News::factory(10)->create()->each( function($news){
 //            $randTag = Tag::all()->random(rand(0,2))->pluck('id');

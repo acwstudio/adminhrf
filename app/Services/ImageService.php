@@ -21,6 +21,10 @@ class ImageService
 
     const ARTICLES_PATH = '/images/articles/';
     const OLD_ARTICLES_PATH = '/uploads/media/artworks/0001/';
+    const OLD_EVENTS_PATH = '/uploads/media/event/0001/';
+    const DOCS_PATH = 'files/docs';
+    const DOCS_PREVIEW_PATH = '/images/docs';
+    const OLD_DOCS_PATH = '/uploads/media/documents_upload/0001/';
 
     protected $width;
     protected $min;
@@ -63,11 +67,20 @@ class ImageService
         $this->min = $min;
     }
 
-    public function storeOld(OldImage $oldImage, $dir = self::ARTICLES_PATH)
+    /**
+     * Resize and store old image in new location
+     *
+     * @param OldImage $oldImage
+     * @param $oldDir
+     * @param $newDir
+     * @return mixed
+     * @throws \Exception
+     */
+    public function storeOld(OldImage $oldImage, $oldDir, $newDir)
     {
         $imageModel = Image::create();
-        $oldPath = self::OLD_ARTICLES_PATH . self::dirById($oldImage->id) . DIRECTORY_SEPARATOR . $oldImage->provider_reference;
-        $newPath = $dir . self::dirById($imageModel->id) . DIRECTORY_SEPARATOR;
+        $oldPath = $oldDir . self::dirById($oldImage->id) . DIRECTORY_SEPARATOR . $oldImage->provider_reference;
+        $newPath = $newDir . self::dirById($imageModel->id) . DIRECTORY_SEPARATOR;
         $newName = Str::random(40);
 
 
@@ -104,11 +117,31 @@ class ImageService
 
     }
 
+    /**
+     * Delete image files from storage and model from db
+     *
+     * @param Image $image
+     * @throws \Exception
+     */
+    public function delete(Image $image)
+    {
+        Storage::delete([$image->src, $image->preview, $image->original]);
 
+        $image->delete();
+    }
+
+
+    /**
+     * Return img directory name by id
+     *
+     * @param int $id
+     * @return string
+     */
     public static function dirById(int $id)
     {
-        return (string) ceil($id/1000);
+        return Str::padLeft((string) ceil($id/1000), 2, '0');
     }
+
 
 
 }
