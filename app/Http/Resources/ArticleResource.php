@@ -30,8 +30,8 @@ class ArticleResource extends JsonResource
             'views' => $this->getViews(),
             'has_liked' => $this->checkLiked($request->get('user_id', 0)),
             'comments' => $this->commented,
-            'has_like' => $this->checkLiked($request->get('user_id', 1))
-            'has_bookmark'  => false,
+            'has_like' => $this->checkLiked($request->get('user_id', 1)),
+            'has_bookmark'  => false
         ];
     }
 
