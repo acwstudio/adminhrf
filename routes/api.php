@@ -80,5 +80,5 @@ Route::prefix('v1')->group(function () {
     Route::get('/tags/all/{tagId}', [\App\Http\Controllers\TagController::class, 'getAll']);
     Route::get('/comments/{model}/{id}', [\App\Http\Controllers\CommentsController::class, 'getCommentsForModel']);
    # Route::get('/comments/user/{id}', [\App\Http\Controllers\CommentsController::class, 'getCommentsFromUser']);
-
+    Route::get('/newss/bookmarks/', [\App\Http\Controllers\NewsController::class,'getBookmarks']);
 });

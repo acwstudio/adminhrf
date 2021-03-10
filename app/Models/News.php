@@ -42,6 +42,11 @@ class News extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
+    public function bookmarks()
+    {
+        return $this->morphToMany(Bookmark::class, 'bookmarkable');
+    }
+
     public function likes(){
         return $this->morphMany(Like::class,'likeable');
     }

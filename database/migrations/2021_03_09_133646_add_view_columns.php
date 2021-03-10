@@ -20,7 +20,6 @@ class AddViewColumns extends Migration
         Schema::table('biographies', function (Blueprint $table) {
             $table->bigInteger('viewed')->default(0);
         });
-
     }
 
     /**

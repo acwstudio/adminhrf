@@ -127,6 +127,11 @@ class Article extends Model
         return $this->likes()->count();
     }
 
+    public function bookmarks()
+    {
+        return $this->morphToMany(Article::class, 'bookmarkable');
+    }
+
     /**
      * Check if specific article is liked
      */
