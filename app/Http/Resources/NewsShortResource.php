@@ -23,10 +23,12 @@ class NewsShortResource extends JsonResource
             'announce' => $this->announce,
             #'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'published_at' => $this->published_at,
-            'likes' => $this->countLikes(),
+            'likes' => null,
+            'has_like' => null,
             'views' => $this->viewed,
-            #'tags' => TagResource::collection($this->tags),
-            'has_like' => $this->checkLiked($request->get('user_id', 1))
+            'tags' => TagResource::collection($this->tags),
+            'comments' => $this->comments->count(),
+
         ];
     }
 }
