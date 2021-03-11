@@ -47,14 +47,6 @@ class News extends Model
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
-    public function likes(){
-        return $this->morphMany(Like::class,'likeable');
-    }
-
-    public function countLikes(){
-        return $this->likes()->count();
-    }
-
     public function countComments(){
         return $this->comments()->count();
     }
@@ -66,5 +58,16 @@ class News extends Model
         $val = $this->likes()->first(['user_id']);
         return $val?$val->user_id==$userId:false;
     }
+
+    /**
+     * Deprecated or supposed for future features
+     */
+    /*    public function likes(){
+        return $this->morphMany(Like::class,'likeable');
+    }
+
+    public function countLikes(){
+        return $this->likes()->count();
+    }*/
 
 }

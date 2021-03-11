@@ -127,6 +127,10 @@ class Article extends Model
         return $this->likes()->count();
     }
 
+    public function countComments(){
+        return $this->comments()->count();
+    }
+
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');

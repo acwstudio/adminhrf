@@ -24,6 +24,8 @@ class CommentFactory extends Factory
         $models = [
             'article',
             'news',
+            'document',
+            'biography'
         ];
         return $fillable = [
             'user_id'=>$this->faker->numberBetween(1,10),
@@ -31,7 +33,7 @@ class CommentFactory extends Factory
             'created_at'=>$this->faker->date(),
             'updated_at'=>$this->faker->date(),
             'commentable_id'=>$this->faker->numberBetween(1,30),
-            'commentable_type'=>$models[rand(0,1)],
+            'commentable_type'=>$models[rand(0,3)],
             'parents'=>null,
         ];
     }

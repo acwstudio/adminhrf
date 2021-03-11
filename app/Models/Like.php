@@ -16,14 +16,20 @@ class Like extends Model
     ];
 
     /* Define polymorphic relation from likes to all other Entities */
-    public function news()
-    {
-        return $this->morphedByMany(News::class, 'likeable');
-    }
 
     public function articles()
     {
         return $this->morphedByMany(Article::class, 'likeable');
+    }
+
+    public function biographies()
+    {
+        return $this->morphedByMany(Biography::class, 'likeable');
+    }
+
+    public function documents()
+    {
+        return $this->morphedByMany(Document::class, 'likeable');
     }
 
     public function getUserId()
@@ -31,5 +37,14 @@ class Like extends Model
         return $this->get('user_id');
     }
 
-
+    /**
+     * Deprecated or supposed for future features
+     */
+    /*
+     *
+    public function news()
+    {
+        return $this->morphedByMany(News::class, 'likeable');
+    }
+     */
 }
