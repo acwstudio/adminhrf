@@ -70,7 +70,7 @@ Route::prefix('v1')->group(function () {
     //News:
     Route::get('/news/', [\App\Http\Controllers\NewsController::class, 'getAnnounceNews']);
 #Route::get('/news/tags/{tagId}-page-{page}', [\App\Http\Controllers\NewsController::class, 'getNewsByTag']);
-    Route::get('/news/{id}', [\App\Http\Controllers\NewsController::class, 'getNews']);
+    Route::get('/news/{news:slug}', [\App\Http\Controllers\NewsController::class, 'getNews']);
 
     #Route::get('/news/tags/{tagId}/{page}', [\App\Http\Controllers\NewsController::class, 'getNewsByTag']);
     Route::get('/tags/news/{tagId}', [\App\Http\Controllers\TagController::class, 'getNews']);

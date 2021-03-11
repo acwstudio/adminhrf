@@ -12,36 +12,25 @@ class Bookmark extends Model
 
     public $fillable = [
         'id',
-        'user_id',
+        'group_id',
+        'bookmarkable_id',
+        'bookmarkable_type'
     ];
 
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function bookmarkable()
+    {
+        return $this->morphTo('bookmarkable','bookmarkable_type', 'bookmarkable_id');
     }
 
-    public function articles()
-    {
-        return $this->morphedByMany(Article::class, 'bookmarkable');
-    }
-
-    public function news()
-    {
-        return $this->morphedByMany(News::class, 'bookmarkable');
-    }
-
-    public function biographies()
-    {
-        return $this->morphedByMany( Biography::class, 'bookmarkable');
-    }
-
-    public function documents()
-    {
-        return $this->morphedByMany(Document::class, 'bookmarkable');
-    }
 
     public function getNews(Request $request){
         return $this::where('user_id','=',$request->get('user_id',0))->news();
     }
+
+    public function bookmarkGroup(){
+        return $this->belongsTo(BookmarkGroup::class, 'group_id','id');
+    }
+
 
 
 }

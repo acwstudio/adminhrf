@@ -129,7 +129,7 @@ class Article extends Model
 
     public function bookmarks()
     {
-        return $this->morphToMany(Article::class, 'bookmarkable');
+        return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
     /**

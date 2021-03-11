@@ -44,7 +44,7 @@ class News extends Model
 
     public function bookmarks()
     {
-        return $this->morphToMany(Bookmark::class, 'bookmarkable');
+        return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
     public function likes(){
@@ -53,6 +53,10 @@ class News extends Model
 
     public function countLikes(){
         return $this->likes()->count();
+    }
+
+    public function countComments(){
+        return $this->comments()->count();
     }
 
     /**

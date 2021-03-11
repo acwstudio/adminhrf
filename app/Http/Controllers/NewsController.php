@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ArticleShortResource;
+use App\Http\Resources\BookmarkShortResource;
 use App\Http\Resources\NewsCollection;
 use App\Http\Resources\NewsResource;
 use App\Http\Resources\NewsShortResource;
+use App\Models\Article;
 use App\Models\Bookmark;
 use App\Models\News;
 use App\Models\Tag;
@@ -38,8 +40,6 @@ class NewsController extends Controller
         'published_at',
     ];
 
-    public static $pagination = 6;
-
     public function index()
     {
         $articles= News::all();
@@ -65,35 +65,35 @@ class NewsController extends Controller
         //return $data;
     }
 
-    public function getNews($id)
+    public function getNews(News $news)
     {
 
         /*TODO: GET COMMENTS,LIKES,VIEWS IN THE OTHER QUERY */
         #return News::findOrFail($id)->likes();
-        return NewsResource::make(News::findOrFail($id));
+        return NewsResource::make($news);
         #return News::findOrFail($id)->countLikes()
     }
 
     public function getBookmarks(Request $request){
         $perPage = $request->get('per_page', $this->perPage);
-        $page = $request->get('page', 1)-1;
+        $page = $request->get('page', 1);
         $user=User::findOrFail($request->get('user_id',0));
         $data = [];
-        foreach ($user->bookmarks as $bookmark) {
-            $data['news'] = NewsShortResource::collection($bookmark->news()->orderBy('published_at','desc')->get());
-            $data['articles'] = ArticleShortResource::collection($bookmark->articles()->orderBy('published_at','desc')->get());
+        $num =$user->bookmarkGroup->bookmarks->count();
+        foreach ($user->bookmarkGroup->bookmarks->sortByDesc('created_at')->forPage($page,$perPage) as $bookmark) { //->skip($page*$perPage)->take($perPage)
+            $row = $bookmark->bookmarkable;
+            $row->entity = $bookmark->bookmarkable_type;
+            $data[] = $row;
         }
-        $val = $data['news']->merge($data['articles']);
-        $data = array_slice(($data['news']->merge($data['articles']))->sortByDesc('published_at')->toArray(),$page*$perPage, $perPage);
 
-        $val=count($val);
+        #$data = array_slice($data,$page*$perPage, $perPage);
 
+       # $val=count($val)
 
-
-        return ['data' => $data,
+        return ['data' => BookmarkShortResource::collection($data),
                 'meta'=> [
-                    'last_page' => ceil($val/$perPage),
-                    'current_page' => $page+1
+                    'last_page' => ceil($num/$perPage),
+                    'current_page' => (int)$page,
                 ],
             ];
 //        return $user->bookmarks;
