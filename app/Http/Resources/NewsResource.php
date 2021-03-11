@@ -27,7 +27,7 @@ class NewsResource extends JsonResource
             'comments' => CommentResource::collection($this->comments),
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
-            'has_like' => $this->checkLiked($request->get('user_id', 1))
+            'has_like' => $this->checkLiked($request->get('user_id', auth('api')->user()))
         ];
     }
 }

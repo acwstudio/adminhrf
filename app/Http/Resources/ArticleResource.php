@@ -39,11 +39,11 @@ class ArticleResource extends JsonResource
             'published_at'  => $this->published_at,
             'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'authors' => AuthorResource::collection($this->authors),
+            'likes' => $this->countLikes(),
             'views' => $this->viewed,
-            'likes' => $this->liked,
-            'comments' => $this->commented,
-            'has_like'  => false,
-            'has_bookmark'  => false
+            'comments' => $this->comments,
+            'has_like' => $this->checkLiked($request->get('user_id', 1)),
+            'has_bookmark'  => false,
         ];
     }
 

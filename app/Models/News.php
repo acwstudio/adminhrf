@@ -42,12 +42,21 @@ class News extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
+    public function bookmarks()
+    {
+        return $this->morphMany(Bookmark::class, 'bookmarkable');
+    }
+
     public function likes(){
         return $this->morphMany(Like::class,'likeable');
     }
 
     public function countLikes(){
         return $this->likes()->count();
+    }
+
+    public function countComments(){
+        return $this->comments()->count();
     }
 
     /**

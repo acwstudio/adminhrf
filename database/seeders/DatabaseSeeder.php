@@ -20,21 +20,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//         \App\Models\User::factory(10)->create();
+#         \App\Models\User::factory(10)->create();
 
 
         //Generate some articles
-//        User::factory(10)->create();
-        Tag::factory(10)->create();
+        User::factory(10)->create();
+//        Tag::factory(10)->create();
 //        Article::factory(10)->create()->each( function($article){
 //            $randTag = Tag::all()->random(rand(0,2))->pluck('id');
 //            $article->tags()->attach($randTag);
 //        });
 
-        News::factory(10)->create()->each( function($news){
-            $randTag = Tag::all()->random(rand(0,2))->pluck('id');
-            $news->tags()->attach($randTag);
-        });
+//        News::factory(10)->create()->each( function($news){
+//            $randTag = Tag::all()->random(rand(0,2))->pluck('id');
+//            $news->tags()->attach($randTag);
+//        });
 //        Comment::factory()->count(10)->create();*/
 
 //        View::factory()->count(1)->create();

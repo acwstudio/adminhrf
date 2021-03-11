@@ -39,4 +39,9 @@ class Biography extends Model
     {
         return $this->morphToMany(Tag::class, 'taggable');
     }
+
+    public function bookmarks()
+    {
+        return $this->morphMany(Bookmark::class, 'bookmarkable');
+    }
 }
