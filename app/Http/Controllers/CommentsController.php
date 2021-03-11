@@ -16,6 +16,7 @@ class CommentsController extends Controller
        'document' => 'document',
        'biography' => 'biography',
        'video' => 'video',
+       'user' => 'user',
     ];
 
 
@@ -30,6 +31,7 @@ class CommentsController extends Controller
         if(!isset($this->models[$model])){
             return ['404_err'=>'Sorry, we dont have comments for such material, try to search for another entity'];
         }
+	$model = $this->models[$model];
         return $model!='user'?CommentResource::collection(
             Comment::get()->where('commentable_type','=',$this->models[$model])->where('commentable_id','=',$id)
         ):CommentResource::collection(User::findOrFail($id)->comments)
