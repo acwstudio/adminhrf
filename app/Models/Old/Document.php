@@ -26,4 +26,9 @@ class Document extends Model
     {
         return $this->hasOne(Gallery::class, 'id', 'gallery_id');
     }
+
+    public function category()
+    {
+        return $this->belongsTo(DocumentCollection::class, 'collection_id', 'id');
+    }
 }

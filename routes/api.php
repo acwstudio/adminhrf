@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\TokenAuthController;
 use App\Http\Controllers\UserController;
@@ -66,6 +67,10 @@ Route::prefix('v1')->group(function () {
     // Common routes
     Route::get('/articles', [ArticleController::class, 'index']);
     Route::get('/articles/{article:slug}', [ArticleController::class, 'show']);
+
+    Route::get('/documents', [DocumentController::class, 'index']);
+    Route::get('/documents/{category:slug}', [DocumentController::class, 'documents']);
+
 
     //News:
     Route::get('/news/', [\App\Http\Controllers\NewsController::class, 'index']);

@@ -22,8 +22,8 @@ class ImageService
     const ARTICLES_PATH = '/images/articles/';
     const OLD_ARTICLES_PATH = '/uploads/media/artworks/0001/';
     const OLD_EVENTS_PATH = '/uploads/media/event/0001/';
-    const DOCS_PATH = 'files/docs';
-    const DOCS_PREVIEW_PATH = '/images/docs';
+    const DOCS_PATH = 'files/docs/';
+    const DOCS_PREVIEW_PATH = '/images/docs/';
     const OLD_DOCS_PATH = '/uploads/media/documents_upload/0001/';
 
     protected $width;
@@ -78,30 +78,108 @@ class ImageService
      */
     public function storeOld(OldImage $oldImage, $oldDir, $newDir)
     {
-        $imageModel = Image::create();
-        $oldPath = $oldDir . self::dirById($oldImage->id) . DIRECTORY_SEPARATOR . $oldImage->provider_reference;
-        $newPath = $newDir . self::dirById($imageModel->id) . DIRECTORY_SEPARATOR;
-        $newName = Str::random(40);
 
+        $oldPath = $oldDir . self::dirById($oldImage->id) . DIRECTORY_SEPARATOR . $oldImage->provider_reference;
+        $image = Storage::get($oldPath);
 
         if (Storage::exists($oldPath)) {
 
-            $imageProcess = ImageFacade::make(Storage::get($oldPath));
-            $imgMin = clone $imageProcess;
-            $img = $imageProcess->widen($this->width)->encode($this->ext, $this->quality);
+           return $this->store($image, $newDir);
 
-            if ($imgMin->width() >= $imgMin->height()) {
-                $imgMin = $imgMin->heighten($this->min)->encode($this->ext, $this->quality);
-            } else {
-                $imgMin = $imgMin->widen($this->min)->encode($this->ext, $this->quality);
+        } else {
+
+            throw new \Exception('Old image file not found - ' . $oldPath);
+        }
+
+    }
+
+    /**
+     * Store image to given destination in chosen sizes and returns App/Models/Image instance
+     *
+     * @param mixed $image              //image can be a filepath, an Imagick object or a binary image data.
+     * @param string $destination       //destination directory (with trailing slash)
+     * @param bool $order               //order of image in sequence
+     * @param bool $src                 //store standard image
+     * @param bool $preview             //store preview image
+     * @param bool $original            //store original image
+     * @return Image
+     * @throws \Exception
+     */
+    public function store($image, $destination, $order = false, $src = true, $preview = true, $original = false): Image
+    {
+
+        if ($src || $preview || $original) {
+
+
+            $imageModel = Image::create();
+            $newPath = $destination . self::dirById($imageModel->id) . DIRECTORY_SEPARATOR;
+            $newName = Str::random(40);
+            $flags = 0;
+
+
+            if ($src) {
+                if ($image instanceof \Imagick) {
+                    $imageSrc = ImageFacade::make(clone $image);
+                } else {
+                    $imageSrc = ImageFacade::make($image);
+                }
+
+                $imageSrcString = $imageSrc->widen($this->width)->encode($this->ext, $this->quality)->getEncoded();
+
+                $src = Storage::put($newPath . $newName . '.' . $this->ext, $imageSrcString);
+
+                if ($src) {
+                    $flags = $flags | Image::SRC_FLAG;
+                }
             }
 
-            if (Storage::put($newPath . $newName . '.' . $this->ext, $img->getEncoded()) &&
-                Storage::put($newPath . $newName . '_min.' . $this->ext, $imgMin->getEncoded())
-                ) {
+            if ($preview) {
+                if ($image instanceof \Imagick) {
+                    $imagePreview = ImageFacade::make(clone $image);
+                } else {
+                    $imagePreview = ImageFacade::make($image);
+                }
+
+                if ($imagePreview->width() >= $imagePreview->height()) {
+                    $imagePreview = $imagePreview->heighten($this->min);
+                } else {
+                    $imagePreview = $imagePreview->widen($this->min);
+                }
+                $imagePreviewString = $imagePreview->encode($this->ext, $this->quality)->getEncoded();
+
+                $preview = Storage::put($newPath . $newName . '_min.' . $this->ext, $imagePreviewString);
+
+                if ($preview) {
+                    $flags = $flags | Image::PREVIEW_FLAG;
+                }
+            }
+
+            if ($original) {
+                if ($image instanceof \Imagick) {
+                    $imageOriginal = ImageFacade::make(clone $image);
+                } else {
+                    $imageOriginal = ImageFacade::make($image);
+                }
+
+                $imageOriginalString = $imageOriginal->encode($this->ext, $this->quality)->getEncoded();
+
+                $original = Storage::put($newPath . $newName . '_original.' . $this->ext, $imageOriginalString);
+
+                if ($original) {
+                    $flags = $flags | Image::ORIGINAL_FLAG;
+                }
+            }
+
+            if ($src || $preview || $original) {
                 $imageModel->path = $newPath;
                 $imageModel->name = $newName;
                 $imageModel->ext = $this->ext;
+                $imageModel->flags = $flags;
+
+                if ($order) {
+                    $imageModel->order = $order;
+                }
+
                 $imageModel->save();
             } else {
                 $imageModel->delete();
@@ -109,12 +187,10 @@ class ImageService
             }
 
         } else {
-            $imageModel->delete();
-            throw new \Exception('Old image file not found - ' . $oldPath);
+            throw new \Exception('Choose at least one type of final image');
         }
 
         return $imageModel;
-
     }
 
     /**
