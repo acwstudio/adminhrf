@@ -13,23 +13,25 @@ class BookmarkController extends Controller
         $page = $request->get('page', 1);
         $user=User::findOrFail($request->get('user_id',0));
         $data = [];
-        $num =$user->bookmarkGroup->bookmarks->count();
-        foreach ($user->bookmarkGroup->bookmarks->sortByDesc('created_at')->forPage($page,$perPage) as $bookmark) { //->skip($page*$perPage)->take($perPage)
-            $row = $bookmark->bookmarkable;
-            $row->entity = $bookmark->bookmarkable_type;
-            $data[] = $row;
+
+        if($user->bookmarkGroup){
+            $num =$user->bookmarkGroup->bookmarks->count();
+            foreach ($user->bookmarkGroup->bookmarks->sortByDesc('created_at')->forPage($page,$perPage) as $bookmark) { //->skip($page*$perPage)->take($perPage)
+                $row = $bookmark->bookmarkable;
+                if($row){
+                    $row->entity = $bookmark->bookmarkable_type;
+                    $data[] = $row;
+                }
+            }
+            return ['data' => BookmarkShortResource::collection($data),
+                'meta'=> [
+                    'last_page' => ceil($num/$perPage),
+                    'current_page' => (int)$page,
+                ],
+            ];
         }
 
-        #$data = array_slice($data,$page*$perPage, $perPage);
+        return ['msg'=>'This user doesn\'t have entities in a bookmark list'];
 
-        # $val=count($val)
-
-        return ['data' => BookmarkShortResource::collection($data),
-            'meta'=> [
-                'last_page' => ceil($num/$perPage),
-                'current_page' => (int)$page,
-            ],
-        ];
-//        return $user->bookmarks;
     }
 }
