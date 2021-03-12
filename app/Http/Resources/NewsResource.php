@@ -25,9 +25,11 @@ class NewsResource extends JsonResource
             'published_at' => $this->published_at,
             'tags' => TagResource::collection($this->tags),
             'comments' => CommentResource::collection($this->comments),
-            'likes' => $this->countLikes(),
+            'likes' => null,
+#$this->countLikes(),
             'views' => $this->viewed,
-            'has_like' => $this->checkLiked($request->get('user_id', auth('api')->user()))
+            'has_like' => null
+# $this->checkLiked($request->get('user_id', auth('api')->user()))
         ];
     }
 }
