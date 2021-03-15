@@ -155,7 +155,7 @@ class ParseImages extends Command
                 $bar->finish();
                 break;
             case 'biography':
-                // Process articles
+                // Process biographies
                 $biographies = Person::cursor();
 
                 $bar = $this->output->createProgressBar($biographies->count());
