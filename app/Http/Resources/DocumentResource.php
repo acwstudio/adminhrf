@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DocumentShortResource extends JsonResource
+class DocumentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,10 +20,12 @@ class DocumentShortResource extends JsonResource
             'title'                 => $this->title,
             'slug'                  => $this->slug,
             'announce'              => $this->announce,
+            'body'                  => $this->body,
+            'file'                  => $this->file,
             'document_date'         => $this->document_date,
             'document_text_date'    => $this->document_text_date,
             'options'               => $this->options,
-            'image'                 => ImageResource::make($this->images()->first()),
+            'images'                 => ImageResource::collection($this->images)
         ];
     }
 }

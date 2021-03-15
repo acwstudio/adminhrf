@@ -70,6 +70,7 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/documents', [DocumentController::class, 'index']);
     Route::get('/documents/{category:slug}', [DocumentController::class, 'documents']);
+    Route::get('/documents/{category:slug}/{document:slug}', [DocumentController::class, 'show']);
 
 
     //News:

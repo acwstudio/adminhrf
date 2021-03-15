@@ -37,7 +37,7 @@ class ArticleResource extends JsonResource
             'body'  => $this->body,
             'tags' => $tagsMock, //TagResource::collection($this->tags),
             'published_at'  => $this->published_at,
-            'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
+            'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'authors' => AuthorResource::collection($this->authors),
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
