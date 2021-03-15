@@ -21,7 +21,7 @@ class ArticleShortResource extends JsonResource
             'slug'  => $this->slug,
             'announce'  => $this->announce,
             'published_at'  => $this->published_at,
-            'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
+            'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'authors' => AuthorShortResource::collection($this->authors),
             'comments' => $this->comments->count(),
             'likes' => $this->countLikes(),

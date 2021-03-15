@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\DocumentCategoryResource;
+use App\Http\Resources\DocumentResource;
 use App\Http\Resources\DocumentShortResource;
 use App\Models\Document;
 use App\Models\DocumentCategory;
@@ -24,7 +25,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display paged documents by category.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  DocumentCategory  $category
@@ -35,6 +36,19 @@ class DocumentController extends Controller
         $perPage = $request->get('per_page', 45);
 
         return DocumentShortResource::collection($category->documents()->latest()->paginate($perPage));
+    }
+
+    /**
+     * Display the specified document.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  DocumentCategory  $category
+     * @param Document $document
+     * @return DocumentResource
+     */
+    public function show(Request $request, DocumentCategory $category, Document $document)
+    {
+        return new DocumentResource($document);
     }
 
 
