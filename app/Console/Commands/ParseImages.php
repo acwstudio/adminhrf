@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\Article;
+use App\Models\Biography;
 use App\Models\Image;
 use App\Models\Old\Event;
+use App\Models\Old\Person;
 use App\Services\ImageService;
 use Illuminate\Console\Command;
 use App\Models\Old\Article as OldArticle;
@@ -20,7 +22,7 @@ class ParseImages extends Command
      *
      * @var string
      */
-    protected $signature = 'parse:images {entity : Process images by entity article|event|document}
+    protected $signature = 'parse:images {entity : Process images by entity article|event|document|biography}
     {--D|delete : Be careful! It will delete ALL entity images}';
 
     /**
@@ -46,6 +48,10 @@ class ParseImages extends Command
                 'oldPath' => ImageService::OLD_ARTICLES_PATH,
                 'oldPathEvents' => ImageService::OLD_EVENTS_PATH,
                 'newPath' => ImageService::ARTICLES_PATH
+            ],
+            'biography' => [
+                'oldPath' => ImageService::OLD_BIO_PATH,
+                'newPath' => ImageService::BIO_PATH
             ]
         ]);
         $this->imageService = $imageService;
@@ -60,9 +66,9 @@ class ParseImages extends Command
     public function handle(): int
     {
         $entity = $this->argument('entity');
-        if (!in_array($entity, ['article', 'event', 'document'])) {
+        if (!in_array($entity, ['article', 'event', 'document','biography'])) {
             $this->newLine();
-            $this->error('Wrong argument passed, entity must be of type article|event|document' );
+            $this->error('Wrong argument passed, entity must be of type article|event|document|biography' );
             return 0;
         }
 
@@ -140,6 +146,33 @@ class ParseImages extends Command
                     } catch (\Throwable $exception) {
 
                         Log::info($exception->getMessage(), ['Event id' => $event->id]);
+
+                    }
+
+                    $bar->advance();
+                }
+
+                $bar->finish();
+
+            case 'biography':
+                // Process articles
+                $biographies = Person::cursor();
+
+                $bar = $this->output->createProgressBar($biographies->count());
+                $this->newLine();
+                $this->line('Processing images for articles');
+
+                $bar->start();
+
+                foreach ($biographies as $biography) {
+
+                    try {
+                        $newImage = $this->imageService->storeOld($biography->image, $paths['oldPath'], $paths['newPath']);
+                        $bio = Biography::find($biography->id);
+                        $bio->images()->save($newImage);
+                    } catch (\Throwable $exception) {
+
+                        Log::info($exception->getMessage(), ['Old article id' => $biography->id]);
 
                     }
 
