@@ -160,7 +160,7 @@ class ParseImages extends Command
 
                 $bar = $this->output->createProgressBar($biographies->count());
                 $this->newLine();
-                $this->line('Processing images for articles');
+                $this->line('Processing images for biography');
 
                 $bar->start();
 
