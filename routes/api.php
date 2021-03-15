@@ -90,7 +90,7 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
 
-    Route::get('/biographies/', [\App\Http\Controllers\BiographyController::class,'index']);
+    Route::post('/biographies/', [\App\Http\Controllers\BiographyController::class,'index']);
     Route::get('/biographies/{biography:slug}', [\App\Http\Controllers\BiographyController::class,'show']);
 
 });
