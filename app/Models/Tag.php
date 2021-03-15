@@ -43,4 +43,11 @@ class Tag extends Model
         return $this->morphedByMany(Biography::class, 'taggable');
     }
 
+    public function subscriptions(){
+        return $this->hasMany(Subscription::class);
+    }
+
+
+
+
 }

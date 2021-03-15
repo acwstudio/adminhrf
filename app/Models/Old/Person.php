@@ -35,4 +35,9 @@ class Person extends Model
             'artwork_id');
     }
 
+    public function image()
+    {
+        return $this->hasOne(Image::class, 'id', 'image_id');
+    }
+
 }

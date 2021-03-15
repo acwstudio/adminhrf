@@ -27,7 +27,6 @@ class ModifyBcategorytable extends Migration
     {
         Schema::table('biocategories', function(Blueprint $table){
             $table->dropColumn('slug');
-
         });
     }
 }

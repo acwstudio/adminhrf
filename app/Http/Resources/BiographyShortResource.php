@@ -23,11 +23,14 @@ class BiographyShortResource extends JsonResource
             'birth_date' => $this->birth_date,
             'death_date' => $this->death_date,
             'slug' => $this->slug,
-            'image_id' => $this->image_id,
-
-
-
-
+            'published_at'  => $this->published_at,
+            'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
+            'likes' => $this->countLikes(),
+            'views' => $this->viewed,
+            'has_like' => $this->checkLiked($request->get('user_id', 1)),
+            'has_bookmark'  => false,
+            'categories' => BioCategoryResource::collection($this->categories),
+            'comments' => $this->comments->count(),
         ];
     }
 }

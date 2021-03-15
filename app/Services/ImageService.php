@@ -25,6 +25,10 @@ class ImageService
     const DOCS_PATH = 'files/docs/';
     const DOCS_PREVIEW_PATH = '/images/docs/';
     const OLD_DOCS_PATH = '/uploads/media/documents_upload/0001/';
+    const BIO_PATH = '/images/biographies/';
+    const OLD_BIO_PATH = '/uploads/media/person/0001/';
+
+
 
     protected $width;
     protected $min;

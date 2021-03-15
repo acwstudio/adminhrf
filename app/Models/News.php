@@ -32,6 +32,11 @@ class News extends Model
         'published_at' => 'datetime'
     ];
 
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'taggable');
