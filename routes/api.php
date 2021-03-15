@@ -84,4 +84,6 @@ Route::prefix('v1')->group(function () {
     Route::get('/comments/{model}/{id}', [\App\Http\Controllers\CommentsController::class, 'getCommentsForModel']);
    # Route::get('/comments/user/{id}', [\App\Http\Controllers\CommentsController::class, 'getCommentsFromUser']);
     Route::get('/bookmarks/', [\App\Http\Controllers\BookmarkController::class,'getBookmarks']);
+
+    Route::get('/biographies/', [\App\Http\Controllers\BiographyController::class,'index']);
 });
