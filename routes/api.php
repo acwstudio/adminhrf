@@ -79,4 +79,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/comments/{model}/{id}', [\App\Http\Controllers\CommentsController::class, 'getCommentsForModel']);
    # Route::get('/comments/user/{id}', [\App\Http\Controllers\CommentsController::class, 'getCommentsFromUser']);
     Route::get('/bookmarks/', [\App\Http\Controllers\BookmarkController::class,'getBookmarks']);
+    Route::get('/bookmarks/{action}', [\App\Http\Controllers\BookmarkController::class,'getBookmarksActions']);
+
+
+    Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
 });

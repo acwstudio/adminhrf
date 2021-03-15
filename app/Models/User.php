@@ -87,4 +87,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(BookmarkGroup::class);
     }
 
+    public function subscriptions(){
+        return $this->hasMany(Subscription::class);
+    }
+
 }
