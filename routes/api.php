@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\TokenAuthController;
@@ -72,6 +73,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/documents/{category:slug}', [DocumentController::class, 'documents']);
     Route::get('/documents/{category:slug}/{document:slug}', [DocumentController::class, 'show']);
 
+    Route::get('/authors', [AuthorController::class, 'index']);
+    Route::get('/authors/{author:slug}', [AuthorController::class, 'show']);
 
     //News:
     Route::get('/news/', [\App\Http\Controllers\NewsController::class, 'index']);

@@ -35,7 +35,8 @@ class DocumentController extends Controller
     {
         $perPage = $request->get('per_page', 45);
 
-        return DocumentShortResource::collection($category->documents()->latest()->paginate($perPage));
+        return DocumentShortResource::collection($category->documents()->latest()->paginate($perPage))
+            ->additional(['category' => DocumentCategoryResource::make($category)]);
     }
 
     /**
