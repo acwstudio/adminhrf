@@ -23,7 +23,7 @@ class ArticleShortResource extends JsonResource
             'published_at'  => $this->published_at,
             'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'authors' => AuthorShortResource::collection($this->authors),
-            'comments' => $this->comments,
+            'comments' => $this->comments->count(),
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
             'has_like' => $this->checkLiked($request->get('user_id', 0)),

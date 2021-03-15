@@ -21,13 +21,13 @@ class NewsResource extends JsonResource
             'slug' => $this->slug,
             'body' => $this->body,
             'close_commentation' => $this->close_commentation,
-            #'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
+            'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'published_at' => $this->published_at,
             'tags' => TagResource::collection($this->tags),
             'comments' => CommentResource::collection($this->comments),
-            'likes' => $this->countLikes(),
+            'likes' => null,
             'views' => $this->viewed,
-            'has_like' => $this->checkLiked($request->get('user_id', auth('api')->user()))
+            'has_like' => null
         ];
     }
 }

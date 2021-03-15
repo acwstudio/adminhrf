@@ -2,19 +2,36 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Document extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
+
+    protected $guarded = [];
+
+    protected $casts = [
+        'document_date' => 'datetime',
+        'options' => 'array'
+    ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 
     /**
      * Get document's images.
      */
     public function images()
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return $this->morphMany(Image::class, 'imageable')->orderBy('order');
     }
 
     /**
@@ -23,6 +40,11 @@ class Document extends Model
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    public function category()
+    {
+        return $this->BelongsTo(DocumentCategory::class);
     }
 
     /**

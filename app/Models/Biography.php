@@ -19,16 +19,10 @@ class Biography extends Model
         'death_date',
         'government_start',
         'government_end',
-        'url',
         'slug',
         'show_in_rss',
         'close_commentation',
-        'period_id',
         'image_id',
-        'stream_id',
-        'seo_title',
-        'seo_description',
-        'seo_keywords'
     ];
 
     protected $casts = [
@@ -47,6 +41,14 @@ class Biography extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
+    public function likes(){
+        return $this->morphMany(Like::class,'likeable');
+    }
+
+    public function countLikes(){
+        return $this->likes()->count();
+    }
+
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
@@ -56,12 +58,19 @@ class Biography extends Model
         return $this->comments()->count();
     }
 
-
-    public function likes(){
-        return $this->morphMany(Like::class,'likeable');
+    public function checkLiked($userId){
+        $val = $this->likes()->first(['user_id']);
+        return $val?$val->user_id==$userId:false;
     }
 
-    public function countLikes(){
-        return $this->likes()->count();
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(BioCategory::class, 'biography_categories', 'biography_id' , 'category_id');
+    }
+
 }

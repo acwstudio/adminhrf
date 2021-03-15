@@ -21,4 +21,9 @@
  *     description="Operations about articles",
  * )
  *
+ * @OA\Tag(
+ *     name="Documents",
+ *     description="Operations about documents",
+ * )
+ *
  */

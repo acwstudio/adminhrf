@@ -21,7 +21,7 @@ class NewsShortResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'announce' => $this->announce,
-            #'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
+            'banner' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'published_at' => $this->published_at,
             'likes' => null,
             'has_like' => null,

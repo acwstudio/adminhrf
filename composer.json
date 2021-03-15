@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-imagick": "*",
+        "cviebrock/eloquent-sluggable": "^8.0",
         "darkaonline/l5-swagger": "^8.0",
         "doctrine/dbal": "^3.0",
         "fideloper/proxy": "^4.4",
@@ -24,8 +26,7 @@
         "socialiteproviders/google": "^4.1",
         "socialiteproviders/odnoklassniki": "^4.1",
         "socialiteproviders/vkontakte": "^4.2",
-        "socialiteproviders/yandex": "^4.1",
-        "ext-imagick": "*"
+        "socialiteproviders/yandex": "^4.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.9",
