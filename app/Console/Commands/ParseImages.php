@@ -153,7 +153,7 @@ class ParseImages extends Command
                 }
 
                 $bar->finish();
-
+                break;
             case 'biography':
                 // Process articles
                 $biographies = Person::cursor();
@@ -180,6 +180,7 @@ class ParseImages extends Command
                 }
 
                 $bar->finish();
+                break;
         }
 
 
