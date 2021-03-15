@@ -22,8 +22,14 @@
  * )
  *
  * @OA\Tag(
+ *     name="Authors",
+ *     description="Operations about authors",
+ * )
+ *
+ * @OA\Tag(
  *     name="Documents",
  *     description="Operations about documents",
  * )
+ *
  *
  */

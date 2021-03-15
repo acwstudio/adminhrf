@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
 
 class Author extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     /**
      * The attributes that are not mass assignable.
@@ -17,6 +19,14 @@ class Author extends Model
      */
     protected $guarded = [];
 
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'fullname'
+            ]
+        ];
+    }
 
     /**
      * The attributes that should be cast to native types.
@@ -33,5 +43,20 @@ class Author extends Model
     public function articles(): BelongsToMany
     {
         return $this->belongsToMany(Article::class, 'author_article', 'author_id', 'article_id');
+    }
+
+    public function getFullnameAttribute()
+    {
+        $fullname = Str::of($this->surname);
+
+        if (!is_null($this->patronymic)) {
+            $fullname = $fullname->prepend("{$this->patronymic} ");
+        }
+
+        if (!is_null($this->firstname)) {
+            $fullname = $fullname->prepend("{$this->firstname} ");
+        }
+
+        return $fullname;
     }
 }

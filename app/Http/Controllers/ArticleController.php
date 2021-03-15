@@ -15,6 +15,7 @@ class ArticleController extends Controller
      *
      * Display paginated listing of articles.
      *
+     * @param Request $request
      * @return ArticleCollection
      */
 
