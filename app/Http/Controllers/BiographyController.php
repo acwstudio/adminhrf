@@ -12,10 +12,10 @@ class BiographyController extends Controller
     public function index(Request $request){
         $perPage = $request->get('per_page', null);
         $categorySlug = (string)$request->get('category', 'none');
-        $lowerBound = (int)($request->get('cent',1)-1)*100;
+        $lowerBound = (int)($request->get('cent',0))*100;
         $upperBound = (int)($request->get('cent', 21))*100;
 
-        $lowerBound = date_format(new \DateTime("01/01/{$lowerBound}"),'Y-m-d');
+        $lowerBound = $lowerBound==0?date_format(new \DateTime("01/01/0001"),'Y-m-d'):date_format(new \DateTime("01/01/{$lowerBound}"),'Y-m-d');
         $upperBound = date_format(new \DateTime("01/01/{$upperBound}"),'Y-m-d');
 
         if($categorySlug=='none'){
