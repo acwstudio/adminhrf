@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class DocumentResource extends JsonResource
 {
@@ -21,7 +22,7 @@ class DocumentResource extends JsonResource
             'slug'                  => $this->slug,
             'announce'              => $this->announce,
             'body'                  => $this->body,
-            'file'                  => $this->file,
+            'file'                  => Str::startsWith($this->file, '/') ? $this->file : Str::of($this->file)->prepend('/'),
             'document_date'         => $this->document_date,
             'document_text_date'    => $this->document_text_date,
             'options'               => $this->options,
