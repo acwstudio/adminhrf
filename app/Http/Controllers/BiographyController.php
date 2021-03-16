@@ -14,6 +14,7 @@ class BiographyController extends Controller
         $perPage = $request->post('per_page', $this->perPage);
         $categoriesArr = $request->post('arr',['none']);
 
+        //$cat = explode(' ', $request->post('categories',['none']));
         $lowerBound = ($request->post('cent','0001'));
         $upperBound = (int)($request->post('cent', 21))*100;
         $page= $request->post('page',1);

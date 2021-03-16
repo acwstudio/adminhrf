@@ -24,7 +24,7 @@ class BiographyShortResource extends JsonResource
             'death_date' => $this->death_date,
             'slug' => $this->slug,
             'published_at'  => $this->published_at,
-            'banner' => [
+            'image' => [
                 "model_type"=>"image",
                 "id"=>1294,
                 "alt"=> null,
