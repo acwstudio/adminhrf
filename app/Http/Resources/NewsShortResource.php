@@ -21,7 +21,7 @@ class NewsShortResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'announce' => $this->announce,
-            'banner' => [
+            'image' => [
                 "model_type"=>"image",
                 "id"=>1294,
                 "alt"=> null,

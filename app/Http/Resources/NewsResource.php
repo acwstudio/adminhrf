@@ -21,7 +21,7 @@ class NewsResource extends JsonResource
             'slug' => $this->slug,
             'body' => $this->body,
             'close_commentation' => $this->close_commentation,
-            'banner' => [
+            'image' => [
                 "model_type"=>"image",
                 "id"=>1294,
                 "alt"=> null,
