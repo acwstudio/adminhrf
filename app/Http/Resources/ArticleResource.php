@@ -35,15 +35,15 @@ class ArticleResource extends JsonResource
             'slug'  => $this->slug,
             'announce'  => $this->announce,
             'body'  => $this->body,
-            'tags' => $tagsMock, //TagResource::collection($this->tags),
             'published_at'  => $this->published_at,
             'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'authors' => AuthorResource::collection($this->authors),
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
-            'comments' => $this->comments,
             'has_like' => $this->checkLiked($request->get('user_id', 1)),
             'has_bookmark'  => false,
+            'tags' => TagResource::collection($this->tags),
+            'comments' => $this->comments,
         ];
     }
 

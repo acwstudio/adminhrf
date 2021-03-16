@@ -40,6 +40,7 @@ class BiographyShortResource extends JsonResource
             'has_bookmark'  => false,
             'categories' => BioCategoryResource::collection($this->categories),
             'comments' => $this->comments->count(),
+            'tags' => $this->tags,
         ];
     }
 }

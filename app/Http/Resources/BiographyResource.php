@@ -41,6 +41,8 @@ class BiographyResource extends JsonResource
             'has_bookmark'  => false,
             'categories' => BioCategoryResource::collection($this->categories),
             'comments' => $this->comments,
+            'tags' => $this->tags,
+
         ];
     }
 }

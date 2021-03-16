@@ -21,13 +21,14 @@ class ArticleShortResource extends JsonResource
             'slug'  => $this->slug,
             'announce'  => $this->announce,
             'published_at'  => $this->published_at,
-            'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'authors' => AuthorShortResource::collection($this->authors),
             'comments' => $this->comments->count(),
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
             'has_like' => $this->checkLiked($request->get('user_id', 0)),
             'has_bookmark'  => false,
+            'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
+            'tags' => TagResource::collection($this->tags),
         ];
     }
 }

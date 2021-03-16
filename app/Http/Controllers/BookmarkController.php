@@ -20,7 +20,7 @@ class BookmarkController extends Controller
       ]
     ];
 
-    
+
     public function getBookmarks(Request $request){
         $perPage = $request->get('per_page', $this->perPage);
         $page = $request->get('page', 1);
@@ -49,7 +49,7 @@ class BookmarkController extends Controller
     }
 
 
-    public function getBookmarksActions($action,Request $request){
+    public function getBookmarksActions(string $action,Request $request){
         $perPage = $request->get('per_page', $this->perPage);
         $page = $request->get('page', 1);
         $user=User::findOrFail($request->get('user_id',0));
@@ -60,7 +60,8 @@ class BookmarkController extends Controller
             foreach ($groups->bookmarks->sortByDesc('created_at')->forPage($page,$perPage) as $bookmark) { //->skip($page*$perPage)->take($perPage)
                 $row = $bookmark->bookmarkable;
                 if($row){
-                    if(in_array($this->models[$action],$bookmark->bookmarkable_type)) {
+
+                    if(in_array($bookmark->bookmarkable_type,$this->models["{$action}"])) {
                         $row->entity = $bookmark->bookmarkable_type;
                         $data[] = $row;
                     }

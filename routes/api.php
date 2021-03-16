@@ -96,4 +96,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/biographies/', [\App\Http\Controllers\BiographyController::class,'index']);
     Route::get('/biographies/{biography:slug}', [\App\Http\Controllers\BiographyController::class,'show']);
 
+    Route::get('/timeline/events', [\App\Http\Controllers\TimeLineController::class,'getEvents']);
+    Route::get('/timeline/biographies', [\App\Http\Controllers\TimeLineController::class,'getBios']);
+
+
 });

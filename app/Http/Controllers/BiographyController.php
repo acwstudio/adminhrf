@@ -18,8 +18,7 @@ class BiographyController extends Controller
         $upperBound = (int)($request->post('cent', 21))*100;
         $page= $request->post('page',1);
 
-        $lowerBound = $lowerBound!='0001'?(int)($lowerBound-1)*100:'0001';
-        $lowerBound = $lowerBound!='0001'?date_format(new \DateTime("01/01/{$lowerBound}"),'Y-m-d'):date_format(new \DateTime("01/01/0001"),'Y-m-d');
+        $lowerBound = $lowerBound!='0001'?date_format(new \DateTime("01/01/".(($lowerBound-1)*100)),'Y-m-d'):date_format(new \DateTime("01/01/0001"),'Y-m-d');
         $upperBound = date_format(new \DateTime("01/01/{$upperBound}"),'Y-m-d');
 
         if($categoriesArr[0]=='none'){
@@ -59,7 +58,6 @@ class BiographyController extends Controller
         }
         $num = count($arr);
         $arr = $arr->sortByDesc('birth_date')->forPage($page,$perPage);
-
 
         return ['data' => BiographyShortResource::collection($arr),
                 'meta'=> [
