@@ -19,7 +19,7 @@ class TimelineResource extends JsonResource
             'model_type' => $this->timelinable_type,
             'id' => $this->timelinable_id,
             'announce' => $this->timelinable->announce,
-            'date' => $this->date,
+            'date' => Carbon::parse(($this->date))->format('Y-m'),
             'title'=> $this->timelinable_type=='biography'?$this->timelinable->surname.' '.$this->timelinable->firstname:$this->timelinable->title,
             'slug'  => $this->timelinable->slug,
             'published_at'  => $this->timelinable->published_at,
