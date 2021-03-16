@@ -74,7 +74,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/documents/{category:slug}/{document:slug}', [DocumentController::class, 'show']);
 
     Route::get('/authors', [AuthorController::class, 'index']);
-    Route::get('/authors/{author:slug}', [AuthorController::class, 'show']);
+    Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
+    Route::post('/authors', [AuthorController::class, 'store'])->name('authors.posts');
+    Route::patch('/authors/{author:slug}', [AuthorController::class, 'update'])->name('authors.update');
+    Route::delete('/authors/{author:slug}', [AuthorController::class, 'destroy'])->name('authors.delete');
 
     //News:
     Route::get('/news/', [\App\Http\Controllers\NewsController::class, 'index']);
