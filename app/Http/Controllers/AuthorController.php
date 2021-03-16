@@ -19,7 +19,7 @@ class AuthorController extends Controller
     {
         $perPage = $request->get('per_page', 8);
 
-        return AuthorResource::collection(Author::withCount('articles')->orderBy('articles_count', 'desc')->paginate($perPage));
+        return AuthorResource::collection(Author::with('articles')->withCount('articles')->orderBy('articles_count', 'desc')->paginate($perPage));
     }
 
     /**

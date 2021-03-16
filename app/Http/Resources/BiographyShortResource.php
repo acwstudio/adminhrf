@@ -27,16 +27,7 @@ class BiographyShortResource extends JsonResource
             'death_date' => Carbon::parse(($this->death_date))->format('Y-m-d'),
             'slug' => $this->slug,
             'published_at'  => $this->published_at,
-            'image' => [
-                "model_type"=>"image",
-                "id"=>1294,
-                "alt"=> null,
-                "src"=> "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt.jpg",
-                "preview"=> "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
-                "original"=> null,
-                "order"=>1
-            ],
-            //ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
+            'image' => ImageResource::make($this->images()->first()),
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
             'has_like' => $this->checkLiked($request->get('user_id', 1)),
