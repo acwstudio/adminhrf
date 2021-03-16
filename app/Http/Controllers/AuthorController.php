@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthorCreateRequest;
+use App\Http\Requests\AuthorUpdateRequest;
 use App\Http\Resources\AuthorResource;
 use App\Models\Article;
 use App\Models\Author;
@@ -46,15 +48,29 @@ class AuthorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param AuthorCreateRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(AuthorCreateRequest $request)
     {
-        //
+        $author = Author::create([
+            'firstname' => $request->input('data.firstname'),
+            'surname' => $request->input('data.surname'),
+            'patronymic' => $request->input('data.patronymic'),
+            'birth_date' => $request->input('data.birth_date'),
+            'description' => $request->input('data.description'),
+        ]);
+
+        /** @var Author $author */
+        $author->save();
+
+
+        return (new AuthorResource($author))
+            ->response()
+            ->header('Location', route('authors.show', [
+                'author' => $author
+            ]));
     }
-
-
 
     /**
      * Show the form for editing the specified resource.
@@ -70,23 +86,35 @@ class AuthorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param AuthorUpdateRequest $request
+     * @param Author $author
+     * @return AuthorResource
      */
-    public function update(Request $request, $id)
+    public function update(AuthorUpdateRequest $request, Author $author)
     {
-        //
+        $author->update([
+            'firstname' => $request->input('data.firstname'),
+            'surname' => $request->input('data.surname'),
+            'patronymic' => $request->input('data.patronymic'),
+            'birth_date' => $request->input('data.birth_date'),
+            'description' => $request->input('data.description'),
+        ]);
+
+        $author->save();
+
+        return new AuthorResource($author);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Author $author)
     {
-        //
+        $author->delete();
+        return response(null, 204);
     }
 }

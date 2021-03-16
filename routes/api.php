@@ -69,14 +69,20 @@ Route::prefix('v1')->group(function () {
 
     // Common routes
     Route::get('/articles', [ArticleController::class, 'index']);
-    Route::get('/articles/{article:slug}', [ArticleController::class, 'show']);
+    Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+    Route::post('/articles', [ArticleController::class, 'store']);
+    Route::patch('/articles/{article:slug}', [ArticleController::class, 'update']);
+    Route::delete('/articles/{article:slug}', [ArticleController::class, 'destroy'])->name('articles.delete');
 
     Route::get('/documents', [DocumentController::class, 'index']);
     Route::get('/documents/{category:slug}', [DocumentController::class, 'documents']);
     Route::get('/documents/{category:slug}/{document:slug}', [DocumentController::class, 'show']);
 
     Route::get('/authors', [AuthorController::class, 'index']);
-    Route::get('/authors/{author:slug}', [AuthorController::class, 'show']);
+    Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
+    Route::post('/authors', [AuthorController::class, 'store'])->name('authors.posts');
+    Route::patch('/authors/{author:slug}', [AuthorController::class, 'update'])->name('authors.update');
+    Route::delete('/authors/{author:slug}', [AuthorController::class, 'destroy'])->name('authors.delete');
 
     Route::get('/news/', [NewsController::class, 'index']);
     Route::get('/news/{news:slug}', [NewsController::class, 'show']);
