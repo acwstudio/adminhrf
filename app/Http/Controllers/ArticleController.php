@@ -25,12 +25,11 @@ class ArticleController extends Controller
     {
         $perPage = $request->get('per_page', 16);
 
-        return new ArticleCollection(Article::all());
-//        return new ArticleCollection(Article::where('active', true)
-//            ->where('published_at', '<', now())
-//            ->with('images')
-//            ->orderBy('published_at', 'desc')
-//            ->paginate($perPage));
+        return new ArticleCollection(Article::where('active', true)
+            ->where('published_at', '<', now())
+            ->with('images')
+            ->orderBy('published_at', 'desc')
+            ->paginate($perPage));
     }
 
     /**
