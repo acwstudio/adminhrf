@@ -73,4 +73,9 @@ class Biography extends Model
         return $this->belongsToMany(BioCategory::class, 'biography_categories', 'biography_id' , 'category_id');
     }
 
+    public function timeline()
+    {
+        return $this->morphOne(Timeline::class, 'timelinable');
+    }
+
 }

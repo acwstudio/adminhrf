@@ -176,4 +176,10 @@ class Article extends Model
 
         return $date->year < 0 ? ltrim($result, '-') . ' BC' : $result;
     }
+
+
+    public function timeline()
+    {
+        return $this->morphOne(Timeline::class, 'timelinable');
+    }
 }

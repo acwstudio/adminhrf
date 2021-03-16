@@ -98,6 +98,7 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/timeline/events', [\App\Http\Controllers\TimeLineController::class,'getEvents']);
     Route::get('/timeline/biographies', [\App\Http\Controllers\TimeLineController::class,'getBios']);
+    Route::get('/timeline/', [\App\Http\Controllers\TimeLineController::class,'getAll']);
 
 
 });
