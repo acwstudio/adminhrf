@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Biography extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     public $fillable = [
         'surname',
@@ -30,6 +32,15 @@ class Biography extends Model
         'created_at'=> 'datetime',
         'published_at' => 'datetime'
     ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'fullname'
+            ]
+        ];
+    }
 
     public function tags()
     {
@@ -71,6 +82,21 @@ class Biography extends Model
     public function categories()
     {
         return $this->belongsToMany(BioCategory::class, 'biography_categories', 'biography_id' , 'category_id');
+    }
+
+    public function getFullnameAttribute()
+    {
+        $fullname = Str::of($this->surname);
+
+        if (!is_null($this->patronymic)) {
+            $fullname = $fullname->prepend("{$this->patronymic} ");
+        }
+
+        if (!is_null($this->firstname)) {
+            $fullname = $fullname->prepend("{$this->firstname} ");
+        }
+
+        return $fullname;
     }
 
 }

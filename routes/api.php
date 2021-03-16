@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\BiographyController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\TokenAuthController;
 use App\Http\Controllers\UserController;
@@ -76,9 +78,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/authors', [AuthorController::class, 'index']);
     Route::get('/authors/{author:slug}', [AuthorController::class, 'show']);
 
-    //News:
-    Route::get('/news/', [\App\Http\Controllers\NewsController::class, 'index']);
-    Route::get('/news/{news:slug}', [\App\Http\Controllers\NewsController::class, 'show']);
+    Route::get('/news/', [NewsController::class, 'index']);
+    Route::get('/news/{news:slug}', [NewsController::class, 'show']);
 
     Route::get('/tags/news/{tagId}', [\App\Http\Controllers\TagController::class, 'getNews']);
     Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
@@ -93,8 +94,9 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
 
-    Route::post('/biographies/', [\App\Http\Controllers\BiographyController::class,'index']);
-    Route::get('/biographies/{biography:slug}', [\App\Http\Controllers\BiographyController::class,'show']);
+    Route::get('/biographies/', [BiographyController::class,'index']);
+    Route::get('/biographies/categories', [BiographyController::class,'categories']);
+    Route::get('/biographies/{biography:slug}', [BiographyController::class,'show']);
 
     Route::get('/timeline/events', [\App\Http\Controllers\TimeLineController::class,'getEvents']);
     Route::get('/timeline/biographies', [\App\Http\Controllers\TimeLineController::class,'getBios']);

@@ -27,9 +27,18 @@
  * )
  *
  * @OA\Tag(
+ *     name="Biographies",
+ *     description="Operations about biographies",
+ * )
+ *
+ * @OA\Tag(
  *     name="Documents",
  *     description="Operations about documents",
  * )
  *
+ * @OA\Tag(
+ *     name="News",
+ *     description="Operations about news",
+ * )
  *
  */
