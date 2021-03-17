@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TAnswer extends Model
 {
     use HasFactory;
+    protected $table ='tanswers';
 
     public $fillable = [
         'question_id',
@@ -20,9 +21,7 @@ class TAnswer extends Model
         'created_at',
         'updated_at'
     ];
-
-
-
+    
     public function question(){
         return $this->belongsTo(TAnswer::class, 'question_id', 'id');
     }

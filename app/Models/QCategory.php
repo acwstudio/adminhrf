@@ -2,12 +2,24 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class QCategory extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'text'
+            ]
+        ];
+    }
+
+    protected $table = 'qcategories';
 
     public $fillable = [
         'text',
@@ -15,7 +27,7 @@ class QCategory extends Model
     ];
 
     public function tests(){
-        return $this->belongsToMany(Test::class, 'tests_categories');
+        return $this->belongsToMany(Test::class, 'tests_categories','category_id','test_id');
     }
 
 
