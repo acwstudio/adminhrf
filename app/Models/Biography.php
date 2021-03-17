@@ -16,7 +16,7 @@ class Biography extends Model
         'firstname',
         'patronymic',
         'announce',
-        'birthname',
+        'birth_date',
         'description',
         'death_date',
         'government_start',
@@ -25,6 +25,7 @@ class Biography extends Model
         'show_in_rss',
         'close_commentation',
         'image_id',
+        'published_at',
     ];
 
     protected $casts = [

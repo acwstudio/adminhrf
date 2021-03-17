@@ -52,17 +52,9 @@ class ArticleController extends Controller
      */
     public function store(ArticleCreateRequest $request)
     {
-        $article = Article::create([
-            'title' => $request->input('data.title'),
-            'announce' => $request->input('data.announce'),
-            'body' => $request->input('data.body'),
-            'show_in_rss' => $request->input('data.show_in_rss'),
-            'yatextid' => $request->input('data.yatextid'),
-            'active' => $request->input('data.active'),
-            'published_at' => $request->input('data.published_at')
-        ]);
+        $data = $request->validated();
 
-        $article->save();
+        $article = Article::create($data['data']);
 
         return (new ArticleResource($article))
             ->response()
@@ -81,17 +73,8 @@ class ArticleController extends Controller
      */
     public function update(ArticleUpdateRequest $request, Article $article)
     {
-        $article->update([
-            'title' => $request->input('data.title'),
-            'announce' => $request->input('data.announce'),
-            'body' => $request->input('data.body'),
-            'show_in_rss' => $request->input('data.show_in_rss'),
-            'yatextid' => $request->input('data.yatextid'),
-            'active' => $request->input('data.active'),
-            'published_at' => $request->input('data.published_at')
-        ]);
-
-        $article->save();
+        $data = $request->validated();
+        $article->update($data['data']);
 
         return new ArticleResource($article);
     }

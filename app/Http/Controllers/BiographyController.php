@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers
+namespace App\Http\Controllers;
 
+use App\Http\Requests\BiographyCreateRequest;
+use App\Http\Requests\BiographyUpdateRequest;
 use App\Http\Resources\BioCategoryResource;
 use App\Http\Resources\BiographyResource;
 use App\Http\Resources\BiographyShortResource;
@@ -42,7 +44,53 @@ class BiographyController extends Controller
         return BiographyResource::make($biography);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param BiographyCreateRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(BiographyCreateRequest $request)
+    {
+        $data = $request->validated();
 
+        $biography = Biography::create($data['data']);
+
+        return (new BiographyResource($biography))
+            ->response()
+            ->header('Location', route('biographies.show', [
+                'biography' => $biography
+            ]));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param BiographyUpdateRequest $request
+     * @param Biography $biography
+     * @return BiographyResource
+     */
+    public function update(BiographyUpdateRequest $request, Biography $biography)
+    {
+        $data = $request->validated();
+
+        $biography->update($data['data']);
+
+        return new BiographyResource($biography);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Biography $biography
+     * @return \Illuminate\Http\Response
+     * @throws \Exception
+     */
+    public function destroy(Biography $biography)
+    {
+        $biography->delete();
+        return response(null, 204);
+    }
     /**
      * Return biography categories collection
      *

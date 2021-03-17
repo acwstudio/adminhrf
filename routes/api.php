@@ -100,9 +100,12 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
 
-    Route::get('/biographies/', [BiographyController::class,'index']);
+    Route::get('/biographies', [BiographyController::class,'index']);
     Route::get('/biographies/categories', [BiographyController::class,'categories']);
-    Route::get('/biographies/{biography:slug}', [BiographyController::class,'show']);
+    Route::get('/biographies/{biography:slug}', [BiographyController::class,'show'])->name('biographies.show');
+    Route::post('/biographies', [BiographyController::class,'store']);
+    Route::patch('/biographies/{biography:slug}', [BiographyController::class,'update']);
+    Route::delete('/biographies/{biography:slug}', [BiographyController::class,'destroy']);
 
     Route::get('/timeline/events', [\App\Http\Controllers\TimeLineController::class,'getEvents']);
     Route::get('/timeline/biographies', [\App\Http\Controllers\TimeLineController::class,'getBios']);

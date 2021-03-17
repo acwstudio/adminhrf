@@ -24,15 +24,20 @@ class ArticleUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'required|array',
-            'data.model_type' => 'required|in:articles|string',
-            'data.title' => 'required|string',
-            'data.announce' => 'required|string',
-            'data.body' => 'required|string',
-            'data.show_in_rss' => 'required|boolean',
-            'data.yatextid' => 'required|string',
-            'data.active' => 'required|boolean',
-            'data.published_at' => 'required|string'
+            'data.title' => 'string',
+            'data.announce' => 'string',
+            'data.body' => 'string',
+            'data.show_in_rss' => 'boolean',
+            'data.yatextid' => 'string',
+            'data.active' => 'boolean',
+            'data.published_at' => 'string',
+            'data.viewed' => 'integer',
+            'data.liked' => 'integer',
+            'data.commented' => 'integer',
+            'data.biblio' => 'array',
+            'data.model_type' => 'string',
+            'data.event_start_date' => 'string',
+            'data.event_end_date' => 'string',
         ];
     }
 }
