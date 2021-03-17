@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BiographyController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\TokenAuthController;
@@ -64,6 +65,8 @@ Route::prefix('v1')->group(function () {
                 ->middleware(['auth', 'throttle:6,1'])
                 ->name('verification.send');
 
+            Route::get('/like', [LikeController::class, 'like']);
+
         }
     );
 
@@ -109,7 +112,14 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/timeline/events', [\App\Http\Controllers\TimeLineController::class,'getEvents']);
     Route::get('/timeline/biographies', [\App\Http\Controllers\TimeLineController::class,'getBios']);
-    Route::get('/timeline/', [\App\Http\Controllers\TimeLineController::class,'getAll']);
+    Route::get('/timeline', [\App\Http\Controllers\TimeLineController::class,'getAll']);
+
+    Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
+    Route::get('/tests/question', [\App\Http\Controllers\TestController::class, 'getQuestion']);
+
+    Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
+    Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
+    Route::get('/random/biographies/', [\App\Http\Controllers\RandController::class, 'getRandBiographies']);
 
 
 });

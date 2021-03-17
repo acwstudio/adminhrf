@@ -39,8 +39,10 @@ class TimelineResource extends JsonResource
                 "original"=> null,
                 "order"=>1
             ],
-
             //'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
+
+
+
             //'authors' => AuthorResource::collection($this->authors),
             //'event_date' => Carbon::parse(($this->event_date))->format('Y-m-d'),
             //'event_start_date' => Carbon::parse(($this->event_start_date))->format('Y-m-d'),

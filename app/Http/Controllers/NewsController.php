@@ -43,30 +43,16 @@ class NewsController extends Controller
 
     public function index(Request $request)
     {
-//        if ($token = $request->bearerToken()) {
-//            $model = Sanctum::$personalAccessTokenModel;
-//
-//            $accessToken = $model::findToken($token);
-//        }
-//        $user_id = $accessToken?$accessToken:null;
         $perPage = $request->get('per_page', $this->perPage);
         return NewsShortResource::collection(News::where('status', true)->where('published_at','<',now())->orderBy('published_at','desc')->paginate($perPage));
-//        return auth('api')->user();
-//        foreach ($data as $element){
-//            $element['is_liked'] = is_null($element->likes()->where('user_id','=',$request->get('user_id',0)));
-//        }
-        #$data['data']['is_liked'] = $news->likes()->where('user_id','=',$request->get('user_id',0));
-        //return $data;
     }
 
     public function show(News $news)
     {
-
-        /*TODO: GET COMMENTS,LIKES,VIEWS IN THE OTHER QUERY */
-        #return News::findOrFail($id)->likes();
         return NewsResource::make($news);
-        #return News::findOrFail($id)->countLikes()
     }
+
+
 
 
 

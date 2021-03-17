@@ -15,36 +15,22 @@ class Like extends Model
         'likeable_type',
     ];
 
-    /* Define polymorphic relation from likes to all other Entities */
-
-    public function articles()
+    /**
+     * Get the parent likeable model (article, biography, document)
+     */
+    public function likeable()
     {
-        return $this->morphedByMany(Article::class, 'likeable');
-    }
-
-    public function biographies()
-    {
-        return $this->morphedByMany(Biography::class, 'likeable');
-    }
-
-    public function documents()
-    {
-        return $this->morphedByMany(Document::class, 'likeable');
-    }
-
-    public function getUserId()
-    {
-        return $this->get('user_id');
+        return $this->morphTo();
     }
 
     /**
-     * Deprecated or supposed for future features
+     * Get related user
      */
-    /*
-     *
-    public function news()
+    public function user()
     {
-        return $this->morphedByMany(News::class, 'likeable');
+        return $this->hasOne(User::class);
     }
-     */
+
+
+
 }

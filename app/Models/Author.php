@@ -42,7 +42,10 @@ class Author extends Model
      */
     public function articles(): BelongsToMany
     {
-        return $this->belongsToMany(Article::class, 'author_article', 'author_id', 'article_id');
+        return $this->belongsToMany(Article::class, 'author_article', 'author_id', 'article_id')
+            ->where('active', true)
+            ->where('published_at', '<', now())
+            ->orderBy('published_at', 'desc');
     }
 
     public function getFullnameAttribute()
