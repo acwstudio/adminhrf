@@ -37,7 +37,7 @@ class Test extends Model
     }
 
     public function questions(){
-        return $this->belongsToMany(Question::class, 'tests_questions');
+        return $this->belongsToMany(Question::class, 'tests_question');
     }
 
     public function result(){

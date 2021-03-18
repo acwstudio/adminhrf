@@ -21,8 +21,8 @@ class TAnswer extends Model
         'created_at',
         'updated_at'
     ];
-    
+
     public function question(){
-        return $this->belongsTo(TAnswer::class, 'question_id', 'id');
+        return $this->belongsTo(Question::class, 'question_id', 'id');
     }
 }

@@ -16,11 +16,11 @@ class Question extends Model
     ];
 
     public function tests(){
-        return $this->belongsToMany(Test::class, 'tests_questions');
+        return $this->belongsToMany(Test::class, 'tests_question');
     }
 
     public function answers()
     {
-        return $this->belongsTo(TAnswer::class, 'question_id', 'id');
+        return $this->hasMany(TAnswer::class);
     }
 }

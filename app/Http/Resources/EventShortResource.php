@@ -43,8 +43,9 @@ class EventShortResource extends JsonResource
             'group_date' => Carbon::parse(($this->event_date))->format('Y-m'),
             'event_start_date' => Carbon::parse(($this->event_start_date))->format('Y-m-d'),
             'event_end_date' => Carbon::parse(($this->event_end_date))->format('Y-m-d'),
+            //TODO:  Change event date to event date from timeline entity
             'tags' => TagResource::collection($this->tags),
-            'comments' => $this->comments,
+            'comments' => $this->comments->count(),
         ];
     }
 }
