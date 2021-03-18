@@ -56,7 +56,7 @@
  *
  *
  * @OA\Get(
- *     path="/timeline/events/{event:slug}",
+ *     path="/timeline/events/{article:slug}",
  *     operationId="timeline",
  *     tags={"Timeline"},
  *     summary="Display single model of event from timeline",
