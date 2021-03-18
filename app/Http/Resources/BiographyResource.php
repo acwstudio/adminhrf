@@ -18,6 +18,7 @@ class BiographyResource extends JsonResource
             'surname' => $this->surname,
             'firstname' => $this->firstname,
             'patronymic' => $this->patronymic,
+            'announce' => $this->announce,
             'description' =>$this->description,
             'birthname' => $this->birthname,
             'birth_date' => $this->birth_date,

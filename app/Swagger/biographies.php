@@ -52,7 +52,7 @@
  *     @OA\Parameter(
  *         name="categories",
  *         in="query",
- *         description="Filter results by categories",
+ *         description="Filter results by categories - category slugs join by | - {slug}|{slug}...",
  *         required=false,
  *         @OA\Schema(
  *             type="string",
