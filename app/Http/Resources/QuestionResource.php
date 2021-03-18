@@ -17,6 +17,7 @@ class QuestionResource extends JsonResource
         return [
             'model_type' => 'question',
             'answer' => AnswerResource::collection($this->answers),
+            'text' => $this->text,
             'type' => $this->type,
             'position' => $this->position,
             'has_points' => $this->has_points,
