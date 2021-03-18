@@ -33,5 +33,7 @@ class Controller extends BaseController
                 tap($accessToken->forceFill(['last_used_at' => now()]))->save()
             );
         }
+
+        return null;
     }
 }
