@@ -39,6 +39,10 @@
  * @OA\Tag(
  *     name="News",
  *     description="Operations about news",
+ *)
+ * @OA\Tag(
+ *     name="Timeline",
+ *     description="Operations about timeline",
  * )
  *
  */

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TestResource;
 use App\Http\Resources\TestShortResource;
 use App\Models\Biography;
 use App\Models\Test;
@@ -23,5 +24,9 @@ class TestController extends Controller
             });
         }
         return TestShortResource::collection(Test::where('is_active','=',true)->orderBy('published_at')->paginate($perPage));
+    }
+
+    public function show($testId,Request $request){
+        return TestResource::make(Test::findOrFail($testId)->first()); //TestResource::make();
     }
 }

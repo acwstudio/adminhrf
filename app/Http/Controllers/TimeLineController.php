@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ArticleCollection;
+use App\Http\Resources\ArticleShortResource;
+use App\Http\Resources\BiographyResource;
 use App\Http\Resources\BiographyShortResource;
+use App\Http\Resources\EventResource;
 use App\Http\Resources\EventShortResource;
 use App\Http\Resources\TimeLineCollection;
 use App\Http\Resources\TimelineResource;
@@ -50,5 +53,13 @@ class TimeLineController extends Controller
         return new TimeLineCollection($timelines);
 
         //return (new TimeLineCollection($timelines))->groupBy('date');
+    }
+
+    public function getEvent(Article $article,Request $request){
+        return EventResource::make($article);
+    }
+
+    public function getBiography(Biography $biography,Request $request){
+        return BiographyResource::make($biography);
     }
 }

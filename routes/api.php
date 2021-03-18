@@ -92,14 +92,14 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/tags/news/{tagId}', [\App\Http\Controllers\TagController::class, 'getNews']);
     Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
-    //Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
-    //Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
     Route::get('/tags/all/{tagId}', [\App\Http\Controllers\TagController::class, 'getAll']);
+
+
     Route::get('/comments/{model}/{id}', [\App\Http\Controllers\CommentsController::class, 'getCommentsForModel']);
    # Route::get('/comments/user/{id}', [\App\Http\Controllers\CommentsController::class, 'getCommentsFromUser']);
+
     Route::get('/bookmarks/', [\App\Http\Controllers\BookmarkController::class,'getBookmarks']);
     Route::get('/bookmarks/{action}', [\App\Http\Controllers\BookmarkController::class,'getBookmarksActions']);
-
 
     Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
 
@@ -110,16 +110,15 @@ Route::prefix('v1')->group(function () {
     Route::patch('/biographies/{biography:slug}', [BiographyController::class,'update']);
     Route::delete('/biographies/{biography:slug}', [BiographyController::class,'destroy']);
 
-    Route::get('/timeline/events', [\App\Http\Controllers\TimeLineController::class,'getEvents']);
-    Route::get('/timeline/biographies', [\App\Http\Controllers\TimeLineController::class,'getBios']);
+    Route::get('/timeline/events/{article:slug}', [\App\Http\Controllers\TimeLineController::class,'getEvent']);
+    Route::get('/timeline/biographies/{biography:slug}', [\App\Http\Controllers\TimeLineController::class,'getBiography']);
     Route::get('/timeline', [\App\Http\Controllers\TimeLineController::class,'getAll']);
 
     Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
-    Route::get('/tests/question', [\App\Http\Controllers\TestController::class, 'getQuestion']);
+    #Route::get('/tests/{testId}/{question:slug}', [\App\Http\Controllers\TestController::class, 'getQuestion']);
+    Route::get('/tests/{testId}', [\App\Http\Controllers\TestController::class, 'show']);
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
     Route::get('/random/biographies/', [\App\Http\Controllers\RandController::class, 'getRandBiographies']);
-
-
 });
