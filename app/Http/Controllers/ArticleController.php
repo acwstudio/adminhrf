@@ -27,7 +27,7 @@ class ArticleController extends Controller
 
         return new ArticleCollection(Article::where('active', true)
             ->where('published_at', '<', now())
-            ->with('images')
+            ->with('images', 'authors')
             ->orderBy('published_at', 'desc')
             ->paginate($perPage));
     }
