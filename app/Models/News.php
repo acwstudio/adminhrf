@@ -34,6 +34,7 @@ class News extends Model
         'status',
         'show_in_main',
         'close_commentation',
+        'published_at'
     ];
 
     protected $casts = [

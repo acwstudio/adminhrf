@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminArticleController;
+use App\Http\Controllers\Admin\AdminAuthorController;
+use App\Http\Controllers\Admin\AdminBiographyController;
+use App\Http\Controllers\Admin\AdminDocumentController;
+use App\Http\Controllers\Admin\AdminNewsController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BiographyController;
@@ -9,7 +14,6 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\TokenAuthController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\EmailVerificationNotificationController;
 use App\Actions\Fortify\EmailVerify;
@@ -70,16 +74,52 @@ Route::prefix('v1')->group(function () {
         }
     );
 
+    // Admins
+    Route::get('/admin/articles', [AdminArticleController::class, 'index']);
+    Route::get('/admin/articles/{article:slug}', [AdminArticleController::class, 'show'])
+        ->name('admin.articles.show');
+    Route::post('/admin/articles', [AdminArticleController::class, 'store']);
+    Route::patch('/admin/articles/{article:slug}', [AdminArticleController::class, 'update']);
+    Route::delete('/admin/articles/{article:slug}', [AdminArticleController::class, 'destroy']);
+
+    Route::get('/admin/authors', [AdminAuthorController::class, 'index']);
+    Route::get('/admin/authors/{author:slug}', [AdminAuthorController::class, 'show'])
+    ->name('admin.authors.show');
+    Route::post('/admin/authors', [AdminAuthorController::class, 'store']);
+    Route::patch('/admin/authors/{author:slug}', [AdminAuthorController::class, 'update']);
+    Route::delete('/admin/authors/{author:slug}', [AdminAuthorController::class, 'destroy']);
+
+    Route::get('/admin/biographies', [AdminBiographyController::class, 'index']);
+    Route::get('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'show'])
+    ->name('admin.biographies.show');
+    Route::post('/admin/biographies', [AdminBiographyController::class, 'store']);
+    Route::patch('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'update']);
+    Route::delete('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'destroy']);
+
+    Route::get('/admin/documents', [AdminDocumentController::class, 'index']);
+    Route::get('/admin/documents/{document:slug}', [AdminDocumentController::class, 'show'])
+    ->name('admin.documents.show');
+    Route::post('/admin/documents', [AdminDocumentController::class, 'store']);
+    Route::patch('/admin/documents/{document:slug}', [AdminDocumentController::class, 'update']);
+    Route::delete('/admin/documents/{document:slug}', [AdminDocumentController::class, 'destroy']);
+
+    Route::get('/admin/news', [AdminNewsController::class, 'index']);
+    Route::get('/admin/news/{news:slug}', [AdminNewsController::class, 'show'])
+        ->name('admin.news.show');
+    Route::post('/admin/news', [AdminNewsController::class, 'store']);
+    Route::patch('/admin/news/{news:slug}', [AdminNewsController::class, 'update']);
+    Route::delete('/admin/news/{news:slug}', [AdminNewsController::class, 'destroy']);
+
     // Common routes
     Route::get('/articles', [ArticleController::class, 'index']);
     Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
-    Route::post('/articles', [ArticleController::class, 'store']);
-    Route::patch('/articles/{article:slug}', [ArticleController::class, 'update']);
-    Route::delete('/articles/{article:slug}', [ArticleController::class, 'destroy'])->name('articles.delete');
 
     Route::get('/documents', [DocumentController::class, 'index']);
     Route::get('/documents/{category:slug}', [DocumentController::class, 'documents']);
     Route::get('/documents/{category:slug}/{document:slug}', [DocumentController::class, 'show']);
+    Route::post('/documents', [DocumentController::class, 'store']);
+    Route::patch('/documents/{document:slug}', [DocumentController::class, 'update']);
+    Route::delete('/documents/{document:slug}', [DocumentController::class, 'destroy']);
 
     Route::get('/authors', [AuthorController::class, 'index']);
     Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
@@ -120,6 +160,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
     Route::get('/random/biographies/', [\App\Http\Controllers\RandController::class, 'getRandBiographies']);
+
 
 
 });
