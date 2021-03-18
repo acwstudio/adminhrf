@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Events\Disliked;
+use App\Events\Liked;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +15,11 @@ class Like extends Model
         'user_id',
         'likeable_id',
         'likeable_type',
+    ];
+
+    protected $dispatchesEvents = [
+        'saved' => Liked::class,
+        'deleted' => Disliked::class,
     ];
 
     /**

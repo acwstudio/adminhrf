@@ -45,4 +45,9 @@
  *     description="Operations about timeline",
  * )
  *
+ * @OA\Tag(
+ *     name="Social",
+ *     description="Operations about likes, comments etc.",
+ * )
+ *
  */

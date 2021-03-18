@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Likeable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Support\Carbon;
 
 class Article extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, Likeable;
 
     /**
      * The attributes that are not mass assignable.
