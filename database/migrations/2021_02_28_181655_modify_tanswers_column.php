@@ -14,11 +14,9 @@ class ModifyTanswersColumn extends Migration
     public function up()
     {
         Schema::table('tanswers', function (Blueprint $table) {
-            $table->dropColumn('title');
+            $table->string('title',255)->change();
         });
-        Schema::table('tanswers', function (Blueprint $table) {
-            $table->string('title',255);
-        });
+
     }
 
     /**
@@ -29,11 +27,8 @@ class ModifyTanswersColumn extends Migration
     public function down()
     {
         Schema::table('tanswers', function (Blueprint $table) {
-            $table->string('title',100);
+            $table->string('title',100)->change();
         });
 
-        Schema::table('tanswers', function (Blueprint $table) {
-            $table->dropColumn('title');
-        });
     }
 }

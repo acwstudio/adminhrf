@@ -14,6 +14,8 @@ class ArticleShortResource extends JsonResource
      */
     public function toArray($request)
     {
+        $user = $request->user();
+
         return [
             'model_type' => 'article',
             'id'     => $this->id,
@@ -25,7 +27,7 @@ class ArticleShortResource extends JsonResource
             'comments' => $this->commented,
             'likes' => $this->liked,
             'views' => $this->viewed,
-            'has_like' => false,
+            'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark'  => false,
             'image' => ImageResource::collection($this->whenLoaded('images')),
         ];
