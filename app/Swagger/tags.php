@@ -50,4 +50,9 @@
  *     description="Operations about likes, comments etc.",
  * )
  *
+ * @OA\Tag(
+ *     name="Bookmarks",
+ *     description="Operations about bookmarks etc",
+ * )
+ *
  */

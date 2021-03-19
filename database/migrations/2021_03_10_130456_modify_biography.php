@@ -14,7 +14,7 @@ class ModifyBiography extends Migration
     public function up()
     {
         Schema::table('biographies', function(Blueprint $table){
-            $table->text('biblio')->nullable();
+            $table->json('biblio')->nullable();
         });
     }
 

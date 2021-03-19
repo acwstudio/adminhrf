@@ -23,7 +23,7 @@ class Like extends Model
     ];
 
     /**
-     * Get the parent likeable model (article, biography, document)
+     * Get the parent likeable model (article, biography, document, test, etc)
      */
     public function likeable()
     {

@@ -26,6 +26,8 @@ class TestResource extends JsonResource
             'likes' => $this->countLikes(),
             'has_like' => $this->checkLiked($request->get('user_id', 0)),
             'has_bookmark'  => false,
+            'is_finished' => false,
+            #'time_solved' => $this->test->checkSolved(1),
             'image' => [
                 "model_type"=>"image",
                 "id"=>1294,

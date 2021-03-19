@@ -117,6 +117,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
     #Route::get('/tests/{testId}/{question:slug}', [\App\Http\Controllers\TestController::class, 'getQuestion']);
     Route::get('/tests/{testId}', [\App\Http\Controllers\TestController::class, 'show']);
+    Route::get('/tests/message/{testId}', [\App\Http\Controllers\TestController::class, 'showResultMessage']);
+    Route::get('/tests/result/{test:id}', [\App\Http\Controllers\TestController::class, 'postResult']);
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);

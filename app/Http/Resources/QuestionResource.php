@@ -21,7 +21,7 @@ class QuestionResource extends JsonResource
             'type' => $this->type,
             'position' => $this->position,
             'has_points' => $this->has_points,
-            'points'=>$this->points,
+            'max_points'=>$this->points,
         ];
     }
 }
