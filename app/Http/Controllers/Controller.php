@@ -18,22 +18,4 @@ class Controller extends BaseController
     protected $perPage = 12;
 
 
-    protected function getCurrentUser(Request $request)
-    {
-        if ($token = $request->bearerToken()) {
-            $model = Sanctum::$personalAccessTokenModel;
-
-            $accessToken = $model::findToken($token);
-
-            if (!$accessToken) {
-                return null;
-            }
-
-            return  $accessToken->tokenable->withAccessToken(
-                tap($accessToken->forceFill(['last_used_at' => now()]))->save()
-            );
-        }
-
-        return null;
-    }
 }

@@ -9,6 +9,8 @@ use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\Guard;
+use Laravel\Sanctum\Sanctum;
 
 class ArticleController extends Controller
 {
@@ -23,6 +25,7 @@ class ArticleController extends Controller
 
     public function index(Request $request)
     {
+
         $perPage = $request->get('per_page', 16);
 
         return new ArticleCollection(Article::where('active', true)
