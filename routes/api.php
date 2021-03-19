@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BiographyController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NewsController;
@@ -66,6 +67,8 @@ Route::prefix('v1')->group(function () {
                 ->name('verification.send');
 
             Route::get('/like', [LikeController::class, 'like']);
+
+            Route::get('/comments', [CommentController::class, 'index']);
 
         }
     );
