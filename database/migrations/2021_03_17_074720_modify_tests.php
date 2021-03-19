@@ -32,10 +32,7 @@ class ModifyTests extends Migration
     public function down()
     {
         Schema::table('tests', function(Blueprint $table){
-            $table->dropColumn('total_questions');
-            $table->dropColumn('max_points');
-            $table->dropColumn('has_points');
-            $table->dropColumn('is_reversable');
+            $table->dropColumn(['total_questions', 'max_points', 'has_points', 'is_reversable', 'is_ege']);
         });
     }
 }

@@ -34,9 +34,10 @@ class ModifyBioCategory extends Migration
     public function down()
     {
         Schema::table('biography_categories', function(Blueprint $table){
+            $table->dropUnique(['biography_id','category_id']);
             $table->dropConstrainedForeignId('biography_id');
             $table->dropConstrainedForeignId('category_id');
-            $table->dropUnique(['biography_id','category_id']);
+
         });
     }
 }
