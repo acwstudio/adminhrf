@@ -25,11 +25,19 @@ class AdminTagController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(TagCreateRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $tag = Tag::create($data['data']);
+
+        return (new AdminTagResource($tag))
+            ->response()
+            ->header('Location', route('admin.tags.show', [
+                'tag' => $tag
+            ]));
     }
 
     /**
@@ -48,21 +56,27 @@ class AdminTagController extends Controller
      *
      * @param TagUpdateRequest $request
      * @param Tag $tag
-     * @return void
+     * @return AdminTagResource
      */
     public function update(TagUpdateRequest $request, Tag $tag)
     {
-        //
+        $data = $request->validated();
+
+        $tag->update($data['data']);
+
+        return new AdminTagResource($tag);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Tag $tag
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Tag $tag)
     {
-        //
+        $tag->delete($tag);
+        return response(null, 204);
     }
 }

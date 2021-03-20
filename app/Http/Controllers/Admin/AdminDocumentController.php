@@ -37,7 +37,7 @@ class AdminDocumentController extends Controller
         return (new AdminDocumentResource($document))
             ->response()
             ->header('Location', route('admin.documents.show', [
-                'document => $document'
+                'document' => $document
             ]));
     }
 

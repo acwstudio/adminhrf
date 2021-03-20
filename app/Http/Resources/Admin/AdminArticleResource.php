@@ -14,8 +14,8 @@ class AdminArticleResource extends JsonResource
      */
     public function toArray($request)
     {
-        dump($this->tags);
         return [
+            'model_type' => 'article',
             'id' => $this->id,
             'user_id' => $this->user_id,
             'title' => $this->title,
@@ -38,6 +38,9 @@ class AdminArticleResource extends JsonResource
             'tags' => AdminTagResource::collection($this->tags),
             'authors' => AdminAuthorResource::collection($this->whenLoaded('authors')),
             'images' => $this->images,
+            'comments' => $this->comments,
+            'bookmarks' => $this->bookmarks,
+            'timeline' => $this->timeline,
         ];
     }
 }
