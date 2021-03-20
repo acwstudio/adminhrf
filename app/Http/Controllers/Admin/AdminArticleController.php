@@ -8,22 +8,20 @@ use App\Http\Requests\ArticleUpdateRequest;
 use App\Http\Resources\Admin\AdminArticleCollection;
 use App\Http\Resources\Admin\AdminArticleResource;
 use App\Models\Article;
+use Illuminate\Http\Request;
 
 class AdminArticleController extends Controller
 {
-    public function __construct()
-    {
-
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return AdminArticleCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new AdminArticleCollection(Article::all());
+        $perPage = $request->get('per_page', 10);
+
+        return new AdminArticleCollection(Article::with('authors')->paginate($perPage));
     }
 
     /**

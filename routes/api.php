@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminAuthorController;
 use App\Http\Controllers\Admin\AdminBiographyController;
 use App\Http\Controllers\Admin\AdminDocumentController;
 use App\Http\Controllers\Admin\AdminNewsController;
+use App\Http\Controllers\Admin\AdminTagController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BiographyController;
@@ -70,51 +71,58 @@ Route::prefix('v1')->group(function () {
                 ->middleware(['auth', 'throttle:6,1'])
                 ->name('verification.send');
 
+            // Admins
+            Route::middleware('admin')->group(function () {
+
+                Route::get('/admin/articles', [AdminArticleController::class, 'index']);
+                Route::get('/admin/articles/{article:slug}', [AdminArticleController::class, 'show'])
+                    ->name('admin.articles.show');
+                Route::post('/admin/articles', [AdminArticleController::class, 'store']);
+                Route::patch('/admin/articles/{article:slug}', [AdminArticleController::class, 'update']);
+                Route::delete('/admin/articles/{article:slug}', [AdminArticleController::class, 'destroy']);
+
+                Route::get('/admin/authors', [AdminAuthorController::class, 'index']);
+                Route::get('/admin/authors/{author:slug}', [AdminAuthorController::class, 'show'])
+                    ->name('admin.authors.show');
+                Route::post('/admin/authors', [AdminAuthorController::class, 'store']);
+                Route::patch('/admin/authors/{author:slug}', [AdminAuthorController::class, 'update']);
+                Route::delete('/admin/authors/{author:slug}', [AdminAuthorController::class, 'destroy']);
+
+                Route::get('/admin/biographies', [AdminBiographyController::class, 'index']);
+                Route::get('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'show'])
+                    ->name('admin.biographies.show');
+                Route::post('/admin/biographies', [AdminBiographyController::class, 'store']);
+                Route::patch('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'update']);
+                Route::delete('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'destroy']);
+
+                Route::get('/admin/documents', [AdminDocumentController::class, 'index']);
+                Route::get('/admin/documents/{document:slug}', [AdminDocumentController::class, 'show'])
+                    ->name('admin.documents.show');
+                Route::post('/admin/documents', [AdminDocumentController::class, 'store']);
+                Route::patch('/admin/documents/{document:slug}', [AdminDocumentController::class, 'update']);
+                Route::delete('/admin/documents/{document:slug}', [AdminDocumentController::class, 'destroy']);
+
+                Route::get('/admin/news', [AdminNewsController::class, 'index']);
+                Route::get('/admin/news/{news:slug}', [AdminNewsController::class, 'show'])
+                    ->name('admin.news.show');
+                Route::post('/admin/news', [AdminNewsController::class, 'store']);
+                Route::patch('/admin/news/{news:slug}', [AdminNewsController::class, 'update']);
+                Route::delete('/admin/news/{news:slug}', [AdminNewsController::class, 'destroy']);
+
+                Route::get('/admin/tags', [AdminTagController::class, 'index']);
+                Route::get('/admin/tags/{tag:slug}', [AdminTagController::class, 'show'])
+                ->name('admin.tags.show');
+                Route::post('/admin/tags', [AdminTagController::class, 'store']);
+                Route::patch('/admin/tags/{tag:slug}', [AdminTagController::class, 'update']);
+                Route::delete('/admin/tags/{tag:slug}', [AdminTagController::class, 'destroy']);
+
+            });
         }
     );
-
-    // Admins
-    Route::get('/admin/articles', [AdminArticleController::class, 'index']);
-    Route::get('/admin/articles/{article:slug}', [AdminArticleController::class, 'show'])
-        ->name('admin.articles.show');
-    Route::post('/admin/articles', [AdminArticleController::class, 'store']);
-    Route::patch('/admin/articles/{article:slug}', [AdminArticleController::class, 'update']);
-    Route::delete('/admin/articles/{article:slug}', [AdminArticleController::class, 'destroy']);
-
-    Route::get('/admin/authors', [AdminAuthorController::class, 'index']);
-    Route::get('/admin/authors/{author:slug}', [AdminAuthorController::class, 'show'])
-    ->name('admin.authors.show');
-    Route::post('/admin/authors', [AdminAuthorController::class, 'store']);
-    Route::patch('/admin/authors/{author:slug}', [AdminAuthorController::class, 'update']);
-    Route::delete('/admin/authors/{author:slug}', [AdminAuthorController::class, 'destroy']);
-
-    Route::get('/admin/biographies', [AdminBiographyController::class, 'index']);
-    Route::get('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'show'])
-    ->name('admin.biographies.show');
-    Route::post('/admin/biographies', [AdminBiographyController::class, 'store']);
-    Route::patch('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'update']);
-    Route::delete('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'destroy']);
-
-    Route::get('/admin/documents', [AdminDocumentController::class, 'index']);
-    Route::get('/admin/documents/{document:slug}', [AdminDocumentController::class, 'show'])
-    ->name('admin.documents.show');
-    Route::post('/admin/documents', [AdminDocumentController::class, 'store']);
-    Route::patch('/admin/documents/{document:slug}', [AdminDocumentController::class, 'update']);
-    Route::delete('/admin/documents/{document:slug}', [AdminDocumentController::class, 'destroy']);
-
-    Route::get('/admin/news', [AdminNewsController::class, 'index']);
-    Route::get('/admin/news/{news:slug}', [AdminNewsController::class, 'show'])
-        ->name('admin.news.show');
-    Route::post('/admin/news', [AdminNewsController::class, 'store']);
-    Route::patch('/admin/news/{news:slug}', [AdminNewsController::class, 'update']);
-    Route::delete('/admin/news/{news:slug}', [AdminNewsController::class, 'destroy']);
 
     // Common routes
     Route::get('/articles', [ArticleController::class, 'index']);
     Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
-    Route::post('/articles', [ArticleController::class, 'store']);
-    Route::patch('/articles/{article:slug}', [ArticleController::class, 'update']);
-    Route::delete('/articles/{article:slug}', [ArticleController::class, 'destroy'])->name('articles.delete');
 
     Route::get('/documents', [DocumentController::class, 'index']);
     Route::get('/documents/{category:slug}', [DocumentController::class, 'documents']);
@@ -122,9 +130,6 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/authors', [AuthorController::class, 'index']);
     Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
-    Route::post('/authors', [AuthorController::class, 'store'])->name('authors.posts');
-    Route::patch('/authors/{author:slug}', [AuthorController::class, 'update'])->name('authors.update');
-    Route::delete('/authors/{author:slug}', [AuthorController::class, 'destroy'])->name('authors.delete');
 
     Route::get('/news/', [NewsController::class, 'index']);
     Route::get('/news/{news:slug}', [NewsController::class, 'show']);
@@ -145,13 +150,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/biographies', [BiographyController::class,'index']);
     Route::get('/biographies/categories', [BiographyController::class,'categories']);
     Route::get('/biographies/{biography:slug}', [BiographyController::class,'show'])->name('biographies.show');
-    Route::post('/biographies', [BiographyController::class,'store']);
-    Route::patch('/biographies/{biography:slug}', [BiographyController::class,'update']);
-    Route::delete('/biographies/{biography:slug}', [BiographyController::class,'destroy']);
 
     Route::get('/timeline/events', [\App\Http\Controllers\TimeLineController::class,'getEvents']);
     Route::get('/timeline/biographies', [\App\Http\Controllers\TimeLineController::class,'getBios']);
     Route::get('/timeline/', [\App\Http\Controllers\TimeLineController::class,'getAll']);
-
 
 });

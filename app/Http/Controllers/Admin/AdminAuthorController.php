@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\AdminAuthorCollection;
 use App\Http\Resources\Admin\AdminAuthorResource;
 use App\Http\Resources\AuthorResource;
 use App\Models\Author;
+use Illuminate\Http\Request;
 
 class AdminAuthorController extends Controller
 {
@@ -17,9 +18,11 @@ class AdminAuthorController extends Controller
      *
      * @return AdminAuthorCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new AdminAuthorCollection(Author::all());
+        $perPage = $request->get('per_page', 10);
+
+        return new AdminAuthorCollection(Author::with('articles')->paginate($perPage));
     }
 
     /**

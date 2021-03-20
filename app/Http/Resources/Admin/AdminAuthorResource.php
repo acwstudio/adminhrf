@@ -14,6 +14,16 @@ class AdminAuthorResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'slug' => $this->slug,
+            'firstname' => $this->firstname,
+            'surname' => $this->surname,
+            'patronymic' => $this->patronymic,
+            'birth_date' => $this->birth_date,
+            'announce' => $this->announce,
+            'description' => $this->description,
+            'articles' => AdminArticleResource::collection($this->whenLoaded('articles'))
+        ];
     }
 }
