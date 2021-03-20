@@ -2,14 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CommentResource;
 use App\Models\Article;
 use App\Models\Biography;
+use App\Models\Comment;
 use App\Models\Event;
 use App\Models\News;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+
+    /**
+     *
+     * Display paginated listing of comments.
+     *
+     * @param Request $request
+     */
+
+    public function index(Request $request)
+    {
+        $perPage = $request->get('per_page', 10);
+        $model_type = $request->get('model_type');
+        $id = $request->get('id');
+
+        abort_if(
+            !array_key_exists($model_type, Relation::$morphMap) ||
+            !$id ||
+            !$model = Relation::$morphMap[$model_type]::find($id),
+            '404');
+
+        $user = $request->user();
+
+        $comments = Comment::where('commentable_type', $model_type)
+            ->where('commentable_id', $id)
+            ->whereNull('parent_id')
+            ->latest()
+            ->paginate($perPage);
+
+        return CommentResource::collection($comments);
+
+
+    }
+
 
     public function postCommentNews(Request $req){
         $req = $req->all();

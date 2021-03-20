@@ -28,13 +28,30 @@ class CommentFactory extends Factory
             'biography'
         ];
         return $fillable = [
-            'user_id'=>$this->faker->numberBetween(1,10),
-            'text'=>$this->faker->text(200),
-            'created_at'=>$this->faker->date(),
-            'updated_at'=>$this->faker->date(),
-            'commentable_id'=>$this->faker->numberBetween(1,30),
-            'commentable_type'=>$models[rand(0,3)],
-            'parents'=>null,
+            'user_id' => $this->faker->numberBetween(35265,35274),
+            'text' => $this->faker->text(200),
+            'created_at' => $this->faker->date(),
+            'updated_at' => $this->faker->date(),
+            'commentable_id' => 3928,
+            'commentable_type' => 'article',
+            'parent_id' => null,
+            'answer_to' => $this->faker->randomElement([
+                [
+                    'user_name' => 'Donnie Jakubowski',
+                    'user_id' => 35274,
+                    'comment_id' => $this->faker->numberBetween(1,10)
+                ],
+                [
+                    'user_name' => 'Hilma Schaefer',
+                    'user_id' => 35273,
+                    'comment_id' => $this->faker->numberBetween(1,10)
+                ],
+                [
+                    'user_name' => 'Dr. Madison Leuschke',
+                    'user_id' => 35272,
+                    'comment_id' => $this->faker->numberBetween(1,10)
+                ]
+            ])
         ];
     }
 }

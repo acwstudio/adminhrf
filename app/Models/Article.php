@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Likeable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Support\Carbon;
 
 class Article extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, Likeable;
 
     /**
      * The attributes that are not mass assignable.
@@ -104,7 +105,7 @@ class Article extends Model
      */
     public function images()
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return $this->morphMany(Image::class, 'imageable')->orderBy('order');
     }
 
     /**
@@ -123,19 +124,6 @@ class Article extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    /**
-     * Get article's likes
-     */
-    public function likes(){
-        return $this->morphMany(Like::class,'likeable');
-    }
-
-    /**
-     * Get count of likes for article
-     */
-    public function countLikes(){
-        return $this->likes()->count();
-    }
 
     public function countComments(){
         return $this->comments()->count();
@@ -146,13 +134,6 @@ class Article extends Model
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
-    /**
-     * Check if specific article is liked
-     */
-    public function checkLiked($userId){
-        $val = $this->likes()->first(['user_id']);
-        return $val?$val->user_id==$userId:false;
-    }
 
     /**
      * Get authors of the article.

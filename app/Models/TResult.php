@@ -10,11 +10,14 @@ class TResult extends Model
 {
     use HasFactory;
 
+    protected $table = 'tresults';
+
     public $fillable = [
         'user_id',
         'test_id',
         'is_closed',
         'time_passed',
+        'value',
     ];
 
     public $casts = [

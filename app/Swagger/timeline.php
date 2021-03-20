@@ -1,27 +1,12 @@
 <?php
 
 /**
- * @OA\Get(
- *     path="/biographies/categories",
- *     operationId="biographyCategoriesList",
- *     tags={"Biographies"},
- *     summary="Display listing of biography categories",
- *
- *     @OA\Response(
- *         response="200",
- *         description="Everything is fine",
- *         @OA\MediaType(
- *             mediaType="application/json",
- *
- *         )
- *     ),
- * )
  *
  * @OA\Get(
- *     path="/biographies",
- *     operationId="biographiesList",
- *     tags={"Biographies"},
- *     summary="Display paginated listing of biographies",
+ *     path="/timeline",
+ *     operationId="timelineList",
+ *     tags={"Timeline"},
+ *     summary="Display paginated listing of timeline",
  *     @OA\Parameter(
  *         name="page",
  *         in="query",
@@ -41,19 +26,45 @@
  *         )
  *     ),
  *     @OA\Parameter(
- *         name="century",
+ *         name="start_year",
  *         in="query",
- *         description="Filter results by century",
+ *         description="Filter results by lower bound of date(Y)",
  *         required=false,
  *         @OA\Schema(
- *             type="integer",
+ *             type="int",
  *         )
  *     ),
  *     @OA\Parameter(
- *         name="categories",
+ *         name="end_year",
  *         in="query",
- *         description="Filter results by categories - category slugs join by | - {slug}|{slug}...",
+ *         description="Filter results by upper bound of date(Y)",
  *         required=false,
+ *         @OA\Schema(
+ *             type="int",
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response="200",
+ *         description="Everything is fine",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *
+ *         )
+ *     ),
+ * )
+ *
+ *
+ *
+ * @OA\Get(
+ *     path="/timeline/events/{article:slug}",
+ *     operationId="timeline",
+ *     tags={"Timeline"},
+ *     summary="Display single model of event from timeline",
+ *    @OA\Parameter(
+ *         name="slug",
+ *         in="path",
+ *         description="Event slug",
+ *         required=true,
  *         @OA\Schema(
  *             type="string",
  *         )
@@ -68,12 +79,14 @@
  *     ),
  * )
  *
+ *
+ *
  * @OA\Get(
- *     path="/biographies/{slug}",
- *     operationId="biographyItem",
- *     tags={"Biographies"},
- *     summary="Display biography by slug",
- *     @OA\Parameter(
+ *     path="/timeline/biographies/{biography:slug}",
+ *     operationId="timeline",
+ *     tags={"Timeline"},
+ *     summary="Display single model of Biography from timeline",
+ *    @OA\Parameter(
  *         name="slug",
  *         in="path",
  *         description="Biography slug",
@@ -91,6 +104,7 @@
  *         )
  *     ),
  * )
+ *
  *
  *
  */

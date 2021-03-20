@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminTagController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BiographyController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NewsController;
@@ -120,6 +121,23 @@ Route::prefix('v1')->group(function () {
         }
     );
 
+
+    Route::middleware('user')->group(
+        function () {
+
+            Route::get('/articles', [ArticleController::class, 'index']);
+            Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+
+            Route::get('/authors', [AuthorController::class, 'index']);
+            Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
+        }
+    );
+
+    // Common routes
+
+    Route::post('/articles', [ArticleController::class, 'store']);
+    Route::patch('/articles/{article:slug}', [ArticleController::class, 'update']);
+    Route::delete('/articles/{article:slug}', [ArticleController::class, 'destroy'])->name('articles.delete');
     // Common routes
     Route::get('/articles', [ArticleController::class, 'index']);
     Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
@@ -128,6 +146,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/documents/{category:slug}', [DocumentController::class, 'documents']);
     Route::get('/documents/{category:slug}/{document:slug}', [DocumentController::class, 'show']);
 
+
+    Route::post('/authors', [AuthorController::class, 'store'])->name('authors.posts');
+    Route::patch('/authors/{author:slug}', [AuthorController::class, 'update'])->name('authors.update');
+    Route::delete('/authors/{author:slug}', [AuthorController::class, 'destroy'])->name('authors.delete');
     Route::get('/authors', [AuthorController::class, 'index']);
     Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
 
@@ -150,9 +172,21 @@ Route::prefix('v1')->group(function () {
     Route::get('/biographies', [BiographyController::class,'index']);
     Route::get('/biographies/categories', [BiographyController::class,'categories']);
     Route::get('/biographies/{biography:slug}', [BiographyController::class,'show'])->name('biographies.show');
+    Route::post('/biographies', [BiographyController::class,'store']);
+    Route::patch('/biographies/{biography:slug}', [BiographyController::class,'update']);
+    Route::delete('/biographies/{biography:slug}', [BiographyController::class,'destroy']);
 
-    Route::get('/timeline/events', [\App\Http\Controllers\TimeLineController::class,'getEvents']);
-    Route::get('/timeline/biographies', [\App\Http\Controllers\TimeLineController::class,'getBios']);
-    Route::get('/timeline/', [\App\Http\Controllers\TimeLineController::class,'getAll']);
+    Route::get('/timeline/events/{article:slug}', [\App\Http\Controllers\TimeLineController::class,'getEvent']);
+    Route::get('/timeline/biographies/{biography:slug}', [\App\Http\Controllers\TimeLineController::class,'getBiography']);
+    Route::get('/timeline', [\App\Http\Controllers\TimeLineController::class,'getAll']);
 
+    Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
+    #Route::get('/tests/{testId}/{question:slug}', [\App\Http\Controllers\TestController::class, 'getQuestion']);
+    Route::get('/tests/{testId}', [\App\Http\Controllers\TestController::class, 'show']);
+    Route::get('/tests/message/{testId}', [\App\Http\Controllers\TestController::class, 'showResultMessage']);
+    Route::get('/tests/result/{test:id}', [\App\Http\Controllers\TestController::class, 'postResult']);
+
+    Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
+    Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
+    Route::get('/random/biographies/', [\App\Http\Controllers\RandController::class, 'getRandBiographies']);
 });

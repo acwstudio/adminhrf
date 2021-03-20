@@ -14,6 +14,8 @@ class ArticleShortResource extends JsonResource
      */
     public function toArray($request)
     {
+        $user = $request->user();
+
         return [
             'model_type' => 'article',
             'id'     => $this->id,
@@ -21,14 +23,13 @@ class ArticleShortResource extends JsonResource
             'slug'  => $this->slug,
             'announce'  => $this->announce,
             'published_at'  => $this->published_at,
-            'authors' => AuthorShortResource::collection($this->authors),
-            'comments' => $this->comments->count(),
-            'likes' => $this->countLikes(),
+            'authors' => AuthorShortResource::collection($this->whenLoaded('authors')),
+            'comments' => $this->commented,
+            'likes' => $this->liked,
             'views' => $this->viewed,
-            'has_like' => $this->checkLiked($request->get('user_id', 0)),
+            'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark'  => false,
-            'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
-            'tags' => TagResource::collection($this->tags),
+            'image' => ImageResource::collection($this->whenLoaded('images')),
         ];
     }
 }

@@ -22,7 +22,7 @@ class AuthorResource extends JsonResource
             'patronymic'  => $this->patronymic,
             'fullname' => $this->fullname,
             'articles_count' => $this->articles_count,
-            'articles' => new ArticleCollection($this->articles->take(10))
+            'articles' => new ArticleCollection($this->articles()->with('images')->take(10)->get())
         ];
     }
 }

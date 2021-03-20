@@ -9,6 +9,8 @@ class TestMessage extends Model
 {
     use HasFactory;
 
+    protected $table = 'test_message';
+
     protected $fillable = [
         'text',
         'title',

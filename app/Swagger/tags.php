@@ -39,6 +39,20 @@
  * @OA\Tag(
  *     name="News",
  *     description="Operations about news",
+ *)
+ * @OA\Tag(
+ *     name="Timeline",
+ *     description="Operations about timeline",
+ * )
+ *
+ * @OA\Tag(
+ *     name="Social",
+ *     description="Operations about likes, comments etc.",
+ * )
+ *
+ * @OA\Tag(
+ *     name="Bookmarks",
+ *     description="Operations about bookmarks etc",
  * )
  *
  */

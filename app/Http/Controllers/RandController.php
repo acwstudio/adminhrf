@@ -15,16 +15,17 @@ class RandController extends Controller
 {
     public function getRandNews(Request $request){
         $rand = $request->get('rand', 1);
-        return NewsShortResource::collection(News::all()->where('published_at','<',now())->random($rand));
+        return $rand<21?NewsShortResource::collection(News::all()->where('published_at','<',now())->random($rand)):['err'=>'nice try bro;)'];
     }
 
     public function getRandArticles(Request $request){
         $rand = $request->get('rand', 1);
-        return ArticleShortResource::collection(Article::all()->where('published_at','<',now())->random($rand));
+
+        return $rand<21?ArticleShortResource::collection(Article::all()->where('published_at','<',now())->random($rand)):['err'=>'nice try bro;)'];
     }
 
     public function getRandBiographies(Request $request){
         $rand = $request->get('rand', 1);
-        return BiographyShortResource::collection(Biography::all()->where('published_at','<',now())->random($rand));
+        return $rand<21?BiographyShortResource::collection(Biography::all()->where('published_at','<',now())->random($rand)):['err'=>'nice try bro;)'];
     }
 }

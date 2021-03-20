@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ArticleCollection;
+use App\Http\Resources\ArticleShortResource;
+use App\Http\Resources\BiographyResource;
 use App\Http\Resources\BiographyShortResource;
+use App\Http\Resources\EventResource;
 use App\Http\Resources\EventShortResource;
 use App\Http\Resources\TimeLineCollection;
 use App\Http\Resources\TimelineResource;
@@ -42,13 +45,22 @@ class TimeLineController extends Controller
     public function getAll(Request $request){
         $perPage = $request->get('per_page', $this->perPage);
         $page = $request->get('page', 1);
-        $lowerBound = Carbon::parse($request->get('start_date','0001/01/01'))->format('Y-m-d');
-        $upperBound = Carbon::parse($request->get('end_date',now()))->format('Y-m-d');
+        #Carbon::createFromDate($request->get('start_year',1))->startOfMonth()->startOfDay();
+        $lowerBound = Carbon::createFromDate($request->get('start_year',1))->startOfMonth()->startOfDay()->format('Y-m-d');
+        $upperBound = Carbon::createFromDate($request->get('end_year',2021))->endOfMonth()->endOfDay()->format('Y-m-d');
         $timelines = Timeline::where('date','>',$lowerBound)
                             ->where('date','<',$upperBound)->orderBy('date','desc')->paginate($perPage);
 
         return new TimeLineCollection($timelines);
 
         //return (new TimeLineCollection($timelines))->groupBy('date');
+    }
+
+    public function getEvent(Article $article,Request $request){
+        return EventResource::make($article);
+    }
+
+    public function getBiography(Biography $biography,Request $request){
+        return BiographyResource::make($biography);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CurrentUserMiddleware;
 use App\Http\Middleware\SocialMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
@@ -44,7 +45,7 @@ class Kernel extends HttpKernel
         'api' => [
 //            EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
-            \Illuminate\Routing\Middleware\SubstituteBindings::class
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'social' => SocialMiddleware::class,
         'admin' => \App\Http\Middleware\IsAdmin::class,
+        'user' => CurrentUserMiddleware::class
     ];
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ModifyViews2 extends Migration
+class CreatePasswordResetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class ModifyViews2 extends Migration
      */
     public function up()
     {
-        Schema::table('views', function(Blueprint $table){
-//         #  $table->dropUnique('viewable_');
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -25,8 +27,6 @@ class ModifyViews2 extends Migration
      */
     public function down()
     {
-        Schema::table('views', function(Blueprint $table){
-            $table->dropUnique('total');
-        });
+        Schema::dropIfExists('password_resets');
     }
 }

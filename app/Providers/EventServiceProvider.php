@@ -6,6 +6,10 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Events\Liked;
+use App\Events\Disliked;
+use App\Listeners\IncrementLikedCounter;
+use App\Listeners\DecrementLikedCounter;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -28,6 +32,15 @@ class EventServiceProvider extends ServiceProvider
 //            'SocialiteProviders\\Twitter\\TwitterExtendSocialite@handle',
 
         ],
+
+        Liked::class => [
+            IncrementLikedCounter::class,
+        ],
+
+        Disliked::class => [
+            DecrementLikedCounter::class,
+        ],
+
     ];
 
     /**

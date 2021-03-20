@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Events\Disliked;
+use App\Events\Liked;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,8 +17,13 @@ class Like extends Model
         'likeable_type',
     ];
 
+    protected $dispatchesEvents = [
+        'saved' => Liked::class,
+        'deleted' => Disliked::class,
+    ];
+
     /**
-     * Get the parent likeable model (article, biography, document)
+     * Get the parent likeable model (article, biography, document, test, etc)
      */
     public function likeable()
     {

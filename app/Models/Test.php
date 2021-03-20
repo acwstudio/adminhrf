@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Likeable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use PHPUnit\Framework\TestResult;
 
 class Test extends Model
 {
-    use HasFactory,Sluggable;
+    use HasFactory,Sluggable, Likeable;
 
     public function sluggable(): array
     {
@@ -37,11 +39,15 @@ class Test extends Model
     }
 
     public function questions(){
-        return $this->belongsToMany(Question::class, 'tests_questions');
+        return $this->belongsToMany(Question::class, 'tests_question');
     }
 
-    public function result(){
-        return $this->belongsTo(Test::class, 'test_id','id');
+    public function messages(){
+        return $this->hasMany(TestMessage::class, 'test_id','id');
+    }
+
+    public function results(){
+        return $this->hasMany(TestResult::class, 'test_id','id');
     }
 
     /**
@@ -89,6 +95,11 @@ class Test extends Model
     public function checkLiked($userId){
         $val = $this->likes()->first(['user_id']);
         return $val?$val->user_id==$userId:false;
+    }
+
+    public function checkSolved($userId){
+        $val = $this->results()->where('user_id','=',$userId)->first(['is_closed']);
+        return $val?$val->is_closed:false;
     }
 
 
