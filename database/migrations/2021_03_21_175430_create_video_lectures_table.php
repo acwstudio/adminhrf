@@ -23,7 +23,7 @@ class CreateVideoLecturesTable extends Migration
             $table->boolean('close_commentation')->default(false)->nullable();
             $table->string('slug',250)->unique();
             $table->string('video_code', 300);
-            $table->boolean('show_in_main')->default(true)->nullable();
+            $table->boolean('show_in_rss')->default(true)->nullable();
             $table->boolean('active')->default(true);
         });
     }
@@ -35,6 +35,6 @@ class CreateVideoLecturesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('video_lectures');
+        Schema::dropIfExists('videolectures');
     }
 }

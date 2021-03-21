@@ -73,7 +73,7 @@ class ParseVideoLectures extends Command
                 $VideoLecture = VideoLecture::create(
                     [
                         'id' => $oldVideoLecture->id,
-                        'user_id' => $oldVideoLecture->director_id,
+//                        'user_id' => $oldVideoLecture->director_id,
                         'title' => $oldVideoLecture->title,
                         'slug' => $oldVideoLecture->slug,
                         'announce' => $oldVideoLecture->announce,
@@ -86,7 +86,7 @@ class ParseVideoLectures extends Command
                     ]
                 );
 
-                $authors = $oldVideoLecture->authors()->lecturer_id;
+                $authors = $oldVideoLecture->lecturer_id;
 
                 $VideoLecture->authors()->attach($authors);
             }
