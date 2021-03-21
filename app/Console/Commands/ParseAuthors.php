@@ -42,8 +42,8 @@ class ParseAuthors extends Command
     {
         $truncate = $this->option('truncate');
         $type = $this->argument('type');
-        if (!in_array($type, ['articles', 'videos'])) {
-            $this->error('Wrong type provided - available types: articles|videos');
+        if (!in_array($type, ['articles', 'videos','films'])) {
+            $this->error('Wrong type provided - available types: articles|videos|films');
             return 0;
         }
 

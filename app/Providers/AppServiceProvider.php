@@ -39,6 +39,9 @@ class AppServiceProvider extends ServiceProvider
             'answer' => 'App\Models\ResultAnswer',
             'timeline' => 'App\Models\Timeline',
             'comment' => 'App\Models\Comment',
+            'film' => 'App\Models\Film',
+            'videolecture' => 'App\Models\VideoLecture',
+
         ]);
 
         ResetPassword::createUrlUsing(
