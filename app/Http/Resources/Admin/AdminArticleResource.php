@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class AdminArticleResource extends JsonResource
 {
@@ -15,9 +16,8 @@ class AdminArticleResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'model_type' => 'article',
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'user_id' => null,
             'title' => $this->title,
             'slug' => $this->slug,
             'announce' => $this->announce,

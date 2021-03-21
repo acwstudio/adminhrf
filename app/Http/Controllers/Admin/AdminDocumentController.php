@@ -15,11 +15,14 @@ class AdminDocumentController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return AdminDocumentCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new AdminDocumentCollection(Document::all());
+        $perPage = $request->get('per_page', 10);
+
+        return new AdminDocumentCollection(Document::paginate($perPage));
     }
 
     /**

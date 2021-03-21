@@ -8,6 +8,7 @@ use App\Http\Requests\BiographyUpdateRequest;
 use App\Http\Resources\Admin\AdminBiographyCollection;
 use App\Http\Resources\Admin\AdminBiographyResource;
 use App\Models\Biography;
+use Illuminate\Http\Request;
 
 class AdminBiographyController extends Controller
 {
@@ -16,9 +17,11 @@ class AdminBiographyController extends Controller
      *
      * @return AdminBiographyCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new AdminBiographyCollection(Biography::all());
+        $perPage = $request->get('per_page', 10);
+
+        return new AdminBiographyCollection(Biography::paginate($perPage));
     }
 
     /**

@@ -17,11 +17,14 @@ class AdminNewsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return AdminNewsCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new AdminNewsCollection(News::all());
+        $perPage = $request->get('per_page', 10);
+
+        return new AdminNewsCollection(News::paginate($perPage));
     }
 
     /**
