@@ -36,7 +36,7 @@ class TestController extends Controller
     public function postResult(Test $test, Request $request){
         $count = $request->get('count', 0 );
         $points = $request->get('points', 0);
-        $id = $request->get('id');
+        $id = $request->get('user_id');
         $is_closed = $request->boolean('finished',false);
         $time = (int)$request->get('time',0);
         $val = $test->has_points==false?$count:$points;

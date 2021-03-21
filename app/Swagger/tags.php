@@ -55,4 +55,9 @@
  *     description="Operations about bookmarks etc",
  * )
  *
+ * @OA\Tag(
+ *     name="Tests",
+ *     description="Operations about tests",
+ * )
+ *
  */
