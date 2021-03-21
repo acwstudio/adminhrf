@@ -14,7 +14,7 @@ class ParseFilms extends Command
      *
      * @var string
      */
-    protected $signature = 'parse:films';
+    protected $signature = 'parse:films  {--T|truncate : Clear films table before parse}';
 
     /**
      * The console command description.
