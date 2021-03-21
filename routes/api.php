@@ -73,7 +73,7 @@ Route::prefix('v1')->group(function () {
                 ->name('verification.send');
 
             // Admins
-/*            Route::middleware('admin')->group(function () {
+            Route::middleware('admin')->group(function () {
 
                 Route::get('/admin/articles', [AdminArticleController::class, 'index']);
                 Route::get('/admin/articles/{article:slug}', [AdminArticleController::class, 'show'])
@@ -117,53 +117,9 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/admin/tags/{tag:slug}', [AdminTagController::class, 'update']);
                 Route::delete('/admin/tags/{tag:slug}', [AdminTagController::class, 'destroy']);
 
-            }); */
+            });
         }
     );
-
-//Admin --- delete after auth will be made
-
-Route::get('/admin/articles', [AdminArticleController::class, 'index']);
-                Route::get('/admin/articles/{article:slug}', [AdminArticleController::class, 'show'])
-                    ->name('admin.articles.show');
-                Route::post('/admin/articles', [AdminArticleController::class, 'store']);
-                Route::patch('/admin/articles/{article:slug}', [AdminArticleController::class, 'update']);
-                Route::delete('/admin/articles/{article:slug}', [AdminArticleController::class, 'destroy']);
-
-                Route::get('/admin/authors', [AdminAuthorController::class, 'index']);
-                Route::get('/admin/authors/{author:slug}', [AdminAuthorController::class, 'show'])
-                    ->name('admin.authors.show');
-                Route::post('/admin/authors', [AdminAuthorController::class, 'store']);
-                Route::patch('/admin/authors/{author:slug}', [AdminAuthorController::class, 'update']);
-                Route::delete('/admin/authors/{author:slug}', [AdminAuthorController::class, 'destroy']);
-
-                Route::get('/admin/biographies', [AdminBiographyController::class, 'index']);
-                Route::get('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'show'])
-                    ->name('admin.biographies.show');
-                Route::post('/admin/biographies', [AdminBiographyController::class, 'store']);
-                Route::patch('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'update']);
-                Route::delete('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'destroy']);
-
-                Route::get('/admin/documents', [AdminDocumentController::class, 'index']);
-                Route::get('/admin/documents/{document:slug}', [AdminDocumentController::class, 'show'])
-                    ->name('admin.documents.show');
-                Route::post('/admin/documents', [AdminDocumentController::class, 'store']);
-                Route::patch('/admin/documents/{document:slug}', [AdminDocumentController::class, 'update']);
-                Route::delete('/admin/documents/{document:slug}', [AdminDocumentController::class, 'destroy']);
-
-                Route::get('/admin/news', [AdminNewsController::class, 'index']);
-                Route::get('/admin/news/{news:slug}', [AdminNewsController::class, 'show'])
-                    ->name('admin.news.show');
-                Route::post('/admin/news', [AdminNewsController::class, 'store']);
-                Route::patch('/admin/news/{news:slug}', [AdminNewsController::class, 'update']);
-                Route::delete('/admin/news/{news:slug}', [AdminNewsController::class, 'destroy']);
-
-                Route::get('/admin/tags', [AdminTagController::class, 'index']);
-                Route::get('/admin/tags/{tag:slug}', [AdminTagController::class, 'show'])
-                ->name('admin.tags.show');
-                Route::post('/admin/tags', [AdminTagController::class, 'store']);
-                Route::patch('/admin/tags/{tag:slug}', [AdminTagController::class, 'update']);
-                Route::delete('/admin/tags/{tag:slug}', [AdminTagController::class, 'destroy']);
 
 
     Route::middleware('user')->group(
