@@ -15,7 +15,7 @@ class ModifyFilms extends Migration
     {
         Schema::table('films', function(Blueprint $table){
            $table->integer('director_id')->nullable();
-           $table->string('announce')->nullable();
+           $table->string('announce',1550)->nullable();
         });
     }
 

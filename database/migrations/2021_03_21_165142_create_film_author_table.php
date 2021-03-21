@@ -15,7 +15,7 @@ class CreateFilmAuthorTable extends Migration
     {
         Schema::create('author_film', function (Blueprint $table) {
             $table->bigInteger('film_id');
-            $table->bigInteger('person_id');
+            $table->bigInteger('author_id');
         });
     }
 

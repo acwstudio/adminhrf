@@ -39,7 +39,8 @@ class TestController extends Controller
         $id = $request->get('user_id');
         $is_closed = $request->boolean('finished',false);
         $time = (int)$request->get('time',0);
-        $val = $test->has_points?$points:$count;
+        $val = is_null($test->has_points)?$count:$points;
+	return $val;
 	//return $test->has_points;
         abort_if(
             !$test,
@@ -77,6 +78,6 @@ class TestController extends Controller
         }
 
         return Test::findOrFail($test->id)->first()->messages
-            ->where('lowest_value','>=',$val)->where('highest_value', '<=', $val);
+            ->where('lowest_value','<=',$val)->where('highest_value', '>=', $val)->first();
     }
 }

@@ -16,14 +16,14 @@ class CreateFilmsTable extends Migration
         Schema::create('films', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->text('body');
-            $table->string('title',350);
-            $table->timestamp('published_at');
-            $table->boolean('close_commentation');
-            $table->string('slug',200)->unique();
-            $table->string('video_code', 200);
-            $table->boolean('show_in_main')->default(true);
-            $table->boolean('show_in_rss')->default(false);
+            $table->text('body')->nullable();
+            $table->string('title',500);
+            $table->timestamp('published_at')->default(now());
+            $table->boolean('close_commentation')->default(false)->nullable();
+            $table->string('slug',250)->unique();
+            $table->string('video_code', 300);
+            $table->boolean('show_in_main')->default(true)->nullable();
+            $table->boolean('show_in_rss')->default(false)->nullable();
             $table->boolean('active')->default(true);
         });
     }

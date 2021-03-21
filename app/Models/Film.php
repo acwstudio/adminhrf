@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Likeable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Film extends Model
 {
@@ -68,6 +70,11 @@ class Film extends Model
     public function checkLiked($userId){
         $val = $this->likes()->first(['user_id']);
         return $val?$val->user_id==$userId:false;
+    }
+
+    public function authors(): BelongsToMany
+    {
+        return $this->belongsToMany(Author::class, 'author_film', 'film_id', 'author_id');
     }
 
     public function images()

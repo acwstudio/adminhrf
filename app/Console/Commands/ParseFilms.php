@@ -69,7 +69,7 @@ class ParseFilms extends Command
                 $Film = Film::find($oldFilm->id);
             }
 
-            if ($truncate || is_null($Film)) {
+            if (($truncate || is_null($Film))&&!is_null($oldFilm->video_code)) {
                 $Film = Film::create(
                     [
                         'id' => $oldFilm->id,
