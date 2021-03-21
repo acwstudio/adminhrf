@@ -10,7 +10,7 @@ use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Film extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable, Likeable;
 
     protected $fillable = [
         'body',

@@ -121,7 +121,7 @@ Route::prefix('v1')->group(function () {
         }
     );
 
-//Delete it soon 
+//Delete it soon
 Route::get('/admin/articles', [AdminArticleController::class, 'index']);
                 Route::get('/admin/articles/{article:slug}', [AdminArticleController::class, 'show'])
                     ->name('admin.articles.show');
@@ -225,6 +225,9 @@ Route::get('/admin/articles', [AdminArticleController::class, 'index']);
     Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
     Route::get('/tests/{testId}', [\App\Http\Controllers\TestController::class, 'show']);
     Route::get('/tests/result/{test:id}', [\App\Http\Controllers\TestController::class, 'postResult']);
+
+    Route::get('/films', [\App\Http\Controllers\FilmsController::class, 'index']);
+    Route::get('/films/{film:slug}', [\App\Http\Controllers\FilmsController::class, 'show']);
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
