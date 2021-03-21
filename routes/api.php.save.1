@@ -71,9 +71,9 @@ Route::prefix('v1')->group(function () {
             Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
                 ->middleware(['auth', 'throttle:6,1'])
                 ->name('verification.send');
-
+/*
             // Admins
-/*            Route::middleware('admin')->group(function () {
+            Route::middleware('admin')->group(function () {
 
                 Route::get('/admin/articles', [AdminArticleController::class, 'index']);
                 Route::get('/admin/articles/{article:slug}', [AdminArticleController::class, 'show'])
@@ -121,9 +121,19 @@ Route::prefix('v1')->group(function () {
         }
     );
 
-//Admin --- delete after auth will be made
 
-Route::get('/admin/articles', [AdminArticleController::class, 'index']);
+    Route::middleware('user')->group(
+        function () {
+
+            Route::get('/articles', [ArticleController::class, 'index']);
+            Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+
+            Route::get('/authors', [AuthorController::class, 'index']);
+            Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
+        }
+    );
+
+		Route::get('/admin/articles', [AdminArticleController::class, 'index']);
                 Route::get('/admin/articles/{article:slug}', [AdminArticleController::class, 'show'])
                     ->name('admin.articles.show');
                 Route::post('/admin/articles', [AdminArticleController::class, 'store']);
@@ -166,16 +176,6 @@ Route::get('/admin/articles', [AdminArticleController::class, 'index']);
                 Route::delete('/admin/tags/{tag:slug}', [AdminTagController::class, 'destroy']);
 
 
-    Route::middleware('user')->group(
-        function () {
-
-            Route::get('/articles', [ArticleController::class, 'index']);
-            Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
-
-            Route::get('/authors', [AuthorController::class, 'index']);
-            Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
-        }
-    );
 
     // Common routes
 
@@ -225,7 +225,9 @@ Route::get('/admin/articles', [AdminArticleController::class, 'index']);
     Route::get('/timeline', [\App\Http\Controllers\TimeLineController::class,'getAll']);
 
     Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
+    #Route::get('/tests/{testId}/{question:slug}', [\App\Http\Controllers\TestController::class, 'getQuestion']);
     Route::get('/tests/{testId}', [\App\Http\Controllers\TestController::class, 'show']);
+    Route::get('/tests/message/{testId}', [\App\Http\Controllers\TestController::class, 'showResultMessage']);
     Route::get('/tests/result/{test:id}', [\App\Http\Controllers\TestController::class, 'postResult']);
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);

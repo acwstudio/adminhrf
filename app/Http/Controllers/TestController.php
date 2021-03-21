@@ -39,8 +39,8 @@ class TestController extends Controller
         $id = $request->get('user_id');
         $is_closed = $request->boolean('finished',false);
         $time = (int)$request->get('time',0);
-        $val = $test->has_points==false?$count:$points;
-
+        $val = $test->has_points?$points:$count;
+	//return $test->has_points;
         abort_if(
             !$test,
             '404');
@@ -50,7 +50,7 @@ class TestController extends Controller
         if(!$id||!User::where('id',$id)->first())
         {
             return Test::findOrFail($test->id)->first()->messages
-                ->where('lowest_value','<=',$val)->where('highest_value', '>=', $val);
+                ->where('lowest_value','<=',$val)->where('highest_value', '>=', $val)->first();
         }
 
         $result = TResult::where('user_id',$id)->where('test_id', $test->id)->first();
@@ -77,6 +77,6 @@ class TestController extends Controller
         }
 
         return Test::findOrFail($test->id)->first()->messages
-            ->where('lowest_value','<=',$val)->where('highest_value', '>=', $val);
+            ->where('lowest_value','>=',$val)->where('highest_value', '<=', $val);
     }
 }

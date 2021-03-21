@@ -83,7 +83,7 @@
  *     ),
  *     @OA\Parameter(
  *         name="count",
- *         in="path",
+ *         in="query",
  *         description="Count of true answers if test is countable",
  *         required=false,
  *         @OA\Schema(
@@ -92,7 +92,7 @@
  *     ),
  *     @OA\Parameter(
  *         name="points",
- *         in="path",
+ *         in="query",
  *         description="Points right answers if test has points",
  *         required=false,
  *         @OA\Schema(
@@ -101,7 +101,7 @@
  *     ),
  *     @OA\Parameter(
  *         name="user_id",
- *         in="path",
+ *         in="query",
  *         description="user ID -> if not given( r not right) result data will no be saved in DB",
  *         required=false,
  *         @OA\Schema(
@@ -110,16 +110,16 @@
  *     ),
  *     @OA\Parameter(
  *         name="finished",
- *         in="path",
+ *         in="query",
  *         description="If test was not finished for user (bcs of running out of time or changing page)",
  *         required=false,
  *         @OA\Schema(
- *             type="integer",
+ *             type="boolean",
  *         )
  *     ),
  *     @OA\Parameter(
  *         name="time",
- *         in="path",
+ *         in="query",
  *         description="time passed (If test has time) in seconds",
  *         required=false,
  *         @OA\Schema(
