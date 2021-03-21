@@ -13,6 +13,8 @@ class VideoLecture extends Model
     use HasFactory,Sluggable,Likeable;
 
 
+    protected $table = 'videolectures';
+
     protected $fillable = [
         'body',
         'title',

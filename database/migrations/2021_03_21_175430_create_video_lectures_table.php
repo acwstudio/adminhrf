@@ -13,7 +13,7 @@ class CreateVideoLecturesTable extends Migration
      */
     public function up()
     {
-        Schema::create('video_lectures', function (Blueprint $table) {
+        Schema::create('videolectures', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->text('body')->nullable();
