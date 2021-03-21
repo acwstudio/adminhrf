@@ -10,7 +10,7 @@ class VideoLecture extends Model
     use HasFactory;
 
     protected $connection = 'pgsql_old';
-    protected $table = 'content_film';
+    protected $table = 'content_educational';
 
     protected $casts = [
         'date' => 'datetime',
