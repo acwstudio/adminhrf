@@ -56,6 +56,14 @@ class Author extends Model
                     ->orderBy('published_at', 'desc');
     }
 
+    public function videolecture(): BelongsToMany
+    {
+        return $this->belongsToMany(Film::class, 'author_videolecture', 'author_id', 'videolecture_id')
+                    ->where('active', true)
+                    ->where('published_at', '<', now())
+                    ->orderBy('published_at', 'desc');
+    }
+
     public function getFullnameAttribute()
     {
         $fullname = Str::of($this->surname);
