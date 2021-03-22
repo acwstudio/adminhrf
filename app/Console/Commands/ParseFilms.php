@@ -72,7 +72,7 @@ class ParseFilms extends Command
                 $Videomaterial = Videomaterial::find($oldFilm->id);
             }
 
-            if (($truncate || is_null($Videomaterial))&&!is_null($oldFilm->video_code)) {
+            if (!is_null($oldFilm->video_code)) {
                 $Videomaterial = Videomaterial::create(
                     [
                         'id' => $oldFilm->id,
@@ -93,7 +93,7 @@ class ParseFilms extends Command
                 $authors = $oldFilm->authors()->where('stream_id', 16)->first();
 		if($authors){
             DB::unprepared("INSERT INTO author_material(author_id,material_id,material_type)
-                                values({$authors->id},{$Videomaterial->id},'lecture')");
+                                values({$authors->id},{$Videomaterial->id},'video')");
         	}
 	    }
 
@@ -126,7 +126,7 @@ class ParseFilms extends Command
             if (!is_null($oldVideoLecture->video_code)) {
                 $Videomaterial = Videomaterial::create(
                     [
-                        'id' => $oldVideoLecture->id+$val,
+//                        'id' => $oldVideoLecture->id+$val,
                         'title' => $oldVideoLecture->title,
                         'slug' => $oldVideoLecture->slug,
                         'announce' => $oldVideoLecture->announce,
@@ -143,8 +143,8 @@ class ParseFilms extends Command
 
                 $author = $oldVideoLecture->lecturer_id;
                 DB::unprepared("INSERT INTO author_material(author_id,material_id,material_type)
-                                values({$author},{$Videomaterial->id},'lecture')");
-                Author::where('id','=',$author)->firstOrFail()->materialable()->attach($Videomaterial);
+                                values({$author},{$Videomaterial->id},'video')");
+//                Author::where('id','=',$author)->firstOrFail()->materialable()->attach($Videomaterial);
             }
 
             $bar->advance();
