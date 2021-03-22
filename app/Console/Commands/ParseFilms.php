@@ -92,7 +92,8 @@ class ParseFilms extends Command
 
                 $authors = $oldFilm->authors()->where('stream_id', 16)->first();
 		if($authors){
-	                Author::where('id','=',$authors->id)->firstOrFail()->materialable()->attach($Videomaterial);
+            DB::unprepared("INSERT INTO author_material(author_id,material_id,material_type)
+                                values({$authors->id},{$Videomaterial->id},'lecture')");
         	}
 	    }
 
@@ -115,7 +116,7 @@ class ParseFilms extends Command
 
         $bar->start();
 //        $val = DB::unprepared('SELECT MAX(id) + 1 FROM Videomaterials');
-	$val =DB::table('videomaterials')->max('id');
+	    $val =DB::table('videomaterials')->max('id');
         foreach ($oldVideoLectures as $oldVideoLecture) {
 
             //if (!$truncate) {
@@ -141,7 +142,8 @@ class ParseFilms extends Command
                 );
 
                 $author = $oldVideoLecture->lecturer_id;
-
+                DB::unprepared("INSERT INTO author_material(author_id,material_id,material_type)
+                                values({$author},{$Videomaterial->id},'lecture')");
                 Author::where('id','=',$author)->firstOrFail()->materialable()->attach($Videomaterial);
             }
 
