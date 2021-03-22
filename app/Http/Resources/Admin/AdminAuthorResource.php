@@ -26,7 +26,7 @@ class AdminAuthorResource extends JsonResource
             'description' => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-//            'articles' => AdminArticleResource::collection($this->articles),
+//            'articles' => $this->articles,
             'articles' => AdminArticleResource::collection($this->whenLoaded('articles')),
         ];
     }

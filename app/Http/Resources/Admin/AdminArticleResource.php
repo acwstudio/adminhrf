@@ -35,7 +35,7 @@ class AdminArticleResource extends JsonResource
             'event_date' => $this->event_date,
             'event_start_date' => $this->event_start_date,
             'event_end_date' => $this->event_end_date,
-            'tags' => AdminTagResource::collection($this->tags),
+            'tags' => AdminTagResource::collection($this->whenLoaded('tags')),
             'authors' => AdminAuthorResource::collection($this->whenLoaded('authors')),
             'images' => $this->images,
             'comments' => $this->comments,

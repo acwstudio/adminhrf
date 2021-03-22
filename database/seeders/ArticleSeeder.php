@@ -21,7 +21,7 @@ class ArticleSeeder extends Seeder
         $articles = Article::all();
         $authors = Author::all();
         $images = Image::all();
-
+        dd($articles);
         $limitArticles = 30 - $articles->count();
         $limitAuthors = 20 - $authors->count();
         $limitImages = 30 - $images->count();
@@ -35,7 +35,7 @@ class ArticleSeeder extends Seeder
             $this->command->warn('You have already ' . $articles->count() . ' lines, table will be re-created', 'warn');
             if ($this->command->confirm('Do you wish to continue?')) {
                 DB::table('articles')->truncate();
-                $this->command->info('Your table was re-created');
+                $this->command->info('Your table was truncated');
                 $this->command->newLine();
             }
         }
@@ -49,8 +49,8 @@ class ArticleSeeder extends Seeder
             $this->call([
                 AuthorSeeder::class
             ]);
+
             $this->command->warn('Repeat call ArticleSeeder', 'warn');
-            //$this->authorRelations($articles, $authors);
         }
 //
 //        if ($limitImages === 0) {

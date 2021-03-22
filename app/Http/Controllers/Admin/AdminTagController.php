@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TagCreateRequest;
 use App\Http\Requests\TagUpdateRequest;
+use App\Http\Resources\Admin\AdminTagCollection;
 use App\Http\Resources\Admin\AdminTagResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -15,13 +16,13 @@ class AdminTagController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AdminTagCollection
      */
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
 
-        return AdminTagResource::collection(Tag::paginate($perPage));
+        return new AdminTagCollection(Tag::with('articles')->paginate($perPage));
     }
 
     /**
@@ -51,7 +52,9 @@ class AdminTagController extends Controller
      */
     public function show(Tag $tag)
     {
-        return new AdminTagResource($tag);
+        $tags = Tag::with('authors')->find($tag->id);
+
+        return new AdminTagResource($tags);
     }
 
     /**

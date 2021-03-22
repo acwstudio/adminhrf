@@ -22,7 +22,7 @@ class AdminArticleController extends Controller
     {
         $perPage = $request->get('per_page', 10);
 
-        return new AdminArticleCollection(Article::with('authors')->paginate($perPage));
+        return new AdminArticleCollection(Article::with('authors', 'tags')->paginate($perPage));
     }
 
     /**
@@ -53,6 +53,7 @@ class AdminArticleController extends Controller
     public function show(Article $article)
     {
         $articles = Article::with('authors')->find($article->id);
+
         return new AdminArticleResource($articles);
     }
 
