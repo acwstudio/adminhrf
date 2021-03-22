@@ -43,7 +43,7 @@ class Test extends Model
     }
 
     public function messages(){
-        return $this->hasMany(TestMessage::class, 'test_id','id');
+        return $this->hasMany(TestMessage::class);
     }
 
     public function results(){

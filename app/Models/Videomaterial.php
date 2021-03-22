@@ -3,14 +3,16 @@
 namespace App\Models;
 
 use App\Models\Traits\Likeable;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\Sluggable;
-use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Film extends Model
+class Videomaterial extends Model
 {
-    use HasFactory, Sluggable, Likeable;
+    use HasFactory,Sluggable,Likeable;
+
+    protected $table = 'videomaterials';
 
     protected $fillable = [
         'body',
@@ -22,14 +24,14 @@ class Film extends Model
         'show_in_rss',
         'show_in_main',
         'active',
+        'type'
     ];
 
     protected $casts = [
-      'updated_at' =>'datetime',
-      'created_at' => 'datetime',
-      'published_at' => 'datetime'
+        'updated_at' =>'datetime',
+        'created_at' => 'datetime',
+        'published_at' => 'datetime'
     ];
-
 
     public function sluggable(): array
     {
@@ -72,13 +74,20 @@ class Film extends Model
         return $val?$val->user_id==$userId:false;
     }
 
-    public function authors(): BelongsToMany
+//    public function authors(): BelongsToMany
+ //   {
+     //   return $this->belongsToMany(Author::class, 'author_material', 'author_material', 'author_id');
+   // }
+
+    public function authors()
     {
-        return $this->belongsToMany(Author::class, 'author_film', 'film_id', 'author_id');
+        return $this->morphMany(Author::class, 'material', 'material_type', 'author_id');
     }
 
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+
 }

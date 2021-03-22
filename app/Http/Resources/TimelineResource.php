@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Videomaterial;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class TimelineResource extends JsonResource
 {

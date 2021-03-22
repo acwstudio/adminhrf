@@ -14,47 +14,47 @@ use NunoMaduro\Collision\Adapters\Phpunit\TestResult;
 
 class TestController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
         $perPage = $request->get('per_page', $this->perPage);
         $categories = $request->get('categories');
-        $query = Test::where('is_active','=',true)
+        $query = Test::where('is_active', '=', true)
             ->where('published_at', '<', now());
-        if(!is_null($categories)) {
+        if (!is_null($categories)) {
             $cats = explode('|', $categories);
-            $query->whereHas('categories', function(Builder $query) use ($cats) {
-                $query->whereIn('slug',$cats);
+            $query->whereHas('categories', function (Builder $query) use ($cats) {
+                $query->whereIn('slug', $cats);
             });
         }
-        return TestShortResource::collection(Test::where('is_active','=',true)->orderBy('published_at')->paginate($perPage));
+        return TestShortResource::collection(Test::where('is_active', '=', true)->orderBy('published_at')->paginate($perPage));
     }
 
-    public function show($testId,Request $request){
+    public function show($testId, Request $request)
+    {
         return TestResource::make(Test::findOrFail($testId)->first()); //TestResource::make();
     }
 
-    public function postResult(Test $test, Request $request){
-        $count = $request->get('count', 0 );
+    public function postResult(Test $test, Request $request)
+    {
+        $count = $request->get('count', 0);
         $points = $request->get('points', 0);
         $id = $request->get('user_id');
-        $is_closed = $request->boolean('finished',false);
-        $time = (int)$request->get('time',0);
-        $val = is_null($test->has_points)?$count:$points;
-	return $val;
-	//return $test->has_points;
+        $is_closed = $request->boolean('finished', false);
+        $time = (int)$request->get('time', 0);
+        $val = $test->has_points == 1 ? $points : $count;
         abort_if(
             !$test,
             '404');
 
         $user = $request->user();
         //TODO: Change checking id by param to Auth service (so change the if condition)
-        if(!$id||!User::where('id',$id)->first())
-        {
-            return Test::findOrFail($test->id)->first()->messages
-                ->where('lowest_value','<=',$val)->where('highest_value', '>=', $val)->first();
+        if (!$id || !User::where('id', $id)->first()) {
+
+            return $test->messages->where('lowest_value', '<=', $val)->where('highest_value', '>=', $val)->first();
         }
 
-        $result = TResult::where('user_id',$id)->where('test_id', $test->id)->first();
+        $result = TResult::where('user_id', $id)->where('test_id', $test->id)->first();
 
         if (is_null($result)) {
 
@@ -70,14 +70,13 @@ class TestController extends Controller
 
         } else {
             $result->update([
-                'time_passed' => $result->time_passed>$time?$time:$result->time_passed,
-                'is_closed' => $result->is_closed==false&&$is_closed==true?$is_closed:$result->is_closed,
-                'value' => $val>$result->value?$val:$result->value,
+                'time_passed' => ($result->time_passed > $time) ? $time : $result->time_passed,
+                'is_closed' => ($result->is_closed == false && $is_closed == true) ? $is_closed : $result->is_closed,
+                'value' => ($val > $result->value) ? $val : $result->value,
             ]);
             //return response('Result saved', 201);
         }
 
-        return Test::findOrFail($test->id)->first()->messages
-            ->where('lowest_value','<=',$val)->where('highest_value', '>=', $val)->first();
+        return $test->messages->where('lowest_value', '<=', $val)->where('highest_value', '>=', $val)->first();
     }
 }

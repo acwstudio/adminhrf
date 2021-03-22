@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\FilmsResource;
 use App\Http\Resources\FilmsShortResource;
+use App\Http\Resources\VideolectureResource;
+use App\Http\Resources\VideoLectureShortResource;
 use App\Models\Videomaterial;
 use Illuminate\Http\Request;
 
-class FilmsController extends Controller
+class VideolectureController extends Controller
 {
     public function index(Request $request){
         $perPage = $request->get('per_page', 16);
-        return FilmsShortResource::collection(
+        return VideoLectureShortResource::collection(
             Videomaterial::where('published_at','<',now())
-                ->where('type','=','film')
+                ->where('type','=','lecture')
                 ->where('active','=',true)
                 ->with('images')
                 ->orderBy('published_at','desc')
@@ -23,6 +25,6 @@ class FilmsController extends Controller
 
 
     public function show(Videomaterial $videomaterial,Request $request){
-        return FilmsResource::make($videomaterial);
+        return VideolectureResource::make($videomaterial);
     }
 }
