@@ -15,6 +15,7 @@ class AdminArticleController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return AdminArticleCollection
      */
     public function index(Request $request)
@@ -51,7 +52,8 @@ class AdminArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return new AdminArticleResource($article);
+        $articles = Article::with('authors')->find($article->id);
+        return new AdminArticleResource($articles);
     }
 
     /**

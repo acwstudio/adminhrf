@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class AdminArticleResource extends JsonResource
 {
@@ -14,10 +15,9 @@ class AdminArticleResource extends JsonResource
      */
     public function toArray($request)
     {
-        dump($this->tags);
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'user_id' => null,
             'title' => $this->title,
             'slug' => $this->slug,
             'announce' => $this->announce,
@@ -38,6 +38,9 @@ class AdminArticleResource extends JsonResource
             'tags' => AdminTagResource::collection($this->tags),
             'authors' => AdminAuthorResource::collection($this->whenLoaded('authors')),
             'images' => $this->images,
+            'comments' => $this->comments,
+            'bookmarks' => $this->bookmarks,
+            'timeline' => $this->timeline,
         ];
     }
 }

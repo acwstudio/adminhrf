@@ -14,6 +14,13 @@ class AdminTagResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'model_type' => 'tag',
+            'id' => $this->id,
+            'title' => $this->title,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'slug' => $this->slug
+        ];
     }
 }

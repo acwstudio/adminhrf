@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminArticleController;
 use App\Http\Controllers\Admin\AdminAuthorController;
 use App\Http\Controllers\Admin\AdminBiographyController;
 use App\Http\Controllers\Admin\AdminDocumentController;
+use App\Http\Controllers\Admin\AdminImageController;
 use App\Http\Controllers\Admin\AdminNewsController;
 use App\Http\Controllers\Admin\AdminTagController;
 use App\Http\Controllers\ArticleController;
@@ -164,6 +165,17 @@ Route::get('/admin/articles', [AdminArticleController::class, 'index']);
                 Route::patch('/admin/tags/{tag:slug}', [AdminTagController::class, 'update']);
                 Route::delete('/admin/tags/{tag:slug}', [AdminTagController::class, 'destroy']);
 
+                Route::get('/admin/images', [AdminImageController::class, 'index']);
+                Route::get('/admin/images/{image}', [AdminImageController::class, 'show'])
+                    ->name('admin.images.show');
+                Route::post('/admin/images', [AdminImageController::class, 'store']);
+                Route::patch('/admin/images/{image}', [AdminImageController::class, 'update']);
+                Route::delete('/admin/images/{image}', [AdminImageController::class, 'destroy']);
+            });
+        }
+    );
+
+
     Route::middleware('user')->group(
         function () {
 
@@ -175,11 +187,6 @@ Route::get('/admin/articles', [AdminArticleController::class, 'index']);
         }
     );
 
-    // Common routes
-
-    Route::post('/articles', [ArticleController::class, 'store']);
-    Route::patch('/articles/{article:slug}', [ArticleController::class, 'update']);
-    Route::delete('/articles/{article:slug}', [ArticleController::class, 'destroy'])->name('articles.delete');
     // Common routes
     Route::get('/articles', [ArticleController::class, 'index']);
     Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');

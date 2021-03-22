@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TagCreateRequest;
-use App\Http\Requests\TagUpdateRequest;
-use App\Http\Resources\Admin\AdminTagResource;
-use App\Models\Tag;
+use App\Http\Requests\ImageCreateRequest;
+use App\Http\Requests\ImageUpdateRequest;
+use App\Http\Resources\Admin\AdminImageResource;
+use App\Models\Image;
 use Illuminate\Http\Request;
 
-class AdminTagController extends Controller
+class AdminImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class AdminTagController extends Controller
     {
         $perPage = $request->get('per_page', 10);
 
-        return AdminTagResource::collection(Tag::paginate($perPage));
+        return AdminImageResource::collection(Image::paginate($perPage));
     }
 
     /**
@@ -30,56 +30,56 @@ class AdminTagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(TagCreateRequest $request)
+    public function store(ImageCreateRequest $request)
     {
         $data = $request->validated();
 
-        $tag = Tag::create($data['data']);
+        $image = Image::create($data['data']);
 
-        return (new AdminTagResource($tag))
+        return (new AdminImageResource($image))
             ->response()
-            ->header('Location', route('admin.tags.show', [
-                'tag' => $tag
+            ->header('Location', route('admin.images.show', [
+                'image' => $image
             ]));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Tag $tag
-     * @return AdminTagResource
+     * @param Image $image
+     * @return AdminImageResource
      */
-    public function show(Tag $tag)
+    public function show(Image $image)
     {
-        return new AdminTagResource($tag);
+        return new AdminImageResource($image);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param TagUpdateRequest $request
-     * @param Tag $tag
-     * @return AdminTagResource
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return AdminImageResource
      */
-    public function update(TagUpdateRequest $request, Tag $tag)
+    public function update(ImageUpdateRequest $request, Image $image)
     {
         $data = $request->validated();
 
-        $tag->update($data['data']);
+        $image->update($data['data']);
 
-        return new AdminTagResource($tag);
+        return new AdminImageResource($image);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Tag $tag
+     * @param Image $image
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(Tag $tag)
+    public function destroy(Image $image)
     {
-        $tag->delete($tag);
+        $image->delete();
         return response(null, 204);
     }
 }

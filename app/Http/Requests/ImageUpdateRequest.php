@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TagUpdateRequest extends FormRequest
+class ImageUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,14 @@ class TagUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.title' => 'string',
+            'data.path' => 'string',
+            'data.name' => 'string',
+            'data.ext' => 'string',
+            'data.alt' => 'string',
+            'data.order' => 'integer',
+            'data.imageable_id' => 'integer',
+            'data.imageable_type' => 'string',
+            'data.flags' => 'integer'
         ];
     }
 }

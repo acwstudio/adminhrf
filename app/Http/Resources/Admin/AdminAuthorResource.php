@@ -15,6 +15,7 @@ class AdminAuthorResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'model_type' => 'author',
             'id' => $this->id,
             'slug' => $this->slug,
             'firstname' => $this->firstname,
@@ -23,7 +24,10 @@ class AdminAuthorResource extends JsonResource
             'birth_date' => $this->birth_date,
             'announce' => $this->announce,
             'description' => $this->description,
-            'articles' => AdminArticleResource::collection($this->whenLoaded('articles'))
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+//            'articles' => AdminArticleResource::collection($this->articles),
+            'articles' => AdminArticleResource::collection($this->whenLoaded('articles')),
         ];
     }
 }
