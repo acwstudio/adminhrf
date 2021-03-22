@@ -11,7 +11,7 @@ class Film extends Model
     use HasFactory;
 
     protected $connection = 'pgsql_old';
-    protected $table = 'content_educational';
+    protected $table = 'content_film';
 
     protected $casts = [
         'date' => 'datetime',

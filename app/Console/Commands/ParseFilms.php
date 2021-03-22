@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Author;
 use App\Models\Old\VideoLecture as OldVideoLecture;
-use App\Models\VideoLecture;
+//use App\Models\VideoLecture;
 use App\Models\Videomaterial;
 use App\Models\Old\Film as OldFilm;
 use Illuminate\Console\Command;
@@ -90,10 +90,11 @@ class ParseFilms extends Command
                     ]
                 );
 
-                $authors = $oldFilm->authors()->where('stream_id', 16)->get()->pluck('id');
-
-                Author::firstOrFail()->where('id','=',$authors)->save($Videomaterial);
-            }
+                $authors = $oldFilm->authors()->where('stream_id', 16)->first();
+		if($authors){
+	                Author::where('id','=',$authors->id)->firstOrFail()->materialable()->attach($Videomaterial);
+        	}
+	    }
 
             $bar->advance();
         }
@@ -116,14 +117,14 @@ class ParseFilms extends Command
         $val = DB::unprepared('SELECT MAX(id) + 1 FROM Videomaterials');
         foreach ($oldVideoLectures as $oldVideoLecture) {
 
-            if (!$truncate) {
-                $Videomaterial = Videomaterial::find($oldVideoLecture->id);
-            }
+            //if (!$truncate) {
+             //   $Videomaterial = Videomaterial::find($oldVideoLecture->id+$val);
+            //}
 
             if (($truncate || is_null($Videomaterial))&&!is_null($oldVideoLecture->video_code)) {
                 $Videomaterial = Videomaterial::create(
                     [
-                        'id' => $oldFilm->id,
+                        'id' => $oldFilm->id+$val,
                         'title' => $oldFilm->title,
                         'slug' => $oldFilm->slug,
                         'announce' => $oldFilm->announce,
@@ -140,7 +141,7 @@ class ParseFilms extends Command
 
                 $author = $oldVideoLecture->lecturer_id;
 
-                Author::firstOrFail()->where('id','=',$author)->save($Videomaterial);
+                Author::where('id','=',$author)->firstOrFail()->materiable()->attach($Videomaterial);
             }
 
             $bar->advance();

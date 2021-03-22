@@ -12,7 +12,7 @@ class Videomaterial extends Model
 {
     use HasFactory,Sluggable,Likeable;
 
-    protected $table = 'videomaterial';
+    protected $table = 'videomaterials';
 
     protected $fillable = [
         'body',
@@ -74,9 +74,14 @@ class Videomaterial extends Model
         return $val?$val->user_id==$userId:false;
     }
 
-    public function authors(): BelongsToMany
+//    public function authors(): BelongsToMany
+ //   {
+     //   return $this->belongsToMany(Author::class, 'author_material', 'author_material', 'author_id');
+   // }
+
+    public function authors()
     {
-        return $this->belongsToMany(Author::class, 'author_material', 'author_material', 'author_id');
+        return $this->morphMany(Author::class, 'material', 'material_type', 'author_id');
     }
 
     public function images()

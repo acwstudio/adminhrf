@@ -35,7 +35,7 @@ class DropTables extends Migration
         Schema::create('author_videolecture', function(Blueprint $table){
             $table->id();
         });
-        Schema::create('author_author', function(Blueprint $table){
+        Schema::create('author_film', function(Blueprint $table){
             $table->id();
         });
     }
