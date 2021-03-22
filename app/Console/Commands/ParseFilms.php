@@ -126,17 +126,17 @@ class ParseFilms extends Command
             if (!is_null($oldVideoLecture->video_code)) {
                 $Videomaterial = Videomaterial::create(
                     [
-                        'id' => $oldFilm->id+$val,
-                        'title' => $oldFilm->title,
-                        'slug' => $oldFilm->slug,
-                        'announce' => $oldFilm->announce,
-                        'body' => $oldFilm->body,
-                        'video_code' => $oldFilm->video_code,
-                        'created_at' => $oldFilm->date,
-                        'updated_at' => $oldFilm->updatedat,
-                        'published_at' => $oldFilm->updatedat,
+                        'id' => $oldVideoLecture->id+$val,
+                        'title' => $oldVideoLecture->title,
+                        'slug' => $oldVideoLecture->slug,
+                        'announce' => $oldVideoLecture->announce,
+                        'body' =>  $oldVideoLecture->body,
+                        'video_code' => $oldVideoLecture->video_code,
+                        'created_at' => $oldVideoLecture->date,
+                        'updated_at' => $oldVideoLecture->updatedat,
+                        'published_at' => $oldVideoLecture->updatedat,
                         'show_in_main' =>true,
-                        'show_in_rss' => $oldFilm->show_in_rss,
+                        'show_in_rss' => $oldVideoLecture->show_in_rss,
                         'type' => 'lecture'
                     ]
                 );
