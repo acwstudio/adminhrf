@@ -24,7 +24,7 @@ class FilmsShortResource extends JsonResource
             'announce' =>$this->announce,
             'video_code' => $this->video_code,
             'published_at' => $this->published_at,
-            'authors' => AuthorShortResource::collection($this->whenLoaded('authors')),
+            'authors' => AuthorShortResource::collection($this->authors),
             'comments' => $this->countComments(),
             'likes' => $this->countLikes(),
             'views' => $this->viewed,

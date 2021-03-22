@@ -81,7 +81,8 @@ class Videomaterial extends Model
 
     public function authors()
     {
-        return $this->morphMany(Author::class, 'material', 'material_type', 'author_id');
+//        return $this->morphMany(Author::class, 'material', 'material_type', 'material_id');
+	return $this->morphToMany(Author::class, 'material', 'author_material');
     }
 
     public function images()

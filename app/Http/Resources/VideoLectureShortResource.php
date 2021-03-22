@@ -22,7 +22,7 @@ class VideoLectureShortResource extends JsonResource
             'announce' =>$this->announce,
             'video_code' => $this->video_code,
             'published_at' => $this->published_at,
-            'lector' => AuthorShortResource::collection($this->whenLoaded('authors')),
+            'lector' => AuthorShortResource::collection($this->authors),
             'comments' => $this->countComments(),
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
