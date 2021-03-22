@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class VideoLectureShortResource extends JsonResource
+class VideolectureResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,11 +19,11 @@ class VideoLectureShortResource extends JsonResource
             'model_type' => 'lecture',
             'title' => $this->title,
             'slug' => $this->slug,
-            'announce' =>$this->announce,
             'video_code' => $this->video_code,
+            'body' => $this->body,
             'published_at' => $this->published_at,
-            'lector' => AuthorShortResource::collection($this->whenLoaded('authors')),
-            'comments' => $this->countComments(),
+            'authors' => AuthorShortResource::collection($this->whenLoaded('authors')),
+            'comments' => $this->comments,
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,

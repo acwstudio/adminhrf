@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
             'answer' => 'App\Models\ResultAnswer',
             'timeline' => 'App\Models\Timeline',
             'comment' => 'App\Models\Comment',
-            'videomaterial' => 'App\Models\Videomaterial',
+            'video' => 'App\Models\Videomaterial',
 
         ]);
 

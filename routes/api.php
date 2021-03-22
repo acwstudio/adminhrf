@@ -184,7 +184,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/tests/result/{test:id}', [\App\Http\Controllers\TestController::class, 'postResult']);
 
     Route::get('/films', [\App\Http\Controllers\FilmsController::class, 'index']);
-    Route::get('/films/{film:slug}', [\App\Http\Controllers\FilmsController::class, 'show']);
+    Route::get('/films/{videomaterial:slug}', [\App\Http\Controllers\FilmsController::class, 'show']);
+
+    Route::get('/videolectures', [\App\Http\Controllers\VideolectureController::class, 'index']);
+    Route::get('/videolectures/{videomaterial:slug}', [\App\Http\Controllers\VideolectureController::class, 'show']);
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
