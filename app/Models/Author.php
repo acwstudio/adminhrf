@@ -48,21 +48,11 @@ class Author extends Model
             ->orderBy('published_at', 'desc');
     }
 
-    public function films(): BelongsToMany
+    public function materiable()
     {
-        return $this->belongsToMany(Film::class, 'author_film', 'author_id', 'film_id')
-                    ->where('active', true)
-                    ->where('published_at', '<', now())
-                    ->orderBy('published_at', 'desc');
+        return $this->morphTo('material', 'material_type', 'material_id', 'film_id');
     }
 
-    public function videolecture(): BelongsToMany
-    {
-        return $this->belongsToMany(Film::class, 'author_videolecture', 'author_id', 'videolecture_id')
-                    ->where('active', true)
-                    ->where('published_at', '<', now())
-                    ->orderBy('published_at', 'desc');
-    }
 
     public function getFullnameAttribute()
     {
