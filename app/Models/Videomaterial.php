@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Videomaterial extends Model
 {
-    use HasFactory,Sluggable,Likeable;
+    use HasFactory, Sluggable, Likeable;
 
     protected $table = 'videomaterials';
 
@@ -28,7 +28,7 @@ class Videomaterial extends Model
     ];
 
     protected $casts = [
-        'updated_at' =>'datetime',
+        'updated_at' => 'datetime',
         'created_at' => 'datetime',
         'published_at' => 'datetime'
     ];
@@ -52,11 +52,13 @@ class Videomaterial extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function likes(){
-        return $this->morphMany(Like::class,'likeable');
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function countLikes(){
+    public function countLikes()
+    {
         return $this->likes()->count();
     }
 
@@ -65,24 +67,20 @@ class Videomaterial extends Model
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
-    public function countComments(){
+    public function countComments()
+    {
         return $this->comments()->count();
     }
 
-    public function checkLiked($userId){
+    public function checkLiked($userId)
+    {
         $val = $this->likes()->first(['user_id']);
-        return $val?$val->user_id==$userId:false;
+        return $val ? $val->user_id == $userId : false;
     }
-
-//    public function authors(): BelongsToMany
- //   {
-     //   return $this->belongsToMany(Author::class, 'author_material', 'author_material', 'author_id');
-   // }
 
     public function authors()
     {
-//        return $this->morphMany(Author::class, 'material', 'material_type', 'material_id');
-	return $this->morphToMany(Author::class, 'material', 'author_material');
+        return $this->morphToMany(Author::class, 'material', 'author_material');
     }
 
     public function images()

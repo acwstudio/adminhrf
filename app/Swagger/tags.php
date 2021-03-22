@@ -60,4 +60,14 @@
  *     description="Operations about tests",
  * )
  *
+ * @OA\Tag(
+ *     name="Videolectures",
+ *     description="Operations about videolectures",
+ * )
+ *
+ * @OA\Tag(
+ *     name="Films",
+ *     description="Operations about films",
+ * )
+ *
  */

@@ -9,7 +9,7 @@ class VideolectureResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -23,12 +23,12 @@ class VideolectureResource extends JsonResource
             'body' => $this->body,
             'published_at' => $this->published_at,
 //            'authors' => AuthorShortResource::collection($this->whenLoaded('authors')),
-	    'lector' => AuthorShortResource::collection($this->authors),
+            'lector' => AuthorShortResource::collection($this->authors),
             'comments' => $this->comments,
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark'  => false,
+            'has_bookmark' => false,
             'image' => ImageResource::collection($this->whenLoaded('images')),
         ];
     }

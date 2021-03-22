@@ -50,8 +50,7 @@ class Author extends Model
 
     public function video()
     {
-//        return $this->morphTo('author_material', 'material_type', 'material_id');
-	return $this->morphedByMany(Videomaterial::class, 'material','author_material');
+	    return $this->morphedByMany(Videomaterial::class, 'material','author_material');
     }
 
 
