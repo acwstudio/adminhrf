@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Article;
 use App\Models\Author;
+use App\Models\Image;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -19,9 +20,11 @@ class ArticleSeeder extends Seeder
     {
         $articles = Article::all();
         $authors = Author::all();
+        $images = Image::all();
 
         $limitArticles = 30 - $articles->count();
         $limitAuthors = 20 - $authors->count();
+        $limitImages = 30 - $images->count();
 
         if ($limitArticles > 0) {
             Article::factory()->count($limitArticles)->create();
@@ -49,6 +52,19 @@ class ArticleSeeder extends Seeder
             $this->command->warn('Repeat call ArticleSeeder', 'warn');
             //$this->authorRelations($articles, $authors);
         }
+//
+//        if ($limitImages === 0) {
+//
+//            $this->authorRelations($articles, $images);
+//
+//        } else {
+//
+//            $this->call([
+//                ImageSeeder::class
+//            ]);
+//
+//            $this->command->warn('Repeat call ImageSeeder', 'warn');
+//        }
     }
 
     /**
@@ -66,4 +82,22 @@ class ArticleSeeder extends Seeder
             $item->authors()->attach($ids);
         }
     }
+
+    /**
+     * @param Article|Collection $articles
+     * @param Image|Collection $images
+     */
+//    private function imageRelations($articles, $images)
+//    {
+//        DB::table('images')->truncate();
+
+        /** @var Article $item */
+//        foreach ($articles as $item) {
+//            $amountImages = [1, 2, 3];
+//            $option = array_rand($amountImages);
+//            $ids = $images->random($amountImages[$option])->pluck('id');
+//            $item->images()->asso($ids);
+//            $item->images()->associate()
+//        }
+//    }
 }

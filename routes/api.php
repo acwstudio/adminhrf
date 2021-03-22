@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminArticleController;
 use App\Http\Controllers\Admin\AdminAuthorController;
 use App\Http\Controllers\Admin\AdminBiographyController;
+use App\Http\Controllers\Admin\AdminCommentController;
 use App\Http\Controllers\Admin\AdminDocumentController;
 use App\Http\Controllers\Admin\AdminImageController;
 use App\Http\Controllers\Admin\AdminNewsController;
@@ -118,6 +119,13 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/admin/tags/{tag:slug}', [AdminTagController::class, 'update']);
                 Route::delete('/admin/tags/{tag:slug}', [AdminTagController::class, 'destroy']);
 
+                Route::get('admin/comments', [AdminCommentController::class, 'index']);
+                Route::get('admin/comments/{comment}', [AdminCommentController::class, 'show'])
+                    ->name('admin.comments.show');
+                Route::get('admin/comments', [AdminCommentController::class, 'store']);
+                Route::get('admin/comments/{comment}', [AdminCommentController::class, 'update']);
+                Route::get('admin/comments/{comment}', [AdminCommentController::class, 'delete']);
+
             }); */
         }
     );
@@ -171,9 +179,16 @@ Route::get('/admin/articles', [AdminArticleController::class, 'index']);
                 Route::post('/admin/images', [AdminImageController::class, 'store']);
                 Route::patch('/admin/images/{image}', [AdminImageController::class, 'update']);
                 Route::delete('/admin/images/{image}', [AdminImageController::class, 'destroy']);
-            });
-        }
-    );
+
+                Route::get('admin/comments', [AdminCommentController::class, 'index']);
+                Route::get('admin/comments/{comment}', [AdminCommentController::class, 'show'])
+                    ->name('admin.comments.show');
+                Route::post('admin/comments', [AdminCommentController::class, 'store']);
+                Route::patch('admin/comments/{comment}', [AdminCommentController::class, 'update']);
+                Route::delete('admin/comments/{comment}', [AdminCommentController::class, 'delete']);
+//            });
+//        }
+//    );
 
 
     Route::middleware('user')->group(
