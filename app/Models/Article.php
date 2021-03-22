@@ -134,6 +134,11 @@ class Article extends Model
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
+    public function checkLiked($userId){
+        $val = $this->likes()->first(['user_id']);
+        //$get->user();
+        return $val?$val->user_id==$userId:false;
+    }
 
     /**
      * Get authors of the article.

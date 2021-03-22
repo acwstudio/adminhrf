@@ -48,7 +48,7 @@ class Author extends Model
             ->orderBy('published_at', 'desc');
     }
 
-    public function materiable()
+    public function materialable()
     {
         return $this->morphTo('material', 'material_type', 'material_id', 'film_id');
     }

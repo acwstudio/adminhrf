@@ -73,6 +73,7 @@ class Biography extends Model
 
     public function checkLiked($userId){
         $val = $this->likes()->first(['user_id']);
+        //$get->user();
         return $val?$val->user_id==$userId:false;
     }
 
