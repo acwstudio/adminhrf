@@ -114,14 +114,15 @@ class ParseFilms extends Command
         $bar = $this->output->createProgressBar($oldVideoLectures->count());
 
         $bar->start();
-        $val = DB::unprepared('SELECT MAX(id) + 1 FROM Videomaterials');
+//        $val = DB::unprepared('SELECT MAX(id) + 1 FROM Videomaterials');
+	$val =DB::table('videomaterials')->max('id');
         foreach ($oldVideoLectures as $oldVideoLecture) {
 
             //if (!$truncate) {
              //   $Videomaterial = Videomaterial::find($oldVideoLecture->id+$val);
             //}
 
-            if (($truncate || is_null($Videomaterial))&&!is_null($oldVideoLecture->video_code)) {
+            if (!is_null($oldVideoLecture->video_code)) {
                 $Videomaterial = Videomaterial::create(
                     [
                         'id' => $oldFilm->id+$val,
@@ -141,7 +142,7 @@ class ParseFilms extends Command
 
                 $author = $oldVideoLecture->lecturer_id;
 
-                Author::where('id','=',$author)->firstOrFail()->materiable()->attach($Videomaterial);
+                Author::where('id','=',$author)->firstOrFail()->materialable()->attach($Videomaterial);
             }
 
             $bar->advance();
