@@ -25,6 +25,6 @@ class FilmsController extends Controller
 
     public function show(Videomaterial $videomaterial, Request $request)
     {
-        return FilmsResource::make($videomaterial);
+        return $videomaterial->type=='film'?FilmsResource::make($videomaterial):['err'=>'Idk anout such entity here'];
     }
 }

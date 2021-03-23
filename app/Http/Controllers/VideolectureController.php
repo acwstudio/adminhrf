@@ -25,6 +25,6 @@ class VideolectureController extends Controller
 
     public function show(Videomaterial $videomaterial, Request $request)
     {
-        return VideolectureResource::make($videomaterial);
+        return $videomaterial->type=='lecture'?VideolectureResource::make($videomaterial):['err'=>'Idk anout such entity here'];
     }
 }
