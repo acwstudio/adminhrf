@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Events\CommentAdded;
+use App\Events\CommentDeleted;
 use App\Models\Traits\Likeable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +16,11 @@ class Comment extends Model
 
     protected $casts = [
         'answer_to' => 'array'
+    ];
+
+    protected $dispatchesEvents = [
+        'saved' => CommentAdded::class,
+        'deleted' => CommentDeleted::class,
     ];
 
 
