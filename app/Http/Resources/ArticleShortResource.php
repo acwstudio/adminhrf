@@ -29,7 +29,7 @@ class ArticleShortResource extends JsonResource
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark'  => false,
-            'image' => ImageResource::collection($this->whenLoaded('images')),
+            'image' => ImageResource::make($this->whenLoaded('images')->shift()),
         ];
     }
 }
