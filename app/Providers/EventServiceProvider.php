@@ -10,6 +10,11 @@ use App\Events\Liked;
 use App\Events\Disliked;
 use App\Listeners\IncrementLikedCounter;
 use App\Listeners\DecrementLikedCounter;
+use App\Events\CommentAdded;
+use App\Events\CommentDeleted;
+use App\Listeners\IncrementCommentedCounter;
+use App\Listeners\DecrementCommentedCounter;
+use App\Listeners\DeleteChildComments;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -39,6 +44,15 @@ class EventServiceProvider extends ServiceProvider
 
         Disliked::class => [
             DecrementLikedCounter::class,
+        ],
+
+        CommentAdded::class => [
+            IncrementCommentedCounter::class,
+        ],
+
+        CommentDeleted::class => [
+            DecrementCommentedCounter::class,
+            DeleteChildComments::class,
         ],
 
     ];

@@ -72,6 +72,12 @@ Route::prefix('v1')->group(function () {
                 ->middleware(['auth', 'throttle:6,1'])
                 ->name('verification.send');
 
+            Route::get('/like', [LikeController::class, 'like']);
+
+            Route::post('/comments', [CommentController::class, 'store']);
+            Route::delete('/comments/{comment:id}', [CommentController::class, 'destroy']);
+
+
             // Admins
             Route::middleware('admin')->group(function () {
 
@@ -129,6 +135,9 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/authors', [AuthorController::class, 'index']);
             Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
+
+            Route::get('/comments', [CommentController::class, 'index']);
+            Route::get('/comments/answers/{comment:id}', [CommentController::class, 'getAnswers']);
         }
     );
 

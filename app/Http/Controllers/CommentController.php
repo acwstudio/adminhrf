@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentCreateRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Article;
 use App\Models\Biography;
 use App\Models\Comment;
 use App\Models\Event;
 use App\Models\News;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class CommentController extends Controller
 {
@@ -35,7 +38,8 @@ class CommentController extends Controller
 
         $user = $request->user();
 
-        $comments = Comment::where('commentable_type', $model_type)
+        $comments = Comment::with('user')
+            ->where('commentable_type', $model_type)
             ->where('commentable_id', $id)
             ->whereNull('parent_id')
             ->latest()
@@ -47,60 +51,49 @@ class CommentController extends Controller
     }
 
 
-    public function postCommentNews(Request $req)
+    public function getAnswers(Request $request, Comment $comment)
     {
-        $req = $req->all();
-        $news = News::find($req['entity_id']);
-        $news->comments()->create([
-            'body' => $req['body'],
-            'user_id' => $req['user_id'],
-            'parents' => $req['parents'],
-            'is_author' => false, //<- User::is_author($req['user_id'])?true:false, TODO: checking if user is author
-            'created_at' => date_timestamp_get(now()),
-            'updated_at' => date_timestamp_get(now()),
-        ]);
+        $perPage = $request->get('per_page', 10);
+
+        $comments = $comment->children()->with('user')->orderBy('created_at')->paginate($perPage);
+
+        return CommentResource::collection($comments);
     }
 
-    public function postCommentArticle(Request $req)
+
+
+    public function store(CommentCreateRequest $request)
     {
-        $req = $req->all();
-        $article = Article::find($req['entity_id']);
-        $article->comments()->create([
-            'body' => $req['body'],
-            'user_id' => $req['user_id'],
-            'parents' => $req['parents'],
-            'is_author' => false, //<- User::is_author($req['user_id'])?true:false, TODO: checking if user is author
-            'created_at' => date_timestamp_get(now()),
-            'updated_at' => date_timestamp_get(now()),
-        ]);
+        $data = $request->validated();
+
+        $data['answer_to'] = $data['answer_to'] ?? null;
+
+        if (!is_null($data['answer_to'])) {
+
+            if($toUser = User::find(Arr::get($data, 'answer_to.user_id'))) {
+
+                Arr::set($data,'answer_to.user_name', $toUser->name);
+
+            } else {
+
+                $data['answer_to'] = null;
+
+            }
+
+        }
+
+        $data['user_id'] = $request->user()->id;
+
+        return CommentResource::make(Comment::create($data));
+
     }
 
-    public function postCommentBiography(Request $req)
+    public function destroy(Request $request, Comment $comment)
     {
-        $req = $req->all();
-        $bio = Biography::find($req['entity_id']);
-        $bio->comments()->create([
-            'body' => $req['body'],
-            'user_id' => $req['user_id'],
-            'parents' => $req['parents'],
-            'is_author' => false, //<- User::is_author($req['user_id'])?true:false, TODO: checking if user is author
-            'created_at' => date_timestamp_get(now()),
-            'updated_at' => date_timestamp_get(now()),
-        ]);
+        abort_if($comment->user()->isNot($request->user()), 403, 'No permissions to delete resource');
+
+        $comment->delete();
     }
 
-    public function postCommentEvent(Request $req)
-    {
-        $req = $req->all();
-        $event = Event::find($req['entity_id']);
-        $event->comments()->create([
-            'body' => $req['body'],
-            'user_id' => $req['user_id'],
-            'parents' => $req['parents'],
-            'is_author' => false, //<- User::is_author($req['user_id'])?true:false, TODO: checking if user is author
-            'created_at' => date_timestamp_get(now()),
-            'updated_at' => date_timestamp_get(now()),
-        ]);
-    }
 
 }
