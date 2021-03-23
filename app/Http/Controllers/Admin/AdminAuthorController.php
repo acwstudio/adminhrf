@@ -10,19 +10,28 @@ use App\Http\Resources\Admin\AdminAuthorResource;
 use App\Http\Resources\AuthorResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * Class AdminAuthorController
+ * @package App\Http\Controllers\Admin
+ */
 class AdminAuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return AdminAuthorCollection
      */
     public function index(Request $request)
     {
-        $perPage = $request->get('per_page', 10);
+        $articles = QueryBuilder::for(Author::class)
+            ->with('articles')
+            ->allowedSorts(['id', 'birth_date', 'firstname'])
+            ->jsonPaginate();
 
-        return new AdminAuthorCollection(Author::with('articles')->paginate($perPage));
+        return new AdminAuthorCollection($articles);
     }
 
     /**
@@ -33,13 +42,13 @@ class AdminAuthorController extends Controller
      */
     public function store(AuthorCreateRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $author = Author::create($data['data']);
+        $author = Author::create($data);
 
         return (new AdminAuthorResource($author))
             ->response()
-            ->header('Location', route('authors.show', [
+            ->header('Location', route('admin.authors.show', [
                 'author' => $author
             ]));
     }
@@ -52,7 +61,12 @@ class AdminAuthorController extends Controller
      */
     public function show(Author $author)
     {
-        return new AdminAuthorResource($author);
+        $query = QueryBuilder::for(Author::where('id', $author->id))
+            ->allowedIncludes('articles')
+            ->allowedFilters('firstname')
+            ->firstOrFail();
+
+        return new AdminAuthorResource($query);
     }
 
     /**
@@ -64,8 +78,9 @@ class AdminAuthorController extends Controller
      */
     public function update(AuthorUpdateRequest $request, Author $author)
     {
-        $data = $request->validated();
-        $author->update($data['data']);
+        $data = $request->input('data.attributes');
+
+        $author->update($data);
 
         return new AdminAuthorResource($author);
     }

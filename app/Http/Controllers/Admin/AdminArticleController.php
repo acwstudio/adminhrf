@@ -9,19 +9,29 @@ use App\Http\Resources\Admin\AdminArticleCollection;
 use App\Http\Resources\Admin\AdminArticleResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * Class AdminArticleController
+ * @package App\Http\Controllers\Admin
+ */
 class AdminArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return AdminArticleCollection
      */
     public function index(Request $request)
     {
-        $perPage = $request->get('per_page', 10);
+        $articles = QueryBuilder::for(Article::class)
+            ->with('authors', 'tags')
+            ->allowedFilters(['yatextid'])
+            ->allowedSorts(['title', 'published_at'])
+            ->jsonPaginate();
 
-        return new AdminArticleCollection(Article::with('authors')->paginate($perPage));
+        return new AdminArticleCollection($articles);
     }
 
     /**
@@ -32,9 +42,9 @@ class AdminArticleController extends Controller
      */
     public function store(ArticleCreateRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $article = Article::create($data['data']);
+        $article = Article::create($data);
 
         return (new AdminArticleResource($article))
             ->response()
@@ -51,7 +61,11 @@ class AdminArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return new AdminArticleResource($article);
+        $query = QueryBuilder::for(Article::where('id', $article->id))
+            ->allowedIncludes('authors')
+            ->firstOrFail();
+
+        return new AdminArticleResource($query);
     }
 
     /**
@@ -63,8 +77,9 @@ class AdminArticleController extends Controller
      */
     public function update(ArticleUpdateRequest $request, Article $article)
     {
-        $data = $request->validated();
-        $article->update($data['data']);
+        $data = $request->input('data.attributes');
+
+        $article->update($data);
 
         return new AdminArticleResource($article);
     }
@@ -79,6 +94,7 @@ class AdminArticleController extends Controller
     public function destroy(Article $article)
     {
         $article->delete();
+
         return response(null, 204);
     }
 }

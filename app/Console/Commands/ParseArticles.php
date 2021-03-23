@@ -48,7 +48,6 @@ class ParseArticles extends Command
 
             $this->withProgressBar(Article::all(), function ($article) {
                 $article->authors()->detach();
-
             });
 
             Article::truncate();

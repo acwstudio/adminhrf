@@ -24,9 +24,7 @@ class TagCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'string|required',
-            'created_at' => 'string',
-            'updated_at' => 'string'
+            'data.title' => 'string|required',
         ];
     }
 }
