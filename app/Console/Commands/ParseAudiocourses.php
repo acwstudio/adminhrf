@@ -69,8 +69,8 @@ class ParseAudiocourses extends Command
                 $audiocourse = Audiocourse::find($oldaudiocourse->id);
             }
 
-            if ($truncate || is_null($audiocourse)) {
-                $audiocourse = Highlight::create(
+            if (!is_null($audiocourse)) {
+                Highlight::create(
                     [
                         'id' => $oldaudiocourse->id,
                         'title' => is_null($oldaudiocourse->parent_id)?
