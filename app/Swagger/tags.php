@@ -60,4 +60,24 @@
  *     description="Operations about tests",
  * )
  *
+ * @OA\Tag(
+ *     name="Videolectures",
+ *     description="Operations about videolectures",
+ * )
+ *
+ * @OA\Tag(
+ *     name="Films",
+ *     description="Operations about films",
+ * )
+ *
+ * @OA\Tag(
+ *     name="Highlights",
+ *     description="Operations about Highligts(Подборки)",
+ * )
+ *
+ * @OA\Tag(
+ *     name="Courses",
+ *     description="Operations about courses (Курсы)",
+ * )
+ *
  */

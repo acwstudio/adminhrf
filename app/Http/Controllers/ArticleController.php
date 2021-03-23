@@ -8,9 +8,6 @@ use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Sanctum\Guard;
-use Laravel\Sanctum\Sanctum;
 
 class ArticleController extends Controller
 {

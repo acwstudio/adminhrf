@@ -9,7 +9,7 @@ class ArticleShortResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -18,18 +18,18 @@ class ArticleShortResource extends JsonResource
 
         return [
             'model_type' => 'article',
-            'id'     => $this->id,
-            'title'  => $this->title,
-            'slug'  => $this->slug,
-            'announce'  => $this->announce,
-            'published_at'  => $this->published_at,
+            'id' => $this->id,
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'announce' => $this->announce,
+            'published_at' => $this->published_at,
             'authors' => AuthorShortResource::collection($this->whenLoaded('authors')),
             'comments' => $this->commented,
             'likes' => $this->liked,
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark'  => false,
-            'image' => ImageResource::collection($this->whenLoaded('images')),
+            'has_bookmark' => false,
+            'image' => ImageResource::make($this->whenLoaded('images')->shift()),
         ];
     }
 }

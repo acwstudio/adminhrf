@@ -19,14 +19,15 @@ class Subscription extends Model
         'created_at'
     ];
 
-    public function tag(){
+    public function tag()
+    {
         return $this->belongsTo(Tag::class);
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-
 
 
 }

@@ -2,10 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Comment;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CommentCreateRequest extends FormRequest
 {
+
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,14 +28,29 @@ class CommentCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.user_id' => 'required|integer',
-            'data.text' => 'required|string',
-            'data.commentable_id' => 'required|integer',
-            'data.commentable_type' => 'required|string',
-            'data.parent_id' => 'required|integer',
-            'data.answer_to' => 'required|json',
-            'data.liked' => 'required|integer',
-            'data.children_count' => 'required|integer',
+            'text' => 'required|string',
+            'commentable_id' => 'required|integer',
+            'commentable_type' => [
+                'required',
+                'string',
+                function($attribute, $value, $fail) {
+                    if(!array_key_exists($value, Relation::$morphMap)) {
+                        $fail('Invalid '.$attribute.'='.$value);
+                    }
+                }
+            ],
+            'parent_id' => [
+                'nullable',
+                'integer',
+                function ($attribute, $value, $fail) {
+                    if(is_null(Comment::find($value))) {
+                        $fail('Comment with '.$attribute.'='.$value.' not found.');
+                    }
+                },
+            ],
+//                'answer_to' => 'sometimes',
+            'answer_to.user_id' => 'nullable|integer|required_with:answer_to.comment_id',
+            'answer_to.comment_id' => 'nullable|integer|required_with:answer_to.user_id',
         ];
     }
 }

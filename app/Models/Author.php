@@ -18,6 +18,14 @@ class Author extends Model
      * @var array
      */
     protected $guarded = [];
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'birth_date' => 'datetime',
+    ];
 
     public function sluggable(): array
     {
@@ -27,15 +35,6 @@ class Author extends Model
             ]
         ];
     }
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'birth_date' => 'datetime',
-    ];
 
     /**
      * Get all articles of the author.
@@ -48,9 +47,9 @@ class Author extends Model
             ->orderBy('published_at', 'desc');
     }
 
-    public function materialable()
+    public function video()
     {
-        return $this->morphTo('material', 'material_type', 'material_id', 'film_id');
+        return $this->morphedByMany(Videomaterial::class, 'material', 'author_material');
     }
 
 

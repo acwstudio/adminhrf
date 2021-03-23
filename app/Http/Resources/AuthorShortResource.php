@@ -9,17 +9,17 @@ class AuthorShortResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
         return [
             'model_type' => 'author',
-            'id'     => $this->id,
-            'firstname'  => $this->firstname,
-            'surname'  => $this->surname,
-            'patronymic'  => $this->patronymic
+            'id' => $this->id,
+            'firstname' => $this->firstname,
+            'surname' => $this->surname,
+            'patronymic' => $this->patronymic
         ];
     }
 }

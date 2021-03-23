@@ -78,6 +78,12 @@ Route::prefix('v1')->group(function () {
                 ->middleware(['auth', 'throttle:6,1'])
                 ->name('verification.send');
 
+            Route::get('/like', [LikeController::class, 'like']);
+
+            Route::post('/comments', [CommentController::class, 'store']);
+            Route::delete('/comments/{comment:id}', [CommentController::class, 'destroy']);
+
+
             // Admins
             Route::middleware('admin')->group(function () {
 
@@ -178,6 +184,9 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/authors', [AuthorController::class, 'index']);
             Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
+
+            Route::get('/comments', [CommentController::class, 'index']);
+            Route::get('/comments/answers/{comment:id}', [CommentController::class, 'getAnswers']);
         }
     );
 
@@ -224,7 +233,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/timeline', [\App\Http\Controllers\TimeLineController::class,'getAll']);
 
     Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
-    Route::get('/tests/{testId}', [\App\Http\Controllers\TestController::class, 'show']);
+    Route::get('/tests/{test:id}', [\App\Http\Controllers\TestController::class, 'show']);
     Route::get('/tests/result/{test:id}', [\App\Http\Controllers\TestController::class, 'postResult']);
 
     Route::get('/films', [\App\Http\Controllers\FilmsController::class, 'index']);
@@ -232,6 +241,15 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/videolectures', [\App\Http\Controllers\VideolectureController::class, 'index']);
     Route::get('/videolectures/{videomaterial:slug}', [\App\Http\Controllers\VideolectureController::class, 'show']);
+
+    Route::get('/courses/video', [\App\Http\Controllers\CourseController::class, 'getVideocourses']);
+    Route::get('/courses/audio', [\App\Http\Controllers\CourseController::class, 'getAudiocourses']);
+    Route::get('/courses/courses', [\App\Http\Controllers\CourseController::class, 'getCourses']);
+    Route::get('/courses/{highlight:slug}', [\App\Http\Controllers\CourseController::class, 'show']);
+
+
+    Route::get('/highlights', [\App\Http\Controllers\VideolectureController::class, 'index']);
+    Route::get('/highlights/{highlight:slug}', [\App\Http\Controllers\VideolectureController::class, 'show']);
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);

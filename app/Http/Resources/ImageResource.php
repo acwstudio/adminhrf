@@ -9,7 +9,7 @@ class ImageResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -17,11 +17,11 @@ class ImageResource extends JsonResource
 
         return [
             'model_type' => 'image',
-            'id'     => $this->id,
-            'alt'  => $this->title,
-            'src'  => $this->src,
-            'preview'  => $this->preview,
-            'original'  => $this->original,
+            'id' => $this->id,
+            'alt' => $this->title,
+            'src' => $this->src,
+            'preview' => $this->preview,
+            'original' => $this->original,
             'order' => $this->order,
         ];
     }

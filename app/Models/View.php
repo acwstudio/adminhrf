@@ -22,7 +22,8 @@ class View extends Model
     ];
 
 
-    public function updateView(){
+    public function updateView()
+    {
         $this->increment('value');
     }
 

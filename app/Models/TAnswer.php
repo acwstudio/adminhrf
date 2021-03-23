@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TAnswer extends Model
 {
     use HasFactory;
-    protected $table ='tanswers';
 
     public $fillable = [
         'question_id',
@@ -16,13 +15,14 @@ class TAnswer extends Model
         'is_right',
         'description',
     ];
-
     public $casts = [
         'created_at',
         'updated_at'
     ];
+    protected $table = 'tanswers';
 
-    public function question(){
+    public function question()
+    {
         return $this->belongsTo(Question::class, 'question_id', 'id');
     }
 }

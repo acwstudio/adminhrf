@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
-use Laravel\Fortify\Fortify;
 
 class TokenAuthController extends Controller
 {
@@ -26,8 +24,8 @@ class TokenAuthController extends Controller
 
         $request->validate(
             [
-                'email'       => 'required|email',
-                'password'    => 'required',
+                'email' => 'required|email',
+                'password' => 'required',
                 'device_name' => 'required',
             ]
         );
@@ -45,7 +43,7 @@ class TokenAuthController extends Controller
             }
         }
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages(
                 [
                     'email' => ['The provided credentials are incorrect.'],

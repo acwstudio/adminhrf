@@ -15,7 +15,8 @@ class Question extends Model
         'position',
     ];
 
-    public function tests(){
+    public function tests()
+    {
         return $this->belongsToMany(Test::class, 'tests_question');
     }
 

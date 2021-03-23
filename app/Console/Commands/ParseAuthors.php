@@ -40,9 +40,12 @@ class ParseAuthors extends Command
      */
     public function handle(): int
     {
+        $streams = ['articles' => 16,
+            'films' => 21, 'videos' => 16];
         $truncate = $this->option('truncate');
         $type = $this->argument('type');
-        if (!in_array($type, ['articles', 'videos','films'])) {
+
+        if (!in_array($type, ['articles', 'videos', 'films'])) {
             $this->error('Wrong type provided - available types: articles|videos|films');
             return 0;
         }
@@ -56,7 +59,7 @@ class ParseAuthors extends Command
 
         $this->line('Parsing ' . $type . ' authors');
 
-        $persons = Person::with($type)->where('stream_id', 16)->cursor();
+        $persons = Person::with($type)->where('stream_id', $streams["{$type}"])->cursor();
 
         $bar = $this->output->createProgressBar($persons->count());
 

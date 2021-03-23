@@ -14,7 +14,8 @@ class LikeController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function like(Request $request){
+    public function like(Request $request)
+    {
 
         $model_type = $request->get('model_type');
         $id = $request->get('id');

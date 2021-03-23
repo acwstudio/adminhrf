@@ -49,29 +49,32 @@ class Document extends Model
     }
 
     /**
-     * Get article's comments
+     * Get count of likes for article
      */
-    public function comments()
+    public function countLikes()
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->likes()->count();
     }
 
     /**
      * Get article's likes
      */
-    public function likes(){
-        return $this->morphMany(Like::class,'likeable');
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function countComments()
+    {
+        return $this->comments()->count();
     }
 
     /**
-     * Get count of likes for article
+     * Get article's comments
      */
-    public function countLikes(){
-        return $this->likes()->count();
-    }
-
-    public function countComments(){
-        return $this->comments()->count();
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function bookmarks()
@@ -82,9 +85,10 @@ class Document extends Model
     /**
      * Check if specific article is liked
      */
-    public function checkLiked($userId){
+    public function checkLiked($userId)
+    {
         $val = $this->likes()->first(['user_id']);
-        return $val?$val->user_id==$userId:false;
+        return $val ? $val->user_id == $userId : false;
     }
 
 }
