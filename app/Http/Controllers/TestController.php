@@ -28,9 +28,9 @@ class TestController extends Controller
         return TestShortResource::collection(Test::where('is_active', '=', true)->orderBy('published_at')->paginate($perPage));
     }
 
-    public function show($testId, Request $request)
+    public function show(Test $test, Request $request)
     {
-        return TestResource::make(Test::findOrFail($testId)->first()); //TestResource::make();
+        return TestResource::make($test);
     }
 
     public function postResult(Test $test, Request $request)

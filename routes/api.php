@@ -189,7 +189,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/timeline', [\App\Http\Controllers\TimeLineController::class,'getAll']);
 
     Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
-    Route::get('/tests/{testId}', [\App\Http\Controllers\TestController::class, 'show']);
+    Route::get('/tests/{test:id}', [\App\Http\Controllers\TestController::class, 'show']);
     Route::get('/tests/result/{test:id}', [\App\Http\Controllers\TestController::class, 'postResult']);
 
     Route::get('/films', [\App\Http\Controllers\FilmsController::class, 'index']);
