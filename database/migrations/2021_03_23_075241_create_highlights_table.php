@@ -18,7 +18,7 @@ class CreateHighlightsTable extends Migration
             $table->timestamps();
             $table->string('title',200);
             $table->string('type',20);
-            $table->string('announce')->nullable();
+            $table->string('announce',550)->nullable();
             $table->integer('order')->nullable();
             $table->string('slug',200)->unique();
             $table->timestamp('published_at')->default(now());
