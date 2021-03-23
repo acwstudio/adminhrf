@@ -70,4 +70,14 @@
  *     description="Operations about films",
  * )
  *
+ * @OA\Tag(
+ *     name="Highlights",
+ *     description="Operations about Highligts(Подборки)",
+ * )
+ *
+ * @OA\Tag(
+ *     name="Courses",
+ *     description="Operations about courses (Курсы)",
+ * )
+ *
  */

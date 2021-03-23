@@ -16,7 +16,7 @@ class CreateHighlightablesTable extends Migration
         Schema::create('highlightables', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->date('event_date');
+            $table->date('event_date')->nullable();
             $table->integer('highlight_id');
             $table->string('highlightable_type',50);
             $table->integer('highlightable_id');
