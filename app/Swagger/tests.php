@@ -44,7 +44,7 @@
  * )
  *
  * @OA\Get(
- *     path="/tests/{testId}",
+ *     path="/tests/{id}",
  *     operationId="testItem",
  *     tags={"Tests"},
  *     summary="Display tests by id",
