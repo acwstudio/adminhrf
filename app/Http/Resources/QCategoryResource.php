@@ -9,7 +9,7 @@ class QCategoryResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -19,7 +19,7 @@ class QCategoryResource extends JsonResource
             'id' => $this->id,
             'slug' => $this->slug,
             'text' => $this->text,
-            'position' =>$this->position
+            'position' => $this->position
 
         ];
     }

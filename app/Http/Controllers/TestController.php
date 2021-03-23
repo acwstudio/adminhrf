@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\TestResource;
 use App\Http\Resources\TestShortResource;
-use App\Models\Biography;
 use App\Models\Test;
 use App\Models\TResult;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use NunoMaduro\Collision\Adapters\Phpunit\TestResult;
 
 class TestController extends Controller
 {

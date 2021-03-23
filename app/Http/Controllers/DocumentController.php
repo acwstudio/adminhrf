@@ -27,8 +27,8 @@ class DocumentController extends Controller
     /**
      * Display paged documents by category.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  DocumentCategory  $category
+     * @param \Illuminate\Http\Request $request
+     * @param DocumentCategory $category
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function documents(Request $request, DocumentCategory $category)
@@ -42,8 +42,8 @@ class DocumentController extends Controller
     /**
      * Display the specified document.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  DocumentCategory  $category
+     * @param \Illuminate\Http\Request $request
+     * @param DocumentCategory $category
      * @param Document $document
      * @return DocumentResource
      */
@@ -53,11 +53,10 @@ class DocumentController extends Controller
     }
 
 
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -69,8 +68,8 @@ class DocumentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Document  $document
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Document $document
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Document $document)
@@ -81,7 +80,7 @@ class DocumentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Document  $document
+     * @param \App\Models\Document $document
      * @return \Illuminate\Http\Response
      */
     public function destroy(Document $document)

@@ -10,16 +10,7 @@ use PHPUnit\Framework\TestResult;
 
 class Test extends Model
 {
-    use HasFactory,Sluggable, Likeable;
-
-    public function sluggable(): array
-    {
-        return [
-            'slug'=>[
-                'source' => 'title'
-            ]
-        ];
-    }
+    use HasFactory, Sluggable, Likeable;
 
     public $fillable = [
         'title',
@@ -27,27 +18,33 @@ class Test extends Model
         'is_active',
         'time',
     ];
-
     public $casts = [
-        'created_at'=>'datetime',
-        'updated_at'=>'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
-
-    public function categories(){
-        return $this->belongsToMany(QCategory::class,'tests_categories','test_id','category_id');
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
     }
 
-    public function questions(){
+    public function categories()
+    {
+        return $this->belongsToMany(QCategory::class, 'tests_categories', 'test_id', 'category_id');
+    }
+
+    public function questions()
+    {
         return $this->belongsToMany(Question::class, 'tests_question');
     }
 
-    public function messages(){
+    public function messages()
+    {
         return $this->hasMany(TestMessage::class);
-    }
-
-    public function results(){
-        return $this->hasMany(TestResult::class, 'test_id','id');
     }
 
     /**
@@ -59,29 +56,32 @@ class Test extends Model
     }
 
     /**
-     * Get test's comments
+     * Get count of likes for test
      */
-    public function comments()
+    public function countLikes()
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->likes()->count();
     }
 
     /**
      * Get test's likes
      */
-    public function likes(){
-        return $this->morphMany(Like::class,'likeable');
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function countComments()
+    {
+        return $this->comments()->count();
     }
 
     /**
-     * Get count of likes for test
+     * Get test's comments
      */
-    public function countLikes(){
-        return $this->likes()->count();
-    }
-
-    public function countComments(){
-        return $this->comments()->count();
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function bookmarks()
@@ -92,19 +92,22 @@ class Test extends Model
     /**
      * Check if specific test is liked
      */
-    public function checkLiked($userId){
+    public function checkLiked($userId)
+    {
         $val = $this->likes()->first(['user_id']);
-        return $val?$val->user_id==$userId:false;
+        return $val ? $val->user_id == $userId : false;
     }
 
-    public function checkSolved($userId){
-        $val = $this->results()->where('user_id','=',$userId)->first(['is_closed']);
-        return $val?$val->is_closed:false;
+    public function checkSolved($userId)
+    {
+        $val = $this->results()->where('user_id', '=', $userId)->first(['is_closed']);
+        return $val ? $val->is_closed : false;
     }
 
-
-
-
+    public function results()
+    {
+        return $this->hasMany(TestResult::class, 'test_id', 'id');
+    }
 
 
 }

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
-use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,15 +11,6 @@ class News extends Model
     use HasFactory, Sluggable;
 
 
-
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
     protected $fillable = [
         'title',
         'slug',
@@ -36,12 +26,20 @@ class News extends Model
         'close_commentation',
         'published_at'
     ];
-
     protected $casts = [
         'updated_at' => 'datetime',
-        'created_at'=> 'datetime',
+        'created_at' => 'datetime',
         'published_at' => 'datetime'
     ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 
     public function images()
     {
@@ -53,26 +51,28 @@ class News extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commentable');
-    }
-
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
-    public function countComments(){
+    public function countComments()
+    {
         return $this->comments()->count();
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     /**
      * Check if specific article is liked
      */
-    public function checkLiked($userId){
+    public function checkLiked($userId)
+    {
         $val = $this->likes()->first(['user_id']);
-        return $val?$val->user_id==$userId:false;
+        return $val ? $val->user_id == $userId : false;
     }
 
     /**

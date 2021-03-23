@@ -20,8 +20,9 @@ class BookmarkGroup extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function bookmarks(){
-        return $this->hasMany(Bookmark::class,'group_id','id' );
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class, 'group_id', 'id');
     }
 
 }

@@ -6,7 +6,7 @@ use App\Models\Traits\Likeable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 
 class Article extends Model
@@ -51,6 +51,17 @@ class Article extends Model
     }
 
     /**
+     * Convert DB date to Carbon instance
+     *
+     * @param mixed $date
+     * @return Carbon
+     */
+    protected function convertFromBCDate($date): Carbon
+    {
+        return strpos($date, ' BC') ? Carbon::make('-' . rtrim($date, ' BC')) : Carbon::make($date);
+    }
+
+    /**
      * Accessor for event_start_date
      *
      * @return Carbon
@@ -78,6 +89,20 @@ class Article extends Model
     public function setEventDateAttribute($value)
     {
         $this->attributes['event_date'] = is_null($value) ? null : $this->convertToBCDate($value);
+    }
+
+    /**
+     * Convert date to 'Y-m-d BC' format if year is negative
+     *
+     * @param mixed $date
+     * @return string
+     */
+    protected function convertToBCDate($date): string
+    {
+
+        $result = $date->format('Y-m-d');
+
+        return $date->year < 0 ? ltrim($result, '-') . ' BC' : $result;
     }
 
     /**
@@ -116,6 +141,11 @@ class Article extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
+    public function countComments()
+    {
+        return $this->comments()->count();
+    }
+
     /**
      * Get article's comments
      */
@@ -124,20 +154,16 @@ class Article extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-
-    public function countComments(){
-        return $this->comments()->count();
-    }
-
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
-    public function checkLiked($userId){
+    public function checkLiked($userId)
+    {
         $val = $this->likes()->first(['user_id']);
         //$get->user();
-        return $val?$val->user_id==$userId:false;
+        return $val ? $val->user_id == $userId : false;
     }
 
     /**
@@ -147,32 +173,6 @@ class Article extends Model
     {
         return $this->belongsToMany(Author::class, 'author_article', 'article_id', 'author_id');
     }
-
-    /**
-     * Convert DB date to Carbon instance
-     *
-     * @param mixed $date
-     * @return Carbon
-     */
-    protected function convertFromBCDate($date): Carbon
-    {
-        return strpos($date, ' BC') ? Carbon::make('-' . rtrim($date, ' BC')) : Carbon::make($date);
-    }
-
-    /**
-     * Convert date to 'Y-m-d BC' format if year is negative
-     *
-     * @param mixed $date
-     * @return string
-     */
-    protected function convertToBCDate($date): string
-    {
-
-        $result = $date->format('Y-m-d');
-
-        return $date->year < 0 ? ltrim($result, '-') . ' BC' : $result;
-    }
-
 
     public function timeline()
     {

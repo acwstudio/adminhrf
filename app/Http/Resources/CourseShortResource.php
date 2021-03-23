@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FilmsShortResource extends JsonResource
+class CourseShortResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,23 +14,17 @@ class FilmsShortResource extends JsonResource
      */
     public function toArray($request)
     {
-
         $user = $request->user();
-
         return [
-            'model_type' => 'film',
+            'model_type' => 'videocourse',
             'title' => $this->title,
-            'slug' => $this->slug,
             'announce' => $this->announce,
-            'video_code' => $this->video_code,
             'published_at' => $this->published_at,
-            'authors' => AuthorShortResource::collection($this->authors),
-            'comments' => $this->countComments(),
+            'count' => $this->highlightable->count(),
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => false,
-            //'image' => ImageResource::collection($this->whenLoaded('images')),
             'image' => [
                 "model_type" => "image",
                 "id" => 1294,

@@ -15,10 +15,10 @@ class Timeline extends Model
         'timelinable_type',
     ];
 
-    public function timelinable(){
+    public function timelinable()
+    {
         return $this->morphTo();
     }
-
 
 
 }

@@ -7,15 +7,25 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Document extends Model
+class Highlight extends Model
 {
     use HasFactory, Sluggable, Likeable;
 
-    protected $guarded = [];
-
+    protected $fillable = [
+        'title',
+        'type',
+        'announce',
+        'order',
+        'active',
+    ];
     protected $casts = [
-        'document_date' => 'datetime',
-        'options' => 'array'
+        'published_at' => 'datetime'
+    ];
+    private $coursesTypes = [
+        'audiocourse',
+        'videocourse',
+        'course',
+        'highlight'
     ];
 
     public function sluggable(): array
@@ -27,54 +37,24 @@ class Document extends Model
         ];
     }
 
-    /**
-     * Get document's images.
-     */
-    public function images()
+    public function highlightable()
     {
-        return $this->morphMany(Image::class, 'imageable')->orderBy('order');
+        return $this->hasMany(Highlightable::class, 'highlight_id', 'id');
     }
 
-    /**
-     * Get documents's tags
-     */
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function category()
-    {
-        return $this->BelongsTo(DocumentCategory::class);
-    }
-
-    /**
-     * Get count of likes for article
-     */
     public function countLikes()
     {
         return $this->likes()->count();
     }
 
-    /**
-     * Get article's likes
-     */
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
-    }
-
-    public function countComments()
-    {
-        return $this->comments()->count();
-    }
-
-    /**
-     * Get article's comments
-     */
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function bookmarks()
@@ -82,13 +62,15 @@ class Document extends Model
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
-    /**
-     * Check if specific article is liked
-     */
     public function checkLiked($userId)
     {
         $val = $this->likes()->first(['user_id']);
+        //$get->user();
         return $val ? $val->user_id == $userId : false;
     }
 
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 }

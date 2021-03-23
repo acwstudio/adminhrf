@@ -39,5 +39,4 @@ class Like extends Model
     }
 
 
-
 }

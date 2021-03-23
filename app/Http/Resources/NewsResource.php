@@ -9,7 +9,7 @@ class NewsResource extends JsonResource
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -22,13 +22,13 @@ class NewsResource extends JsonResource
             'body' => $this->body,
             'close_commentation' => $this->close_commentation,
             'image' => [
-                "model_type"=>"image",
-                "id"=>1294,
-                "alt"=> null,
-                "src"=> "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt.jpg",
-                "preview"=> "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
-                "original"=> null,
-                "order"=>1
+                "model_type" => "image",
+                "id" => 1294,
+                "alt" => null,
+                "src" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt.jpg",
+                "preview" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
+                "original" => null,
+                "order" => 1
             ],
             //ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'published_at' => $this->published_at,

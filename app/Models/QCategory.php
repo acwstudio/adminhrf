@@ -10,6 +10,12 @@ class QCategory extends Model
 {
     use HasFactory, Sluggable;
 
+    public $fillable = [
+        'text',
+        'position',
+    ];
+    protected $table = 'qcategories';
+
     public function sluggable(): array
     {
         return [
@@ -19,15 +25,9 @@ class QCategory extends Model
         ];
     }
 
-    protected $table = 'qcategories';
-
-    public $fillable = [
-        'text',
-        'position',
-    ];
-
-    public function tests(){
-        return $this->belongsToMany(Test::class, 'tests_categories','category_id','test_id');
+    public function tests()
+    {
+        return $this->belongsToMany(Test::class, 'tests_categories', 'category_id', 'test_id');
     }
 
 

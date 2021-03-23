@@ -18,7 +18,8 @@ class TestMessage extends Model
         'highest_value',
     ];
 
-    public function test(){
+    public function test()
+    {
         return $this->belongsTo(Test::class);
     }
 }

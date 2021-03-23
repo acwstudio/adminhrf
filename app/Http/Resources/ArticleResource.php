@@ -9,7 +9,7 @@ class ArticleResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -18,19 +18,19 @@ class ArticleResource extends JsonResource
 
         return [
             'model_type' => 'article',
-            'id'     => $this->id,
-            'user_id'   => $this->user_id,
-            'title'  => $this->title,
-            'slug'  => $this->slug,
-            'announce'  => $this->announce,
-            'body'  => $this->body,
-            'published_at'  => $this->published_at,
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'announce' => $this->announce,
+            'body' => $this->body,
+            'published_at' => $this->published_at,
             'image' => ImageResource::make($this->images()->first()),
             'authors' => AuthorResource::collection($this->authors),
             'likes' => $this->liked,
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark'  => false,
+            'has_bookmark' => false,
             'tags' => TagResource::collection($this->tags),
             'comments' => $this->comments,
         ];

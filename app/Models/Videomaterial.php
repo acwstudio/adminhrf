@@ -6,7 +6,6 @@ use App\Models\Traits\Likeable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Videomaterial extends Model
 {
@@ -47,19 +46,14 @@ class Videomaterial extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function comments()
+    public function countLikes()
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->likes()->count();
     }
 
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
-    }
-
-    public function countLikes()
-    {
-        return $this->likes()->count();
     }
 
     public function bookmarks()
@@ -70,6 +64,11 @@ class Videomaterial extends Model
     public function countComments()
     {
         return $this->comments()->count();
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function checkLiked($userId)
