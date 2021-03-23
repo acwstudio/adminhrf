@@ -4,24 +4,27 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CourseShortResource extends JsonResource
+class HighlightResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)
     {
         $user = $request->user();
         return [
-            'model_type' => $this->type,
-            'title' => $this->title,
-            'announce' => $this->announce,
-            'published_at' => $this->published_at,
-            'count' => $this->highlightable->count(),
-            'likes' => $this->countLikes(),
+            'model_type' => $this->highlightable->type,
+            'id' => $this->highlightable->id,
+            'slug' => $this->highlightable->slug,
+            'title' => $this->highlightable->title,
+            'announce' => $this->highlightable->announce,
+            'published_at' => $this->highlightable->published_at,
+            'author' => AuthorShortResource::collection($this->highlightable->authors),
+            'comments' => $this->highlightable->countComments(),
+            'likes' => $this->highlightable->countLikes(),
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => false,

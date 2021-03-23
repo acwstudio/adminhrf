@@ -189,7 +189,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/timeline', [\App\Http\Controllers\TimeLineController::class,'getAll']);
 
     Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
-    Route::get('/tests/{testId}', [\App\Http\Controllers\TestController::class, 'show']);
+    Route::get('/tests/{test:id}', [\App\Http\Controllers\TestController::class, 'show']);
     Route::get('/tests/result/{test:id}', [\App\Http\Controllers\TestController::class, 'postResult']);
 
     Route::get('/films', [\App\Http\Controllers\FilmsController::class, 'index']);
@@ -198,8 +198,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/videolectures', [\App\Http\Controllers\VideolectureController::class, 'index']);
     Route::get('/videolectures/{videomaterial:slug}', [\App\Http\Controllers\VideolectureController::class, 'show']);
 
-    Route::get('/courses/videocourses', [\App\Http\Controllers\CourseController::class, 'getVideocourses']);
-    Route::get('/courses/audiocourses', [\App\Http\Controllers\CourseController::class, 'getAudiocourses']);
+    Route::get('/courses/video', [\App\Http\Controllers\CourseController::class, 'getVideocourses']);
+    Route::get('/courses/audio', [\App\Http\Controllers\CourseController::class, 'getAudiocourses']);
     Route::get('/courses/courses', [\App\Http\Controllers\CourseController::class, 'getCourses']);
     Route::get('/courses/{highlight:id}', [\App\Http\Controllers\CourseController::class, 'show']);
 
