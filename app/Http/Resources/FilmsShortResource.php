@@ -19,6 +19,7 @@ class FilmsShortResource extends JsonResource
 
         return [
             'model_type' => 'film',
+            'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'announce' => $this->announce,

@@ -192,11 +192,11 @@ Route::prefix('v1')->group(function () {
     Route::get('/courses/video', [\App\Http\Controllers\CourseController::class, 'getVideocourses']);
     Route::get('/courses/audio', [\App\Http\Controllers\CourseController::class, 'getAudiocourses']);
     Route::get('/courses/courses', [\App\Http\Controllers\CourseController::class, 'getCourses']);
-    Route::get('/courses/{highlight:id}', [\App\Http\Controllers\CourseController::class, 'show']);
+    Route::get('/courses/{highlight:slug}', [\App\Http\Controllers\CourseController::class, 'show']);
 
 
     Route::get('/highlights', [\App\Http\Controllers\VideolectureController::class, 'index']);
-    Route::get('/highlights/{highlight:id}', [\App\Http\Controllers\VideolectureController::class, 'show']);
+    Route::get('/highlights/{highlight:slug}', [\App\Http\Controllers\VideolectureController::class, 'show']);
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
