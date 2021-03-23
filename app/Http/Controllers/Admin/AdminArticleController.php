@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\AdminArticleCollection;
 use App\Http\Resources\Admin\AdminArticleResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class AdminArticleController extends Controller
 {
@@ -20,9 +21,12 @@ class AdminArticleController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->get('per_page', 10);
+        $articles = QueryBuilder::for(Article::class)
+            ->with('authors', 'tags')
+            ->allowedSorts(['title', 'published_at'])
+            ->get();
 
-        return new AdminArticleCollection(Article::with('authors', 'tags')->paginate($perPage));
+        return new AdminArticleCollection($articles);
     }
 
     /**

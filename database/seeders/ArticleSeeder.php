@@ -21,7 +21,7 @@ class ArticleSeeder extends Seeder
         $articles = Article::all();
         $authors = Author::all();
         $images = Image::all();
-        dd($articles);
+
         $limitArticles = 30 - $articles->count();
         $limitAuthors = 20 - $authors->count();
         $limitImages = 30 - $images->count();
@@ -29,7 +29,7 @@ class ArticleSeeder extends Seeder
         if ($limitArticles > 0) {
             Article::factory()->count($limitArticles)->create();
             $this->command->newLine();
-            $this->command->info('It has created ' . $articles->count() . ' lines', 'info');
+            $this->command->info('It has created ' . $limitArticles . ' lines', 'info');
             $this->command->newLine();
         } else {
             $this->command->warn('You have already ' . $articles->count() . ' lines, table will be re-created', 'warn');
