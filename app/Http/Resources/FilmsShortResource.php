@@ -19,10 +19,11 @@ class FilmsShortResource extends JsonResource
 
         return [
             'model_type' => 'film',
+            'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'announce' => $this->announce,
-            'video_code' => $this->video_code,
+            'video_code' => explode('"',$this->video_code)[0],
             'published_at' => $this->published_at,
             'authors' => AuthorShortResource::collection($this->authors),
             'comments' => $this->countComments(),

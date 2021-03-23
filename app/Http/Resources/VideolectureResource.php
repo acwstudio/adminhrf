@@ -17,9 +17,10 @@ class VideolectureResource extends JsonResource
         $user = $request->user();
         return [
             'model_type' => 'lecture',
+            'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'video_code' => $this->video_code,
+            'video_code' => explode('"',$this->video_code)[0],
             'body' => $this->body,
             'published_at' => $this->published_at,
 //            'authors' => AuthorShortResource::collection($this->whenLoaded('authors')),

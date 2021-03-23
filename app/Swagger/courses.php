@@ -108,7 +108,7 @@
  *     @OA\Parameter(
  *         name="slug",
  *         in="path",
- *         description="course id",
+ *         description="course slug",
  *         required=true,
  *         @OA\Schema(
  *             type="string",

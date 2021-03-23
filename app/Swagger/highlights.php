@@ -35,14 +35,14 @@
  * )
  *
  * @OA\Get(
- *     path="/highlights/{id}",
+ *     path="/highlights/{slug}",
  *     operationId="highlightsItem",
  *     tags={"Highlights"},
  *     summary="Display highlight by id",
  *     @OA\Parameter(
  *         name="slug",
  *         in="path",
- *         description="highlight id",
+ *         description="highlight slug",
  *         required=true,
  *         @OA\Schema(
  *             type="string",

@@ -15,6 +15,7 @@ class BiographyResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'surname' => $this->surname,
             'firstname' => $this->firstname,
             'patronymic' => $this->patronymic,
