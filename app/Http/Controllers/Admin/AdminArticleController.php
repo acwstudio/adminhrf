@@ -11,6 +11,10 @@ use App\Models\Article;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * Class AdminArticleController
+ * @package App\Http\Controllers\Admin
+ */
 class AdminArticleController extends Controller
 {
     /**
@@ -23,8 +27,9 @@ class AdminArticleController extends Controller
     {
         $articles = QueryBuilder::for(Article::class)
             ->with('authors', 'tags')
+            ->allowedFilters(['yatextid'])
             ->allowedSorts(['title', 'published_at'])
-            ->get();
+            ->jsonPaginate();
 
         return new AdminArticleCollection($articles);
     }
@@ -37,9 +42,9 @@ class AdminArticleController extends Controller
      */
     public function store(ArticleCreateRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $article = Article::create($data['data']);
+        $article = Article::create($data);
 
         return (new AdminArticleResource($article))
             ->response()
@@ -56,9 +61,11 @@ class AdminArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $articles = Article::with('authors')->find($article->id);
+        $query = QueryBuilder::for(Article::where('id', $article->id))
+            ->allowedIncludes('authors')
+            ->firstOrFail();
 
-        return new AdminArticleResource($articles);
+        return new AdminArticleResource($query);
     }
 
     /**
@@ -70,8 +77,9 @@ class AdminArticleController extends Controller
      */
     public function update(ArticleUpdateRequest $request, Article $article)
     {
-        $data = $request->validated();
-        $article->update($data['data']);
+        $data = $request->input('data.attributes');
+
+        $article->update($data);
 
         return new AdminArticleResource($article);
     }
@@ -86,6 +94,7 @@ class AdminArticleController extends Controller
     public function destroy(Article $article)
     {
         $article->delete();
+
         return response(null, 204);
     }
 }

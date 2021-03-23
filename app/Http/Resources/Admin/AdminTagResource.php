@@ -4,6 +4,10 @@ namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Class AdminTagResource
+ * @package App\Http\Resources\Admin
+ */
 class AdminTagResource extends JsonResource
 {
     /**

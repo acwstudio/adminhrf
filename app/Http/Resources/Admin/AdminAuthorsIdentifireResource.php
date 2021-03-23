@@ -5,10 +5,10 @@ namespace App\Http\Resources\Admin;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminImageResource
+ * Class AdminAuthorsIdentifireResource
  * @package App\Http\Resources\Admin
  */
-class AdminImageResource extends JsonResource
+class AdminAuthorsIdentifireResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,6 +18,9 @@ class AdminImageResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => (string)$this->id,
+            'type' => 'authors'
+        ];
     }
 }

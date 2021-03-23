@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminArticleController;
+use App\Http\Controllers\Admin\AdminArticlesAuthorsRelatedController;
+use App\Http\Controllers\Admin\AdminArticlesAuthorsRelationshipsController;
 use App\Http\Controllers\Admin\AdminAuthorController;
+use App\Http\Controllers\Admin\AdminAuthorsArticlesRelatedController;
+use App\Http\Controllers\Admin\AdminAuthorsArticlesRelationshipsController;
 use App\Http\Controllers\Admin\AdminBiographyController;
 use App\Http\Controllers\Admin\AdminCommentController;
 use App\Http\Controllers\Admin\AdminDocumentController;
@@ -77,6 +81,8 @@ Route::prefix('v1')->group(function () {
             // Admins
             Route::middleware('admin')->group(function () {
 
+                /*****************  ARTICLES ROUTES **************/
+
                 Route::get('/admin/articles', [AdminArticleController::class, 'index']);
                 Route::get('/admin/articles/{article:slug}', [AdminArticleController::class, 'show'])
                     ->name('admin.articles.show');
@@ -84,12 +90,40 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/admin/articles/{article:slug}', [AdminArticleController::class, 'update']);
                 Route::delete('/admin/articles/{article:slug}', [AdminArticleController::class, 'destroy']);
 
+                Route::get('/admin/articles/{article}/relatioships/authors', [
+                    AdminArticlesAuthorsRelationshipsController::class, 'index'
+                ])->name('articles.relationships.authors');
+
+                Route::patch('/admin/articles/{article}/relatioships/authors', [
+                    AdminArticlesAuthorsRelationshipsController::class, 'update'
+                ])->name('articles.relationships.authors');
+
+                Route::get('admin/articles/{article}/authors', [
+                    AdminArticlesAuthorsRelatedController::class, 'index'
+                ])->name('articles.authors');
+
+                /*****************  AUTHORS ROUTES **************/
+
                 Route::get('/admin/authors', [AdminAuthorController::class, 'index']);
                 Route::get('/admin/authors/{author:slug}', [AdminAuthorController::class, 'show'])
                     ->name('admin.authors.show');
                 Route::post('/admin/authors', [AdminAuthorController::class, 'store']);
                 Route::patch('/admin/authors/{author:slug}', [AdminAuthorController::class, 'update']);
                 Route::delete('/admin/authors/{author:slug}', [AdminAuthorController::class, 'destroy']);
+
+                Route::get('/admin/authors/{author}/relatioships/articles', [
+                    AdminAuthorsArticlesRelationshipsController::class, 'index'
+                ])->name('authors.relationships.articles');
+
+                Route::patch('/admin/authors/{author}/relatioships/articles', [
+                    AdminAuthorsArticlesRelationshipsController::class, 'update'
+                ])->name('authors.relationships.articles');
+
+                Route::get('admin/authors/{author}/articles', [
+                    AdminAuthorsArticlesRelatedController::class, 'index'
+                ])->name('authors.articles');
+
+                /*****************  BIOGRAPHIES ROUTES **************/
 
                 Route::get('/admin/biographies', [AdminBiographyController::class, 'index']);
                 Route::get('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'show'])
@@ -135,7 +169,6 @@ Route::prefix('v1')->group(function () {
             });
         }
     );
-
 
     Route::middleware('user')->group(
         function () {

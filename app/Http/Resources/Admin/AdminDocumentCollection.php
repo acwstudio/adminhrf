@@ -4,6 +4,10 @@ namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/**
+ * Class AdminDocumentCollection
+ * @package App\Http\Resources\Admin
+ */
 class AdminDocumentCollection extends ResourceCollection
 {
     /**

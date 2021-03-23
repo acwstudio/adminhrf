@@ -4,6 +4,10 @@ namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/**
+ * Class AdminAuthorCollection
+ * @package App\Http\Resources\Admin
+ */
 class AdminAuthorCollection extends ResourceCollection
 {
     /**
@@ -21,6 +25,8 @@ class AdminAuthorCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => $this->collection,
+        ];
     }
 }

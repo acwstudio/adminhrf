@@ -4,6 +4,10 @@ namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Class AdminNewsResource
+ * @package App\Http\Resources\Admin
+ */
 class AdminNewsResource extends JsonResource
 {
     /**

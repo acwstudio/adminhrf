@@ -4,6 +4,10 @@ namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Class AdminAuthorResource
+ * @package App\Http\Resources\Admin
+ */
 class AdminAuthorResource extends JsonResource
 {
     /**
@@ -15,19 +19,35 @@ class AdminAuthorResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'model_type' => 'author',
             'id' => $this->id,
+            'type' => 'authors',
             'slug' => $this->slug,
-            'firstname' => $this->firstname,
-            'surname' => $this->surname,
-            'patronymic' => $this->patronymic,
-            'birth_date' => $this->birth_date,
-            'announce' => $this->announce,
-            'description' => $this->description,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'attributes' => [
+                'firstname' => $this->firstname,
+                'surname' => $this->surname,
+                'patronymic' => $this->patronymic,
+                'birth_date' => $this->birth_date,
+                'announce' => $this->announce,
+                'description' => $this->description,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
+            ],
+            'relationships' => [
+                'articles' => [
+                    'links' => [
+                        'self' => route('authors.relationships.articles',
+                            ['author' => $this->id]),
+                        'related' => route('authors.articles',
+                            ['author' => $this->id])
+                    ],
+
+                    'data' => AdminArticlesIdentifireResource::collection(
+                        $this->whenLoaded('articles')
+                    ),
+                ],
+            ],
 //            'articles' => $this->articles,
-            'articles' => AdminArticleResource::collection($this->whenLoaded('articles')),
+//            'articles' => AdminArticleResource::collection($this->whenLoaded('articles')),
         ];
     }
 }
