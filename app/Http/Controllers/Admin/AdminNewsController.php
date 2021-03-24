@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsCreateRequest;
+use App\Http\Requests\NewsUpdateRequest;
+use App\Http\Requests\TagUpdateRequest;
 use App\Http\Resources\Admin\AdminNewsCollection;
 use App\Http\Resources\Admin\AdminNewsResource;
 use App\Models\News;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class AdminNewsController extends Controller
@@ -14,11 +17,14 @@ class AdminNewsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return AdminNewsCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new AdminNewsCollection(News::all());
+        $perPage = $request->get('per_page', 10);
+
+        return new AdminNewsCollection(News::paginate($perPage));
     }
 
     /**
@@ -32,18 +38,18 @@ class AdminNewsController extends Controller
         $data = $request->validated();
 
         $news = News::create($data['data']);
-
+//        return $news;
         return (new AdminNewsResource($news))
-            ->response();
-//            ->header('Location', route('admin.news.show'), [
-//                'news' => $news
-//            ]);
+            ->response()
+            ->header('Location', route('admin.news.show', [
+                'news' => $news
+            ]));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param News $news
      * @return AdminNewsResource
      */
     public function show(News $news)
@@ -54,13 +60,17 @@ class AdminNewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param NewsUpdateRequest $request
+     * @param News $news
+     * @return AdminNewsResource
      */
-    public function update(Request $request, $id)
+    public function update(NewsUpdateRequest $request, News $news)
     {
-        //
+        $data = $request->validated();
+
+        $news->update($data['data']);
+
+        return new AdminNewsResource($news);
     }
 
     /**

@@ -35,5 +35,4 @@ class ArticleResource extends JsonResource
             'comments' => $this->comments,
         ];
     }
-
 }

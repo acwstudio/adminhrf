@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class AuthorCreateRequest
+ * @package App\Http\Requests
+ */
 class AuthorCreateRequest extends FormRequest
 {
     /**
@@ -24,12 +28,14 @@ class AuthorCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.firstname' => 'required|string',
-            'data.surname' => 'required|string',
-            'data.patronymic' => 'required|string',
-            'data.birth_date' => 'required|string',
-            'data.announce' => 'required|string',
-            'data.description' => 'required|string',
+            'data' => 'required|array',
+            'data.type' => 'required|in:authors',
+            'data.attributes.firstname' => 'required|string',
+            'data.attributes.surname' => 'required|string',
+            'data.attributes.patronymic' => 'required|string',
+            'data.attributes.birth_date' => 'required|string',
+            'data.attributes.announce' => 'required|string',
+            'data.attributes.description' => 'required|string',
         ];
     }
 }

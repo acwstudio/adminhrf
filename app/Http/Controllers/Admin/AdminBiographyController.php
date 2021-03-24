@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BiographyCreateRequest;
 use App\Http\Requests\BiographyUpdateRequest;
 use App\Http\Resources\Admin\AdminBiographyCollection;
-use App\Http\Resources\BiographyResource;
+use App\Http\Resources\Admin\AdminBiographyResource;
 use App\Models\Biography;
 use Illuminate\Http\Request;
 
@@ -17,9 +17,11 @@ class AdminBiographyController extends Controller
      *
      * @return AdminBiographyCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new AdminBiographyCollection(Biography::all());
+        $perPage = $request->get('per_page', 10);
+
+        return new AdminBiographyCollection(Biography::paginate($perPage));
     }
 
     /**
@@ -34,7 +36,7 @@ class AdminBiographyController extends Controller
 
         $biography = Biography::create($data['data']);
 
-        return (new BiographyResource($biography))
+        return (new AdminBiographyResource($biography))
             ->response()
             ->header('Location', route('admin.biographies.show', [
                 'biography' => $biography
@@ -45,11 +47,11 @@ class AdminBiographyController extends Controller
      * Display the specified resource.
      *
      * @param Biography $biography
-     * @return BiographyResource
+     * @return AdminBiographyResource
      */
     public function show(Biography $biography)
     {
-        return new BiographyResource($biography);
+        return new AdminBiographyResource($biography);
     }
 
     /**
@@ -57,7 +59,7 @@ class AdminBiographyController extends Controller
      *
      * @param BiographyUpdateRequest $request
      * @param Biography $biography
-     * @return BiographyResource
+     * @return AdminBiographyResource
      */
     public function update(BiographyUpdateRequest $request, Biography $biography)
     {
@@ -65,7 +67,7 @@ class AdminBiographyController extends Controller
 
         $biography->update($data['data']);
 
-        return new BiographyResource($biography);
+        return new AdminBiographyResource($biography);
     }
 
     /**
