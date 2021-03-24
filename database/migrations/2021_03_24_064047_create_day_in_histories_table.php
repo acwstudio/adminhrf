@@ -16,8 +16,8 @@ class CreateDayInHistoriesTable extends Migration
         Schema::create('days_in_history', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('title',200);
-            $table->string('slug',200);
+            $table->string('title',255);
+            $table->string('slug',255);
             $table->smallInteger('day');
             $table->smallInteger('month');
             $table->string('url');

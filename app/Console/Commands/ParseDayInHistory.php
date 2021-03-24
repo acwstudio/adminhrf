@@ -57,17 +57,13 @@ class ParseDayInHistory extends Command
         foreach ($days as $day) {
 
 
-            $endDate = $day->start_date == $day->end_date ? null : $day->end_date;
-            $startDate = $day->startdatebc ? $day->start_date->year('-' . $day->start_date->year) : $day->start_date;
-
-
             $d = DayInHistory::create(
                 [
-                    'id' => $d->id,
-                    'day' => $d->day,
-                    'month' => $d->month,
-                    'title' => $d->title,
-                    'url' => $d->url,
+                    'id' => $day->id,
+                    'day' => $day->day,
+                    'month' => $day->month,
+                    'title' => $day->title,
+                    'url' => $day->url,
                 ]
             );
 

@@ -10,6 +10,7 @@ class DayInHistory extends Model
 {
     use HasFactory, Sluggable;
 
+    protected $table = 'days_in_history';
     public function sluggable(): array
     {
         return [
