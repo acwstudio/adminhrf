@@ -10,6 +10,10 @@ use App\Http\Resources\Admin\AdminBiographyResource;
 use App\Models\Biography;
 use Illuminate\Http\Request;
 
+/**
+ * Class AdminBiographyController
+ * @package App\Http\Controllers\Admin
+ */
 class AdminBiographyController extends Controller
 {
     /**

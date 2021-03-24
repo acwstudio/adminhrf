@@ -64,28 +64,28 @@ class AdminArticleResource extends JsonResource
     /**
      * @return array
      */
-    private function relations()
-    {
-        return [
-            AdminAuthorResource::collection($this->whenLoaded('authors'))
-        ];
-    }
+//    private function relations()
+//    {
+//        return [
+//            AdminAuthorResource::collection($this->whenLoaded('authors'))
+//        ];
+//    }
 
     /**
      * @param $request
      * @return \Illuminate\Support\Collection
      */
-    public function included($request)
-    {
-        return collect($this->relations())
-            ->filter(function ($resource) {
-                return $resource->collection !== null;
-            })
-            ->flatMap(function ($resource) use ($request) {
-                /** @var AdminAuthorResource $resource */
-                return $resource->toArray($request);
-            });
-    }
+//    public function included($request)
+//    {
+//        return collect($this->relations())
+//            ->filter(function ($resource) {
+//                return $resource->collection !== null;
+//            })
+//            ->flatMap(function ($resource) use ($request) {
+//                /** @var AdminAuthorResource $resource */
+//                return $resource->toArray($request);
+//            });
+//    }
 
     /**
      * Get any additional data that should be returned with the resource array.
@@ -93,14 +93,14 @@ class AdminArticleResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function with($request)
-    {
-        $with = [];
-
-        if ($this->included($request)->isNotEmpty()) {
-            $with['included'] = $this->included($request);
-        }
-
-        return $with;
-    }
+//    public function with($request)
+//    {
+//        $with = [];
+//
+//        if ($this->included($request)->isNotEmpty()) {
+//            $with['included'] = $this->included($request);
+//        }
+//
+//        return $with;
+//    }
 }

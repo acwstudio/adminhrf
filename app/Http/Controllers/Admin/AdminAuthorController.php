@@ -65,8 +65,8 @@ class AdminAuthorController extends Controller
             ->allowedIncludes('articles')
             ->allowedFilters('firstname')
             ->firstOrFail();
-
-        return new AdminAuthorResource($query);
+        return $query;
+//        return new AdminAuthorResource($query);
     }
 
     /**

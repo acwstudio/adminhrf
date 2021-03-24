@@ -90,11 +90,11 @@ Route::prefix('v1')->group(function () {
                 /*****************  ARTICLES ROUTES **************/
 
                 Route::get('/admin/articles', [AdminArticleController::class, 'index']);
-                Route::get('/admin/articles/{article:slug}', [AdminArticleController::class, 'show'])
+                Route::get('/admin/articles/{article}', [AdminArticleController::class, 'show'])
                     ->name('admin.articles.show');
                 Route::post('/admin/articles', [AdminArticleController::class, 'store']);
-                Route::patch('/admin/articles/{article:slug}', [AdminArticleController::class, 'update']);
-                Route::delete('/admin/articles/{article:slug}', [AdminArticleController::class, 'destroy']);
+                Route::patch('/admin/articles/{article}', [AdminArticleController::class, 'update']);
+                Route::delete('/admin/articles/{article}', [AdminArticleController::class, 'destroy']);
 
                 Route::get('/admin/articles/{article}/relatioships/authors', [
                     AdminArticlesAuthorsRelationshipsController::class, 'index'
