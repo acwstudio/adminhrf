@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AdminImageController;
 use App\Http\Controllers\Admin\AdminNewsController;
 use App\Http\Controllers\Admin\AdminTagController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AudiomaterialController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BiographyController;
 use App\Http\Controllers\CommentController;
@@ -187,12 +188,13 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/comments', [CommentController::class, 'index']);
             Route::get('/comments/answers/{comment:id}', [CommentController::class, 'getAnswers']);
+
+            Route::get('/audio', [AudiomaterialController::class, 'index']);
+            Route::get('/audio/{audio:slug}', [AudiomaterialController::class, 'show']);
         }
     );
 
     // Common routes
-    Route::get('/articles', [ArticleController::class, 'index']);
-    Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
 
     Route::get('/documents', [DocumentController::class, 'index']);
     Route::get('/documents/{category:slug}', [DocumentController::class, 'documents']);

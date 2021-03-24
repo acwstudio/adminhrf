@@ -42,32 +42,25 @@ class Highlight extends Model
         return $this->hasMany(Highlightable::class, 'highlight_id', 'id');
     }
 
+    /**
+     * Get all of the audiomaterials that are assigned this highlight.
+     */
+    public function audiomaterials()
+    {
+        return $this->morphedByMany(Audiomaterial::class, 'highlightable');
+    }
+
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function countLikes()
-    {
-        return $this->likes()->count();
-    }
-
-    public function likes()
-    {
-        return $this->morphMany(Like::class, 'likeable');
-    }
 
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
-    public function checkLiked($userId)
-    {
-        $val = $this->likes()->first(['user_id']);
-        //$get->user();
-        return $val ? $val->user_id == $userId : false;
-    }
 
     public function images()
     {
