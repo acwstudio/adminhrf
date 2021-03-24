@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticlesAuthorsUpdateRelationshipsRequest;
+use App\Http\Requests\AuthorsArticlesUpdateRelationshipsRequest;
 use App\Models\Article;
 use App\Http\Resources\Admin\AdminAuthorsIdentifireResource;
 use Illuminate\Http\Request;

@@ -111,11 +111,11 @@ Route::prefix('v1')->group(function () {
                 /*****************  AUTHORS ROUTES **************/
 
                 Route::get('/admin/authors', [AdminAuthorController::class, 'index']);
-                Route::get('/admin/authors/{author:slug}', [AdminAuthorController::class, 'show'])
-                    ->name('admin.authors.show');
+//                Route::get('/admin/authors/{author}', [AdminAuthorController::class, 'show'])
+//                    ->name('admin.authors.show');
                 Route::post('/admin/authors', [AdminAuthorController::class, 'store']);
-                Route::patch('/admin/authors/{author:slug}', [AdminAuthorController::class, 'update']);
-                Route::delete('/admin/authors/{author:slug}', [AdminAuthorController::class, 'destroy']);
+                Route::patch('/admin/authors/{author}', [AdminAuthorController::class, 'update']);
+                Route::delete('/admin/authors/{author}', [AdminAuthorController::class, 'destroy']);
 
                 Route::get('/admin/authors/{author}/relatioships/articles', [
                     AdminAuthorsArticlesRelationshipsController::class, 'index'
@@ -175,7 +175,8 @@ Route::prefix('v1')->group(function () {
             });
         }
     );
-
+    Route::get('/admin/authors/{author}', [AdminAuthorController::class, 'show'])
+        ->name('admin.authors.show');
     Route::middleware('user')->group(
         function () {
 
