@@ -67,17 +67,24 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Finds out if user has role 'admin' or 'redactor'
+     * Finds out if user has access to admin panel
      *
      * @return bool
      */
-    public function isAdminOrRedactor(): bool
+    public function hasAdminAccess(): bool
     {
         return $this->role && ($this->role->role == 'admin' || $this->role->role == 'redactor');
     }
 
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
 
-    /* Define comments and user relation */
+
+    /**
+     * Define comments and user relation
+     */
     public function comments()
     {
         return $this->hasMany(Comment::class, 'user_id', 'id');
