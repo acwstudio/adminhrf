@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminArticleCommentsRelatedController;
+use App\Http\Controllers\Admin\AdminArticleCommentsRelationshipsController;
 use App\Http\Controllers\Admin\AdminArticleController;
 use App\Http\Controllers\Admin\AdminArticlesAuthorsRelatedController;
 use App\Http\Controllers\Admin\AdminArticlesAuthorsRelationshipsController;
+use App\Http\Controllers\Admin\AdminArticlesTagsRelatedController;
+use App\Http\Controllers\Admin\AdminArticlesTagsRelationshipsController;
 use App\Http\Controllers\Admin\AdminAuthorController;
 use App\Http\Controllers\Admin\AdminAuthorsArticlesRelatedController;
 use App\Http\Controllers\Admin\AdminAuthorsArticlesRelationshipsController;
@@ -98,6 +102,7 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/admin/articles/{article}', [AdminArticleController::class, 'update']);
                 Route::delete('/admin/articles/{article}', [AdminArticleController::class, 'destroy']);
 
+                // Articles to Authors relations
                 Route::get('/admin/articles/{article}/relatioships/authors', [
                     AdminArticlesAuthorsRelationshipsController::class, 'index'
                 ])->name('articles.relationships.authors');
@@ -109,6 +114,32 @@ Route::prefix('v1')->group(function () {
                 Route::get('admin/articles/{article}/authors', [
                     AdminArticlesAuthorsRelatedController::class, 'index'
                 ])->name('articles.authors');
+
+                // Article to Comments relations
+                Route::get('/admin/articles/{article}/relatioships/comments', [
+                    AdminArticleCommentsRelationshipsController::class, 'index'
+                ])->name('articles.relationships.comments');
+
+                Route::patch('/admin/articles/{article}/relatioships/comments', [
+                    AdminArticleCommentsRelationshipsController::class, 'update'
+                ])->name('articles.relationships.comments');
+
+                Route::get('admin/articles/{article}/comments', [
+                    AdminArticleCommentsRelatedController::class, 'index'
+                ])->name('articles.comments');
+
+                // Articles to Tags relations
+                Route::get('/admin/articles/{article}/relatioships/tags', [
+                    AdminArticlesTagsRelationshipsController::class, 'index'
+                ])->name('articles.relationships.tags');
+
+                Route::patch('/admin/articles/{article}/relatioships/tags', [
+                    AdminArticlesTagsRelationshipsController::class, 'update'
+                ])->name('articles.relationships.tags');
+
+                Route::get('admin/articles/{article}/tags', [
+                    AdminArticlesTagsRelatedController::class, 'index'
+                ])->name('articles.tags');
 
                 /*****************  AUTHORS ROUTES **************/
 
@@ -168,12 +199,18 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/admin/news/{news:slug}', [AdminNewsController::class, 'update']);
                 Route::delete('/admin/news/{news:slug}', [AdminNewsController::class, 'destroy']);
 
+                /*****************  TAGS ROUTES **************/
+
                 Route::get('/admin/tags', [AdminTagController::class, 'index']);
-                Route::get('/admin/tags/{tag:slug}', [AdminTagController::class, 'show'])
+                Route::get('/admin/tags/{tag}', [AdminTagController::class, 'show'])
                 ->name('admin.tags.show');
                 Route::post('/admin/tags', [AdminTagController::class, 'store']);
-                Route::patch('/admin/tags/{tag:slug}', [AdminTagController::class, 'update']);
-                Route::delete('/admin/tags/{tag:slug}', [AdminTagController::class, 'destroy']);
+                Route::patch('/admin/tags/{tag}', [AdminTagController::class, 'update']);
+                Route::delete('/admin/tags/{tag}', [AdminTagController::class, 'destroy']);
+
+
+
+                /*****************  IMAGES ROUTES **************/
 
                 Route::get('/admin/images', [AdminImageController::class, 'index']);
                 Route::get('/admin/images/{image}', [AdminImageController::class, 'show'])

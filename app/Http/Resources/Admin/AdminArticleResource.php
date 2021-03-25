@@ -52,10 +52,18 @@ class AdminArticleResource extends JsonResource
                 ],
                 'comments' => [
                     'links' => [
-//                        'self' => route('articles.relationships.authors', ['article' => $this->id]),
-//                        'related' => route('articles.authors', ['article' => $this->id])
+                        'self' => route('articles.relationships.comments', ['article' => $this->id]),
+                        'related' => route('articles.comments', ['article' => $this->id])
                     ],
                     'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
+                ],
+                'tags' => [
+                    'links' => [
+                        'self' => route('articles.relationships.tags', ['article' => $this->id]),
+                        'related' => route('articles.tags', ['article' => $this->id])
+                    ],
+
+                    'data' => AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
                 ]
             ],
 

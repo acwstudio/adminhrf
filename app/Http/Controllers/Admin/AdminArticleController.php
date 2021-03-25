@@ -26,7 +26,7 @@ class AdminArticleController extends Controller
     public function index()
     {
         $articles = QueryBuilder::for(Article::class)
-            ->with('authors', 'comments')
+            ->with('authors', 'comments', 'tags')
             ->allowedFilters(['yatextid'])
             ->allowedSorts(['title', 'published_at'])
             ->jsonPaginate();
@@ -62,7 +62,7 @@ class AdminArticleController extends Controller
     public function show(Article $article)
     {
         $query = QueryBuilder::for(Article::where('id', $article->id))
-            ->allowedIncludes('authors', 'comments')
+            ->allowedIncludes('authors', 'comments', 'tags')
             ->firstOrFail();
 
         return new AdminArticleResource($query);

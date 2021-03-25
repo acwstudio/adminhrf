@@ -19,13 +19,24 @@ class AdminTagResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'model_type' => 'tag',
             'id' => $this->id,
-            'title' => $this->title,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'type' => 'tags',
             'slug' => $this->slug,
-            'articles' => AdminArticleResource::collection($this->whenLoaded('articles'))
+            'attributes' => [
+                'title' => $this->title,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
+            ],
+            'relationships' => [
+                'articles' => [
+                    'links' => [
+//                        'self' => route('', ['article' => $this->id]),
+//                        'related' => route('articles.authors', ['article' => $this->id])
+                    ],
+                    'data' => AdminArticlesIdentifireResource::collection($this->articles)
+//                    'data' => AdminArticlesIdentifireResource::collection($this->whenLoaded('articles'))
+                ],
+            ]
         ];
     }
 }

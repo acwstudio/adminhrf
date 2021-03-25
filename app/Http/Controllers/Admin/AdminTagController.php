@@ -9,7 +9,12 @@ use App\Http\Resources\Admin\AdminTagCollection;
 use App\Http\Resources\Admin\AdminTagResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * Class AdminTagController
+ * @package App\Http\Controllers\Admin
+ */
 class AdminTagController extends Controller
 {
     /**
@@ -18,24 +23,27 @@ class AdminTagController extends Controller
      * @param Request $request
      * @return AdminTagCollection
      */
-    public function index(Request $request)
+    public function index()
     {
-        $perPage = $request->get('per_page', 10);
+        $tags = QueryBuilder::for(Tag::class)
+            ->with('articles')
+            ->allowedSorts('title')
+            ->jsonPaginate();
 
-        return new AdminTagCollection(Tag::with('articles')->paginate($perPage));
+        return new AdminTagCollection($tags);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param TagCreateRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(TagCreateRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $tag = Tag::create($data['data']);
+        $tag = Tag::create($data);
 
         return (new AdminTagResource($tag))
             ->response()
@@ -52,9 +60,11 @@ class AdminTagController extends Controller
      */
     public function show(Tag $tag)
     {
-        $tags = Tag::with('authors')->find($tag->id);
+        $tag = QueryBuilder::for(Tag::where('id', $tag->id))
+            ->allowedIncludes('articles')
+            ->firstOrFail();
 
-        return new AdminTagResource($tags);
+        return new AdminTagResource($tag);
     }
 
     /**
