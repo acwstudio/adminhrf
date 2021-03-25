@@ -25,6 +25,9 @@ class AdminArticleController extends Controller
      */
     public function index()
     {
+
+        $this->authorize('manage', Article::class);
+
         $articles = QueryBuilder::for(Article::class)
             ->with('authors', 'comments', 'tags')
             ->allowedFilters(['yatextid'])

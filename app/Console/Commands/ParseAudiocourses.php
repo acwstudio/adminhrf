@@ -14,7 +14,7 @@ class ParseAudiocourses extends Command
      *
      * @var string
      */
-    protected $signature = 'parse:audio {--T|truncate : Clear audiocourses table before parse}';
+    protected $signature = 'parse:audiocourses {--T|truncate : Clear audiocourses table before parse}';
 
     /**
      * The console command description.

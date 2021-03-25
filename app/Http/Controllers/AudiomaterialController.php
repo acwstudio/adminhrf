@@ -32,11 +32,11 @@ class AudiomaterialController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Audiomaterial  $audio
-     * @return \Illuminate\Http\Response
+     * @return AudiomaterialResource
      */
     public function show(Audiomaterial $audio)
     {
-        return AudiomaterialResource::make($audio);
+        return AudiomaterialResource::make($audio->load('highlights'));
     }
 
 

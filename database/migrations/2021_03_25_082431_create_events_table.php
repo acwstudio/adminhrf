@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFilmAuthorTable extends Migration
+class CreateEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateFilmAuthorTable extends Migration
      */
     public function up()
     {
-        Schema::create('author_film', function (Blueprint $table) {
-            $table->bigInteger('film_id');
-            $table->bigInteger('author_id');
+        Schema::create('events', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -26,6 +26,6 @@ class CreateFilmAuthorTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('author_film');
+        Schema::dropIfExists('events');
     }
 }

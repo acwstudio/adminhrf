@@ -142,29 +142,9 @@ class Article extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function countComments()
-    {
-        return $this->comments()->count();
-    }
-
-    /**
-     * Get article's comments
-     */
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commentable');
-    }
-
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
-    }
-
-    public function checkLiked($userId)
-    {
-        $val = $this->likes()->first(['user_id']);
-        //$get->user();
-        return $val ? $val->user_id == $userId : false;
     }
 
     /**
