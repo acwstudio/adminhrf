@@ -29,7 +29,7 @@ class CurrentUserMiddleware
                     return null;
                 }
 
-                return  $accessToken->tokenable->withAccessToken(
+                return  optional($accessToken->tokenable)->withAccessToken(
                     tap($accessToken->forceFill(['last_used_at' => now()]))->save()
                 );
             }
