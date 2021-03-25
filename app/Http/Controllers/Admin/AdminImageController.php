@@ -8,7 +8,12 @@ use App\Http\Requests\ImageUpdateRequest;
 use App\Http\Resources\Admin\AdminImageResource;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * Class AdminImageController
+ * @package App\Http\Controllers\Admin
+ */
 class AdminImageController extends Controller
 {
     /**
@@ -17,11 +22,14 @@ class AdminImageController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index()
     {
-        $perPage = $request->get('per_page', 10);
+        $query = QueryBuilder::for(Image::class)
+            ->with('articles')
+            ->allowedIncludes('articles')
+            ->jsonPaginate();
 
-        return AdminImageResource::collection(Image::paginate($perPage));
+        return AdminImageResource::collection($query);
     }
 
     /**
@@ -32,9 +40,9 @@ class AdminImageController extends Controller
      */
     public function store(ImageCreateRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $image = Image::create($data['data']);
+        $image = Image::create($data);
 
         return (new AdminImageResource($image))
             ->response()
@@ -51,7 +59,10 @@ class AdminImageController extends Controller
      */
     public function show(Image $image)
     {
-        return new AdminImageResource($image);
+        $query = QueryBuilder::for(Image::where('id', $image->id))
+            ->firstOrFail();
+
+        return new AdminImageResource($query);
     }
 
     /**
@@ -63,9 +74,9 @@ class AdminImageController extends Controller
      */
     public function update(ImageUpdateRequest $request, Image $image)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $image->update($data['data']);
+        $image->update($data);
 
         return new AdminImageResource($image);
     }

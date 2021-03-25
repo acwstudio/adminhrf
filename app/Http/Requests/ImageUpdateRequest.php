@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class ImageUpdateRequest
+ * @package App\Http\Requests
+ */
 class ImageUpdateRequest extends FormRequest
 {
     /**
@@ -24,14 +28,18 @@ class ImageUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.path' => 'string',
-            'data.name' => 'string',
-            'data.ext' => 'string',
-            'data.alt' => 'string',
-            'data.order' => 'integer',
-            'data.imageable_id' => 'integer',
-            'data.imageable_type' => 'string',
-            'data.flags' => 'integer'
+            'data' => 'required|array',
+            'data.id' => 'required|string',
+            'data.type' => 'required|in:images',
+            'data.attributes' => 'required|array',
+            'data.attributes.path' => 'string',
+            'data.attributes.name' => 'string',
+            'data.attributes.ext' => 'string',
+            'data.attributes.alt' => 'string',
+            'data.attributes.order' => 'integer',
+            'data.attributes.imageable_id' => 'integer',
+            'data.attributes.imageable_type' => 'string',
+            'data.attributes.flags' => 'integer',
         ];
     }
 }

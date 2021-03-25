@@ -186,18 +186,20 @@ Route::prefix('v1')->group(function () {
                 /*****************  DOCUMENTS ROUTES **************/
 
                 Route::get('/admin/documents', [AdminDocumentController::class, 'index']);
-                Route::get('/admin/documents/{document:slug}', [AdminDocumentController::class, 'show'])
+                Route::get('/admin/documents/{document}', [AdminDocumentController::class, 'show'])
                     ->name('admin.documents.show');
                 Route::post('/admin/documents', [AdminDocumentController::class, 'store']);
-                Route::patch('/admin/documents/{document:slug}', [AdminDocumentController::class, 'update']);
-                Route::delete('/admin/documents/{document:slug}', [AdminDocumentController::class, 'destroy']);
+                Route::patch('/admin/documents/{document}', [AdminDocumentController::class, 'update']);
+                Route::delete('/admin/documents/{document}', [AdminDocumentController::class, 'destroy']);
+
+                /*****************  NEWS ROUTES **************/
 
                 Route::get('/admin/news', [AdminNewsController::class, 'index']);
-                Route::get('/admin/news/{news:slug}', [AdminNewsController::class, 'show'])
+                Route::get('/admin/news/{news}', [AdminNewsController::class, 'show'])
                     ->name('admin.news.show');
                 Route::post('/admin/news', [AdminNewsController::class, 'store']);
-                Route::patch('/admin/news/{news:slug}', [AdminNewsController::class, 'update']);
-                Route::delete('/admin/news/{news:slug}', [AdminNewsController::class, 'destroy']);
+                Route::patch('/admin/news/{news}', [AdminNewsController::class, 'update']);
+                Route::delete('/admin/news/{news}', [AdminNewsController::class, 'destroy']);
 
                 /*****************  TAGS ROUTES **************/
 

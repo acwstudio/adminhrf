@@ -5,22 +5,31 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentCreateRequest;
 use App\Http\Requests\CommentUpdateRequest;
+use App\Http\Resources\Admin\AdminCommentCollection;
 use App\Http\Resources\Admin\AdminCommentResource;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * Class AdminCommentController
+ * @package App\Http\Controllers\Admin
+ */
 class AdminCommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return AdminCommentResource
+     * @return AdminCommentCollection
      */
-    public function index(Request $request)
+    public function index()
     {
-        $perPage = $request->get('per_page', 10);
+        $query = QueryBuilder::for(Comment::class)
+            ->with('user')
+            ->allowedIncludes('user')
+            ->jsonPaginate();
 
-        return new AdminCommentResource(Comment::paginate($perPage));
+        return new AdminCommentCollection($query);
     }
 
     /**
@@ -31,15 +40,15 @@ class AdminCommentController extends Controller
      */
     public function store(CommentCreateRequest $request)
     {
-        $data = $request->validated();
-
-        $comment = Comment::create($data['data']);
-
-        return (new AdminCommentResource($comment))
-            ->response()
-            ->header('Location', route('admin.comments.show', [
-                'comment' => $comment
-            ]));
+//        $data = $request->validated();
+//
+//        $comment = Comment::create($data['data']);
+//
+//        return (new AdminCommentResource($comment))
+//            ->response()
+//            ->header('Location', route('admin.comments.show', [
+//                'comment' => $comment
+//            ]));
     }
 
     /**
@@ -50,7 +59,11 @@ class AdminCommentController extends Controller
      */
     public function show(Comment $comment)
     {
-        return new AdminCommentResource($comment);
+        $query = QueryBuilder::for(Comment::where('id', $comment->id))
+            ->allowedIncludes('user')
+            ->firstOrFail();
+
+        return new AdminCommentResource($query);
     }
 
     /**
@@ -62,11 +75,11 @@ class AdminCommentController extends Controller
      */
     public function update(CommentUpdateRequest $request, Comment $comment)
     {
-        $data = $request->validated();
-
-        $comment->update($data['data']);
-
-        return new AdminCommentResource($comment);
+//        $data = $request->validated();
+//
+//        $comment->update($data['data']);
+//
+//        return new AdminCommentResource($comment);
     }
 
     /**
@@ -79,6 +92,7 @@ class AdminCommentController extends Controller
     public function destroy(Comment $comment)
     {
         $comment->delete();
+
         return response(null, 204);
     }
 }

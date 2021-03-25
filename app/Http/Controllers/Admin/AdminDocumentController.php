@@ -9,7 +9,12 @@ use App\Http\Resources\Admin\AdminDocumentCollection;
 use App\Http\Resources\Admin\AdminDocumentResource;
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * Class AdminDocumentController
+ * @package App\Http\Controllers\Admin
+ */
 class AdminDocumentController extends Controller
 {
     /**
@@ -18,11 +23,15 @@ class AdminDocumentController extends Controller
      * @param Request $request
      * @return AdminDocumentCollection
      */
-    public function index(Request $request)
+    public function index()
     {
-        $perPage = $request->get('per_page', 10);
+        $query = QueryBuilder::for(Document::class)
+            ->with('tags')
+            ->allowedSorts('title')
+            ->allowedIncludes('tags')
+            ->jsonPaginate();
 
-        return new AdminDocumentCollection(Document::paginate($perPage));
+        return new AdminDocumentCollection($query);
     }
 
     /**
@@ -33,9 +42,9 @@ class AdminDocumentController extends Controller
      */
     public function store(DocumentCreateRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $document = Document::create($data['data']);
+        $document = Document::create($data);
 
         return (new AdminDocumentResource($document))
             ->response()
@@ -52,7 +61,11 @@ class AdminDocumentController extends Controller
      */
     public function show(Document $document)
     {
-        return new AdminDocumentResource($document);
+        $query = QueryBuilder::for(Document::where('id', $document->id))
+            ->allowedIncludes('tags')
+            ->firstOrFail();
+
+        return new AdminDocumentResource($query);
     }
 
     /**
@@ -64,9 +77,9 @@ class AdminDocumentController extends Controller
      */
     public function update(DocumentUpdateRequest $request, Document $document)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $document->update($data['data']);
+        $document->update($data);
 
         return new AdminDocumentResource($document);
     }

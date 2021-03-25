@@ -11,7 +11,12 @@ use App\Http\Resources\Admin\AdminNewsResource;
 use App\Models\News;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * Class AdminNewsController
+ * @package App\Http\Controllers\Admin
+ */
 class AdminNewsController extends Controller
 {
     /**
@@ -20,11 +25,13 @@ class AdminNewsController extends Controller
      * @param Request $request
      * @return AdminNewsCollection
      */
-    public function index(Request $request)
+    public function index()
     {
-        $perPage = $request->get('per_page', 10);
+        $query = QueryBuilder::for(News::class)
+            ->with('tags')
+            ->jsonPaginate();
 
-        return new AdminNewsCollection(News::paginate($perPage));
+        return new AdminNewsCollection($query);
     }
 
     /**
@@ -35,10 +42,10 @@ class AdminNewsController extends Controller
      */
     public function store(NewsCreateRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $news = News::create($data['data']);
-//        return $news;
+        $news = News::create($data);
+
         return (new AdminNewsResource($news))
             ->response()
             ->header('Location', route('admin.news.show', [
@@ -54,7 +61,10 @@ class AdminNewsController extends Controller
      */
     public function show(News $news)
     {
-        return new AdminNewsResource($news);
+        $query = QueryBuilder::for(News::where('id', $news->id))
+            ->firstOrFail();
+
+        return new AdminNewsResource($query);
     }
 
     /**
@@ -66,9 +76,9 @@ class AdminNewsController extends Controller
      */
     public function update(NewsUpdateRequest $request, News $news)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $news->update($data['data']);
+        $news->update($data);
 
         return new AdminNewsResource($news);
     }

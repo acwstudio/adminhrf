@@ -24,18 +24,21 @@ class NewsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.title' => 'string',
-            'data.yatextid' => 'string',
-            'data.announce' => 'string',
-            'data.listorder' => 'integer',
-            'data.body' => 'string',
-            'data.show_in_rss' => 'boolean',
-            'data.status' => 'boolean',
-            'data.show_in_main' => 'boolean',
-            'data.show_in_afisha' => 'boolean',
-            'data.close_commentation' => 'boolean',
-            'data.published_at' => 'string',
-            'data.viewed' => 'integer',
+            'data' => 'required|array',
+            'data.type' => 'required|in:news',
+            'data.attributes' => 'required|array',
+            'data.attributes.title' => 'string',
+            'data.attributes.yatextid' => 'string',
+            'data.attributes.announce' => 'string',
+            'data.attributes.listorder' => 'integer',
+            'data.attributes.body' => 'string',
+            'data.attributes.show_in_rss' => 'boolean',
+            'data.attributes.status' => 'boolean',
+            'data.attributes.show_in_main' => 'boolean',
+            'data.attributes.show_in_afisha' => 'boolean',
+            'data.attributes.close_commentation' => 'boolean',
+            'data.attributes.published_at' => 'string',
+            'data.attributes.viewed' => 'integer',
         ];
     }
 }

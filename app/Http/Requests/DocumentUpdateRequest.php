@@ -24,14 +24,19 @@ class DocumentUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.document_category_id' => 'integer',
-            'data.title' => 'string',
-            'data.announce' => 'string',
-            'data.body' => 'string',
-            'data.file' => 'string',
-            'data.document_date' => 'string',
-            'data.document_text_date' => 'string',
-            'data.options' => 'json',
+            'data' => 'required|array',
+            'data.id' => 'string',
+            'data.type' => 'required|in:documents',
+            'data.attributes' => 'required|array',
+            'data.attributes.document_category_id' => 'integer',
+            'data.attributes.title' => 'string',
+            'data.attributes.announce' => 'string',
+            'data.attributes.body' => 'string',
+            'data.attributes.file' => 'string',
+            'data.attributes.document_date' => 'string',
+            'data.attributes.document_text_date' => 'string',
+            'data.attributes.options' => 'json',
+
         ];
     }
 }

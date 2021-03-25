@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class DocumentCreateRequest
+ * @package App\Http\Requests
+ */
 class DocumentCreateRequest extends FormRequest
 {
     /**
@@ -24,14 +28,17 @@ class DocumentCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.document_category_id' => 'required|integer',
-            'data.title' => 'required|string',
-            'data.announce' => 'required|string',
-            'data.body' => 'required|string',
-            'data.file' => 'required|string',
-            'data.document_date' => 'required|string',
-            'data.document_text_date' => 'required|string',
-            'data.options' => 'required|json',
+            'data' => 'required|array',
+            'data.type' => 'required|in:documents',
+            'data.attributes' => 'required|array',
+            'data.attributes.document_category_id' => 'required|integer',
+            'data.attributes.title' => 'required|string',
+            'data.attributes.announce' => 'required|string',
+            'data.attributes.body' => 'required|string',
+            'data.attributes.file' => 'required|string',
+            'data.attributes.document_date' => 'required|string',
+            'data.attributes.document_text_date' => 'required|string',
+            'data.attributes.options' => 'required|json',
         ];
     }
 }
