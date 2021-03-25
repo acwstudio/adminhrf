@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -18,15 +19,24 @@ class CommentSeeder extends Seeder
      */
     public function run()
     {
+        $faker = \Faker\Factory::create();
 
-        DB::table('comments')->insert([
+        $comment = Comment::factory()->count(1)->create([
             'user_id' => 1,
-            'text' => 'cdvfg cbfvg vbgngh',
-            'commentable_id' => 2,
-            'commentable_type' => 'article',
-            'liked' => 3,
-            'children_count' => 3
-
+            'commentable_id' => 5,
+            'commentable_type' => 'biography',
+            'answer_to' => null,
+            'liked' => 6,
+            'children_count' => 0
         ]);
+//        DB::table('comments')->insert([
+//            'user_id' => 1,
+//            'text' => 'cdvfg cbfvg vbgngh',
+//            'commentable_id' => 2,
+//            'commentable_type' => 'article',
+//            'liked' => 3,
+//            'children_count' => 3
+//
+//        ]);
     }
 }

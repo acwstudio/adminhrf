@@ -49,13 +49,20 @@ class AdminArticleResource extends JsonResource
                         'related' => route('articles.authors', ['article' => $this->id])
                     ],
                     'data' => AdminAuthorsIdentifireResource::collection($this->whenLoaded('authors'))
+                ],
+                'comments' => [
+                    'links' => [
+//                        'self' => route('articles.relationships.authors', ['article' => $this->id]),
+//                        'related' => route('articles.authors', ['article' => $this->id])
+                    ],
+                    'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
                 ]
             ],
 
 //            'tags' => AdminTagResource::collection($this->whenLoaded('tags')),
 //            'authors' => AdminAuthorResource::collection($this->whenLoaded('authors')),
 //            'images' => $this->images,
-//            'comments' => $this->comments,
+
 //            'bookmarks' => $this->bookmarks,
 //            'timeline' => $this->timeline,
         ];

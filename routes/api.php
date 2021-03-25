@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\AdminArticlesAuthorsRelationshipsController;
 use App\Http\Controllers\Admin\AdminAuthorController;
 use App\Http\Controllers\Admin\AdminAuthorsArticlesRelatedController;
 use App\Http\Controllers\Admin\AdminAuthorsArticlesRelationshipsController;
+use App\Http\Controllers\Admin\AdminBiographyCommentsRelatedController;
+use App\Http\Controllers\Admin\AdminBiographyCommentsRelationshipsController;
 use App\Http\Controllers\Admin\AdminBiographyController;
 use App\Http\Controllers\Admin\AdminCommentController;
 use App\Http\Controllers\Admin\AdminDocumentController;
@@ -57,7 +59,6 @@ Route::prefix('v1')->group(function () {
         }
 
     );
-
 
     // Social login
     Route::get('/login/{service}', [SocialLoginController::class, 'redirect'])
@@ -111,8 +112,8 @@ Route::prefix('v1')->group(function () {
                 /*****************  AUTHORS ROUTES **************/
 
                 Route::get('/admin/authors', [AdminAuthorController::class, 'index']);
-//                Route::get('/admin/authors/{author}', [AdminAuthorController::class, 'show'])
-//                    ->name('admin.authors.show');
+                Route::get('/admin/authors/{author}', [AdminAuthorController::class, 'show'])
+                    ->name('admin.authors.show');
                 Route::post('/admin/authors', [AdminAuthorController::class, 'store']);
                 Route::patch('/admin/authors/{author}', [AdminAuthorController::class, 'update']);
                 Route::delete('/admin/authors/{author}', [AdminAuthorController::class, 'destroy']);
@@ -132,11 +133,25 @@ Route::prefix('v1')->group(function () {
                 /*****************  BIOGRAPHIES ROUTES **************/
 
                 Route::get('/admin/biographies', [AdminBiographyController::class, 'index']);
-                Route::get('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'show'])
+                Route::get('/admin/biographies/{biography}', [AdminBiographyController::class, 'show'])
                     ->name('admin.biographies.show');
                 Route::post('/admin/biographies', [AdminBiographyController::class, 'store']);
-                Route::patch('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'update']);
-                Route::delete('/admin/biographies/{biography:slug}', [AdminBiographyController::class, 'destroy']);
+                Route::patch('/admin/biographies/{biography}', [AdminBiographyController::class, 'update']);
+                Route::delete('/admin/biographies/{biography}', [AdminBiographyController::class, 'destroy']);
+
+                Route::get('/admin/biographies/{biography}/relatioships/comments', [
+                    AdminBiographyCommentsRelationshipsController::class, 'index'
+                ])->name('biography.relationships.comments');
+
+                Route::patch('/admin/biographies/{biography}/relatioships/comments', [
+                    AdminBiographyCommentsRelationshipsController::class, 'update'
+                ])->name('biography.relationships.comments');
+
+                Route::get('admin/biographies/{biography}/comments', [
+                    AdminBiographyCommentsRelatedController::class, 'index'
+                ])->name('biography.comments');
+
+                /*****************  DOCUMENTS ROUTES **************/
 
                 Route::get('/admin/documents', [AdminDocumentController::class, 'index']);
                 Route::get('/admin/documents/{document:slug}', [AdminDocumentController::class, 'show'])
@@ -169,14 +184,13 @@ Route::prefix('v1')->group(function () {
                 Route::get('admin/comments', [AdminCommentController::class, 'index']);
                 Route::get('admin/comments/{comment}', [AdminCommentController::class, 'show'])
                     ->name('admin.comments.show');
-                Route::post('admin/comments', [AdminCommentController::class, 'store']);
-                Route::patch('admin/comments/{comment}', [AdminCommentController::class, 'update']);
-                Route::delete('admin/comments/{comment}', [AdminCommentController::class, 'delete']);
+//                Route::post('admin/comments', [AdminCommentController::class, 'store']);
+//                Route::patch('admin/comments/{comment}', [AdminCommentController::class, 'update']);
+//                Route::delete('admin/comments/{comment}', [AdminCommentController::class, 'delete']);
             });
         }
     );
-    Route::get('/admin/authors/{author}', [AdminAuthorController::class, 'show'])
-        ->name('admin.authors.show');
+
     Route::middleware('user')->group(
         function () {
 

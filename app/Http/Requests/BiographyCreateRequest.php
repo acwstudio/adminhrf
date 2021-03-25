@@ -24,19 +24,22 @@ class BiographyCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.surname' => 'required|string',
-            'data.firstname' => 'required|string',
-            'data.patronymic' => 'required|string',
-            'data.birth_date' => 'required',
-            'data.death_date' => 'required',
-            'data.announce' => 'required|string',
-            'data.description' => 'required|string',
-            'data.government_start' => 'required|integer',
-            'data.government_end' => 'required|integer',
-            'data.published_at' => 'required|string',
-            'data.viewed' => 'required|integer',
-            'data.biblio' => 'required|json',
-            'data.active' => 'required|boolean',
+            'data' => 'required|array',
+            'data.type' => 'required|in:biographies',
+            'data.attributes' => 'required|array',
+            'data.attributes.surname' => 'required|string',
+            'data.attributes.firstname' => 'required|string',
+            'data.attributes.patronymic' => 'required|string',
+            'data.attributes.birth_date' => 'required',
+            'data.attributes.death_date' => 'required',
+            'data.attributes.announce' => 'required|string',
+            'data.attributes.description' => 'required|string',
+            'data.attributes.government_start' => 'required|integer',
+            'data.attributes.government_end' => 'required|integer',
+            'data.attributes.published_at' => 'required|string',
+            'data.attributes.viewed' => 'required|integer',
+            'data.attributes.biblio' => 'required|json',
+            'data.attributes.active' => 'required|boolean',
         ];
     }
 }
