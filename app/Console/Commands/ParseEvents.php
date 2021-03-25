@@ -90,7 +90,7 @@ class ParseEvents extends Command
         DB::unprepared("SELECT SETVAL('articles_id_seq', (SELECT MAX(id) + 1 FROM articles))");
 
         $this->newLine();
-        $this->info('All events processed!');
+        $this->info('All days processed!');
 
         return 1;
     }
