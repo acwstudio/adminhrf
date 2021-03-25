@@ -76,9 +76,69 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->role && ($this->role->role == 'admin' || $this->role->role == 'redactor');
     }
 
+    /**
+     * Return user role (string)
+     *
+     * @return string|null
+     */
+    public function getRole() {
+
+        return optional($this->role)->role;
+
+    }
+
     public function permissions()
     {
         return $this->belongsToMany(Permission::class);
+    }
+
+
+    /**
+     * Return array of user permissions
+     *
+     * @return array|null
+     */
+    public function getPermissionsArray(): ?array
+    {
+        $permissions = $this->isAdmin() ? Permission::all() : $this->permissions;
+
+        return optional($permissions)->map(function ($item) {
+            return $item->name;
+        })->all();
+    }
+
+    /**
+     * Check if user has any of given permissions
+     *
+     * @param string|array $permissions
+     * @return bool
+     */
+    public function hasAnyPermission($permissions)
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        $permissions = collect($permissions);
+
+        return $permissions->intersect($this->getPermissionsArray())->isNotEmpty();
+    }
+
+    /**
+     * Check if user has all of given permissions
+     *
+     * @param string|array $permissions
+     * @return bool
+     */
+    public function hasAllPermissions($permissions)
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        $permissions = collect($permissions);
+
+        return  $permissions->intersect($this->getPermissionsArray())->count() == $permissions->count();
     }
 
 
