@@ -18,6 +18,7 @@ class AdminAuthorResource extends JsonResource
      */
     public function toArray($request)
     {
+//        dd($this->whenLoaded('articles'));
         return [
             'id' => $this->id,
             'type' => 'authors',
@@ -35,14 +36,12 @@ class AdminAuthorResource extends JsonResource
             'relationships' => [
                 'articles' => [
                     'links' => [
-                        'self' => route('authors.relationships.articles',
-                            ['author' => $this->id]),
-                        'related' => route('authors.articles',
-                            ['author' => $this->id])
+                        'self' => route('authors.relationships.articles', ['author' => $this->id]),
+                        'related' => route('authors.articles', ['author' => $this->id])
                     ],
-
                     'data' => AdminArticlesIdentifireResource::collection(
-                        $this->whenLoaded('articles')
+                        $this->articles
+//                        $this->whenLoaded('articles')
                     ),
                 ],
             ],

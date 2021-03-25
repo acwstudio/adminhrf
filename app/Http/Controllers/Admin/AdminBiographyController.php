@@ -9,7 +9,12 @@ use App\Http\Resources\Admin\AdminBiographyCollection;
 use App\Http\Resources\Admin\AdminBiographyResource;
 use App\Models\Biography;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * Class AdminBiographyController
+ * @package App\Http\Controllers\Admin
+ */
 class AdminBiographyController extends Controller
 {
     /**
@@ -17,11 +22,15 @@ class AdminBiographyController extends Controller
      *
      * @return AdminBiographyCollection
      */
-    public function index(Request $request)
+    public function index()
     {
-        $perPage = $request->get('per_page', 10);
+        $biographies = QueryBuilder::for(Biography::class)
+            ->allowedIncludes(['comments'])
+//            ->allowedFilters([''])
+//            ->allowedSorts([''])
+            ->jsonPaginate();
 
-        return new AdminBiographyCollection(Biography::paginate($perPage));
+        return new AdminBiographyCollection($biographies);
     }
 
     /**
@@ -32,9 +41,9 @@ class AdminBiographyController extends Controller
      */
     public function store(BiographyCreateRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $biography = Biography::create($data['data']);
+        $biography = Biography::create($data);
 
         return (new AdminBiographyResource($biography))
             ->response()
