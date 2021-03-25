@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAuthorVideolectureTable extends Migration
+class CreateEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateAuthorVideolectureTable extends Migration
      */
     public function up()
     {
-        Schema::create('author_videolecture', function (Blueprint $table) {
-            $table->bigInteger('author_id');
-            $table->bigInteger('videolecture_id');
+        Schema::create('events', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -26,6 +26,6 @@ class CreateAuthorVideolectureTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('author_videolecture');
+        Schema::dropIfExists('events');
     }
 }

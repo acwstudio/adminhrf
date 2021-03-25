@@ -26,12 +26,12 @@ class AdminAuthorController extends Controller
      */
     public function index(Request $request)
     {
-        $articles = QueryBuilder::for(Author::class)
+        $authors = QueryBuilder::for(Author::class)
             ->with('articles')
             ->allowedSorts(['id', 'birth_date', 'firstname'])
             ->jsonPaginate();
 
-        return new AdminAuthorCollection($articles);
+        return new AdminAuthorCollection($authors);
     }
 
     /**
@@ -65,7 +65,7 @@ class AdminAuthorController extends Controller
             ->allowedIncludes('articles')
             ->allowedFilters('firstname')
             ->firstOrFail();
-
+//        return $query;
         return new AdminAuthorResource($query);
     }
 
