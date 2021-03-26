@@ -10,6 +10,6 @@ class CommentThreads extends Model
     use HasFactory;
 
     protected $connection = 'pgsql_old';
-    protected $table = 'content_comment_thread';
+    protected $table = 'sip_comment_thread';
 
 }
