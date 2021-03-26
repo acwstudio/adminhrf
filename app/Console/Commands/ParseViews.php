@@ -4,17 +4,12 @@ namespace App\Console\Commands;
 
 use App\Models\Article;
 use App\Models\Biography;
-use App\Models\Old\Comments as OldComment;
 use App\Models\Old\Article as OldArticle;
-use App\Models\Comment;
-use App\Models\Old\CommentThreads;
 use App\Models\Old\Film;
 use App\Models\Old\Person;
 use App\Models\Old\Stats;
-
 use App\Models\Videomaterial;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 class ParseViews extends Command
 {
@@ -64,22 +59,25 @@ class ParseViews extends Command
 
         $bar = $this->output->createProgressBar($articles->count());
 
-        foreach ($articles as $article){
+        foreach ($articles as $article) {
             $oldArticle = OldArticle::find($article->id);
-            if(!is_null($oldArticle)) {
+            if (!is_null($oldArticle)) {
                 $stat = Stats::where('resource_type', '=', 'SIP\ArtworkBundle\Entity\Artworks')
                     ->where('resource_id', '=', $oldArticle->id)->first();
-		
-		$var = json_decode($stat->params);
-                $article->viewed = (int)$var->views; // ['views']; // $stat->params->views;
-                $article->save;
+                var_dump($stat);
+                $this->info('Article #'.$article->id);
+                if(is_null($stat)) {
+                    $var = json_decode($stat->params);
+                    $article->viewed = (int)$var->views; // ['views']; // $stat->params->views;
+                    $article->save;
+                }
+
 //		$bar->advance();
             }
-		$bar->advance();
-		$this->newLine();
-	        $this->info($var->views);
+            $bar->advance();
+            $this->newLine();
+            $this->info($var->views);
         }
-        $bar->advance();
         $bar->finish();
         $this->newLine();
         $this->info('All articles processed!');
@@ -88,14 +86,19 @@ class ParseViews extends Command
 
         $bar = $this->output->createProgressBar($bios->count());
 
-        foreach ($bios as $bio){
+        foreach ($bios as $bio) {
             $person = Person::find($bio->id);
-            if(!is_null($person)) {
+            if (!is_null($person)) {
                 $stat = Stats::where('resource_type', '=', 'SIP\PersonBundle\Entity\Person')
                     ->where('resource_id', '=', $person->id)->first();
-		$var = json_decode($stat->params);
-                $bio->viewed = (int)$var->views; //['views']; // $stat->params->views;
-                $bio->save;
+
+                var_dump($stat);
+                $this->info('Bio #'.$bio->id);
+                if(is_null($stat)) {
+                    $var = json_decode($stat->params);
+                    $bio->viewed = (int)$var->views; //['views']; // $stat->params->views;
+                    $bio->save;
+                }
             }
         }
 
@@ -105,18 +108,22 @@ class ParseViews extends Command
         $this->info('All bios processed!');
 
 
-        $films = Videomaterial::where('type','=','film')->cursor();
+        $films = Videomaterial::where('type', '=', 'film')->cursor();
 
         $bar = $this->output->createProgressBar($films->count());
 
-        foreach ($films as $film){
+        foreach ($films as $film) {
             $oldFilm = Film::find($film->id);
-            if(!is_null($person)) {
+            if (!is_null($person)) {
                 $stat = Stats::where('resource_type', '=', 'SIP\FilmBundle\Entity\Film')
                     ->where('resource_id', '=', $oldFilm->id)->first();
-		$var = json_decode($stat->params);
-                $film->viewed = (int)$var->views; // ['views']; //$stat->params->views;
-                $film->save;
+                var_dump($stat);
+                $this->info('Film #'.$film->id);
+                if(is_null($stat)) {
+                    $var = json_decode($stat->params);
+                    $film->viewed = (int)$var->views; // ['views']; //$stat->params->views;
+                    $film->save;
+                }
             }
         }
 
