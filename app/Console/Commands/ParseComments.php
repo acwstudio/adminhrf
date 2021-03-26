@@ -8,6 +8,7 @@ use App\Models\Old\CommentThreads;
 use Illuminate\Console\Command;
 use App\Models\Old\Comments as OldComment;
 use App\Models\Old\Article as OldArticle;
+use Illuminate\Support\Facades\DB;
 
 class ParseComments extends Command
 {
@@ -76,11 +77,16 @@ class ParseComments extends Command
                         'updated_at' => $oldComment->created_at
                     ]
                 );
+
             }
             $article->commented = $oldThread->num_comments;
             $article->save;
+
+            $bar->advance();
         }
 
+        DB::unprepared("SELECT SETVAL('comments_id_seq', (SELECT MAX(id) + 1 FROM comments))");
+        $bar->finish();
         $this->newLine();
         $this->info('All articles processed!');
 
