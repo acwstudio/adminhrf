@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\BookmarkShortResource;
+use App\Models\Bookmark;
+use App\Models\BookmarkGroup;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -10,22 +12,79 @@ class BookmarkController extends Controller
 {
     private $models = [
         'read' => [
-            'news', 'documents', 'article', 'biography'
+            'news', 'documents', 'article', 'biography', 'course'
         ],
         'watch' => [
-            'video'
+            'videomaterial', 'videocourse'
         ],
         'listen' => [
-            'audio'
+            'audiomaterial', 'audiocourse'
+        ],
+        'events' => [
+            'event'
+        ],
+        'highlights' => [
+            'highlight'
         ]
+
     ];
+
+
+    public function setBookmark(Request $request)
+    {
+        $bookmarkableType = $request->get('model_type');
+        $bookmarkableId = (int)$request->get('id');
+        $userId = (int)$request->get('user_id');
+        return $userId;
+
+//        $user = $request->user();
+
+        if (!$user) {
+            return ['err' => 'You are not authorized or there are no such user'];
+        }
+        $bookmarkGroup = $user->bookmarkGroup()->first();
+        if (is_null($bookmarkGroup)) {
+            $bookmarkGroup = BookmarkGroup::create(
+                [
+                    'title' => 'default',
+                    'user_id' => $user->id,
+                ]
+            );
+            Bookmark::create([
+                'bookmarkable_type' => $bookmarkableType,
+                'bookmarkable_id' => $bookmarkableId,
+                'group_id' => $bookmarkGroup->id
+            ]);
+        }
+        else {
+            $bookmark = $bookmarkGroup->bookmarks->where('bookmarkable_type','=',$bookmarkableType)
+                                    ->where('bookmarkable_id', '=', $bookmarkableId)->first();
+            if(!$bookmark) {
+                Bookmark::create([
+                    'bookmarkable_type' => $bookmarkableType,
+                    'bookmarkable_id' => $bookmarkableId,
+                    'group_id' => $bookmarkGroup->id
+                ]);
+            }
+            else{
+                $bookmark->delete();
+            }
+
+        }
+        return response('Ok', 200);
+    }
+
 
 
     public function getBookmarks(Request $request)
     {
         $perPage = $request->get('per_page', $this->perPage);
         $page = $request->get('page', 1);
-        $user = User::findOrFail($request->get('user_id', 0));
+        //$user = User::findOrFail($request->get('user_id', 0));id
+        $user = $request->user();
+        if(!$user){
+            return ['err' => 'You are not authorized'];
+        }
         $data = [];
         $groups = $user->bookmarkGroup;
         if ($groups) {
@@ -54,15 +113,18 @@ class BookmarkController extends Controller
     {
         $perPage = $request->get('per_page', $this->perPage);
         $page = $request->get('page', 1);
-        $user = User::findOrFail($request->get('user_id', 0));
+        //$user = User::findOrFail($request->get('user_id', 0));
+        $user = $request->user();
         $data = [];
+        if(!$user){
+          return ['err' => 'You are not authorized'];
+        }
         $groups = $user->bookmarkGroup;
         if ($groups) {
             $num = $groups->bookmarks->count();
             foreach ($groups->bookmarks->sortByDesc('created_at')->forPage($page, $perPage) as $bookmark) { //->skip($page*$perPage)->take($perPage)
                 $row = $bookmark->bookmarkable;
                 if ($row) {
-
                     if (in_array($bookmark->bookmarkable_type, $this->models["{$action}"])) {
                         $row->entity = $bookmark->bookmarkable_type;
                         $data[] = $row;
@@ -70,7 +132,7 @@ class BookmarkController extends Controller
                 }
             }
             return ['data' => BookmarkShortResource::collection($data),
-                'meta' => [
+                    'meta' => [
                     'last_page' => ceil($num / $perPage),
                     'current_page' => (int)$page,
                 ],
