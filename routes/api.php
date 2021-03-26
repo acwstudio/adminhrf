@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\AdminDocumentController;
 use App\Http\Controllers\Admin\AdminImageController;
 use App\Http\Controllers\Admin\AdminNewsController;
 use App\Http\Controllers\Admin\AdminTagController;
+use App\Http\Controllers\Admin\AdminTestController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AudiomaterialController;
 use App\Http\Controllers\AuthorController;
@@ -210,8 +211,6 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/admin/tags/{tag}', [AdminTagController::class, 'update']);
                 Route::delete('/admin/tags/{tag}', [AdminTagController::class, 'destroy']);
 
-
-
                 /*****************  IMAGES ROUTES **************/
 
                 Route::get('/admin/images', [AdminImageController::class, 'index']);
@@ -221,12 +220,24 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/admin/images/{image}', [AdminImageController::class, 'update']);
                 Route::delete('/admin/images/{image}', [AdminImageController::class, 'destroy']);
 
+                /*****************  COMMENTS ROUTES **************/
+
                 Route::get('admin/comments', [AdminCommentController::class, 'index']);
                 Route::get('admin/comments/{comment}', [AdminCommentController::class, 'show'])
                     ->name('admin.comments.show');
 //                Route::post('admin/comments', [AdminCommentController::class, 'store']);
 //                Route::patch('admin/comments/{comment}', [AdminCommentController::class, 'update']);
 //                Route::delete('admin/comments/{comment}', [AdminCommentController::class, 'delete']);
+
+                /*****************  TESTS ROUTES **************/
+
+                Route::get('/admin/tests', [AdminTestController::class, 'index']);
+                Route::get('/admin/tests/{test}', [AdminTestController::class, 'show'])
+                    ->name('admin.tests.show');
+                Route::post('/admin/tests', [AdminTestController::class, 'store']);
+                Route::patch('/admin/tests/{test}', [AdminTestController::class, 'update']);
+                Route::delete('/admin/tests/{test}', [AdminTestController::class, 'destroy']);
+
             });
         }
     );

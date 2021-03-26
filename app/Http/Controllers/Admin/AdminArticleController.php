@@ -20,8 +20,8 @@ class AdminArticleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @return AdminArticleCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
@@ -45,9 +45,13 @@ class AdminArticleController extends Controller
      */
     public function store(ArticleCreateRequest $request)
     {
-        $data = $request->input('data.attributes');
+        $dataAttributes = $request->input('data.attributes');
+        $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
 
-        $article = Article::create($data);
+        $article = Article::create($dataAttributes);
+        $article->authors()->attach($dataRelAuthors);
+        $article->tags()->attach($dataRelTags);
 
         return (new AdminArticleResource($article))
             ->response()
@@ -64,8 +68,9 @@ class AdminArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $query = QueryBuilder::for(Article::where('id', $article->id))
-            ->allowedIncludes('authors', 'comments', 'tags')
+        $query = QueryBuilder::for(Article::with('tags', 'comments', 'authors')
+            ->where('id', $article->id))
+//            ->allowedIncludes('authors', 'comments', 'tags')
             ->firstOrFail();
 
         return new AdminArticleResource($query);

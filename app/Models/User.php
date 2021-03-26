@@ -87,6 +87,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function permissions()
     {
         return $this->belongsToMany(Permission::class);

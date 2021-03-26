@@ -62,13 +62,14 @@ class AdminArticleResource extends JsonResource
                         'self' => route('articles.relationships.tags', ['article' => $this->id]),
                         'related' => route('articles.tags', ['article' => $this->id])
                     ],
-
                     'data' => AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
+                ],
+                'images' => [
+
                 ]
             ],
 
-//            'tags' => AdminTagResource::collection($this->whenLoaded('tags')),
-//            'authors' => AdminAuthorResource::collection($this->whenLoaded('authors')),
+
 //            'images' => $this->images,
 
 //            'bookmarks' => $this->bookmarks,
