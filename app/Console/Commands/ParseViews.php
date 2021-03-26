@@ -67,10 +67,10 @@ class ParseViews extends Command
         foreach ($articles as $article){
             $oldArticle = OldArticle::find($article->id);
             if(!is_null($oldArticle)) {
-                $stat = Stats::where('permalink', '=', 'SIP\ArtworkBundle\Entity\Artworks')
-                    ->where('resource_id', '=', $oldArticle->id);
-
-                $article->viewed = $stat->params->views;
+                $stat = Stats::where('resource_type', '=', 'SIP\ArtworkBundle\Entity\Artworks')
+                    ->where('resource_id', '=', $oldArticle->id)->first();
+		$var = json_decode($stat->params);
+                $article->viewed = $var->views; // ['views']; // $stat->params->views;
                 $article->save;
             }
         }
@@ -86,10 +86,10 @@ class ParseViews extends Command
         foreach ($bios as $bio){
             $person = Person::find($bio->id);
             if(!is_null($person)) {
-                $stat = Stats::where('permalink', '=', 'SIP\PersonBundle\Entity\Person')
-                    ->where('resource_id', '=', $person->id);
-
-                $bio->viewed = $stat->params->views;
+                $stat = Stats::where('resource_type', '=', 'SIP\PersonBundle\Entity\Person')
+                    ->where('resource_id', '=', $person->id)->first();
+		$var = json_decode($stat->params);
+                $bio->viewed = $var->views; //['views']; // $stat->params->views;
                 $bio->save;
             }
         }
@@ -107,10 +107,10 @@ class ParseViews extends Command
         foreach ($films as $film){
             $oldFilm = Film::find($film->id);
             if(!is_null($person)) {
-                $stat = Stats::where('permalink', '=', 'SIP\FilmBundle\Entity\Film')
-                    ->where('resource_id', '=', $oldFilm->id);
-
-                $film->viewed = $stat->params->views;
+                $stat = Stats::where('resource_type', '=', 'SIP\FilmBundle\Entity\Film')
+                    ->where('resource_id', '=', $oldFilm->id)->first();
+		$var = json_decode($stat->params);
+                $film->viewed = $var->views; // ['views']; //$stat->params->views;
                 $film->save;
             }
         }
