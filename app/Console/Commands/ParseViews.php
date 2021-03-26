@@ -69,10 +69,15 @@ class ParseViews extends Command
             if(!is_null($oldArticle)) {
                 $stat = Stats::where('resource_type', '=', 'SIP\ArtworkBundle\Entity\Artworks')
                     ->where('resource_id', '=', $oldArticle->id)->first();
+		
 		$var = json_decode($stat->params);
-                $article->viewed = $var->views; // ['views']; // $stat->params->views;
+                $article->viewed = (int)$var->views; // ['views']; // $stat->params->views;
                 $article->save;
+//		$bar->advance();
             }
+		$bar->advance();
+		$this->newLine();
+	        $this->info($var->views);
         }
         $bar->advance();
         $bar->finish();
@@ -89,7 +94,7 @@ class ParseViews extends Command
                 $stat = Stats::where('resource_type', '=', 'SIP\PersonBundle\Entity\Person')
                     ->where('resource_id', '=', $person->id)->first();
 		$var = json_decode($stat->params);
-                $bio->viewed = $var->views; //['views']; // $stat->params->views;
+                $bio->viewed = (int)$var->views; //['views']; // $stat->params->views;
                 $bio->save;
             }
         }
@@ -110,7 +115,7 @@ class ParseViews extends Command
                 $stat = Stats::where('resource_type', '=', 'SIP\FilmBundle\Entity\Film')
                     ->where('resource_id', '=', $oldFilm->id)->first();
 		$var = json_decode($stat->params);
-                $film->viewed = $var->views; // ['views']; //$stat->params->views;
+                $film->viewed = (int)$var->views; // ['views']; //$stat->params->views;
                 $film->save;
             }
         }
