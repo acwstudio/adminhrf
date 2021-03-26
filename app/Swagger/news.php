@@ -24,6 +24,16 @@
  *             type="integer",
  *         )
  *     ),
+ *     @OA\Parameter(
+ *         name="sort_by",
+ *         in="query",
+ *         description="Sort by parameter",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="string",
+ *             enum={"popular"}
+ *         )
+ *     ),
  *     @OA\Response(
  *         response="200",
  *         description="Everything is fine",
