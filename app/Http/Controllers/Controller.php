@@ -13,6 +13,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    const SORT_POPULAR = 'popular';
+
     protected $perPage = 12;
 
 
