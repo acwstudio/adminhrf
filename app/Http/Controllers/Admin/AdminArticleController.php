@@ -8,7 +8,6 @@ use App\Http\Requests\ArticleUpdateRequest;
 use App\Http\Resources\Admin\AdminArticleCollection;
 use App\Http\Resources\Admin\AdminArticleResource;
 use App\Models\Article;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -48,15 +47,24 @@ class AdminArticleController extends Controller
         $dataAttributes = $request->input('data.attributes');
         $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
+        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $article = Article::create($dataAttributes);
         $article->authors()->attach($dataRelAuthors);
         $article->tags()->attach($dataRelTags);
+        //        I don't know what these relationships
+//        $article->bookmarks()->saveMany($dataRelBookmarks);
+//        $article->images()->save($dataRelImages);
 
-        return (new AdminArticleResource($article))
+        $query = QueryBuilder::for(Article::with('tags', 'comments', 'authors')
+            ->where('id', $article->id))
+            ->firstOrFail();
+
+        return (new AdminArticleResource($query))
             ->response()
             ->header('Location', route('admin.articles.show', [
-                'article' => $article
+                'article' => $article->id
             ]));
     }
 
@@ -70,7 +78,6 @@ class AdminArticleController extends Controller
     {
         $query = QueryBuilder::for(Article::with('tags', 'comments', 'authors')
             ->where('id', $article->id))
-//            ->allowedIncludes('authors', 'comments', 'tags')
             ->firstOrFail();
 
         return new AdminArticleResource($query);
@@ -81,15 +88,32 @@ class AdminArticleController extends Controller
      *
      * @param ArticleUpdateRequest $request
      * @param Article $article
-     * @return AdminArticleResource
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(ArticleUpdateRequest $request, Article $article)
     {
-        $data = $request->input('data.attributes');
+        $dataAttributes = $request->input('data.attributes');
+        $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
+        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
-        $article->update($data);
+        $article->update($dataAttributes);
+        $article->authors()->sync($dataRelAuthors);
+        $article->tags()->sync($dataRelTags);
+//        I don't know what these relationships
+//        $article->bookmarks()->saveMany($dataRelBookmarks);
+//        $article->images()->save($dataRelImages);
 
-        return new AdminArticleResource($article);
+        $query = QueryBuilder::for(Article::with('tags', 'comments', 'authors')
+            ->where('id', $article->id))
+            ->firstOrFail();
+
+        return (new AdminArticleResource($query))
+            ->response()
+            ->header('Location', route('admin.articles.show', [
+                'article' => $article->id
+            ]));
     }
 
     /**
@@ -101,6 +125,16 @@ class AdminArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+        $idAuthors = $article->authors()->allRelatedIds();
+        $idTags = $article->tags()->allRelatedIds();
+
+        $article->authors()->detach($idAuthors);
+        $article->tags()->detach($idTags);
+        $article->images()->delete();
+        $article->bookmarks()->delete();
+
+//        delete images files....
+
         $article->delete();
 
         return response(null, 204);
