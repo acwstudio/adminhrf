@@ -65,22 +65,20 @@ class ParseComments extends Command
                 $oldComments = OldComment::where('thread_id','=',$oldArticle->thread_id)->where('state','=',0)->cursor(); //OldArticle::find($article->id)->thread_id;
                 $oldThread = CommentThreads::where('id','=',$oldArticle->thread_id)->first();
                 foreach ($oldComments as $oldComment){
-                    if(is_null($oldComment->author_id))
-                    $comment = Comment::create(
-                        [
-                            'id' => $oldComment->id,
-                            'commentable_type' => 'article',
-                            'commentable_id' => $oldArticle->id,
-                            'text' => $oldComment->body,
-                            'liked' => $oldArticle->score,
-                            'children_count' => 0,
-                            'user_id' => $oldComment->author_id,
-                            'created_at' => $oldComment->created_at,
-                            'updated_at' => $oldComment->created_at,
-                            'answer_to' => null,
-                        ]
-                    );
-		            $this->line($oldComment->id);
+                    if(!is_null($oldComment->author_id)){
+	                    $comment = Comment::create([
+	                            'id' => $oldComment->id,
+	                            'commentable_type' => 'article',
+	                            'commentable_id' => $oldArticle->id,
+	                            'text' => $oldComment->body,
+	                            'liked' => is_null($oldArticle->score)?0:$oldArticle->score,
+	                            'children_count' => 0,
+	                            'user_id' => $oldComment->author_id,
+	                            'created_at' => $oldComment->created_at,
+	                            'updated_at' => $oldComment->created_at,
+	                            'answer_to' => null,
+	                       ]);
+		            $this->line($oldComment->id);}
                 }
             }
             if(!is_null($oldArticle)) {
