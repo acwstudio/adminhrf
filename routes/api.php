@@ -204,8 +204,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/comments', [CommentController::class, 'index']);
             Route::get('/comments/answers/{comment:id}', [CommentController::class, 'getAnswers']);
 
-            Route::get('/audio', [AudiomaterialController::class, 'index']);
-            Route::get('/audio/{audio:slug}', [AudiomaterialController::class, 'show']);
+            Route::get('/audiolectures', [AudiomaterialController::class, 'index']);
+            Route::get('/audiolectures/{audio:slug}', [AudiomaterialController::class, 'show']);
         }
     );
 
