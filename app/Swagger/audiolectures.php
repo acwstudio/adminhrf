@@ -1,11 +1,11 @@
 <?php
-
 /**
  * @OA\Get(
- *     path="/news",
- *     operationId="newsList",
- *     tags={"News"},
- *     summary="Display paginated listing of news",
+ *     path="/audiolectures",
+ *     operationId="audiolecturesList",
+ *     tags={"Audiolectures"},
+ *     summary="Display paginated listing of audiolectures",
+ *
  *     @OA\Parameter(
  *         name="page",
  *         in="query",
@@ -24,16 +24,6 @@
  *             type="integer",
  *         )
  *     ),
- *     @OA\Parameter(
- *         name="sort_by",
- *         in="query",
- *         description="Sort by parameter",
- *         required=false,
- *         @OA\Schema(
- *             type="string",
- *             enum={"popular"}
- *         )
- *     ),
  *     @OA\Response(
  *         response="200",
  *         description="Everything is fine",
@@ -45,14 +35,15 @@
  * )
  *
  * @OA\Get(
- *     path="/news/{slug}",
- *     operationId="newsItem",
- *     tags={"News"},
- *     summary="Display news by slug",
+ *     path="/audiolectures/{slug}",
+ *     operationId="audiolectureItem",
+ *     tags={"Audiolectures"},
+ *     summary="Display audiolecture by slug",
+ *
  *     @OA\Parameter(
  *         name="slug",
  *         in="path",
- *         description="News slug",
+ *         description="Audiolecture slug",
  *         required=true,
  *         @OA\Schema(
  *             type="string",
@@ -68,6 +59,4 @@
  *     ),
  * )
  *
- *
  */
-

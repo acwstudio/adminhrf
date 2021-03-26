@@ -12,6 +12,11 @@ use Illuminate\Http\Request;
 class ArticleController extends Controller
 {
 
+    protected $sortParams = [
+        self::SORT_POPULAR
+    ];
+
+
     /**
      *
      * Display paginated listing of articles.
@@ -24,12 +29,20 @@ class ArticleController extends Controller
     {
 
         $perPage = $request->get('per_page', 16);
+        $sortBy = $request->get('sort_by');
 
-        return new ArticleCollection(Article::where('active', true)
+        $query = Article::where('active', true)
             ->where('published_at', '<', now())
-            ->with('images')
-            ->orderBy('published_at', 'desc')
-            ->paginate($perPage));
+            ->with('images');
+
+        if ($sortBy && in_array($sortBy, $this->sortParams)) {
+            $query->orderBy('liked', 'desc');
+        }
+
+        $result = $query->orderBy('published_at', 'desc')
+            ->paginate($perPage);
+
+        return new ArticleCollection($result);
     }
 
     /**

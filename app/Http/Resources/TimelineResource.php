@@ -15,6 +15,7 @@ class TimelineResource extends JsonResource
      */
     public function toArray($request)
     {
+	$user = $request->user();
         return [
             'model_type' => $this->timelinable_type,
             'id' => $this->timelinable_id,
@@ -25,7 +26,7 @@ class TimelineResource extends JsonResource
             'published_at' => $this->timelinable->published_at,
             'likes' => $this->timelinable->countLikes(),
             'views' => $this->timelinable->viewed,
-            'has_like' => $this->timelinable->checkLiked($request->get('user_id', 1)),
+#            'has_like' => $this->timelinable->checkLiked($request->get('user_id', 1)),
             'has_bookmark' => false,
 
             'tags' => TagResource::collection($this->timelinable->tags),

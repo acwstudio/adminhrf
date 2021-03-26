@@ -21,22 +21,11 @@ class NewsResource extends JsonResource
             'slug' => $this->slug,
             'body' => $this->body,
             'close_commentation' => $this->close_commentation,
-            'image' => [
-                "model_type" => "image",
-                "id" => 1294,
-                "alt" => null,
-                "src" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt.jpg",
-                "preview" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
-                "original" => null,
-                "order" => 1
-            ],
-            //ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
+            'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'published_at' => $this->published_at,
             'tags' => TagResource::collection($this->tags),
-            'comments' => CommentResource::collection($this->comments),
-            'likes' => null,
+            'comments' => 0, //TODO make comments counter in news table and model
             'views' => $this->viewed,
-            'has_like' => null
         ];
     }
 }

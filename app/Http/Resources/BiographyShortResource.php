@@ -15,6 +15,8 @@ class BiographyShortResource extends JsonResource
      */
     public function toArray($request)
     {
+        $user = $request->user();
+
         return [
             'model_type' => 'biography',
             'surname' => $this->surname,
@@ -28,12 +30,12 @@ class BiographyShortResource extends JsonResource
             'slug' => $this->slug,
             'published_at' => $this->published_at,
             'image' => ImageResource::make($this->images()->first()),
-            'likes' => $this->countLikes(),
+            'likes' => $this->liked,
             'views' => $this->viewed,
-            'has_like' => $this->checkLiked($request->get('user_id', 1)),
+            'comments' => $this->commented,
+            'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => false,
             'categories' => BioCategoryResource::collection($this->categories),
-            'comments' => $this->comments->count(),
             'tags' => $this->tags,
         ];
     }
