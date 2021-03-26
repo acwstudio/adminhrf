@@ -26,7 +26,7 @@ class AudiomaterialResource extends JsonResource
             'position' => $this->position,
             'likes' => $this->liked,
             'views' => $this->viewed,
-            'comments' => $this->comments,
+            'comments' => $this->commented,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => false,
 
