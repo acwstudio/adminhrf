@@ -61,11 +61,11 @@ class ParseComments extends Command
 
         foreach ($articles as $article){
             $oldArticle = OldArticle::find($article->id);
-//            if(is_null($oldArticle)){
-	     if(!is_null($oldArticle)){
+            if(!is_null($oldArticle)){
                 $oldComments = OldComment::where('thread_id','=',$oldArticle->thread_id)->where('state','=',0)->cursor(); //OldArticle::find($article->id)->thread_id;
                 $oldThread = CommentThreads::where('id','=',$oldArticle->thread_id)->first();
                 foreach ($oldComments as $oldComment){
+                    if(is_null($oldComment->author_id))
                     $comment = Comment::create(
                         [
                             'id' => $oldComment->id,
@@ -77,15 +77,11 @@ class ParseComments extends Command
                             'user_id' => $oldComment->author_id,
                             'created_at' => $oldComment->created_at,
                             'updated_at' => $oldComment->created_at,
-			    'answer_to' => null,
-			    'liked' => 0,
-			    'children_count' => 0,
+                            'answer_to' => null,
                         ]
                     );
-		$this->line($oldComment->id);
-            }
-
-
+		            $this->line($oldComment->id);
+                }
             }
             if(!is_null($oldArticle)) {
                 $article->commented = $oldThread->num_comments;
