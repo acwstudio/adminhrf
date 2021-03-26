@@ -207,6 +207,10 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/audiolectures', [AudiomaterialController::class, 'index']);
             Route::get('/audiolectures/{audio:slug}', [AudiomaterialController::class, 'show']);
+
+            Route::get('/bookmarks/', [\App\Http\Controllers\BookmarkController::class,'getBookmarks']);
+            Route::get('/bookmarks/{action}', [\App\Http\Controllers\BookmarkController::class,'getBookmarksActions']);
+            Route::post('/bookmarks/set', [\App\Http\Controllers\BookmarkController::class,'setBookmark']);
         }
     );
 
@@ -233,8 +237,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/tags/news/{tagId}', [\App\Http\Controllers\TagController::class, 'getNews']);
     Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
     Route::get('/tags/all/{tagId}', [\App\Http\Controllers\TagController::class, 'getAll']);
-    Route::get('/bookmarks/', [\App\Http\Controllers\BookmarkController::class,'getBookmarks']);
-    Route::get('/bookmarks/{action}', [\App\Http\Controllers\BookmarkController::class,'getBookmarksActions']);
+    Route::get('/comments/{model}/{id}', [\App\Http\Controllers\CommentsController::class, 'getCommentsForModel']);
+   # Route::get('/comments/user/{id}', [\App\Http\Controllers\CommentsController::class, 'getCommentsFromUser']);
 
 
     Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
@@ -266,8 +270,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/courses/{highlight:slug}', [\App\Http\Controllers\CourseController::class, 'show']);
 
 
-    Route::get('/highlights', [\App\Http\Controllers\VideolectureController::class, 'index']);
-    Route::get('/highlights/{highlight:slug}', [\App\Http\Controllers\VideolectureController::class, 'show']);
+    Route::get('/highlights', [\App\Http\Controllers\HighlightController::class, 'index']);
+    Route::get('/highlights/{highlight:slug}', [\App\Http\Controllers\HighlightController::class, 'show']);
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
