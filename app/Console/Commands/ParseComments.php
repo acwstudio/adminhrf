@@ -43,15 +43,6 @@ class ParseComments extends Command
      */
     public function handle()
     {
-/*        $truncate = $this->option('truncate');
-        $this->info('Start parsing articles...');
-
-        if ($truncate) {
-            $this->line('Clearing table');
-
-            Comment::truncate();
-        }
-*/
         $this->newLine();
         $this->line('Parsing articles');
 

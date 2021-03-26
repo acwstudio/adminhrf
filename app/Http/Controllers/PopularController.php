@@ -17,7 +17,7 @@ class PopularController extends Controller
         return new ArticleCollection(Article::where('active', true)
             ->where('published_at', '<', now())
             ->with('images')
-            ->orderBy('published_at', 'desc')
+            ->orderBy('commented', 'desc')
             ->take($qty)
             ->get());
 
