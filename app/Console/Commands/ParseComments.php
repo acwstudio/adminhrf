@@ -16,7 +16,7 @@ class ParseComments extends Command
      *
      * @var string
      */
-    protected $signature = 'parse:comments';
+    protected $signature = 'parse:comments {--T|truncate : Clear comment table before parse';
 
     /**
      * The console command description.
@@ -47,10 +47,6 @@ class ParseComments extends Command
 
         if ($truncate) {
             $this->line('Clearing table');
-
-            $this->withProgressBar(Article::all(), function ($article) {
-                $article->authors()->detach();
-            });
 
             Comment::truncate();
         }
