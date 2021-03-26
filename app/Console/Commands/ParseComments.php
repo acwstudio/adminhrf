@@ -61,27 +61,31 @@ class ParseComments extends Command
 
         foreach ($articles as $article){
             $oldArticle = OldArticle::find($article->id);
-            $oldComments = OldComment::where('thread_id','=',$oldArticle->thread_id)->where('state','=',0);//OldArticle::find($article->id)->thread_id;
-            $oldThread = CommentThreads::where('id','=',$oldArticle->thread_id)->first();
-            foreach ($oldComments as $oldComment){
-                $comment = Comment::create(
-                    [
-                        'id' => $oldComment->id,
-                        'commentable_type' => 'article',
-                        'commentable_id' => $oldArticle->id,
-                        'text' => $oldComment->body,
-                        'liked' => $oldArticle->score,
-                        'children_count' => 0,
-                        'user_id' => $oldComment->author_id,
-                        'created_at' => $oldComment->created_at,
-                        'updated_at' => $oldComment->created_at
-                    ]
-                );
+            if(!$oldArticle){
+                $oldComments = OldComment::where('thread_id','=',$oldArticle->thread_id)->where('state','=',0);//OldArticle::find($article->id)->thread_id;
+                $oldThread = CommentThreads::where('id','=',$oldArticle->thread_id)->first();
+                foreach ($oldComments as $oldComment){
+                    Comment::create(
+                        [
+                            'id' => $oldComment->id,
+                            'commentable_type' => 'article',
+                            'commentable_id' => $oldArticle->id,
+                            'text' => $oldComment->body,
+                            'liked' => $oldArticle->score,
+                            'children_count' => 0,
+                            'user_id' => $oldComment->author_id,
+                            'created_at' => $oldComment->created_at,
+                            'updated_at' => $oldComment->created_at
+                        ]
+                    );
+            }
+
 
             }
-            $article->commented = $oldThread->num_comments;
-            $article->save;
-
+            if(!$oldArticle) {
+                $article->commented = $oldThread->num_comments;
+                $article->save;
+            }
             $bar->advance();
         }
 
