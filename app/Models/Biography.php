@@ -32,7 +32,8 @@ class Biography extends Model
     protected $casts = [
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
-        'published_at' => 'datetime'
+        'published_at' => 'datetime',
+//	'viewed' => 'bigint'
     ];
 
     public function sluggable(): array

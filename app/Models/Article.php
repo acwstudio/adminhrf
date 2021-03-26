@@ -29,7 +29,8 @@ class Article extends Model
      */
     protected $casts = [
         'published_at' => 'datetime',
-        'biblio' => 'array'
+        'biblio' => 'array',
+//	'viewed' => 'bigint'
     ];
 
     public function sluggable(): array
