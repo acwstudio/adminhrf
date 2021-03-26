@@ -22,6 +22,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\PopularController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\TokenAuthController;
@@ -207,6 +208,9 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/audiolectures', [AudiomaterialController::class, 'index']);
             Route::get('/audiolectures/{audio:slug}', [AudiomaterialController::class, 'show']);
+
+            Route::get('/podcasts', [PodcastController::class, 'index']);
+            Route::get('/podcasts/{podcast:slug}', [PodcastController::class, 'show']);
 
             Route::get('/bookmarks/', [\App\Http\Controllers\BookmarkController::class,'getBookmarks']);
             Route::get('/bookmarks/{action}', [\App\Http\Controllers\BookmarkController::class,'getBookmarksActions']);
