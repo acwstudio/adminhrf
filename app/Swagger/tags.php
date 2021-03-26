@@ -85,4 +85,9 @@
  *     description="Operations about videolectures",
  * )
  *
+ *  @OA\Tag(
+ *     name="Popular",
+ *     description="Get popular resources",
+ * )
+ *
  */

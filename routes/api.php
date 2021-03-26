@@ -22,6 +22,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PopularController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\TokenAuthController;
 use App\Http\Controllers\UserController;
@@ -210,6 +211,10 @@ Route::prefix('v1')->group(function () {
     );
 
     // Common routes
+
+    Route::get('/popular/articles', [PopularController::class, 'articles']);
+    Route::get('/popular/comments', [PopularController::class, 'comments'])->name('popular.comments');
+
 
     Route::get('/documents', [DocumentController::class, 'index']);
     Route::get('/documents/{category:slug}', [DocumentController::class, 'documents']);
