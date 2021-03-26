@@ -34,10 +34,10 @@ class BookmarkController extends Controller
     {
         $bookmarkableType = $request->get('model_type');
         $bookmarkableId = (int)$request->get('id');
-        $userId = (int)$request->get('user_id');
-        return $userId;
+//        $userId = (int)$request->get('user_id');
+//      $user= User::find($userId)->first();
 
-//        $user = $request->user();
+        $user = $request->user();
 
         if (!$user) {
             return ['err' => 'You are not authorized or there are no such user'];
@@ -89,7 +89,7 @@ class BookmarkController extends Controller
         $groups = $user->bookmarkGroup;
         if ($groups) {
             $num = $groups->bookmarks->count();
-            foreach ($groups->bookmarks->sortByDesc('created_at')->forPage($page, $perPage) as $bookmark) { //->skip($page*$perPage)->take($perPage)
+            foreach ($groups->bookmarks->sortByDesc('created_at')->forPage($page, $perPage) as $bookmark) {
                 $row = $bookmark->bookmarkable;
                 if ($row) {
                     $row->entity = $bookmark->bookmarkable_type;
