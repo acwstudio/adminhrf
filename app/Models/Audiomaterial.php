@@ -56,6 +56,6 @@ class Audiomaterial extends Model
         if(is_null($this->bookmarks())){
             return false;
         }
-        return is_null($this->bookmarks()->first()->bookmarkGroup()->firstWhere('user_id', $user->id)))
+        return is_null($this->bookmarks()->first()->bookmarkGroup()->firstWhere('user_id', $user->id));
     }
 }
