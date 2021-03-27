@@ -160,4 +160,8 @@ class Article extends Model
     {
         return $this->morphOne(Timeline::class, 'timelinable');
     }
+
+    public function hasBookmark(User $user){
+        return !is_null($this->bookmarks()->firstWhere('user_id', $user->id));
+    }
 }

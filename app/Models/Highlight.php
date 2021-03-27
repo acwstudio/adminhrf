@@ -66,4 +66,8 @@ class Highlight extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    public function hasBookmark(User $user){
+        return !is_null($this->bookmarks()->firstWhere('user_id', $user->id));
+    }
 }

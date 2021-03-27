@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Commentable;
 use App\Models\Traits\Likeable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +11,7 @@ use Illuminate\Support\Str;
 
 class Biography extends Model
 {
-    use HasFactory, Sluggable, Likeable;
+    use HasFactory, Sluggable, Likeable, Commentable;
 
     public $fillable = [
         'surname',
@@ -50,11 +51,6 @@ class Biography extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function countLikes()
-    {
-        return $this->likes()->count();
-    }
-
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
@@ -65,21 +61,9 @@ class Biography extends Model
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
-    public function countComments()
-    {
-        return $this->comments()->count();
-    }
-
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
-    }
-
-    public function checkLiked($userId)
-    {
-        $val = $this->likes()->first(['user_id']);
-        //$get->user();
-        return $val ? $val->user_id == $userId : false;
     }
 
     public function images()

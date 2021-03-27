@@ -71,12 +71,6 @@ class Videomaterial extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function checkLiked($userId)
-    {
-        $val = $this->likes()->first(['user_id']);
-        return $val ? $val->user_id == $userId : false;
-    }
-
     public function authors()
     {
         return $this->morphToMany(Author::class, 'material', 'author_material');
@@ -85,6 +79,10 @@ class Videomaterial extends Model
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');
+    }
+
+    public function hasBookmark(User $user){
+        return !is_null($this->bookmarks()->firstWhere('user_id', $user->id));
     }
 
 
