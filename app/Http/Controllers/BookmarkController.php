@@ -94,7 +94,7 @@ class BookmarkController extends Controller
                 if ($row) {
                     $row->entity = $bookmark->bookmarkable_type;
                     $row->has_like = $user&&$row->entity!='news'?$row->checkLiked($user):false;
-                    $row->has_bookmark = $user?$row->checkBookmark($user):false;
+                    $row->has_bookmark = $user?$row->hasBookmark($user):false;
                     $data[] = $row;
                 }
             }
@@ -129,6 +129,8 @@ class BookmarkController extends Controller
                 if ($row) {
                     if (in_array($bookmark->bookmarkable_type, $this->models["{$action}"])) {
                         $row->entity = $bookmark->bookmarkable_type;
+                        $row->has_like = $user&&$row->entity!='news'?$row->checkLiked($user):false;
+                        $row->has_bookmark = $user?$row->hasBookmark($user):false;
                         $data[] = $row;
                     }
                 }
@@ -159,6 +161,8 @@ class BookmarkController extends Controller
                     if ($bookmark->bookmarkable_type == 'news' || $bookmark->bookmarkable_type == 'article' ||
                         $bookmark->bookmarkable_type == 'document' || $bookmark->bookmarkable_type == 'biography') {
                         $row->entity = $bookmark->bookmarkable_type;
+                        $row->has_like = $user&&$row->entity!='news'?$row->checkLiked($user):false;
+                        $row->has_bookmark = $user?$row->hasBookmark($user):false;
                         $data[] = $row;
                     }
                 }
