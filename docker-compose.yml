@@ -59,7 +59,7 @@ services:
             POSTGRES_PASSWORD: jetmix
 #            DATABASE_URL: postgres://histrf_api:jetmix@docker.for.mac.host.internal/histrf_new
         volumes:
-            - 'psql'
+            - '../histrf_data/_data:/var/lib/postgresql/data'
         networks:
             - sail
     redis:
