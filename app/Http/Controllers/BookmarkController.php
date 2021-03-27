@@ -43,7 +43,7 @@ class BookmarkController extends Controller
             return ['err' => 'You are not authorized or there are no such user'];
         }
         $bookmarkGroup = $user->bookmarkGroup()->first();
-        if (is_null($bookmarkGroup)) {
+        if (is_null($bookmarkGroup)&&!is_null($bookmarkableId)) {
             $bookmarkGroup = BookmarkGroup::create(
                 [
                     'title' => 'default',
@@ -56,7 +56,7 @@ class BookmarkController extends Controller
                 'group_id' => $bookmarkGroup->id
             ]);
         }
-        else {
+        elseif(!is_null($bookmarkableId)) {
             $bookmark = $bookmarkGroup->bookmarks->where('bookmarkable_type','=',$bookmarkableType)
                                     ->where('bookmarkable_id', '=', $bookmarkableId)->first();
             if(!$bookmark) {

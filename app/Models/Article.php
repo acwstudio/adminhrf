@@ -162,6 +162,6 @@ class Article extends Model
     }
 
     public function hasBookmark(User $user){
-        return !is_null($this->bookmarks()->firstWhere('user_id', $user->id));
+        return !is_null($this->bookmark()->first()->bookmarkGroup()->firstWhere('user_id', $user->id));
     }
 }
