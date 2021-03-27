@@ -28,7 +28,7 @@ class ArticleShortResource extends JsonResource
             'likes' => $this->liked,
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark' => $this->hasBookmark($user),
+            'has_bookmark' => $user ? $this->hasBookmark($user): false,
             'image' => ImageResource::make($this->whenLoaded('images')->shift()),
         ];
     }

@@ -30,7 +30,7 @@ class ArticleResource extends JsonResource
             'likes' => $this->liked,
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark' => $this->hasBookmark($user),
+            'has_bookmark' => $user ? $this->hasBookmark($user): false,
             'tags' => TagResource::collection($this->tags),
             'comments' => $this->commented,
         ];

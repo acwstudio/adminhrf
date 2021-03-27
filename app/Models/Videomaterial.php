@@ -72,10 +72,10 @@ class Videomaterial extends Model
     }
 
     public function hasBookmark(User $user){
-        if(is_null($this->bookmarks())){
+        if(is_null($user->bookmarkGroup())){
             return false;
         }
-        return is_null($this->bookmarks()->first()->bookmarkGroup()->firstWhere('user_id', $user->id));
+        return is_null($user->bookmarkGroup()->first()->bookmarks()->firstWhere('bookmarkable_id',$this->id));
     }
 
 
