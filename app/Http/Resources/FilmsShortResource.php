@@ -30,7 +30,7 @@ class FilmsShortResource extends JsonResource
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark' => false,
+            'has_bookmark' => $this->hasBookmark($user),
             //'image' => ImageResource::collection($this->whenLoaded('images')),
             'image' => [
                 "model_type" => "image",

@@ -28,7 +28,7 @@ class VideoLectureShortResource extends JsonResource
             'likes' => $this->liked,
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark' => false,
+            'has_bookmark' => $this->hasBookmark($user),
             //'image' => ImageResource::collection($this->whenLoaded('images')),
             'image' => [
                 "model_type" => "image",

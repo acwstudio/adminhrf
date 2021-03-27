@@ -28,7 +28,7 @@ class EventShortResource extends JsonResource
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
             'has_like' => $this->checkLiked($request->get('user_id', 1)),
-            'has_bookmark' => false,
+            'has_bookmark' => $this->hasBookmark($user),
             'event_date' => Carbon::parse(($this->event_date))->format('Y-m-d'),
             'group_date' => Carbon::parse(($this->event_date))->format('Y-m'),
             'event_start_date' => Carbon::parse(($this->event_start_date))->format('Y-m-d'),
