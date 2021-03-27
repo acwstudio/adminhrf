@@ -46,11 +46,6 @@ class Videomaterial extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function countLikes()
-    {
-        return $this->likes()->count();
-    }
-
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
@@ -61,20 +56,9 @@ class Videomaterial extends Model
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
-    public function countComments()
-    {
-        return $this->comments()->count();
-    }
-
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
-    }
-
-    public function checkLiked($userId)
-    {
-        $val = $this->likes()->first(['user_id']);
-        return $val ? $val->user_id == $userId : false;
     }
 
     public function authors()
@@ -85,6 +69,13 @@ class Videomaterial extends Model
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');
+    }
+
+    public function hasBookmark(User $user){
+        if(is_null($user->bookmarkGroup())){
+            return false;
+        }
+        return is_null($user->bookmarkGroup()->first()->bookmarks()->firstWhere('bookmarkable_id',$this->id));
     }
 
 

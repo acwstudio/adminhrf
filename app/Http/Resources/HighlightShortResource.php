@@ -24,7 +24,7 @@ class HighlightShortResource extends JsonResource
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark' => false,
+            'has_bookmark' => $user ? $this->hasBookmark($user): false,
             'image' => [
                 "model_type" => "image",
                 "id" => 1294,

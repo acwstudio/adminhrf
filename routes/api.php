@@ -269,6 +269,33 @@ Route::prefix('v1')->group(function () {
             Route::get('/biographies', [BiographyController::class,'index']);
             Route::get('/biographies/categories', [BiographyController::class,'categories']);
             Route::get('/biographies/{biography:slug}', [BiographyController::class,'show'])->name('biographies.show');
+
+            Route::get('/timeline/events/{article:slug}', [\App\Http\Controllers\TimeLineController::class,'getEvent']);
+            Route::get('/timeline/biographies/{biography:slug}', [\App\Http\Controllers\TimeLineController::class,'getBiography']);
+            Route::get('/timeline', [\App\Http\Controllers\TimeLineController::class,'getAll']);
+
+            Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
+            Route::get('/tests/{test:id}', [\App\Http\Controllers\TestController::class, 'show']);
+            Route::get('/tests/result/{test:id}', [\App\Http\Controllers\TestController::class, 'postResult']);
+
+            Route::get('/films', [\App\Http\Controllers\FilmsController::class, 'index']);
+            Route::get('/films/{videomaterial:slug}', [\App\Http\Controllers\FilmsController::class, 'show']);
+
+            Route::get('/videolectures', [\App\Http\Controllers\VideolectureController::class, 'index']);
+            Route::get('/videolectures/{videomaterial:slug}', [\App\Http\Controllers\VideolectureController::class, 'show']);
+
+            Route::get('/courses/video', [\App\Http\Controllers\CourseController::class, 'getVideocourses']);
+            Route::get('/courses/audio', [\App\Http\Controllers\CourseController::class, 'getAudiocourses']);
+            Route::get('/courses/courses', [\App\Http\Controllers\CourseController::class, 'getCourses']);
+            Route::get('/courses/{highlight:slug}', [\App\Http\Controllers\CourseController::class, 'show']);
+
+
+            Route::get('/highlights', [\App\Http\Controllers\HighlightController::class, 'index']);
+            Route::get('/highlights/{highlight:slug}', [\App\Http\Controllers\HighlightController::class, 'show']);
+
+            Route::get('/news/', [NewsController::class, 'index']);
+            Route::get('/news/{news:slug}', [NewsController::class, 'show']);
+
         }
     );
 
@@ -289,9 +316,6 @@ Route::prefix('v1')->group(function () {
     Route::get('/authors', [AuthorController::class, 'index']);
     Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
 
-    Route::get('/news/', [NewsController::class, 'index']);
-    Route::get('/news/{news:slug}', [NewsController::class, 'show']);
-
     Route::get('/tags/news/{tagId}', [\App\Http\Controllers\TagController::class, 'getNews']);
     Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
     Route::get('/tags/all/{tagId}', [\App\Http\Controllers\TagController::class, 'getAll']);
@@ -299,28 +323,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
 
 
-    Route::get('/timeline/events/{article:slug}', [\App\Http\Controllers\TimeLineController::class,'getEvent']);
-    Route::get('/timeline/biographies/{biography:slug}', [\App\Http\Controllers\TimeLineController::class,'getBiography']);
-    Route::get('/timeline', [\App\Http\Controllers\TimeLineController::class,'getAll']);
 
-    Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
-    Route::get('/tests/{test:id}', [\App\Http\Controllers\TestController::class, 'show']);
-    Route::get('/tests/result/{test:id}', [\App\Http\Controllers\TestController::class, 'postResult']);
-
-    Route::get('/films', [\App\Http\Controllers\FilmsController::class, 'index']);
-    Route::get('/films/{videomaterial:slug}', [\App\Http\Controllers\FilmsController::class, 'show']);
-
-    Route::get('/videolectures', [\App\Http\Controllers\VideolectureController::class, 'index']);
-    Route::get('/videolectures/{videomaterial:slug}', [\App\Http\Controllers\VideolectureController::class, 'show']);
-
-    Route::get('/courses/video', [\App\Http\Controllers\CourseController::class, 'getVideocourses']);
-    Route::get('/courses/audio', [\App\Http\Controllers\CourseController::class, 'getAudiocourses']);
-    Route::get('/courses/courses', [\App\Http\Controllers\CourseController::class, 'getCourses']);
-    Route::get('/courses/{highlight:slug}', [\App\Http\Controllers\CourseController::class, 'show']);
-
-
-    Route::get('/highlights', [\App\Http\Controllers\HighlightController::class, 'index']);
-    Route::get('/highlights/{highlight:slug}', [\App\Http\Controllers\HighlightController::class, 'show']);
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);

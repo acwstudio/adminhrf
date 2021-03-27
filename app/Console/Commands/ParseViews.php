@@ -64,11 +64,12 @@ class ParseViews extends Command
             if (!is_null($oldArticle)) {
                 $stat = Stats::where('resource_type', '=', 'SIP\ArtworkBundle\Entity\Artworks')
                     ->where('resource_id', '=', $oldArticle->id)->first();
-                var_dump($stat);
+//                var_dump($stat->params);
                 $this->info('Article #'.$article->id);
-                if(is_null($stat)) {
+                if(!is_null($stat)) {
                     $var = json_decode($stat->params);
-                    $article->viewed = (int)$var->views; // ['views']; // $stat->params->views;
+		    var_dump($var->views);
+                    $article->viewed = $var->views; // ['views']; // $stat->params->views;
                     $article->save;
                 }
 
@@ -76,7 +77,7 @@ class ParseViews extends Command
             }
             $bar->advance();
             $this->newLine();
-            $this->info($var->views);
+//            $this->info($var->views);
         }
         $bar->finish();
         $this->newLine();
@@ -94,9 +95,9 @@ class ParseViews extends Command
 
                 var_dump($stat);
                 $this->info('Bio #'.$bio->id);
-                if(is_null($stat)) {
+                if(!is_null($stat)) {
                     $var = json_decode($stat->params);
-                    $bio->viewed = (int)$var->views; //['views']; // $stat->params->views;
+                    $bio->viewed = $var->views; //(string)$var->views; //['views']; // $stat->params->views;
                     $bio->save;
                 }
             }
@@ -107,7 +108,7 @@ class ParseViews extends Command
         $this->newLine();
         $this->info('All bios processed!');
 
-
+/*
         $films = Videomaterial::where('type', '=', 'film')->cursor();
 
         $bar = $this->output->createProgressBar($films->count());
@@ -119,7 +120,7 @@ class ParseViews extends Command
                     ->where('resource_id', '=', $oldFilm->id)->first();
                 var_dump($stat);
                 $this->info('Film #'.$film->id);
-                if(is_null($stat)) {
+                if(!is_null($stat)) {
                     $var = json_decode($stat->params);
                     $film->viewed = (int)$var->views; // ['views']; //$stat->params->views;
                     $film->save;
@@ -131,7 +132,7 @@ class ParseViews extends Command
         $bar->finish();
         $this->newLine();
         $this->info('All films processed!');
-
+*/
 
         return 1;
     }

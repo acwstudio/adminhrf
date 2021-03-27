@@ -34,7 +34,7 @@ class BiographyResource extends JsonResource
             'views' => $this->viewed,
             'comments' => $this->commented,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark' => false,
+            'has_bookmark' => $user ? $this->hasBookmark($user): false,
             'categories' => BioCategoryResource::collection($this->categories),
             'tags' => $this->tags,
 

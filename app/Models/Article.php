@@ -29,7 +29,8 @@ class Article extends Model
      */
     protected $casts = [
         'published_at' => 'datetime',
-        'biblio' => 'array'
+        'biblio' => 'array',
+//	'viewed' => 'bigint'
     ];
 
     public function sluggable(): array
@@ -158,5 +159,12 @@ class Article extends Model
     public function timeline()
     {
         return $this->morphOne(Timeline::class, 'timelinable');
+    }
+
+    public function hasBookmark(User $user){
+        if(is_null($user->bookmarkGroup())){
+            return false;
+        }
+        return is_null($user->bookmarkGroup()->first()->bookmarks()->firstWhere('bookmarkable_id',$this->id));
     }
 }

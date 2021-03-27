@@ -43,7 +43,7 @@ class BookmarkController extends Controller
             return ['err' => 'You are not authorized or there are no such user'];
         }
         $bookmarkGroup = $user->bookmarkGroup()->first();
-        if (is_null($bookmarkGroup)) {
+        if (is_null($bookmarkGroup)&&!is_null($bookmarkableId)) {
             $bookmarkGroup = BookmarkGroup::create(
                 [
                     'title' => 'default',
@@ -56,7 +56,7 @@ class BookmarkController extends Controller
                 'group_id' => $bookmarkGroup->id
             ]);
         }
-        else {
+        elseif(!is_null($bookmarkableId)) {
             $bookmark = $bookmarkGroup->bookmarks->where('bookmarkable_type','=',$bookmarkableType)
                                     ->where('bookmarkable_id', '=', $bookmarkableId)->first();
             if(!$bookmark) {
@@ -93,6 +93,8 @@ class BookmarkController extends Controller
                 $row = $bookmark->bookmarkable;
                 if ($row) {
                     $row->entity = $bookmark->bookmarkable_type;
+                    $row->has_like = $user&&$row->entity!='news'?$row->checkLiked($user):false;
+                    $row->has_bookmark = $user?$row->hasBookmark($user):false;
                     $data[] = $row;
                 }
             }
@@ -127,6 +129,8 @@ class BookmarkController extends Controller
                 if ($row) {
                     if (in_array($bookmark->bookmarkable_type, $this->models["{$action}"])) {
                         $row->entity = $bookmark->bookmarkable_type;
+                        $row->has_like = $user&&$row->entity!='news'?$row->checkLiked($user):false;
+                        $row->has_bookmark = $user?$row->hasBookmark($user):false;
                         $data[] = $row;
                     }
                 }
@@ -157,6 +161,8 @@ class BookmarkController extends Controller
                     if ($bookmark->bookmarkable_type == 'news' || $bookmark->bookmarkable_type == 'article' ||
                         $bookmark->bookmarkable_type == 'document' || $bookmark->bookmarkable_type == 'biography') {
                         $row->entity = $bookmark->bookmarkable_type;
+                        $row->has_like = $user&&$row->entity!='news'?$row->checkLiked($user):false;
+                        $row->has_bookmark = $user?$row->hasBookmark($user):false;
                         $data[] = $row;
                     }
                 }
