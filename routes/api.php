@@ -242,6 +242,10 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/highlights', [\App\Http\Controllers\HighlightController::class, 'index']);
             Route::get('/highlights/{highlight:slug}', [\App\Http\Controllers\HighlightController::class, 'show']);
+
+            Route::get('/news/', [NewsController::class, 'index']);
+            Route::get('/news/{news:slug}', [NewsController::class, 'show']);
+
         }
     );
 
@@ -261,9 +265,6 @@ Route::prefix('v1')->group(function () {
     Route::delete('/authors/{author:slug}', [AuthorController::class, 'destroy'])->name('authors.delete');
     Route::get('/authors', [AuthorController::class, 'index']);
     Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
-
-    Route::get('/news/', [NewsController::class, 'index']);
-    Route::get('/news/{news:slug}', [NewsController::class, 'show']);
 
     Route::get('/tags/news/{tagId}', [\App\Http\Controllers\TagController::class, 'getNews']);
     Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);

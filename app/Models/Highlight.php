@@ -68,6 +68,9 @@ class Highlight extends Model
     }
 
     public function hasBookmark(User $user){
-        return !is_null($this->bookmarks()->first()->bookmarkGroup()->firstWhere('user_id', $user->id));
+        if(is_null($this->bookmarks())){
+            return false;
+        }
+        return is_null($this->bookmarks()->first()->bookmarkGroup()->firstWhere('user_id', $user->id)))
     }
 }
