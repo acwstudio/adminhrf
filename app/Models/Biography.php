@@ -96,4 +96,8 @@ class Biography extends Model
         return $this->morphOne(Timeline::class, 'timelinable');
     }
 
+    public function hasBookmark(User $user){
+        return !is_null($this->bookmarks()->first()->bookmarkGroup()->firstWhere('user_id', $user->id));
+    }
+
 }

@@ -46,11 +46,6 @@ class Videomaterial extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function countLikes()
-    {
-        return $this->likes()->count();
-    }
-
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
@@ -59,11 +54,6 @@ class Videomaterial extends Model
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
-    }
-
-    public function countComments()
-    {
-        return $this->comments()->count();
     }
 
     public function comments()
@@ -82,7 +72,7 @@ class Videomaterial extends Model
     }
 
     public function hasBookmark(User $user){
-        return !is_null($this->bookmarks()->firstWhere('user_id', $user->id));
+        return !is_null($this->bookmarks()->first()->bookmarkGroup()->firstWhere('user_id', $user->id));
     }
 
 
