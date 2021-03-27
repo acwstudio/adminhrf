@@ -93,6 +93,8 @@ class BookmarkController extends Controller
                 $row = $bookmark->bookmarkable;
                 if ($row) {
                     $row->entity = $bookmark->bookmarkable_type;
+                    $row->has_like = $user&&$row->entity!='news'?$row->checkLiked($user):false;
+                    $row->has_bookmark = $user?$row->checkBookmark($user):false;
                     $data[] = $row;
                 }
             }

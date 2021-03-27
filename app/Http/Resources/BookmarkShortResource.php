@@ -26,8 +26,8 @@ class BookmarkShortResource extends JsonResource
             'announce' => $this->announce,
             'likes' => $this->entity == 'news' ? null : $this->liked,
             #'comments' => $this->countComments(),
-            'has_like' => $this->entity == 'news' ? null : $this->checkLiked($user),
-            'has_bookmarked' => $this->hasBookmark($user),
+            'has_like' => $this->entity == 'news' ? null : $this->has_like,
+            'has_bookmarked' => $user?$this->has_bookmark:false,
             'tags' => TagResource::collection($this->tags),
 
         ];
