@@ -22,7 +22,7 @@ class CourseResource extends JsonResource
             'title' => $this->highlightable->title,
             'announce' => $this->highlightable->announce,
             'published_at' => $this->highlightable->published_at,
-            'author' => AuthorShortResource::collection($this->highlightable->authors),
+//            'author' => AuthorShortResource::collection($this->highlightable->authors),
             'comments' => $this->highlightable->countComments(),
             'likes' => $this->highlightable->countLikes(),
             'views' => $this->viewed,
