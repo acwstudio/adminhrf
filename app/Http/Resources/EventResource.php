@@ -35,7 +35,7 @@ class EventResource extends JsonResource
             'event_start_date' => Carbon::parse(($this->event_start_date))->format('Y-m-d'),
             'event_end_date' => Carbon::parse(($this->event_end_date))->format('Y-m-d'),
             'tags' => TagResource::collection($this->tags),
-            'comments' => $this->comments,
+            'comments' => CommentResource::collection($this->comments),
         ];
     }
 }

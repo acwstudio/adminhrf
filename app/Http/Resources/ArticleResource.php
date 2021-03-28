@@ -32,7 +32,7 @@ class ArticleResource extends JsonResource
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
             'tags' => TagResource::collection($this->tags),
-            'comments' => $this->commented,
+            'comments' => CommentResource::collection($this->comments),
         ];
     }
 }

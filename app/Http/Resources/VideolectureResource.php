@@ -25,7 +25,7 @@ class VideolectureResource extends JsonResource
             'published_at' => $this->published_at,
 //            'authors' => AuthorShortResource::collection($this->whenLoaded('authors')),
             'lector' => AuthorShortResource::collection($this->authors),
-            'comments' => $this->commented,
+            'comments' => CommentResource::collection($this->comments),
             'likes' => $this->liked,
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
