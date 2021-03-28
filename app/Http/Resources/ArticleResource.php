@@ -19,7 +19,7 @@ class ArticleResource extends JsonResource
         return [
             'model_type' => 'article',
             'id' => $this->id,
-            'user_id' => $user->id,
+            'user_id' => $user?$user->id:null,
             'title' => $this->title,
             'slug' => $this->slug,
             'announce' => $this->announce,
