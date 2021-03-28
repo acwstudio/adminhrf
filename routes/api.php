@@ -1,28 +1,30 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminArticleCommentsRelatedController;
-use App\Http\Controllers\Admin\AdminArticleCommentsRelationshipsController;
-use App\Http\Controllers\Admin\AdminArticleController;
-use App\Http\Controllers\Admin\AdminArticleImagesRelationshipsController;
-use App\Http\Controllers\Admin\AdminArticlesAuthorsRelatedController;
-use App\Http\Controllers\Admin\AdminArticlesAuthorsRelationshipsController;
-use App\Http\Controllers\Admin\AdminArticlesTagsRelatedController;
-use App\Http\Controllers\Admin\AdminArticlesTagsRelationshipsController;
-use App\Http\Controllers\Admin\AdminAuthorController;
-use App\Http\Controllers\Admin\AdminAuthorsArticlesRelatedController;
-use App\Http\Controllers\Admin\AdminAuthorsArticlesRelationshipsController;
-use App\Http\Controllers\Admin\AdminBiographyCommentsRelatedController;
-use App\Http\Controllers\Admin\AdminBiographyCommentsRelationshipsController;
-use App\Http\Controllers\Admin\AdminBiographyController;
-use App\Http\Controllers\Admin\AdminCommentController;
-use App\Http\Controllers\Admin\AdminDocumentController;
-use App\Http\Controllers\Admin\AdminImageController;
-use App\Http\Controllers\Admin\AdminNewsController;
-use App\Http\Controllers\Admin\AdminTagController;
-use App\Http\Controllers\Admin\AdminTestCommentsRelatedController;
-use App\Http\Controllers\Admin\AdminTestCommentsRelationshipsController;
-use App\Http\Controllers\Admin\AdminTestController;
-use App\Http\Controllers\Admin\AdminUploadImageController;
+use App\Http\Controllers\Admin\Article\AdminArticleBookmarksRelatedController;
+use App\Http\Controllers\Admin\Article\AdminArticleBookmarksRelationshipsController;
+use App\Http\Controllers\Admin\Article\AdminArticleCommentsRelatedController;
+use App\Http\Controllers\Admin\Article\AdminArticleCommentsRelationshipsController;
+use App\Http\Controllers\Admin\Article\AdminArticleController;
+use App\Http\Controllers\Admin\Article\AdminArticleImagesRelationshipsController;
+use App\Http\Controllers\Admin\Article\AdminArticlesAuthorsRelatedController;
+use App\Http\Controllers\Admin\Article\AdminArticlesAuthorsRelationshipsController;
+use App\Http\Controllers\Admin\Article\AdminArticlesTagsRelatedController;
+use App\Http\Controllers\Admin\Article\AdminArticlesTagsRelationshipsController;
+use App\Http\Controllers\Admin\Author\AdminAuthorController;
+use App\Http\Controllers\Admin\Author\AdminAuthorsArticlesRelatedController;
+use App\Http\Controllers\Admin\Author\AdminAuthorsArticlesRelationshipsController;
+use App\Http\Controllers\Admin\Biography\AdminBiographyCommentsRelatedController;
+use App\Http\Controllers\Admin\Biography\AdminBiographyCommentsRelationshipsController;
+use App\Http\Controllers\Admin\Biography\AdminBiographyController;
+use App\Http\Controllers\Admin\Comment\AdminCommentController;
+use App\Http\Controllers\Admin\Document\AdminDocumentController;
+use App\Http\Controllers\Admin\Image\AdminImageController;
+use App\Http\Controllers\Admin\News\AdminNewsController;
+use App\Http\Controllers\Admin\Tag\AdminTagController;
+use App\Http\Controllers\Admin\Test\AdminTestCommentsRelatedController;
+use App\Http\Controllers\Admin\Test\AdminTestCommentsRelationshipsController;
+use App\Http\Controllers\Admin\Test\AdminTestController;
+use App\Http\Controllers\Admin\Article\AdminArticleImagesRelatedController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AudiomaterialController;
 use App\Http\Controllers\AuthorController;
@@ -122,6 +124,19 @@ Route::prefix('v1')->group(function () {
                     AdminArticlesAuthorsRelatedController::class, 'index'
                 ])->name('articles.authors');
 
+                // Articles to Bookmarks relations
+                Route::get('/admin/articles/{article}/relatioships/bookmarks', [
+                    AdminArticleBookmarksRelationshipsController::class, 'index'
+                ])->name('article.relationships.bookmarks');
+
+                Route::patch('/admin/articles/{article}/relatioships/authors', [
+                    AdminArticleBookmarksRelationshipsController::class, 'update'
+                ])->name('article.relationships.bookmarks');
+
+                Route::get('admin/articles/{article}/bookmarks', [
+                    AdminArticleBookmarksRelatedController::class, 'index'
+                ])->name('article.bookmarks');
+
                 // Article to Comments relations
                 Route::get('/admin/articles/{article}/relatioships/comments', [
                     AdminArticleCommentsRelationshipsController::class, 'index'
@@ -145,7 +160,7 @@ Route::prefix('v1')->group(function () {
                 ])->name('article.relationships.images');
 
                 Route::get('admin/articles/{article}/images', [
-                    AdminArticleImagesRelationshipsController::class, 'index'
+                    AdminArticleImagesRelatedController::class, 'index'
                 ])->name('article.images');
 
                 // Articles to Tags relations

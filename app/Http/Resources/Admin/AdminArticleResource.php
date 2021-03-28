@@ -14,7 +14,7 @@ class AdminArticleResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -70,12 +70,32 @@ class AdminArticleResource extends JsonResource
                         'related' => route('article.images', ['article' => $this->id])
                     ],
                     'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+                ],
+                'bookmarks' => [
+                    'links' => [
+                        'self' => route('article.relationships.bookmarks', ['article' => $this->id]),
+                        'related' => route('article.bookmarks', ['article' => $this->id])
+                    ],
+                    'data' => AdminBookmarksIdentifierResource::collection($this->whenLoaded('bookmarks'))
                 ]
             ],
-
-//            'bookmarks' => $this->bookmarks,
 //            'timeline' => $this->timeline,
         ];
     }
+
+//    private function relations()
+//    {
+//        return [
+//            AdminAuthorResource::collection($this->whenLoaded('authors')),
+//            AdminTagResource::collection($this->whenLoaded('tags')),
+//        ];
+//    }
+//
+//    public function with($request)
+//    {
+//        return [
+//            'included' => $this->relations(),
+//        ];
+//    }
 
 }
