@@ -181,7 +181,7 @@ Route::prefix('v1')->group(function () {
                 Route::get('/admin/images/{image}', [AdminImageController::class, 'show'])
                     ->name('admin.images.show');
                 Route::post('/admin/images', [AdminImageController::class, 'store']);
-                Route::patch('/admin/images/{image}', [AdminImageController::class, 'update']);
+                Route::post('/admin/images/{image}', [AdminImageController::class, 'update']);
                 Route::delete('/admin/images/{image}', [AdminImageController::class, 'destroy']);
 
                 Route::get('admin/comments', [AdminCommentController::class, 'index']);

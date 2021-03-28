@@ -7,7 +7,10 @@ use App\Http\Requests\ImageCreateRequest;
 use App\Http\Requests\ImageUpdateRequest;
 use App\Http\Resources\Admin\AdminImageResource;
 use App\Models\Image;
+use App\Services\ImageService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class AdminImageController extends Controller
 {
@@ -27,20 +30,24 @@ class AdminImageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param ImageCreateRequest $request
+     * @param ImageService $service
+     * @return AdminImageResource
      */
-    public function store(ImageCreateRequest $request)
+    public function store(ImageCreateRequest $request, ImageService $service)
     {
         $data = $request->validated();
 
-        $image = Image::create($data['data']);
+        try {
 
-        return (new AdminImageResource($image))
-            ->response()
-            ->header('Location', route('admin.images.show', [
-                'image' => $image
-            ]));
+            $image = $service->storeByType($data['file'], $data['imageable_type']);
+
+        } catch (\Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500,);
+        }
+
+
+        return AdminImageResource::make($image);
     }
 
     /**
@@ -57,29 +64,54 @@ class AdminImageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return AdminImageResource
+     * @param ImageUpdateRequest $request
+     * @param Image $image
+     * @param ImageService $service
+     * @return JsonResponse|AdminImageResource
      */
-    public function update(ImageUpdateRequest $request, Image $image)
+    public function update(ImageUpdateRequest $request, Image $image, ImageService $service)
     {
         $data = $request->validated();
 
-        $image->update($data['data']);
+        try {
 
-        return new AdminImageResource($image);
+            $newImage = $service->storeByType($data['file'], $data['imageable_type']);
+
+            if ($data['imageable_type'] !== 'common') {
+                $model = $image->imageable;
+                $image->imageable()->dissociate();
+                $newImage->imageable()->associate($model);
+            }
+
+            $service->delete($image);
+
+
+        } catch (\Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500,);
+        }
+
+
+        return new AdminImageResource($newImage);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Image $image
-     * @return \Illuminate\Http\Response
+     * @param ImageService $service
+     * @return Response
      * @throws \Exception
      */
-    public function destroy(Image $image)
+    public function destroy(Image $image, ImageService $service)
     {
-        $image->delete();
+        if ($image->imageable_type !== 'common') {
+
+            $image->imageable()->dissociate();
+
+        }
+
+        $service->delete($image);
+
         return response(null, 204);
     }
 }

@@ -27,6 +27,16 @@ class ImageService
     const OLD_DOCS_PATH = '/uploads/media/documents_upload/0001/';
     const BIO_PATH = '/images/biographies/';
     const OLD_BIO_PATH = '/uploads/media/person/0001/';
+    const NEWS_PATH = '/images/news/';
+    const AUTHOR_PATH = '/images/author/';
+    const TEST_PATH = '/images/test/';
+    const QUESTION_PATH = '/images/question/';
+    const ANSWER_PATH = '/images/answer/';
+    const TIMELINE_PATH = '/images/timeline/';
+    const VIDEOMATERIAL_PATH = '/images/videomaterial/';
+    const AUDIOMATERIAL_PATH = '/images/audiomaterial/';
+    const EVENT_PATH = '/images/event/';
+    const COMMON_PATH = '/images/common/';
 
 
 
@@ -34,6 +44,26 @@ class ImageService
     protected $min;
     protected $quality;
     protected $ext;
+
+    /**
+     * @var array $paths // imageable_type and path substitution
+     */
+    public $paths = [
+        'article' => self::ARTICLES_PATH,
+        'document' => self::DOCS_PREVIEW_PATH,
+        'news' => self::NEWS_PATH,
+        'biography' => self::BIO_PATH,
+        'author' => self::AUTHOR_PATH,
+        'test' => self::TEST_PATH,
+        'question' => self::QUESTION_PATH,
+        'answer' => self::ANSWER_PATH,
+        'timeline' => self::TIMELINE_PATH,
+        'videomaterial' => self::VIDEOMATERIAL_PATH,
+        'audiomaterial' => self::AUDIOMATERIAL_PATH,
+        'event' => self::EVENT_PATH,
+        'common' => self::COMMON_PATH,
+
+    ];
 
     /**
      * ImageService constructor.
@@ -95,6 +125,15 @@ class ImageService
             throw new \Exception('Old image file not found - ' . $oldPath);
         }
 
+    }
+
+    public function storeByType($image, $imageableType = 'common')
+    {
+        $image = $this->store($image, $this->paths[$imageableType]);
+        $image->imageable_type = $imageableType;
+        $image->save();
+
+        return $image;
     }
 
     /**
