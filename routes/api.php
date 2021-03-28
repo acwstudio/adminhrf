@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminArticleCommentsRelatedController;
 use App\Http\Controllers\Admin\AdminArticleCommentsRelationshipsController;
 use App\Http\Controllers\Admin\AdminArticleController;
+use App\Http\Controllers\Admin\AdminArticleImagesRelationshipsController;
 use App\Http\Controllers\Admin\AdminArticlesAuthorsRelatedController;
 use App\Http\Controllers\Admin\AdminArticlesAuthorsRelationshipsController;
 use App\Http\Controllers\Admin\AdminArticlesTagsRelatedController;
@@ -18,7 +19,10 @@ use App\Http\Controllers\Admin\AdminDocumentController;
 use App\Http\Controllers\Admin\AdminImageController;
 use App\Http\Controllers\Admin\AdminNewsController;
 use App\Http\Controllers\Admin\AdminTagController;
+use App\Http\Controllers\Admin\AdminTestCommentsRelatedController;
+use App\Http\Controllers\Admin\AdminTestCommentsRelationshipsController;
 use App\Http\Controllers\Admin\AdminTestController;
+use App\Http\Controllers\Admin\AdminUploadImageController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AudiomaterialController;
 use App\Http\Controllers\AuthorController;
@@ -121,15 +125,28 @@ Route::prefix('v1')->group(function () {
                 // Article to Comments relations
                 Route::get('/admin/articles/{article}/relatioships/comments', [
                     AdminArticleCommentsRelationshipsController::class, 'index'
-                ])->name('articles.relationships.comments');
+                ])->name('article.relationships.comments');
 
                 Route::patch('/admin/articles/{article}/relatioships/comments', [
                     AdminArticleCommentsRelationshipsController::class, 'update'
-                ])->name('articles.relationships.comments');
+                ])->name('article.relationships.comments');
 
                 Route::get('admin/articles/{article}/comments', [
                     AdminArticleCommentsRelatedController::class, 'index'
-                ])->name('articles.comments');
+                ])->name('article.comments');
+
+                // Article to Images relations
+                Route::get('/admin/articles/{article}/relatioships/images', [
+                    AdminArticleImagesRelationshipsController::class, 'index'
+                ])->name('article.relationships.images');
+
+                Route::patch('/admin/articles/{article}/relatioships/images', [
+                    AdminArticleImagesRelationshipsController::class, 'update'
+                ])->name('article.relationships.images');
+
+                Route::get('admin/articles/{article}/images', [
+                    AdminArticleImagesRelationshipsController::class, 'index'
+                ])->name('article.images');
 
                 // Articles to Tags relations
                 Route::get('/admin/articles/{article}/relatioships/tags', [
@@ -186,6 +203,15 @@ Route::prefix('v1')->group(function () {
                     AdminBiographyCommentsRelatedController::class, 'index'
                 ])->name('biography.comments');
 
+                /*****************  COMMENTS ROUTES **************/
+
+                Route::get('admin/comments', [AdminCommentController::class, 'index']);
+                Route::get('admin/comments/{comment}', [AdminCommentController::class, 'show'])
+                    ->name('admin.comments.show');
+//                Route::post('admin/comments', [AdminCommentController::class, 'store']);
+//                Route::patch('admin/comments/{comment}', [AdminCommentController::class, 'update']);
+//                Route::delete('admin/comments/{comment}', [AdminCommentController::class, 'delete']);
+
                 /*****************  DOCUMENTS ROUTES **************/
 
                 Route::get('/admin/documents', [AdminDocumentController::class, 'index']);
@@ -194,6 +220,16 @@ Route::prefix('v1')->group(function () {
                 Route::post('/admin/documents', [AdminDocumentController::class, 'store']);
                 Route::patch('/admin/documents/{document}', [AdminDocumentController::class, 'update']);
                 Route::delete('/admin/documents/{document}', [AdminDocumentController::class, 'destroy']);
+
+                /*****************  IMAGES ROUTES **************/
+
+                Route::get('/admin/images', [AdminImageController::class, 'index']);
+                Route::get('/admin/images/{image}', [AdminImageController::class, 'show'])
+                    ->name('admin.images.show');
+                Route::post('/admin/images', [AdminImageController::class, 'store']);
+                Route::patch('/admin/images/{image}', [AdminImageController::class, 'update']);
+                Route::delete('/admin/images/{image}', [AdminImageController::class, 'destroy']);
+                Route::post('/admin/images/loader', [AdminImageController::class, 'loadImage']);
 
                 /*****************  NEWS ROUTES **************/
 
@@ -213,23 +249,8 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/admin/tags/{tag}', [AdminTagController::class, 'update']);
                 Route::delete('/admin/tags/{tag}', [AdminTagController::class, 'destroy']);
 
-                /*****************  IMAGES ROUTES **************/
-
-                Route::get('/admin/images', [AdminImageController::class, 'index']);
-                Route::get('/admin/images/{image}', [AdminImageController::class, 'show'])
-                    ->name('admin.images.show');
-                Route::post('/admin/images', [AdminImageController::class, 'store']);
-                Route::patch('/admin/images/{image}', [AdminImageController::class, 'update']);
-                Route::delete('/admin/images/{image}', [AdminImageController::class, 'destroy']);
-
-                /*****************  COMMENTS ROUTES **************/
-
-                Route::get('admin/comments', [AdminCommentController::class, 'index']);
-                Route::get('admin/comments/{comment}', [AdminCommentController::class, 'show'])
-                    ->name('admin.comments.show');
-//                Route::post('admin/comments', [AdminCommentController::class, 'store']);
-//                Route::patch('admin/comments/{comment}', [AdminCommentController::class, 'update']);
-//                Route::delete('admin/comments/{comment}', [AdminCommentController::class, 'delete']);
+//                Route::get('/admin/tags/{tag}/relationships/articles', [])
+//                    ->name('tags.relationships.articles');
 
                 /*****************  TESTS ROUTES **************/
 
@@ -240,6 +261,18 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/admin/tests/{test}', [AdminTestController::class, 'update']);
                 Route::delete('/admin/tests/{test}', [AdminTestController::class, 'destroy']);
 
+                // Test to Comments relations
+                Route::get('/admin/tests/{test}/relationships/comments', [
+                    AdminTestCommentsRelationshipsController::class, 'index'
+                ])->name('test.relationships.comments');
+
+                Route::patch('/admin/tests/{test}/relationships/comments', [
+                    AdminTestCommentsRelationshipsController::class, 'update'
+                ])->name('test.relationships.comments');
+
+                Route::get('/admin/tests/{test}/comments', [
+                    AdminTestCommentsRelatedController::class, 'index'
+                ])->name('test.comments');
             });
         }
     );

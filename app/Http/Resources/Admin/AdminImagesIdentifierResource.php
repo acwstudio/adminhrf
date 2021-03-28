@@ -2,16 +2,16 @@
 
 namespace App\Http\Resources\Admin;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminTestIdentifierCollection
+ * Class AdminImagesIdentifierResource
  * @package App\Http\Resources\Admin
  */
-class AdminTestIdentifierCollection extends ResourceCollection
+class AdminImagesIdentifierResource extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -20,7 +20,7 @@ class AdminTestIdentifierCollection extends ResourceCollection
     {
         return [
             'id' => (string)$this->id,
-            'type' => 'tests'
+            'type' => 'images'
         ];
     }
 }

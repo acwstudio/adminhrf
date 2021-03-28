@@ -29,7 +29,7 @@ class TestCreateRequest extends FormRequest
     {
         return [
             'data' => 'required|array',
-            'data.type' => 'required|in:tags',
+            'data.type' => 'required|in:tests',
             'data.attributes' => 'required|array',
             'data.attributes.title' => 'required|string',
             'data.attributes.description' => 'required|string',

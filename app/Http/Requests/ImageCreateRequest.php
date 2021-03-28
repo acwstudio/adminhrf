@@ -28,17 +28,19 @@ class ImageCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'required|array',
-            'data.type' => 'required|in:images',
-            'data.attributes' => 'required|array',
-            'data.attributes.path' => 'required|string',
-            'data.attributes.name' => 'required|string',
-            'data.attributes.ext' => 'required|string',
-            'data.attributes.alt' => 'required|string',
-            'data.attributes.order' => 'required|integer',
-            'data.attributes.imageable_id' => 'required|integer',
-            'data.attributes.imageable_type' => 'required|string',
-            'data.attributes.flags' => 'required|integer',
+            'image' => 'required',
+            'imageable_type' => 'required|string'
+//            'data' => 'required|array',
+//            'data.type' => 'required|in:images',
+//            'data.attributes' => 'required|array',
+//            'data.attributes.path' => 'required|string',
+//            'data.attributes.name' => 'required|string',
+//            'data.attributes.ext' => 'required|string',
+//            'data.attributes.alt' => 'required|string',
+//            'data.attributes.order' => 'required|integer',
+//            'data.attributes.imageable_id' => 'required|integer',
+//            'data.attributes.imageable_type' => 'required|string',
+//            'data.attributes.flags' => 'required|integer',
         ];
     }
 }

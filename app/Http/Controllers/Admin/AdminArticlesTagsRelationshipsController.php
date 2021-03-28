@@ -26,9 +26,13 @@ class AdminArticlesTagsRelationshipsController extends Controller
     /**
      * @param ArticlesTagsUpdateRelationshipsRequest $request
      * @param Article $article
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function update(ArticlesTagsUpdateRelationshipsRequest $request, Article $article)
     {
-        return response()->json(['message' => 'It is not ready']);
+        $ids = $request->input('data.*.id');
+        $article->tags()->sync($ids);
+
+        return response(null, 204);
     }
 }

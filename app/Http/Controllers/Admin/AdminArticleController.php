@@ -28,7 +28,7 @@ class AdminArticleController extends Controller
         $this->authorize('manage', Article::class);
 
         $articles = QueryBuilder::for(Article::class)
-            ->with('authors', 'comments', 'tags')
+            ->with('authors', 'comments', 'tags', 'images')
             ->allowedFilters(['yatextid'])
             ->allowedSorts(['title', 'published_at'])
             ->jsonPaginate();
@@ -53,11 +53,10 @@ class AdminArticleController extends Controller
         $article = Article::create($dataAttributes);
         $article->authors()->attach($dataRelAuthors);
         $article->tags()->attach($dataRelTags);
-        //        I don't know what these relationships
 //        $article->bookmarks()->saveMany($dataRelBookmarks);
-//        $article->images()->save($dataRelImages);
+        $article->images()->save($dataRelImages);
 
-        $query = QueryBuilder::for(Article::with('tags', 'comments', 'authors')
+        $query = QueryBuilder::for(Article::with('images', 'comments', 'authors')
             ->where('id', $article->id))
             ->firstOrFail();
 
@@ -76,7 +75,7 @@ class AdminArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $query = QueryBuilder::for(Article::with('tags', 'comments', 'authors')
+        $query = QueryBuilder::for(Article::with('tags', 'comments', 'authors', 'images')
             ->where('id', $article->id))
             ->firstOrFail();
 
@@ -105,7 +104,7 @@ class AdminArticleController extends Controller
 //        $article->bookmarks()->saveMany($dataRelBookmarks);
 //        $article->images()->save($dataRelImages);
 
-        $query = QueryBuilder::for(Article::with('tags', 'comments', 'authors')
+        $query = QueryBuilder::for(Article::with('tags', 'comments', 'authors','images')
             ->where('id', $article->id))
             ->firstOrFail();
 

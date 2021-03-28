@@ -8,6 +8,7 @@ use App\Http\Requests\ImageUpdateRequest;
 use App\Http\Resources\Admin\AdminImageResource;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -26,7 +27,7 @@ class AdminImageController extends Controller
     {
         $query = QueryBuilder::for(Image::class)
             ->with('articles')
-            ->allowedIncludes('articles')
+//            ->allowedIncludes('articles')
             ->jsonPaginate();
 
         return AdminImageResource::collection($query);
@@ -40,9 +41,15 @@ class AdminImageController extends Controller
      */
     public function store(ImageCreateRequest $request)
     {
-        $data = $request->input('data.attributes');
+//        it's not real code, it's only for testing by Postman
+        $file = $request->file('image');
+        $filename = 'test-image-' . $request->input('imageable_type') . time() . $file
+                ->getClientOriginalExtension();
+        $path = $file->store('public/sump');
 
-        $image = Image::create($data);
+        $image = Image::create([
+            'imageable_type' => $request->input('imageable_type')
+        ]);
 
         return (new AdminImageResource($image))
             ->response()
@@ -74,9 +81,12 @@ class AdminImageController extends Controller
      */
     public function update(ImageUpdateRequest $request, Image $image)
     {
-        $data = $request->input('data.attributes');
+        $file = $request->file('image');
 
-        $image->update($data);
+//      it's not reall code, it's only for testing by Postman
+        $filename = $image->name;
+
+        $path = $file->store('public/sump');
 
         return new AdminImageResource($image);
     }
@@ -92,5 +102,22 @@ class AdminImageController extends Controller
     {
         $image->delete();
         return response(null, 204);
+    }
+
+    /**
+     * @param Request $request
+     * @return array|\Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile[]|null
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function loadImage(Request $request, UploadedFile $uploadedFile)
+    {
+//        It's not real code, it's only test for Postman
+//        $this->validate($request, [
+//            'image' => 'required'
+//        ]);
+
+        $image = $request->file('image');
+
+        return $uploadedFile;
     }
 }
