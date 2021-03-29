@@ -74,7 +74,7 @@ class ParseComments extends Command
             }
             if(!is_null($oldArticle)) {
                 $article->commented = $oldThread->num_comments;
-                $article->save;
+                $article->save();
             }
             $bar->advance();
         }

@@ -272,9 +272,6 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
 
-
-
-
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
     Route::get('/random/biographies/', [\App\Http\Controllers\RandController::class, 'getRandBiographies']);
