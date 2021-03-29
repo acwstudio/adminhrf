@@ -16,11 +16,12 @@ class CourseResource extends JsonResource
     {
         $user = $request->user();
         return [
-            'model_type' => $this->highlightable->type,
+            'model_type' => $this->highlightable_type,
             'id' => $this->highlightable->id,
             'slug' => $this->highlightable->slug,
             'title' => $this->highlightable->title,
             'announce' => $this->highlightable->announce,
+            'surname' => $this?$this->highlightables->surname:null,
             'published_at' => $this->highlightable->published_at,
 //            'author' => AuthorShortResource::collection($this->highlightable->authors),
             'comments' => $this->highlightable->countComments(),

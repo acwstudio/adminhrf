@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class HighlightResource extends JsonResource
 {
@@ -14,19 +15,33 @@ class HighlightResource extends JsonResource
      */
     public function toArray($request)
     {
+        $map = [
+            'highlight','videomaterial'
+        ];
         $user = $request->user();
+	$arr = in_array($this->highlightable_type, $map)?$this->highlightable->type:$this->highlightable_type;
+	if($arr=='audiomaterial'){
+		$arr = 'audiolecture';
+	}
         return [
-            'model_type' => $this->highlightable->type,
+            'model_type' => $arr , //(in_array($this->highlightable_type, $map)?$this->highlightable->type:$this->highlightable_type=='audiomaterial')?'audiolecture':$this->highlightable_type,
             'id' => $this->highlightable->id,
             'slug' => $this->highlightable->slug,
             'title' => $this->highlightable->title,
+            'surname' => $this->highlightable_type=='biography'?$this->surname:null,
+            'firstname' => $this->highlightable_type=='biography'?$this->firstname:null,
+            'birth_date' => $this->highlightable_type=='biography'?Carbon::parse(($this->birth_date))->format('Y-m-d'):null,
+            'group_date' => $this->highlightable_type=='biography'?Carbon::parse(($this->birth_date))->format('Y-m'):null,
+            'death_date' => $this->highlightable_type=='biography'?Carbon::parse(($this->death_date))->format('Y-m-d'):null,
             'announce' => $this->highlightable->announce,
             'published_at' => $this->highlightable->published_at,
-            'author' => AuthorShortResource::collection($this->highlightable->authors),
+            'video_code' => $this->highlightable_type=='videomaterial'?explode('"',$this->highlightable->video_code)[0]:null,
+//            'author' => AuthorShortResource::collection($this->highlightable->authors),
+            'path' => $this->highlightable_type=='audiomaterial'?$this->path:null,
             'comments' => $this->highlightable->countComments(),
-            'likes' => $this->highlightable->countLikes(),
+            'likes' => $this->highlightable_type!='news'?$this->highlightable->countLikes():null,
             'views' => $this->viewed,
-            'has_like' => $user ? $this->checkLiked($user) : false,
+            'has_like' => $user&&$this->highlightable_type!='news'? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
             'image' => [
                 "model_type" => "image",

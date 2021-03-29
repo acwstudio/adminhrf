@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Commentable;
 use App\Models\Traits\Likeable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Highlight extends Model
 {
-    use HasFactory, Sluggable, Likeable;
+    use HasFactory, Sluggable, Likeable,Commentable;
 
     protected $fillable = [
         'title',

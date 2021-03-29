@@ -326,6 +326,7 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/authors', [AuthorController::class, 'index']);
             Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
+            Route::get('/authors/{author:slug}/articles', [AuthorController::class, 'getArticles']);
 
             Route::get('/comments', [CommentController::class, 'index']);
             Route::get('/comments/answers/{comment:id}', [CommentController::class, 'getAnswers']);
@@ -370,6 +371,9 @@ Route::prefix('v1')->group(function () {
             Route::get('/news/', [NewsController::class, 'index']);
             Route::get('/news/{news:slug}', [NewsController::class, 'show']);
 
+            Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
+
+
         }
     );
 
@@ -393,10 +397,6 @@ Route::prefix('v1')->group(function () {
     Route::get('/tags/news/{tagId}', [\App\Http\Controllers\TagController::class, 'getNews']);
     Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
     Route::get('/tags/all/{tagId}', [\App\Http\Controllers\TagController::class, 'getAll']);
-
-    Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
-
-
 
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
