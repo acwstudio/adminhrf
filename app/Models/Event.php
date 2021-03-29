@@ -13,4 +13,9 @@ class Event extends Model
     protected $fillable = [
         ''
     ];
+
+
+    public function city(){
+        return $this->belongsTo(City::class,'city_id','id');
+    }
 }
