@@ -21,6 +21,7 @@ class CourseResource extends JsonResource
             'slug' => $this->highlightable->slug,
             'title' => $this->highlightable->title,
             'announce' => $this->highlightable->announce,
+            'surname' => $this?$this->highlightables->surname:null,
             'published_at' => $this->highlightable->published_at,
 //            'author' => AuthorShortResource::collection($this->highlightable->authors),
             'comments' => $this->highlightable->countComments(),

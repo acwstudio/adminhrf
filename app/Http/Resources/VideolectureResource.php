@@ -16,7 +16,7 @@ class VideolectureResource extends JsonResource
     {
         $user = $request->user();
         return [
-            'model_type' => 'lecture',
+            'model_type' => 'videolecture',
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
