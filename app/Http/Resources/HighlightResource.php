@@ -16,7 +16,7 @@ class HighlightResource extends JsonResource
     {
         $user = $request->user();
         return [
-            'model_type' => $this->type,
+            'model_type' => $this->highlightable_type,
             'id' => $this->highlightable->id,
             'slug' => $this->highlightable->slug,
             'title' => $this->highlightable->title,

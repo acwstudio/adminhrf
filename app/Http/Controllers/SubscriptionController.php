@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
@@ -35,6 +36,10 @@ class SubscriptionController extends Controller
         }
 
         return ['msg' => 'This user doesn\'t have entities in a bookmark list'];
+    }
+
+
+    public function subscribe(Tag $tag){
 
     }
 }
