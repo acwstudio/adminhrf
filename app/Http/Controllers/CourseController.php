@@ -25,7 +25,7 @@ class CourseController extends Controller
         return CourseShortResource::collection(Highlight::where('active', true)
             ->where('published_at', '<', now())
             ->where('type', '=', 'audiocourse')
-            ->orderBy('')
+            ->orderBy('order', 'asc')
             ->orderBy('published_at', 'desc')->paginate($perPage));
     }
 
@@ -35,6 +35,7 @@ class CourseController extends Controller
         return CourseShortResource::collection(Highlight::where('active', true)
             ->where('published_at', '<', now())
             ->where('type', '=', 'course')
+	    ->orderBy('order', 'asc')
             ->orderBy('published_at', 'desc')->paginate($perPage));
     }
 
