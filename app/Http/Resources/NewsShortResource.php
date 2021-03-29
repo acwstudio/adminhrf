@@ -26,7 +26,7 @@ class NewsShortResource extends JsonResource
             'views' => $this->viewed,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
             'tags' => TagResource::collection($this->tags),
-            'comments' => 0, //TODO make comments counter in news table and model
+            'comments' => $this->commented,
 
         ];
     }

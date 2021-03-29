@@ -247,6 +247,9 @@ Route::prefix('v1')->group(function () {
             Route::get('/news/', [NewsController::class, 'index']);
             Route::get('/news/{news:slug}', [NewsController::class, 'show']);
 
+            Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
+
+
         }
     );
 
@@ -271,7 +274,6 @@ Route::prefix('v1')->group(function () {
     Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
     Route::get('/tags/all/{tagId}', [\App\Http\Controllers\TagController::class, 'getAll']);
 
-    Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);

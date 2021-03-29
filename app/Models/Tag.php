@@ -57,5 +57,20 @@ class Tag extends Model
         return $this->hasMany(Subscription::class);
     }
 
+    public function highlights()
+    {
+        return $this->morphedByMany(Highlight::class, 'taggable');
+    }
+
+    public function videomaterials()
+    {
+        return $this->morphedByMany(Videomaterial::class, 'taggable');
+    }
+
+    public function audiomaterials()
+    {
+        return $this->morphedByMany(Audiomaterial::class, 'taggable');
+    }
+
 
 }

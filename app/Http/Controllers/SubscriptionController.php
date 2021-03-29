@@ -13,26 +13,14 @@ class SubscriptionController extends Controller
     {
         $perPage = $request->get('per_page', $this->perPage);
         $page = $request->get('page', 1);
-        $user = User::findOrFail($request->get('user_id', 0));
-        $data = [];
+
+        $user = $request->user();
+        if(!$user){
+            return ['err' => 'Not authorized'];
+        }
         $sub = $user->subscriptions;
         if ($sub) {
-            $num = $sub->count();
-            $cnt = 0;
-            foreach ($user->bookmarkGroup->bookmarks->sortByDesc('created_at')->forPage($page, $perPage) as $bookmark) { //->skip($page*$perPage)->take($perPage)
-                $row = $bookmark->bookmarkable;
-                if ($row) {
-                    $row->entity = $bookmark->bookmarkable_type;
-                    $data[] = $row;
-                }
-                $cnt++;
-            }
-            return ['data' => BookmarkShortResource::collection($data),
-                'meta' => [
-                    'last_page' => ceil($num / $perPage),
-                    'current_page' => (int)$page,
-                ],
-            ];
+
         }
 
         return ['msg' => 'This user doesn\'t have entities in a bookmark list'];

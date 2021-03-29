@@ -18,7 +18,7 @@ class HighlightShortResource extends JsonResource
         return [
             'model_type' => $this->type,
             'title' => $this->title,
-	    'slug' => $this->slug,
+	        'slug' => $this->slug,
             'announce' => $this->announce,
             'published_at' => $this->published_at,
             'count' => $this->highlightable->count(),
