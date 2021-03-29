@@ -16,14 +16,18 @@ class HighlightResource extends JsonResource
     public function toArray($request)
     {
         $map = [
-            'highlight','audiomaterial','videomaterial'
+            'highlight','videomaterial'
         ];
         $notMap = [
             'news','highlight','event','podcast'
         ];
         $user = $request->user();
+	$arr = in_array($this->highlightable_type, $map)?$this->highlightable->type:$this->highlightable_type;
+	if($arr=='audiomaterial'){
+		$arr = 'audiolecture';
+	}
         return [
-            'model_type' => in_array($map, $this->highlightable_type)?$this->highlightable->type:$this->highlightable_type,
+            'model_type' => $arr , //(in_array($this->highlightable_type, $map)?$this->highlightable->type:$this->highlightable_type=='audiomaterial')?'audiolecture':$this->highlightable_type,
             'id' => $this->highlightable->id,
             'slug' => $this->highlightable->slug,
             'title' => $this->highlightable->title,
