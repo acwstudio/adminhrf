@@ -226,14 +226,17 @@ Route::prefix('v1')->group(function () {
             Route::get('/timeline', [\App\Http\Controllers\TimeLineController::class,'getAll']);
 
             Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
-            Route::get('/tests/{test:id}', [\App\Http\Controllers\TestController::class, 'show']);
-            Route::get('/tests/result/{test:id}', [\App\Http\Controllers\TestController::class, 'postResult']);
+            Route::get('/tests/{test:slug}', [\App\Http\Controllers\TestController::class, 'show']);
+            Route::get('/tests/result/{test:slug}', [\App\Http\Controllers\TestController::class, 'postResult']);
 
             Route::get('/films', [\App\Http\Controllers\FilmsController::class, 'index']);
             Route::get('/films/{videomaterial:slug}', [\App\Http\Controllers\FilmsController::class, 'show']);
 
             Route::get('/videolectures', [\App\Http\Controllers\VideolectureController::class, 'index']);
             Route::get('/videolectures/{videomaterial:slug}', [\App\Http\Controllers\VideolectureController::class, 'show']);
+
+            Route::get('/afisha', [\App\Http\Controllers\AfishaController::class, 'index']);
+            Route::get('/afisha/{event:id}', [\App\Http\Controllers\AfishaController::class, 'show']);
 
             Route::get('/courses/video', [\App\Http\Controllers\CourseController::class, 'getVideocourses']);
             Route::get('/courses/audio', [\App\Http\Controllers\CourseController::class, 'getAudiocourses']);
