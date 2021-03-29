@@ -18,6 +18,9 @@ class HighlightResource extends JsonResource
         $map = [
             'highlight','audiomaterial','videomaterial'
         ];
+        $notMap = [
+            'news','highlight','event','podcast'
+        ];
         $user = $request->user();
         return [
             'model_type' => in_array($map, $this->highlightable_type)?$this->highlightable->type:$this->highlightable_type,
@@ -32,7 +35,7 @@ class HighlightResource extends JsonResource
             'announce' => $this->highlightable->announce,
             'published_at' => $this->highlightable->published_at,
             'video_code' => $this->highlightable_type=='videomaterial'?explode('"',$this->highlightable->video_code)[0]:null,
-//            'author' => AuthorShortResource::collection($this->highlightable->authors),
+            'author' => !in_array( $this->highlightable_type,$notMap)?AuthorShortResource::collection($this->highlightable->authors):null,
             'path' => $this->highlightable_type=='audiomaterial'?$this->path:null,
             'comments' => $this->highlightable->countComments(),
             'likes' => $this->highlightable_type!='news'?$this->highlightable->countLikes():null,
