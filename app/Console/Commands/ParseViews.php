@@ -102,7 +102,6 @@ class ParseViews extends Command
         $this->newLine();
         $this->info('All bios processed!');
 
-
                 $films = Videomaterial::where('type', '=', 'film')->cursor();
 
                 $bar = $this->output->createProgressBar($films->count());
