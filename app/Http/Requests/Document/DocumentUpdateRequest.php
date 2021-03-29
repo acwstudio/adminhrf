@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Document;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewsUpdateRequest extends FormRequest
+/**
+ * Class DocumentUpdateRequest
+ * @package App\Http\Requests\Document
+ */
+class DocumentUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,20 +29,18 @@ class NewsUpdateRequest extends FormRequest
     {
         return [
             'data' => 'required|array',
-            'data.type' => 'required|in:news',
+            'data.id' => 'string',
+            'data.type' => 'required|in:documents',
             'data.attributes' => 'required|array',
+            'data.attributes.document_category_id' => 'integer',
             'data.attributes.title' => 'string',
-            'data.attributes.yatextid' => 'string',
             'data.attributes.announce' => 'string',
-            'data.attributes.listorder' => 'integer',
             'data.attributes.body' => 'string',
-            'data.attributes.show_in_rss' => 'boolean',
-            'data.attributes.status' => 'boolean',
-            'data.attributes.show_in_main' => 'boolean',
-            'data.attributes.show_in_afisha' => 'boolean',
-            'data.attributes.close_commentation' => 'boolean',
-            'data.attributes.published_at' => 'string',
-            'data.attributes.viewed' => 'integer',
+            'data.attributes.file' => 'string',
+            'data.attributes.document_date' => 'string',
+            'data.attributes.document_text_date' => 'string',
+            'data.attributes.options' => 'json',
+
         ];
     }
 }

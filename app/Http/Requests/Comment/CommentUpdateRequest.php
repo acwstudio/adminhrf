@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class CommentUpdateRequest
+ * @package App\Http\Requests\Comment
+ */
 class CommentUpdateRequest extends FormRequest
 {
     /**

@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Biography;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class BiographyCreateRequest
+ * @package App\Http\Requests\Biography
+ */
 class BiographyCreateRequest extends FormRequest
 {
     /**

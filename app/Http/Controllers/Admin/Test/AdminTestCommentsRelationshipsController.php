@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Test;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
 use App\Models\Test;
 use Illuminate\Http\Request;
 
@@ -12,13 +13,22 @@ use Illuminate\Http\Request;
  */
 class AdminTestCommentsRelationshipsController extends Controller
 {
-    public function index()
+    /**
+     * @param Test $test
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function index(Test $test)
     {
-        return response()->json(['message' => 'Wait please, I am doing nothing now']);
+        return AdminCommentsIdentifierResource::collection($test->comments);
     }
 
+    /**
+     * @param Request $request
+     * @param Test $test
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, Test $test)
     {
-        return response()->json(['message' => 'Wait please, I am doing nothing now']);
+        return response()->json(['message' => 'Update action is disabled']);
     }
 }

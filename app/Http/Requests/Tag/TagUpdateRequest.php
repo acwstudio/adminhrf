@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Tag;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ArticlesAuthorsUpdateRelationshipsRequest
- * @package App\Http\Requests
+ * Class TagUpdateRequest
+ * @package App\Http\Requests\Tag
  */
-class ArticlesAuthorsUpdateRelationshipsRequest extends FormRequest
+class TagUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,9 +28,7 @@ class ArticlesAuthorsUpdateRelationshipsRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'present|array',
-            'data.*.id' => 'required|string',
-            'data.*.type' => 'required|in:authors',
+            'data.attributes.title' => 'string',
         ];
     }
 }

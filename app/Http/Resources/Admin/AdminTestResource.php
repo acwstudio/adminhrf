@@ -39,17 +39,17 @@ class AdminTestResource extends JsonResource
             'relationships' => [
                 'images' => [
                     'links' => [
-//                        'self' => route(),
-//                        'related' => route()
+                        'self' => route('test.relationships.images', ['test' => $this->id]),
+                        'related' => route('test.images', ['test' => $this->id])
                     ],
-                    'data' => AdminImagesIdentifierResource::collection($this->images)
+                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
                 ],
                 'comments' => [
                     'links' => [
                         'self' => route('test.relationships.comments', ['test' => $this->id]),
                         'related' => route('test.comments', ['test' => $this->id])
                     ],
-                    'data' => AdminCommentsIdentifierResource::collection($this->comments)
+                    'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
                 ]
             ]
         ];

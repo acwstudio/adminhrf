@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Document;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DocumentCreateRequest;
-use App\Http\Requests\DocumentUpdateRequest;
+use App\Http\Requests\Document\DocumentCreateRequest;
+use App\Http\Requests\Document\DocumentUpdateRequest;
 use App\Http\Resources\Admin\AdminDocumentCollection;
 use App\Http\Resources\Admin\AdminDocumentResource;
 use App\Models\Document;

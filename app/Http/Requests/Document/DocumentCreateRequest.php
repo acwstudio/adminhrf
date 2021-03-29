@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Document;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class DocumentCreateRequest
- * @package App\Http\Requests
+ * @package App\Http\Requests\Document
  */
 class DocumentCreateRequest extends FormRequest
 {

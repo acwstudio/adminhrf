@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin\Test;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TestCreateRequest;
+use App\Http\Requests\Test\TestCreateRequest;
+use App\Http\Requests\Test\TestUpdateRequest;
 use App\Http\Resources\Admin\AdminTestCollection;
 use App\Http\Resources\Admin\AdminTestResource;
 use App\Models\Test;
@@ -27,7 +28,7 @@ class AdminTestController extends Controller
 //        $this->authorize('manage', Test::class);
 
         $query = QueryBuilder::for(Test::class)
-//            ->with()
+            ->allowedIncludes(['images', 'comments'])
             ->allowedSorts('title', 'created_at')
             ->jsonPaginate();
 
@@ -43,15 +44,10 @@ class AdminTestController extends Controller
     public function store(TestCreateRequest $request)
     {
         $dataAttributes = $request->input('data.attributes');
-//        $data = $request->input('data');
-//        return $data;
+
         $test = Test::create($dataAttributes);
 
-        $query = QueryBuilder::for(Test::with('images')
-            ->where('id', $test->id))
-            ->firstOrFail();
-
-        return (new AdminTestResource($query))
+        return (new AdminTestResource($test))
             ->response()
             ->header('Location', route('admin.tests.show', [
                 'test' => $test->id
@@ -66,8 +62,9 @@ class AdminTestController extends Controller
      */
     public function show(Test $test)
     {
-        $query = QueryBuilder::for(Test::with('images')
-            ->where('id', $test->id))
+        $query = QueryBuilder::for(Test::class)
+            ->where('id', $test->id)
+            ->allowedIncludes(['images', 'comments'])
             ->firstOrFail();
 
         return new AdminTestResource($query);
@@ -78,21 +75,29 @@ class AdminTestController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return AdminTestResource
      */
-    public function update(Request $request, $id)
+    public function update(TestUpdateRequest $request, Test $test)
     {
-        //
+        $data = $request->input('data.attributes');
+
+        $test->update($data);
+
+        return new AdminTestResource($test);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Test $test)
     {
-        //
+        $test->delete();
+
+        return response(null, 204);
+
     }
 }

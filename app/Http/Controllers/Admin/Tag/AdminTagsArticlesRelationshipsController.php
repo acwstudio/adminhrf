@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Tag;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TagsArticlesUpdateRelationshipsRequest;
+use App\Http\Requests\Tag\TagsArticlesUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\AdminArticlesIdentifireResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class AdminTagsArticlesRelationshipsController extends Controller
     }
 
     /**
-     * @param TagsArticlesUpdateRelationshipsRequest $request
+     * @param \App\Http\Requests\Tag\TagsArticlesUpdateRelationshipsRequest $request
      * @param Tag $tag
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */

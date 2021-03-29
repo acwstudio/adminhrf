@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Biography;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BiographyCommentsUpdateRelationshipsRequest;
+use App\Http\Requests\Biography\BiographyCommentsUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
 use App\Models\Biography;
 

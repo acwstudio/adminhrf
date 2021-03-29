@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Author;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AuthorCreateRequest;
-use App\Http\Requests\AuthorUpdateRequest;
+use App\Http\Requests\Author\AuthorCreateRequest;
+use App\Http\Requests\Author\AuthorUpdateRequest;
 use App\Http\Resources\Admin\AdminAuthorCollection;
 use App\Http\Resources\Admin\AdminAuthorResource;
 use App\Http\Resources\AuthorResource;
@@ -72,7 +72,7 @@ class AdminAuthorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param AuthorUpdateRequest $request
+     * @param \App\Http\Requests\Author\AuthorUpdateRequest $request
      * @param Author $author
      * @return AdminAuthorResource
      */

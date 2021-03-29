@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ArticleCreateRequest;
-use App\Http\Requests\ArticleUpdateRequest;
+use App\Http\Requests\Article\ArticleCreateRequest;
+use App\Http\Requests\Article\ArticleUpdateRequest;
 use App\Http\Resources\Admin\AdminArticleCollection;
 use App\Http\Resources\Admin\AdminArticleResource;
 use App\Models\Article;
@@ -91,7 +91,7 @@ class AdminArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param ArticleUpdateRequest $request
+     * @param \App\Http\Requests\Article\ArticleUpdateRequest $request
      * @param Article $article
      * @return \Illuminate\Http\JsonResponse
      */

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin\News;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\NewsCreateRequest;
-use App\Http\Requests\NewsUpdateRequest;
-use App\Http\Requests\TagUpdateRequest;
+use App\Http\Requests\News\NewsCreateRequest;
+use App\Http\Requests\News\NewsUpdateRequest;
+use App\Http\Requests\Tag\TagUpdateRequest;
 use App\Http\Resources\Admin\AdminNewsCollection;
 use App\Http\Resources\Admin\AdminNewsResource;
 use App\Models\News;
@@ -28,7 +28,7 @@ class AdminNewsController extends Controller
     public function index()
     {
         $query = QueryBuilder::for(News::class)
-            ->with('tags')
+            ->allowedIncludes('tags')
             ->jsonPaginate();
 
         return new AdminNewsCollection($query);

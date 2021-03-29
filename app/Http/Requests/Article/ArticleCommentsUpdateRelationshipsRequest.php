@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Article;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ArticlesCommentsUpdateRelationshipsRequest
- * @package App\Http\Requests
+ * Class ArticleCommentsUpdateRelationshipsRequest
+ * @package App\Http\Requests\Article
  */
-class ArticlesCommentsUpdateRelationshipsRequest extends FormRequest
+class ArticleCommentsUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

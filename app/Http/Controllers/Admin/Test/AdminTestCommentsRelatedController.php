@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\Test;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Admin\AdminCommentCollection;
+use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
+use App\Models\Test;
 use Illuminate\Http\Request;
 
 /**
@@ -11,8 +14,12 @@ use Illuminate\Http\Request;
  */
 class AdminTestCommentsRelatedController extends Controller
 {
-    public function index()
+    /**
+     * @param Test $test
+     * @return AdminCommentCollection
+     */
+    public function index(Test $test)
     {
-
+        return new AdminCommentCollection($test->comments);
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\News;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class NewsCreateRequest
- * @package App\Http\Requests
+ * @package App\Http\Requests\News
  */
 class NewsCreateRequest extends FormRequest
 {

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ArticlesAuthorsUpdateRelationshipsRequest;
-use App\Http\Requests\AuthorsArticlesUpdateRelationshipsRequest;
+use App\Http\Requests\Article\ArticlesAuthorsUpdateRelationshipsRequest;
+use App\Http\Requests\Author\AuthorsArticlesUpdateRelationshipsRequest;
 use App\Models\Article;
 use App\Http\Resources\Admin\AdminAuthorsIdentifireResource;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class AdminArticlesAuthorsRelationshipsController extends Controller
     }
 
     /**
-     * @param ArticlesAuthorsUpdateRelationshipsRequest $request
+     * @param \App\Http\Requests\Article\ArticlesAuthorsUpdateRelationshipsRequest $request
      * @param Article $article
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */

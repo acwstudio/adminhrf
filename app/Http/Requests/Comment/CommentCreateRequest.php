@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Comment;
 
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class CommentCreateRequest
+ * @package App\Http\Requests\Comment
+ */
 class CommentCreateRequest extends FormRequest
 {
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Test;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class TestCreateRequest
- * @package App\Http\Requests
+ * @package App\Http\Requests\Test
  */
 class TestCreateRequest extends FormRequest
 {

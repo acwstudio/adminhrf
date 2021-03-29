@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Author;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AuthorsArticlesUpdateRelationshipsRequest;
+use App\Http\Requests\Author\AuthorsArticlesUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\AdminArticlesIdentifireResource;
 use App\Models\Author;
 use Illuminate\Http\Request;

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Tag;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TagCreateRequest;
-use App\Http\Requests\TagUpdateRequest;
+use App\Http\Requests\Tag\TagCreateRequest;
+use App\Http\Requests\Tag\TagUpdateRequest;
 use App\Http\Resources\Admin\AdminTagCollection;
 use App\Http\Resources\Admin\AdminTagResource;
 use App\Models\Tag;
@@ -37,7 +37,7 @@ class AdminTagController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param TagCreateRequest $request
+     * @param \App\Http\Requests\Tag\TagCreateRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(TagCreateRequest $request)
@@ -71,7 +71,7 @@ class AdminTagController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param TagUpdateRequest $request
+     * @param \App\Http\Requests\Tag\TagUpdateRequest $request
      * @param Tag $tag
      * @return AdminTagResource
      */

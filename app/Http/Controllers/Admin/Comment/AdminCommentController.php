@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Comment;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CommentCreateRequest;
-use App\Http\Requests\CommentUpdateRequest;
+use App\Http\Requests\Comment\CommentCreateRequest;
+use App\Http\Requests\Comment\CommentUpdateRequest;
 use App\Http\Resources\Admin\AdminCommentCollection;
 use App\Http\Resources\Admin\AdminCommentResource;
 use App\Models\Comment;

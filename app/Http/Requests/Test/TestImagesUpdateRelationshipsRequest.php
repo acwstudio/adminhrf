@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Test;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class TagCreateRequest
- * @package App\Http\Requests
+ * Class TestImagesUpdateRelationshipsRequest
+ * @package App\Http\Requests\Test
  */
-class TagCreateRequest extends FormRequest
+class TestImagesUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,10 +28,9 @@ class TagCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'required|array',
-            'data.type' => 'required|in:tags',
-            'data.attributes' => 'required|array',
-            'data.attributes.title' => 'string|required',
+            'data' => 'present|array',
+            'data.*.id' => 'required|string',
+            'data.*.type' => 'required|in:images',
         ];
     }
 }

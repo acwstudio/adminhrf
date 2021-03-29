@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ArticlesCommentsUpdateRelationshipsRequest;
+use App\Http\Requests\Article\ArticleCommentsUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\AdminCommentCollection;
 use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
 use App\Models\Article;
@@ -25,11 +25,11 @@ class AdminArticleCommentsRelationshipsController extends Controller
     }
 
     /**
-     * @param ArticlesCommentsUpdateRelationshipsRequest $request
+     * @param \App\Http\Requests\Article\ArticleCommentsUpdateRelationshipsRequest $request
      * @param Article $article
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ArticlesCommentsUpdateRelationshipsRequest $request, Article $article)
+    public function update(ArticleCommentsUpdateRelationshipsRequest $request, Article $article)
     {
         return response()->json(['message' => 'Update action is disabled']);
     }

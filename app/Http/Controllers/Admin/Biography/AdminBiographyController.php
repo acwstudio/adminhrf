@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Biography;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BiographyCreateRequest;
-use App\Http\Requests\BiographyUpdateRequest;
+use App\Http\Requests\Biography\BiographyCreateRequest;
+use App\Http\Requests\Biography\BiographyUpdateRequest;
 use App\Http\Resources\Admin\AdminBiographyCollection;
 use App\Http\Resources\Admin\AdminBiographyResource;
 use App\Models\Biography;
@@ -26,8 +26,7 @@ class AdminBiographyController extends Controller
     {
         $biographies = QueryBuilder::for(Biography::class)
             ->allowedIncludes(['comments'])
-//            ->allowedFilters([''])
-//            ->allowedSorts([''])
+            ->allowedSorts(['firstname'])
             ->jsonPaginate();
 
         return new AdminBiographyCollection($biographies);
@@ -36,7 +35,7 @@ class AdminBiographyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param BiographyCreateRequest $request
+     * @param \App\Http\Requests\Biography\BiographyCreateRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(BiographyCreateRequest $request)
@@ -60,7 +59,12 @@ class AdminBiographyController extends Controller
      */
     public function show(Biography $biography)
     {
-        return new AdminBiographyResource($biography);
+        $query = QueryBuilder::for(Biography::class)
+            ->where('id', $biography->id)
+            ->allowedIncludes(['comments'])
+            ->firstOrFail();
+
+        return new AdminBiographyResource($query);
     }
 
     /**
@@ -72,9 +76,9 @@ class AdminBiographyController extends Controller
      */
     public function update(BiographyUpdateRequest $request, Biography $biography)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $biography->update($data['data']);
+        $biography->update($data);
 
         return new AdminBiographyResource($biography);
     }
