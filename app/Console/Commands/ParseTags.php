@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Article;
+use App\Models\Article as Article;
 use App\Models\Old\Tag as OldTag;
 use App\Models\Old\Tagging;
 use App\Models\Tag;
@@ -74,22 +74,24 @@ class ParseTags extends Command
                     'created_at' => $tag->created_at,
                     'updated_at' => $tag->updated_at,
                 ]);
-            }
-            $relations=Tagging::where('tag_id',$newTag->id)->where('resource_type','=',$entitiesMap['article']);
-            var_dump($newTag->id);
-            foreach($relations as $relation){
-                $article = Article::where('id',$relation->resource_id);
-                if(!is_null($article)){
-                    $newTag->articles()->associate($article)->save();
+
+                $relations=Tagging::where('tag_id',$tag->id)->where('resource_type','=',$entitiesMap['article']);
+                var_dump($newTag->id);
+                foreach($relations as $relation){
+                    $article = Article::where('id',$relation->resource_id);
+                    if(!is_null($article)){
+                        $newTag->articles()->associate($article)->save();
+                    }
+                }
+                $relations=Tagging::where('tag_id',$tag->id)->where('resource_type','=',$entitiesMap['videomaterial']);
+                foreach($relations as $relation){
+                    $film = Videomaterial::where('id',$relation->resource_id);
+                    if(!is_null($film)){
+                        $newTag->videomaterials()->associate($film)->save;
+                    }
                 }
             }
-            $relations=Tagging::where('tag_id',$newTag->id)->where('resource_type','=',$entitiesMap['videomaterial']);
-            foreach($relations as $relation){
-                $film = Videomaterial::where('id',$relation->resource_id);
-                if(!is_null($film)){
-                    $newTag->videomaterials()->associate($film)->save;
-                }
-            }
+
         }
 
 
