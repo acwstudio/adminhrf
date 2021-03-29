@@ -19,6 +19,7 @@ class BiographyController extends Controller
         $perPage = $request->get('per_page', $this->perPage);
         $century = $request->get('century', Carbon::now()->century);
         $categories = $request->get('categories');
+        $sortBy = $request->get('sort_by');
 
         $fromDate = Carbon::now()->setYear($century * 100)->startOfCentury();
         $toDate = Carbon::now()->setYear($century * 100)->endOfCentury();
