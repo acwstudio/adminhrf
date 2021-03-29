@@ -202,6 +202,7 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/authors', [AuthorController::class, 'index']);
             Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('authors.show');
+            Route::get('/authors/{author:slug}/articles', [AuthorController::class, 'getArticles']);
 
             Route::get('/comments', [CommentController::class, 'index']);
             Route::get('/comments/answers/{comment:id}', [CommentController::class, 'getAnswers']);

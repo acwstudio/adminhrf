@@ -17,6 +17,7 @@ class AuthorResource extends JsonResource
         return [
             'model_type' => 'author',
             'id' => $this->id,
+            'slug' => $this->slug,
             'firstname' => $this->firstname,
             'surname' => $this->surname,
             'patronymic' => $this->patronymic,
