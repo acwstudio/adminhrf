@@ -19,7 +19,7 @@ class ArticleResource extends JsonResource
         return [
             'model_type' => 'article',
             'id' => $this->id,
-            'user_id' => $user->id,
+            'user_id' => $user?$user->id:null,
             'title' => $this->title,
             'slug' => $this->slug,
             'announce' => $this->announce,
@@ -32,7 +32,7 @@ class ArticleResource extends JsonResource
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
             'tags' => TagResource::collection($this->tags),
-            'comments' => $this->commented,
+            'comments' => CommentResource::collection($this->comments),
         ];
     }
 }

@@ -25,7 +25,7 @@ class FilmsResource extends JsonResource
             'body' => $this->body,
             'published_at' => $this->published_at,
             'authors' => AuthorShortResource::collection($this->authors),
-            'comments' => $this->comments,
+            'comments' => CommentResource::collection($this->comments),
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
