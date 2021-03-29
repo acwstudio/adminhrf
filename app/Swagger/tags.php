@@ -89,5 +89,9 @@
  *     name="Popular",
  *     description="Get popular resources",
  * )
+ *  @OA\Tag(
+ *     name="Random",
+ *     description="Get random resources",
+ * )
  *
  */

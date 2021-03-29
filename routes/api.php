@@ -198,6 +198,7 @@ Route::prefix('v1')->group(function () {
         function () {
 
             Route::get('/articles', [ArticleController::class, 'index']);
+            Route::get('/articles/tags/{tag:slug}', [ArticleController::class, 'indexByTag']);
             Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
 
             Route::get('/authors', [AuthorController::class, 'index']);
@@ -208,6 +209,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/comments/answers/{comment:id}', [CommentController::class, 'getAnswers']);
 
             Route::get('/audiolectures', [AudiomaterialController::class, 'index']);
+            Route::get('/audiolectures/tags/{tag:slug}', [AudiomaterialController::class, 'indexByTag']);
             Route::get('/audiolectures/{audio:slug}', [AudiomaterialController::class, 'show']);
 
             Route::get('/podcasts', [PodcastController::class, 'index']);
@@ -233,6 +235,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/films/{videomaterial:slug}', [\App\Http\Controllers\FilmsController::class, 'show']);
 
             Route::get('/videolectures', [\App\Http\Controllers\VideolectureController::class, 'index']);
+            Route::get('/videolectures/tags/{tag:slug}', [\App\Http\Controllers\VideolectureController::class, 'indexByTag']);
             Route::get('/videolectures/{videomaterial:slug}', [\App\Http\Controllers\VideolectureController::class, 'show']);
 
             Route::get('/afisha', [\App\Http\Controllers\AfishaController::class, 'index']);
@@ -245,9 +248,11 @@ Route::prefix('v1')->group(function () {
 
 
             Route::get('/highlights', [\App\Http\Controllers\HighlightController::class, 'index']);
+            Route::get('/highlights/tags/{tag:slug}', [\App\Http\Controllers\HighlightController::class, 'indexByTag']);
             Route::get('/highlights/{highlight:slug}', [\App\Http\Controllers\HighlightController::class, 'show']);
 
             Route::get('/news/', [NewsController::class, 'index']);
+            Route::get('/news/tags/{tag:slug}', [NewsController::class, 'indexByTag']);
             Route::get('/news/{news:slug}', [NewsController::class, 'show']);
 
             Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
@@ -281,4 +286,12 @@ Route::prefix('v1')->group(function () {
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
     Route::get('/random/biographies/', [\App\Http\Controllers\RandController::class, 'getRandBiographies']);
+    Route::get('/random/videolectures/', [\App\Http\Controllers\RandController::class, 'getRandVideolectures']);
+    Route::get('/random/audiolectures/', [\App\Http\Controllers\RandController::class, 'getRandAudiolectures']);
+    Route::get('/random/films/', [\App\Http\Controllers\RandController::class, 'getRandFilms']);
+    Route::get('/random/tests/', [\App\Http\Controllers\RandController::class, 'getRandTest']);
+    Route::get('/random/courses/', [\App\Http\Controllers\RandController::class, 'getRandCourses']);
+    Route::get('/random/audiocourses/', [\App\Http\Controllers\RandController::class, 'getRandAudioCourses']);
+    Route::get('/random/videocourses/', [\App\Http\Controllers\RandController::class, 'getRandVideoCourses']);
+    Route::get('/random/highlights/', [\App\Http\Controllers\RandController::class, 'getRandHighlights']);
 });
