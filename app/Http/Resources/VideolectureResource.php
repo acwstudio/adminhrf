@@ -23,7 +23,7 @@ class VideolectureResource extends JsonResource
             'video_code' => explode('"',$this->video_code)[0],
             'body' => $this->body,
             'published_at' => $this->published_at,
-//            'authors' => AuthorShortResource::collection($this->whenLoaded('authors')),
+            'authors' => AuthorShortResource::collection($this->authors->first()),
             'lector' => AuthorShortResource::collection($this->authors),
             'comments' => CommentResource::collection($this->comments),
             'likes' => $this->liked,
