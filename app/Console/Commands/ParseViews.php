@@ -64,20 +64,16 @@ class ParseViews extends Command
             if (!is_null($oldArticle)) {
                 $stat = Stats::where('resource_type', '=', 'SIP\ArtworkBundle\Entity\Artworks')
                     ->where('resource_id', '=', $oldArticle->id)->first();
-//                var_dump($stat->params);
-                $this->info('Article #'.$article->id);
-                if(!is_null($stat)) {
+                if (!is_null($stat)) {
                     $var = json_decode($stat->params);
-		    var_dump($var->views);
-                    $article->viewed = $var->views; // ['views']; // $stat->params->views;
-                    $article->save;
+                    //var_dump($var->views);
+                    $article->viewed = $var->views;
+                    $article->save();
                 }
 
-//		$bar->advance();
             }
             $bar->advance();
             $this->newLine();
-//            $this->info($var->views);
         }
         $bar->finish();
         $this->newLine();
@@ -92,13 +88,11 @@ class ParseViews extends Command
             if (!is_null($person)) {
                 $stat = Stats::where('resource_type', '=', 'SIP\PersonBundle\Entity\Person')
                     ->where('resource_id', '=', $person->id)->first();
-
-                var_dump($stat);
-                $this->info('Bio #'.$bio->id);
-                if(!is_null($stat)) {
+                $this->info('Bio #' . $bio->id);
+                if (!is_null($stat)) {
                     $var = json_decode($stat->params);
                     $bio->viewed = $var->views; //(string)$var->views; //['views']; // $stat->params->views;
-                    $bio->save;
+                    $bio->save();
                 }
             }
         }
@@ -108,31 +102,28 @@ class ParseViews extends Command
         $this->newLine();
         $this->info('All bios processed!');
 
-/*
-        $films = Videomaterial::where('type', '=', 'film')->cursor();
 
-        $bar = $this->output->createProgressBar($films->count());
+                $films = Videomaterial::where('type', '=', 'film')->cursor();
 
-        foreach ($films as $film) {
-            $oldFilm = Film::find($film->id);
-            if (!is_null($person)) {
-                $stat = Stats::where('resource_type', '=', 'SIP\FilmBundle\Entity\Film')
-                    ->where('resource_id', '=', $oldFilm->id)->first();
-                var_dump($stat);
-                $this->info('Film #'.$film->id);
-                if(!is_null($stat)) {
-                    $var = json_decode($stat->params);
-                    $film->viewed = (int)$var->views; // ['views']; //$stat->params->views;
-                    $film->save;
+                $bar = $this->output->createProgressBar($films->count());
+
+                foreach ($films as $film) {
+                    $oldFilm = Film::find($film->id);
+                    if (!is_null($person)) {
+                        $stat = Stats::where('resource_type', '=', 'SIP\FilmBundle\Entity\Film')
+                            ->where('resource_id', '=', $oldFilm->id)->first();
+                        if(!is_null($stat)) {
+                            $var = json_decode($stat->params);
+                            $film->viewed = (int)$var->views; // ['views']; //$stat->params->views;
+                            $film->save();
+                        }
+                    }
                 }
-            }
-        }
 
-        $bar->advance();
-        $bar->finish();
-        $this->newLine();
-        $this->info('All films processed!');
-*/
+                $bar->advance();
+                $bar->finish();
+                $this->newLine();
+                $this->info('All films processed!');
 
         return 1;
     }
