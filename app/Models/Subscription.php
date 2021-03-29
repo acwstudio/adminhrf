@@ -21,7 +21,7 @@ class Subscription extends Model
 
     public function tag()
     {
-        return $this->belongsTo(Tag::class);
+        return $this->hasOne(Subscription::class,'tag_id','id');
     }
 
     public function user()
