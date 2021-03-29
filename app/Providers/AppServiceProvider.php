@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
 
         ResetPassword::createUrlUsing(
             function ($notifiable, $token) {
-                return env("APP_CLIENT_URL") . "?type=reset_password&token={$token}&email={$notifiable->getEmailForPasswordReset()}";
+                return config('app.client_url')."?type=reset_password&token={$token}&email={$notifiable->getEmailForPasswordReset()}";
 
             }
         );
@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
                 $email = $notifiable->getEmailForVerification();
                 $hash = Hash::make($email);
 
-                return env("APP_URL") . "/api/v1/email/verify/{$email}?hash={$hash}";
+                return config('app.url')."/api/v1/email/verify/{$email}?hash={$hash}";
             }
         );
     }
