@@ -80,16 +80,15 @@ class ParseTags extends Command
                 var_dump($newTag->id);
                 foreach($relations as $relation){
                     $article = Article::where('id',$relation->resource_id);
-                    if(!is_null($article)){
+                    if($article){
                         DB::unprepared("INSERT INTO taggables(tag_id,taggable_id,taggable_type)
                                 values({$tag->id},{$article->first()->resource_id},'article')");
-                    }
                     }
                 }
                 $relations=Tagging::where('tag_id',$tag->id)->where('resource_type','=',$entitiesMap['videomaterial']);
                 foreach($relations as $relation){
                     $film = Videomaterial::where('id',$relation->resource_id);
-                    if(!is_null($film)){
+                    if($film){
                         DB::unprepared("INSERT INTO taggables(tag_id,taggable_id,taggable_type)
                                 values({$tag->id},{$film->first()->resource_id},'article')");
                     }
