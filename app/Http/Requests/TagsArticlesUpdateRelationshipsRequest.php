@@ -5,10 +5,10 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class TagUpdateRequest
+ * Class TagsArticlesUpdateRelationshipsRequest
  * @package App\Http\Requests
  */
-class TagUpdateRequest extends FormRequest
+class TagsArticlesUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,9 @@ class TagUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.attributes.title' => 'string',
+            'data' => 'present|array',
+            'data.*.id' => 'required|string',
+            'data.*.type' => 'required|in:articles',
         ];
     }
 }

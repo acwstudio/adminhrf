@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\Document\AdminDocumentController;
 use App\Http\Controllers\Admin\Image\AdminImageController;
 use App\Http\Controllers\Admin\News\AdminNewsController;
 use App\Http\Controllers\Admin\Tag\AdminTagController;
+use App\Http\Controllers\Admin\Tag\AdminTagsArticlesRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestCommentsRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestCommentsRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestController;
@@ -264,8 +265,18 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/admin/tags/{tag}', [AdminTagController::class, 'update']);
                 Route::delete('/admin/tags/{tag}', [AdminTagController::class, 'destroy']);
 
-//                Route::get('/admin/tags/{tag}/relationships/articles', [])
-//                    ->name('tags.relationships.articles');
+                // Tags to Articles relations
+                Route::get('/admin/tags/{tag}/relatioships/articles', [
+                    AdminTagsArticlesRelationshipsController::class, 'index'
+                ])->name('tags.relationships.articles');
+
+                Route::patch('/admin/tags/{tag}/relatioships/articles', [
+                    AdminTagsArticlesRelationshipsController::class, 'update'
+                ])->name('tags.relationships.articles');
+
+                Route::get('admin/tags/{tag}/articles', [
+                    AdminArticlesTagsRelatedController::class, 'index'
+                ])->name('tags.articles');
 
                 /*****************  TESTS ROUTES **************/
 

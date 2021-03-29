@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Admin\AdminImageCollection;
+use App\Models\Article;
 use Illuminate\Http\Request;
 
 /**
@@ -11,8 +13,12 @@ use Illuminate\Http\Request;
  */
 class AdminArticleImagesRelatedController extends Controller
 {
-    public function index()
+    /**
+     * @param Article $article
+     * @return AdminImageCollection
+     */
+    public function index(Article $article)
     {
-        return response()->json(['message' => 'Sorrry, but I am not ready...']);
+        return new AdminImageCollection($article->comments);
     }
 }

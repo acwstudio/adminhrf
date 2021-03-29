@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Http\Controllers\Admin\Tag;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\TagsArticlesUpdateRelationshipsRequest;
+use App\Http\Resources\Admin\AdminArticlesIdentifireResource;
+use App\Models\Tag;
+use Illuminate\Http\Request;
+
+/**
+ * Class AdminTagsArticlesRelationshipsController
+ * @package App\Http\Controllers\Admin\Tag
+ */
+class AdminTagsArticlesRelationshipsController extends Controller
+{
+    /**
+     * @param Tag $tag
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function index(Tag $tag)
+    {
+        return AdminArticlesIdentifireResource::collection($tag->articles);
+    }
+
+    /**
+     * @param TagsArticlesUpdateRelationshipsRequest $request
+     * @param Tag $tag
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function update(TagsArticlesUpdateRelationshipsRequest $request, Tag $tag)
+    {
+        return response()->json(['message' => 'Update action is disabled']);
+    }
+}

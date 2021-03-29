@@ -30,8 +30,8 @@ class AdminTagResource extends JsonResource
             'relationships' => [
                 'articles' => [
                     'links' => [
-//                        'self' => route('', ['article' => $this->id]),
-//                        'related' => route('tags.articles', ['tag' => $this->id])
+                        'self' => route('tags.relationships.articles', ['tag' => $this->id]),
+                        'related' => route('tags.articles', ['tag' => $this->id])
                     ],
                     'data' => AdminArticlesIdentifireResource::collection($this->whenLoaded('articles'))
                 ],

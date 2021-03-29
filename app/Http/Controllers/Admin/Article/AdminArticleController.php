@@ -46,22 +46,25 @@ class AdminArticleController extends Controller
     public function store(ArticleCreateRequest $request)
     {
         $dataAttributes = $request->input('data.attributes');
+
         $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $article = Article::create($dataAttributes);
+
         $article->authors()->attach($dataRelAuthors);
         $article->tags()->attach($dataRelTags);
 //        $article->bookmarks()->saveMany($dataRelBookmarks);
-        $article->images()->save($dataRelImages);
+//        $article->images()->save($dataRelImages);
 
-        $query = QueryBuilder::for(Article::with('images', 'comments', 'authors')
-            ->where('id', $article->id))
-            ->firstOrFail();
+//        $query = QueryBuilder::for(Article::class)
+//            ->allowedIncludes('authors', 'comments', 'tags', 'images', 'bookmarks')
+//            ->where('id', $article->id)
+//            ->firstOrFail();
 
-        return (new AdminArticleResource($query))
+        return (new AdminArticleResource($article))
             ->response()
             ->header('Location', route('admin.articles.show', [
                 'article' => $article->id
@@ -78,7 +81,7 @@ class AdminArticleController extends Controller
     {
         $query = QueryBuilder::for(Article::class)
 //            ->with('tags', 'comments', 'authors', 'images')
-            ->allowedIncludes(['authors', 'tags'])
+            ->allowedIncludes(['authors', 'comments', 'tags', 'images', 'bookmarks'])
             ->where('id', $article->id)
             ->firstOrFail();
 
@@ -101,17 +104,18 @@ class AdminArticleController extends Controller
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $article->update($dataAttributes);
+
         $article->authors()->sync($dataRelAuthors);
         $article->tags()->sync($dataRelTags);
 //        I don't know what these relationships
 //        $article->bookmarks()->saveMany($dataRelBookmarks);
 //        $article->images()->save($dataRelImages);
 
-        $query = QueryBuilder::for(Article::with('tags', 'comments', 'authors','images')
-            ->where('id', $article->id))
-            ->firstOrFail();
+//        $query = QueryBuilder::for(Article::class)
+//            ->where('id', $article->id)
+//            ->firstOrFail();
 
-        return (new AdminArticleResource($query))
+        return (new AdminArticleResource($article))
             ->response()
             ->header('Location', route('admin.articles.show', [
                 'article' => $article->id

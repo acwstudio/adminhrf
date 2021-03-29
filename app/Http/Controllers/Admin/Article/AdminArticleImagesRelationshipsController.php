@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Admin\AdminArticlesIdentifireResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,13 @@ use Illuminate\Http\Request;
  */
 class AdminArticleImagesRelationshipsController extends Controller
 {
-    public function index()
+    /**
+     * @param Article $article
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function index(Article $article)
     {
-        return response()->json(['message' => 'Wait please, I am doing nothing now']);
+        return AdminArticlesIdentifireResource::collection($article->images);
     }
 
     public function update(Request $request, Article $article)

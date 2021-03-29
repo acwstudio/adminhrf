@@ -26,7 +26,8 @@ class AdminTagController extends Controller
     public function index()
     {
         $tags = QueryBuilder::for(Tag::class)
-            ->with('articles')
+//            ->with('articles')
+            ->allowedIncludes('articles')
             ->allowedSorts('title')
             ->jsonPaginate();
 
@@ -76,9 +77,9 @@ class AdminTagController extends Controller
      */
     public function update(TagUpdateRequest $request, Tag $tag)
     {
-        $data = $request->validated();
+        $data = $request->input('data.attributes');
 
-        $tag->update($data['data']);
+        $tag->update($data);
 
         return new AdminTagResource($tag);
     }
@@ -92,7 +93,7 @@ class AdminTagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        $tag->delete($tag);
+        $tag->delete();
         return response(null, 204);
     }
 }
