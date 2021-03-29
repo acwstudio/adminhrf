@@ -7,6 +7,7 @@ use App\Http\Requests\ArticleUpdateRequest;
 use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -103,5 +104,25 @@ class ArticleController extends Controller
     {
         $article->delete();
         return response(null, 204);
+    }
+
+    public function indexByTag(Tag $tag,Request $request)
+    {
+
+        $perPage = $request->get('per_page', 16);
+        $sortBy = $request->get('sort_by');
+
+        $query = $tag->articles->where('active', true)
+                        ->where('published_at', '<', now())
+                        ->with('images');
+
+        if ($sortBy && in_array($sortBy, $this->sortParams)) {
+            $query->orderBy('liked', 'desc');
+        }
+
+        $result = $query->orderBy('published_at', 'desc')
+                        ->paginate($perPage);
+
+        return new ArticleCollection($result);
     }
 }

@@ -12,19 +12,26 @@ use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
+    protected $sortParams = [
+        self::SORT_POPULAR
+    ];
     public function index(Request $request)
     {
-
         $perPage = $request->get('per_page', $this->perPage);
         $categories = $request->get('categories');
         $query = Test::where('is_active', '=', true)
             ->where('published_at', '<', now());
+        $sortBy = $request->get('sort_by');
         if (!is_null($categories)) {
             $cats = explode('|', $categories);
             $query->whereHas('categories', function (Builder $query) use ($cats) {
                 $query->whereIn('slug', $cats);
             });
         }
+        if ($sortBy && in_array($sortBy, $this->sortParams)) {
+            $query->orderBy('liked', 'desc');
+        }
+        $result = $query->where('is_active', '=', true)->orderBy('published_at')->paginate($perPage);
         return TestShortResource::collection(Test::where('is_active', '=', true)->orderBy('published_at')->paginate($perPage));
     }
 
