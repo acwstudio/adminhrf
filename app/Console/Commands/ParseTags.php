@@ -8,6 +8,7 @@ use App\Models\Old\Tagging;
 use App\Models\Tag;
 use App\Models\Videomaterial;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class ParseTags extends Command
 {
@@ -80,14 +81,17 @@ class ParseTags extends Command
                 foreach($relations as $relation){
                     $article = Article::where('id',$relation->resource_id);
                     if(!is_null($article)){
-                        $newTag->articles()->associate($article)->save();
+                        DB::unprepared("INSERT INTO taggables(tag_id,taggable_id,taggable_type)
+                                values({$tag->id},{$article->first()->resource_id},'article')");
+                    }
                     }
                 }
                 $relations=Tagging::where('tag_id',$tag->id)->where('resource_type','=',$entitiesMap['videomaterial']);
                 foreach($relations as $relation){
                     $film = Videomaterial::where('id',$relation->resource_id);
                     if(!is_null($film)){
-                        $newTag->videomaterials()->associate($film)->save;
+                        DB::unprepared("INSERT INTO taggables(tag_id,taggable_id,taggable_type)
+                                values({$tag->id},{$film->first()->resource_id},'article')");
                     }
                 }
             }
