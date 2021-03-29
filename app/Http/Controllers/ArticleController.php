@@ -34,7 +34,7 @@ class ArticleController extends Controller
 
         $query = Article::where('active', true)
             ->where('published_at', '<', now())
-            ->with('images');
+            ->with('images', 'authors');
 
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
             $query->orderBy('liked', 'desc');
