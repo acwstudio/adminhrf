@@ -14,6 +14,22 @@ class AudiomaterialResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $user = $request->user();
+
+        return [
+            'model_type' => 'audiolecture',
+            'id' => $this->id,
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'description' => $this->description,
+            'path' => $this->path,
+            'position' => $this->position,
+            'likes' => $this->liked,
+            'views' => $this->viewed,
+            'comments' => $this->commented,
+            'has_like' => $user ? $this->checkLiked($user) : false,
+            'has_bookmark' => false,
+
+        ];
     }
 }

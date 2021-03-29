@@ -37,8 +37,10 @@ class TokenAuthController extends Controller
 
             if ($status == Password::RESET_LINK_SENT) {
                 return response()->json(
-                    ['message' => 'Reset password link sent'],
-                    204
+                    [
+                        'message' => 'Reset password link sent',
+                        'status' => 'legacy'
+                    ]
                 );
             }
         }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ImageCreateRequest extends FormRequest
@@ -24,14 +25,16 @@ class ImageCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.path' => 'required|string',
-            'data.name' => 'required|string',
-            'data.ext' => 'required|string',
-            'data.alt' => 'required|string',
-            'data.order' => 'required|integer',
-            'data.imageable_id' => 'required|integer',
-            'data.imageable_type' => 'required|string',
-            'data.flags' => 'required|integer',
+            'imageable_type' => [
+                'required',
+                'string',
+                function($attribute, $value, $fail) {
+                    if(!array_key_exists($value, Relation::$morphMap) && $value !== 'common') {
+                        $fail('Invalid '.$attribute.'='.$value);
+                    }
+                }
+            ],
+            'file' => 'required|image',
         ];
     }
 }

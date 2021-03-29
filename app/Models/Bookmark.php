@@ -10,6 +10,7 @@ class Bookmark extends Model
 {
     use HasFactory;
 
+    const UPDATED_AT = null;
     public $fillable = [
         'id',
         'group_id',

@@ -15,6 +15,7 @@ class TimelineResource extends JsonResource
      */
     public function toArray($request)
     {
+	$user = $request->user();
         return [
             'model_type' => $this->timelinable_type,
             'id' => $this->timelinable_id,
@@ -25,11 +26,11 @@ class TimelineResource extends JsonResource
             'published_at' => $this->timelinable->published_at,
             'likes' => $this->timelinable->countLikes(),
             'views' => $this->timelinable->viewed,
-            'has_like' => $this->timelinable->checkLiked($request->get('user_id', 1)),
-            'has_bookmark' => false,
+            'has_like' => $user ? $this->timelinable->checkLiked($user) : false,
+            'has_bookmark' => $user ? $this->timelinable->hasBookmark($user): false,
 
             'tags' => TagResource::collection($this->timelinable->tags),
-            'comments' => $this->timelinable->comments->count(),
+            'comments' => $this->timelinable->commented,
             'image' => [
                 "model_type" => "image",
                 "id" => 1294,
@@ -39,13 +40,7 @@ class TimelineResource extends JsonResource
                 "original" => null,
                 "order" => 1
             ],
-            //'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
 
-
-            //'authors' => AuthorResource::collection($this->authors),
-            //'event_date' => Carbon::parse(($this->event_date))->format('Y-m-d'),
-            //'event_start_date' => Carbon::parse(($this->event_start_date))->format('Y-m-d'),
-            //'event_end_date' => Carbon::parse(($this->event_end_date))->format('Y-m-d'),
         ];
     }
 }

@@ -14,12 +14,21 @@ class AudiomaterialController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
+
+    protected $sortParams = [
+        self::SORT_POPULAR
+    ];
+
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 20);
-
-        $audio = Audiomaterial::with('highlights')
-            ->whereNull('parent_id')
+        $sortBy = $request->get('sort_by');
+        $query = Audiomaterial::with('highlights')
+                              ->whereNull('parent_id');
+        if ($sortBy && in_array($sortBy, $this->sortParams)) {
+            $query->orderBy('liked', 'desc');
+        }
+        $audio =  $query
             ->orderBy('position')
             ->paginate($perPage);
 
@@ -32,11 +41,11 @@ class AudiomaterialController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Audiomaterial  $audio
-     * @return \Illuminate\Http\Response
+     * @return AudiomaterialResource
      */
     public function show(Audiomaterial $audio)
     {
-        return AudiomaterialResource::make($audio);
+        return AudiomaterialResource::make($audio->load('highlights'));
     }
 
 

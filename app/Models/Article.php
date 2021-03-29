@@ -29,7 +29,8 @@ class Article extends Model
      */
     protected $casts = [
         'published_at' => 'datetime',
-        'biblio' => 'array'
+        'biblio' => 'array',
+//	'viewed' => 'bigint'
     ];
 
     public function sluggable(): array
@@ -142,29 +143,9 @@ class Article extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function countComments()
-    {
-        return $this->comments()->count();
-    }
-
-    /**
-     * Get article's comments
-     */
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commentable');
-    }
-
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
-    }
-
-    public function checkLiked($userId)
-    {
-        $val = $this->likes()->first(['user_id']);
-        //$get->user();
-        return $val ? $val->user_id == $userId : false;
     }
 
     /**
@@ -178,5 +159,12 @@ class Article extends Model
     public function timeline()
     {
         return $this->morphOne(Timeline::class, 'timelinable');
+    }
+
+    public function hasBookmark(User $user){
+        if(is_null($user->bookmarkGroup())){
+            return false;
+        }
+        return is_null($user->bookmarkGroup()->first()->bookmarks()->firstWhere('bookmarkable_id',$this->id));
     }
 }

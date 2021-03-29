@@ -31,11 +31,25 @@ class NewsController extends Controller
         'published_at',
     ];
 
+    protected $sortParams = [
+        self::SORT_POPULAR
+    ];
+
 
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', $this->perPage);
-        return NewsShortResource::collection(News::where('status', true)->where('published_at', '<', now())->orderBy('published_at', 'desc')->paginate($perPage));
+        $sortBy = $request->get('sort_by');
+
+        $query = News::where('status', true)->where('published_at', '<', now());
+
+        if ($sortBy && in_array($sortBy, $this->sortParams)) {
+            $query->orderBy('viewed', 'desc');
+        }
+
+        $result = $query->orderBy('published_at', 'desc')->paginate($perPage);
+
+        return NewsShortResource::collection($result);
     }
 
     public function show(News $news)

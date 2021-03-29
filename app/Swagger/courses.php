@@ -3,7 +3,7 @@
 /**
  * @OA\Get(
  *     path="/courses/audio",
- *     operationId="coursesList",
+ *     operationId="audioCoursesList",
  *     tags={"Courses"},
  *     summary="Display paginated listing of audiocourses",
  *     @OA\Parameter(
@@ -36,7 +36,7 @@
  *
  * @OA\Get(
  *     path="/courses/courses",
- *     operationId="coursesList",
+ *     operationId="regularCoursesList",
  *     tags={"Courses"},
  *     summary="Display paginated listing of regular courses",
  *     @OA\Parameter(
@@ -69,7 +69,7 @@
  *
  *  * @OA\Get(
  *     path="/courses/video",
- *     operationId="coursesList",
+ *     operationId="videoCoursesList",
  *     tags={"Courses"},
  *     summary="Display paginated listing of videocourses",
  *     @OA\Parameter(

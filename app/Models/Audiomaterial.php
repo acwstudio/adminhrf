@@ -32,4 +32,30 @@ class Audiomaterial extends Model
         return $this->morphToMany(Highlight::class, 'highlightable');
     }
 
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function bookmarks()
+    {
+        return $this->morphMany(Bookmark::class, 'bookmarkable');
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function hasBookmark(User $user){
+        if(is_null($user->bookmarkGroup())){
+            return false;
+        }
+        return is_null($user->bookmarkGroup()->first()->bookmarks()->firstWhere('bookmarkable_id',$this->id));
+    }
 }

@@ -41,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
             'comment' => 'App\Models\Comment',
             'videomaterial' => 'App\Models\Videomaterial',
             'audiomaterial' => 'App\Models\Audiomaterial',
+            'event' => 'App\Models\Event',
 
         ]);
 

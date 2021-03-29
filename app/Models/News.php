@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Commentable;
+use App\Models\Traits\Likeable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, Commentable;
 
 
     protected $fillable = [
@@ -56,24 +58,27 @@ class News extends Model
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
-    public function countComments()
-    {
-        return $this->comments()->count();
-    }
 
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
 
+    public function hasBookmark(User $user){
+        if(is_null($user->bookmarkGroup())){
+            return false;
+        }
+        return is_null($user->bookmarkGroup()->first()->bookmarks()->firstWhere('bookmarkable_id',$this->id));
+    }
+
     /**
      * Check if specific article is liked
      */
-    public function checkLiked($userId)
-    {
-        $val = $this->likes()->first(['user_id']);
-        return $val ? $val->user_id == $userId : false;
-    }
+//    public function checkLiked($userId)
+//    {
+//        $val = $this->likes()->first(['user_id']);
+//        return $val ? $val->user_id == $userId : false;
+//    }
 
     /**
      * Deprecated or supposed for future features

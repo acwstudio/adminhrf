@@ -18,7 +18,9 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-//            'has2FA' => $this->two_factor_secret ? true : false,
+            'role' => $this->getRole(),
+            'permissions' => $this->getPermissionsArray()
+
         ];
     }
 }

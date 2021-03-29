@@ -61,11 +61,6 @@
  * )
  *
  * @OA\Tag(
- *     name="Videolectures",
- *     description="Operations about videolectures",
- * )
- *
- * @OA\Tag(
  *     name="Films",
  *     description="Operations about films",
  * )
@@ -78,6 +73,21 @@
  * @OA\Tag(
  *     name="Courses",
  *     description="Operations about courses (Курсы)",
+ * )
+ *
+ *  @OA\Tag(
+ *     name="Audiolectures",
+ *     description="Operations about audiolectures",
+ * )
+ *
+ *  @OA\Tag(
+ *     name="Videolectures",
+ *     description="Operations about videolectures",
+ * )
+ *
+ *  @OA\Tag(
+ *     name="Popular",
+ *     description="Get popular resources",
  * )
  *
  */
