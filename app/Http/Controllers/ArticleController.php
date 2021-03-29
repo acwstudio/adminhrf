@@ -37,7 +37,7 @@ class ArticleController extends Controller
             ->with('images', 'authors');
 
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
-            $query->orderBy('liked', 'desc');
+            $query->orderBy('viewed', 'desc');
         }
 
         $result = $query->orderBy('published_at', 'desc')
