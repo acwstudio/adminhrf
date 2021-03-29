@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'HISRF_API'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,9 +52,11 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://histrf.jet-mix.ru'),
 
     'asset_url' => env('ASSET_URL', null),
+
+    'client_url' => env('APP_CLIENT_URL', 'https://histrf.jet-mix.ru'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +82,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ru',
 
     /*
     |--------------------------------------------------------------------------

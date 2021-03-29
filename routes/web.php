@@ -19,6 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test/{method}', [TestingController::class, 'index']);
+Route::get('/api/v1/testing_controller/{method}', [TestingController::class, 'index']);
 
 
