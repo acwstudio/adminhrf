@@ -3,9 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Models\Article;
+use App\Services\ImageService;
 use Illuminate\Console\Command;
 use App\Models\Old\Article as OldArticle;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ParseArticles extends Command
 {
@@ -14,7 +17,7 @@ class ParseArticles extends Command
      *
      * @var string
      */
-    protected $signature = 'parse:articles {--T|truncate : Clear articles table before parse}';
+    protected $signature = 'parse:articles {date : format yyyy-mm-dd Parse articles after given date}';
 
     /**
      * The console command description.
@@ -22,15 +25,17 @@ class ParseArticles extends Command
      * @var string
      */
     protected $description = 'Parse articles data from old DB';
+    protected $imageService;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ImageService $imageService)
     {
         parent::__construct();
+        $this->imageService = $imageService;
     }
 
     /**
@@ -40,23 +45,26 @@ class ParseArticles extends Command
      */
     public function handle(): int
     {
-        $truncate = $this->option('truncate');
+
+        $paths = [
+            'oldPath' => ImageService::OLD_ARTICLES_PATH,
+            'newPath' => ImageService::ARTICLES_PATH
+        ];
+
+        DB::unprepared("SELECT SETVAL('images_id_seq', (SELECT MAX(id) + 1 FROM images))");
+        DB::unprepared("SELECT SETVAL('articles_id_seq', (SELECT MAX(id) + 1 FROM articles))");
+
+
+        $date = $this->argument('date');
+        $fromDate = Carbon::createFromFormat('Y-m-d', $date);
+
+
         $this->info('Start parsing articles...');
-
-        if ($truncate) {
-            $this->line('Clearing table');
-
-            $this->withProgressBar(Article::all(), function ($article) {
-                $article->authors()->detach();
-            });
-
-            Article::truncate();
-        }
 
         $this->newLine();
         $this->line('Parsing articles');
 
-        $oldArticles = OldArticle::cursor();
+        $oldArticles = OldArticle::whereDate('date', '>', $fromDate)->get();
 
         $bar = $this->output->createProgressBar($oldArticles->count());
 
@@ -64,38 +72,42 @@ class ParseArticles extends Command
 
         foreach ($oldArticles as $oldArticle) {
 
-            if (!$truncate) {
-                $article = Article::find($oldArticle->id);
+            $article = Article::create(
+                [
+
+                    'user_id' => null,
+                    'title' => $oldArticle->title,
+                    'slug' => $oldArticle->slug,
+                    'announce' => $oldArticle->announce,
+                    'body' => $oldArticle->body,
+                    'show_in_rss' => $oldArticle->show_in_rss,
+                    'yatextid' => $oldArticle->yatextid,
+                    'created_at' => $oldArticle->date,
+                    'updated_at' => $oldArticle->updatedat,
+                    'published_at' => $oldArticle->from_date,
+                ]
+            );
+
+            $authors = $oldArticle->authors()->where('stream_id', 16)->get()->pluck('id');
+
+            $article->authors()->attach($authors);
+
+            try {
+                $newImage = $this->imageService->storeOld($oldArticle->image, $paths['oldPath'], $paths['newPath']);
+                $article->images()->save($newImage);
+            } catch (\Throwable $exception) {
+
+                Log::info($exception->getMessage(), ['Old article id' => $oldArticle->id]);
+
             }
 
-            if ($truncate || is_null($article)) {
-                $article = Article::create(
-                    [
-                        'id' => $oldArticle->id,
-                        'user_id' => null,
-                        'title' => $oldArticle->title,
-                        'slug' => $oldArticle->slug,
-                        'announce' => $oldArticle->announce,
-                        'body' => $oldArticle->body,
-                        'show_in_rss' => $oldArticle->show_in_rss,
-                        'yatextid' => $oldArticle->yatextid,
-                        'created_at' => $oldArticle->date,
-                        'updated_at' => $oldArticle->updatedat,
-                        'published_at' => $oldArticle->from_date,
-                    ]
-                );
-
-                $authors = $oldArticle->authors()->where('stream_id', 16)->get()->pluck('id');
-
-                $article->authors()->attach($authors);
-            }
 
             $bar->advance();
         }
 
         $bar->finish();
 
-        DB::unprepared("SELECT SETVAL('articles_id_seq', (SELECT MAX(id) + 1 FROM articles))");
+
 
         $this->newLine();
         $this->info('All articles processed!');
