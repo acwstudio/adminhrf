@@ -95,7 +95,7 @@ class RandController extends Controller
     public function getRandPodcasts(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? PodcastResource::collection(Podcast::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? PodcastResource::collection(Podcast::inRandomOrder()->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
 }
