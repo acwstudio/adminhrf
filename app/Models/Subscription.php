@@ -11,7 +11,8 @@ class Subscription extends Model
 
 
     public $fillable = [
-        'user_id'
+        'user_id',
+	'tag_id'
     ];
 
     protected $casts = [
