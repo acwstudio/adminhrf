@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Answer\AdminAnswerController;
 use App\Http\Controllers\Admin\Article\AdminArticleBookmarksRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticleBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticleCommentsRelatedController;
@@ -20,7 +21,11 @@ use App\Http\Controllers\Admin\Comment\AdminCommentController;
 use App\Http\Controllers\Admin\Document\AdminDocumentController;
 use App\Http\Controllers\Admin\Image\AdminImageController;
 use App\Http\Controllers\Admin\News\AdminNewsController;
+use App\Http\Controllers\Admin\Question\AdminQuestionAnswersRelatedController;
+use App\Http\Controllers\Admin\Question\AdminQuestionAnswersRelationshipsController;
 use App\Http\Controllers\Admin\Question\AdminQuestionController;
+use App\Http\Controllers\Admin\Question\AdminQuestionsTestsRelatedController;
+use App\Http\Controllers\Admin\Question\AdminQuestionsTestsRelationshipsController;
 use App\Http\Controllers\Admin\Tag\AdminTagController;
 use App\Http\Controllers\Admin\Tag\AdminTagsArticlesRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestCommentsRelatedController;
@@ -29,6 +34,7 @@ use App\Http\Controllers\Admin\Test\AdminTestController;
 use App\Http\Controllers\Admin\Article\AdminArticleImagesRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestImagesRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestImagesRelationshipsController;
+use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelationshipsController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AudiomaterialController;
 use App\Http\Controllers\AuthorController;
@@ -105,6 +111,10 @@ Route::prefix('v1')->group(function () {
 
             // Admins
             Route::middleware('admin')->group(function () {
+
+                /*****************  ANSWERS ROUTES **************/
+
+                Route::apiResource('admin/answers', AdminAnswerController::class, ['as' =>'admin']);
 
                 /*****************  ARTICLES ROUTES **************/
 
@@ -258,6 +268,32 @@ Route::prefix('v1')->group(function () {
 
                 Route::apiResource('/admin/questions', AdminQuestionController::class, ['as' => 'admin']);
 
+                // Questions to Tests relations
+                Route::get('/admin/questions/{question}/relationships/tests', [
+                    AdminQuestionsTestsRelationshipsController::class, 'index'
+                ])->name('questions.relationships.tests');
+
+                Route::patch('/admin/questions/{question}/relationships/tests', [
+                    AdminQuestionsTestsRelationshipsController::class, 'update'
+                ])->name('questions.relationships.tests');
+
+                Route::get('/admin/questions/{question}/tests', [
+                    AdminQuestionsTestsRelatedController::class, 'index'
+                ])->name('questions.tests');
+
+                // Question to Answers relations
+                Route::get('/admin/questions/{question}/relationships/answers', [
+                    AdminQuestionAnswersRelationshipsController::class, 'index'
+                ])->name('question.relationships.answers');
+
+                Route::patch('/admin/questions/{question}/relationships/answers', [
+                    AdminQuestionAnswersRelationshipsController::class, 'update'
+                ])->name('question.relationships.answers');
+
+                Route::get('/admin/questions/{question}/answers', [
+                    AdminQuestionAnswersRelatedController::class, 'index'
+                ])->name('question.answers');
+
                 /*****************  TAGS ROUTES **************/
 
                 Route::get('/admin/tags', [AdminTagController::class, 'index']);
@@ -282,12 +318,7 @@ Route::prefix('v1')->group(function () {
 
                 /*****************  TESTS ROUTES **************/
 
-                Route::get('/admin/tests', [AdminTestController::class, 'index']);
-                Route::get('/admin/tests/{test}', [AdminTestController::class, 'show'])
-                    ->name('admin.tests.show');
-                Route::post('/admin/tests', [AdminTestController::class, 'store']);
-                Route::patch('/admin/tests/{test}', [AdminTestController::class, 'update']);
-                Route::delete('/admin/tests/{test}', [AdminTestController::class, 'destroy']);
+                Route::apiResource('admin/tests', AdminTestController::class, ['as' =>'admin']);
 
                 // Test to Comments relations
                 Route::get('/admin/tests/{test}/relationships/comments', [
@@ -314,6 +345,19 @@ Route::prefix('v1')->group(function () {
                 Route::get('/admin/tests/{test}/images', [
                     AdminTestImagesRelatedController::class, 'index'
                 ])->name('test.images');
+
+                // Tests to Questions relations
+                Route::get('/admin/tests/{test}/relationships/questions', [
+                    AdminTestsQuestionsRelationshipsController::class, 'index'
+                ])->name('tests.relationships.questions');
+
+                Route::patch('/admin/tests/{test}/relationships/questions', [
+                    AdminTestsQuestionsRelationshipsController::class, 'update'
+                ])->name('tests.relationships.questions');
+
+                Route::get('/admin/tests/{test}/questions', [
+                    AdminTestImagesRelatedController::class, 'index'
+                ])->name('tests.questions');
             });
         }
     );

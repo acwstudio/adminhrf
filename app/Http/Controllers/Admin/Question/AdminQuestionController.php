@@ -25,7 +25,8 @@ class AdminQuestionController extends Controller
     public function index()
     {
         $query = QueryBuilder::for(Question::class)
-            ->allowedIncludes(['tests', 'answers'])
+            ->with(['tests', 'answers'])
+//            ->allowedIncludes(['tests', 'answers'])
             ->allowedSorts(['id'])
             ->jsonPaginate();
 

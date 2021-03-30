@@ -5,13 +5,13 @@ namespace App\Http\Resources\Admin;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminTestIdentifierResource
+ * Class AdminAnswersIdentifireResource
  * @package App\Http\Resources\Admin
  */
-class AdminTestIdentifierResource extends JsonResource
+class AdminAnswersIdentifireResource extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -20,7 +20,7 @@ class AdminTestIdentifierResource extends JsonResource
     {
         return [
             'id' => (string)$this->id,
-            'type' => 'tests'
+            'type' => 'answers'
         ];
     }
 }

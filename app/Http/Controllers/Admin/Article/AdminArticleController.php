@@ -28,8 +28,8 @@ class AdminArticleController extends Controller
         $this->authorize('manage', Article::class);
 
         $articles = QueryBuilder::for(Article::class)
-//            ->with('authors', 'comments', 'tags', 'images', 'bookmarks')
-            ->allowedIncludes('authors', 'comments', 'tags', 'images', 'bookmarks')
+//            ->allowedIncludes('comments', 'bookmarks')
+            ->with('authors', 'tags', 'images')
             ->allowedFilters(['yatextid'])
             ->allowedSorts(['title', 'published_at'])
             ->jsonPaginate();
@@ -80,8 +80,8 @@ class AdminArticleController extends Controller
     public function show(Article $article)
     {
         $query = QueryBuilder::for(Article::class)
-//            ->with('tags', 'comments', 'authors', 'images')
-            ->allowedIncludes(['authors', 'comments', 'tags', 'images', 'bookmarks'])
+            ->allowedIncludes(['comments','bookmarks'])
+            ->with('tags', 'authors', 'images')
             ->where('id', $article->id)
             ->firstOrFail();
 
@@ -100,7 +100,7 @@ class AdminArticleController extends Controller
         $dataAttributes = $request->input('data.attributes');
         $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
-        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
+//        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $article->update($dataAttributes);

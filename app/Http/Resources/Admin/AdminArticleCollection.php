@@ -27,7 +27,7 @@ class AdminArticleCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
-//            'includes' => $this->collection
         ];
     }
+
 }

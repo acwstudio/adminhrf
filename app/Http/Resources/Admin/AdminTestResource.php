@@ -50,6 +50,13 @@ class AdminTestResource extends JsonResource
                         'related' => route('test.comments', ['test' => $this->id])
                     ],
                     'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
+                ],
+                'questions' => [
+                    'links' => [
+                        'self' => route('tests.relationships.questions', ['test' => $this->id]),
+                        'related' => route('tests.questions', ['test' => $this->id])
+                    ],
+                    'data' => AdminQuestionsIdentifireResource::collection($this->whenLoaded('questions'))
                 ]
             ]
         ];

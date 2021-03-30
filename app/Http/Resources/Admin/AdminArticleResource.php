@@ -49,6 +49,7 @@ class AdminArticleResource extends JsonResource
                         'related' => route('articles.authors', ['article' => $this->id])
                     ],
                     'data' => AdminAuthorsIdentifireResource::collection($this->whenLoaded('authors'))
+//                    'data' => AdminAuthorResource::collection($this->whenLoaded('authors'))
                 ],
                 'comments' => [
                     'links' => [
@@ -82,20 +83,5 @@ class AdminArticleResource extends JsonResource
 //            'timeline' => $this->timeline,
         ];
     }
-
-//    private function relations()
-//    {
-//        return [
-//            AdminAuthorResource::collection($this->whenLoaded('authors')),
-//            AdminTagResource::collection($this->whenLoaded('tags')),
-//        ];
-//    }
-//
-//    public function with($request)
-//    {
-//        return [
-//            'included' => $this->relations(),
-//        ];
-//    }
 
 }

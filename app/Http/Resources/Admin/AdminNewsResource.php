@@ -19,27 +19,55 @@ class AdminNewsResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'model_type' => 'news',
             'id' => $this->id,
-            'title' => $this->title,
-            'slug' => $this->slug,
-            'yatextid' => $this->yatextid,
-            'announce' => $this->announce,
-            'listorder' => $this->listorder,
-            'body' => $this->body,
-            'show_in_rss' => $this->show_in_rss,
-            'status' => $this->status,
-            'show_in_main' => $this->show_in_main,
-            'show_in_afisha' => $this->show_in_afisha,
-            'close_commentation' => $this->close_commentation,
-            'published_at' => $this->published_at,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'viewed' => $this->viewed,
-            'images' => $this->images,
-            'tags' => $this->tags,
-            'comments' => $this->comments,
-            'bookmarks' => $this->bookmarks
+            'type' => 'news',
+            'attributes' => [
+                'title' => $this->title,
+                'slug' => $this->slug,
+                'yatextid' => $this->yatextid,
+                'announce' => $this->announce,
+                'listorder' => $this->listorder,
+                'body' => $this->body,
+                'show_in_rss' => $this->show_in_rss,
+                'status' => $this->status,
+                'show_in_main' => $this->show_in_main,
+                'show_in_afisha' => $this->show_in_afisha,
+                'close_commentation' => $this->close_commentation,
+                'published_at' => $this->published_at,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
+                'viewed' => $this->viewed,
+            ],
+            'relationships' => [
+                'images' => [
+                    'links' => [
+                        'self' => '',
+                        'related' => ''
+                    ],
+                    'data' =>[]
+                ],
+                'comments' => [
+                    'links' => [
+                        'self' => '',
+                        'related' => ''
+                    ],
+                    'data' =>[]
+                ],
+                'tags' => [
+                    'links' => [
+                        'self' => '',
+                        'related' => ''
+                    ],
+                    'data' =>[]
+                ],
+                'bookmarks' => [
+                    'links' => [
+                        'self' => '',
+                        'related' => ''
+                    ],
+                    'data' =>[]
+                ]
+            ]
         ];
     }
 }

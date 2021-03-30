@@ -37,19 +37,47 @@ class AdminDocumentResource extends JsonResource
             'relationships' => [
                 'tags' => [
                     'links' => [
-//                        'self' =>
-//                        'related' =>
+                        'self' => '',
+                        'related' => ''
                     ],
-//                    'data' =>
-                ]
+                    'data' => []
+                ],
+                'images' => [
+                    'links' => [
+                        'self' => '',
+                        'related' => ''
+                    ],
+                    'data' => []
+                ],
+                'category' => [
+                    'links' => [
+                        'self' => '',
+                        'related' => ''
+                    ],
+                    'data' => []
+                ],
+                'comments' => [
+                    'links' => [
+                        'self' => '',
+                        'related' => ''
+                    ],
+                    'data' => []
+                ],
+                'likes' => [
+                    'links' => [
+                        'self' => '',
+                        'related' => ''
+                    ],
+                    'data' => []
+                ],
+                'bookmarks' => [
+                    'links' => [
+                        'self' => '',
+                        'related' => ''
+                    ],
+                    'data' => []
+                ],
             ]
-
-//            'images' => $this->images,
-//            'tags' => $this->tags,
-//            'category' => $this->category,
-//            'comments' => $this->comments,
-//            'likes' => $this->likes,
-//            'bookmarks' => $this->bookmarks,
         ];
     }
 }
