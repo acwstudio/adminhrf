@@ -32,13 +32,15 @@ class VideolectureController extends Controller
                 $query
                 ->orderBy('published_at', 'desc')
                 ->paginate($perPage));
-        //Film::
+
     }
 
 
     public function show(Videomaterial $videomaterial, Request $request)
     {
-        return $videomaterial->type=='lecture'?VideolectureResource::make($videomaterial):['err'=>'Idk anout such entity here'];
+        abort_if($videomaterial->type == 'lecture', 404, 'Idk anout such entity here');
+
+        return VideolectureResource::make($videomaterial);
     }
 
     public function indexByTag(Tag $tag,Request $request)

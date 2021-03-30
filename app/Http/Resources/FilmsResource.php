@@ -30,7 +30,7 @@ class FilmsResource extends JsonResource
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
-            'image' => ImageResource::make($this->whenLoaded('images')->first()),
+            'image' => ImageResource::make(optional($this->images)->first()),
 
         ];
     }
