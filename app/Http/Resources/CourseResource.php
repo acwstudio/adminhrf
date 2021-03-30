@@ -21,7 +21,8 @@ class CourseResource extends JsonResource
             'slug' => $this->highlightable->slug,
             'title' => $this->highlightable->title,
             'announce' => $this->highlightable->announce,
-            'surname' => $this?$this->highlightables->surname:null,
+            'surname' => $this->highlightable_type=='biography'?$this->highlightables->surname:null,
+            'firstname' => $this->highlightable_type=='biography'?$this->highlightables->firstname:null,
             'published_at' => $this->highlightable->published_at,
 //            'author' => AuthorShortResource::collection($this->highlightable->authors),
             'comments' => $this->highlightable->countComments(),
@@ -29,6 +30,7 @@ class CourseResource extends JsonResource
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
+            'tags' => TagResource::collection($this->tags),
             'image' => [
                 "model_type" => "image",
                 "id" => 1294,

@@ -60,6 +60,6 @@ class VideolectureController extends Controller
         $result = $query->orderBy('published_at', 'desc')
             ->paginate($perPage);
 
-        return AudiomaterialResource::collection($result);
+        return VideoLectureShortResource::collection($result);
     }
 }
