@@ -26,9 +26,9 @@ class AdminDocumentController extends Controller
     public function index()
     {
         $query = QueryBuilder::for(Document::class)
-            ->with('tags')
+            ->with(['tags', 'images', 'category'])
+            ->allowedIncludes(['comments', 'likes', 'bookmarks'])
             ->allowedSorts('title')
-            ->allowedIncludes('tags')
             ->jsonPaginate();
 
         return new AdminDocumentCollection($query);
@@ -62,7 +62,8 @@ class AdminDocumentController extends Controller
     public function show(Document $document)
     {
         $query = QueryBuilder::for(Document::where('id', $document->id))
-            ->allowedIncludes('tags')
+            ->with(['tags', 'images', 'category'])
+            ->allowedIncludes(['comments', 'likes', 'bookmarks'])
             ->firstOrFail();
 
         return new AdminDocumentResource($query);

@@ -7,6 +7,7 @@ use App\Http\Requests\ImageCreateRequest;
 use App\Http\Requests\ImageUpdateRequest;
 use App\Http\Resources\Admin\AdminImageResource;
 use App\Models\Image;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -17,6 +18,13 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminImageController extends Controller
 {
+    public $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,16 +44,18 @@ class AdminImageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(ImageCreateRequest $request)
     {
-//        it's not real code, it's only for testing by Postman
-        $file = $request->file('image');
-        $filename = 'test-image-' . $request->input('imageable_type') . time() . $file
-                ->getClientOriginalExtension();
-        $path = $file->store('public/sump');
+
+        $file = $request->file('file');
+        $this->imageService->storeByType($file, $request->imageable_type);
+
+//        $filename = 'test-image-' . $request->input('imageable_type') . time() . $file
+//                ->getClientOriginalExtension();
+//        $path = $file->store('public/sump');
 
         $image = Image::create([
             'imageable_type' => $request->input('imageable_type')
@@ -75,8 +85,8 @@ class AdminImageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return AdminImageResource
      */
     public function update(ImageUpdateRequest $request, Image $image)
@@ -118,6 +128,6 @@ class AdminImageController extends Controller
 
         $image = $request->file('image');
 
-        return $uploadedFile;
+        return $image;
     }
 }

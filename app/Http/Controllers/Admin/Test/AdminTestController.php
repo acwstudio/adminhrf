@@ -28,8 +28,8 @@ class AdminTestController extends Controller
 //        $this->authorize('manage', Test::class);
 
         $query = QueryBuilder::for(Test::class)
-            ->with(['images', 'comments', 'questions'])
-//            ->allowedIncludes(['images', 'comments'])
+            ->with(['images', 'questions', 'messages'])
+            ->allowedIncludes(['comments'])
             ->allowedSorts('title', 'created_at')
             ->jsonPaginate();
 
@@ -65,8 +65,8 @@ class AdminTestController extends Controller
     {
         $query = QueryBuilder::for(Test::class)
             ->where('id', $test->id)
-            ->with(['images', 'comments', 'questions'])
-//            ->allowedIncludes(['images', 'comments'])
+            ->with(['images', 'messages', 'questions', 'results'])
+            ->allowedIncludes(['comments'])
             ->firstOrFail();
 
         return new AdminTestResource($query);

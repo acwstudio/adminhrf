@@ -57,6 +57,20 @@ class AdminTestResource extends JsonResource
                         'related' => route('tests.questions', ['test' => $this->id])
                     ],
                     'data' => AdminQuestionsIdentifireResource::collection($this->whenLoaded('questions'))
+                ],
+                'messages' => [
+                    'links' => [
+                        'self' => route('test.relationships.messages', ['test' => $this->id]),
+                        'related' => route('test.messages', ['test' => $this->id])
+                    ],
+                    'data' => AdminMessagesIdentifierResource::collection($this->whenLoaded('messages'))
+                ],
+                'results' => [
+                    'links' => [
+                        'self' => route('test.relationships.results', ['test' => $this->id]),
+                        'related' => route('test.results', ['test' => $this->id])
+                    ],
+                    'data' => AdminResultsIdentifierResource::collection($this->whenLoaded('results'))
                 ]
             ]
         ];

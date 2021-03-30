@@ -34,7 +34,13 @@ use App\Http\Controllers\Admin\Test\AdminTestController;
 use App\Http\Controllers\Admin\Article\AdminArticleImagesRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestImagesRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestImagesRelationshipsController;
+use App\Http\Controllers\Admin\Test\AdminTestMessagesRelatedController;
+use App\Http\Controllers\Admin\Test\AdminTestMessagesRelationshipsController;
+use App\Http\Controllers\Admin\Test\AdminTestResultsRelatedController;
+use App\Http\Controllers\Admin\Test\AdminTestResultsRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelationshipsController;
+use App\Http\Controllers\Admin\TestMessage\AdminMessageController;
+use App\Http\Controllers\Admin\TestResult\AdminResultController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AudiomaterialController;
 use App\Http\Controllers\AuthorController;
@@ -107,7 +113,6 @@ Route::prefix('v1')->group(function () {
 
             Route::post('/comments', [CommentController::class, 'store']);
             Route::delete('/comments/{comment:id}', [CommentController::class, 'destroy']);
-
 
             // Admins
             Route::middleware('admin')->group(function () {
@@ -255,6 +260,10 @@ Route::prefix('v1')->group(function () {
                 Route::delete('/admin/images/{image}', [AdminImageController::class, 'destroy']);
                 Route::post('/admin/images/loader', [AdminImageController::class, 'loadImage']);
 
+                /*****************  MESSGES ROUTES **************/
+
+                Route::apiResource('/admin/messages', AdminMessageController::class, ['as' => 'admin']);
+
                 /*****************  NEWS ROUTES **************/
 
                 Route::get('/admin/news', [AdminNewsController::class, 'index']);
@@ -293,6 +302,10 @@ Route::prefix('v1')->group(function () {
                 Route::get('/admin/questions/{question}/answers', [
                     AdminQuestionAnswersRelatedController::class, 'index'
                 ])->name('question.answers');
+
+                /*****************  RESULTS ROUTES **************/
+
+                Route::apiResource('admin/results', AdminResultController::class, ['as' =>'admin']);
 
                 /*****************  TAGS ROUTES **************/
 
@@ -346,6 +359,19 @@ Route::prefix('v1')->group(function () {
                     AdminTestImagesRelatedController::class, 'index'
                 ])->name('test.images');
 
+                // Test to Messages relations
+                Route::get('/admin/tests/{test}/relationships/messages', [
+                    AdminTestMessagesRelationshipsController::class, 'index'
+                ])->name('test.relationships.messages');
+
+                Route::patch('/admin/tests/{test}/relationships/messages', [
+                    AdminTestMessagesRelationshipsController::class, 'update'
+                ])->name('test.relationships.messages');
+
+                Route::get('/admin/tests/{test}/messages', [
+                    AdminTestMessagesRelatedController::class, 'index'
+                ])->name('test.messages');
+
                 // Tests to Questions relations
                 Route::get('/admin/tests/{test}/relationships/questions', [
                     AdminTestsQuestionsRelationshipsController::class, 'index'
@@ -358,6 +384,19 @@ Route::prefix('v1')->group(function () {
                 Route::get('/admin/tests/{test}/questions', [
                     AdminTestImagesRelatedController::class, 'index'
                 ])->name('tests.questions');
+
+                // Tests to Results relations
+                Route::get('/admin/tests/{test}/relationships/results', [
+                    AdminTestResultsRelationshipsController::class, 'index'
+                ])->name('test.relationships.results');
+
+                Route::patch('/admin/tests/{test}/relationships/results', [
+                    AdminTestResultsRelationshipsController::class, 'update'
+                ])->name('test.relationships.results');
+
+                Route::get('/admin/tests/{test}/results', [
+                    AdminTestResultsRelatedController::class, 'index'
+                ])->name('test.results');
             });
         }
     );

@@ -29,6 +29,6 @@ class AdminTestImagesRelationshipsController extends Controller
      */
     public function update(TestImagesUpdateRelationshipsRequest $request, Test $test)
     {
-        return response()->json(['message' => 'Wait please, I am doing nothing now']);
+        return response()->json(['message' => 'Update action is disabled']);
     }
 }
