@@ -17,20 +17,14 @@ class dayInHistoryController extends Controller
         Carbon::yesterday();
         Carbon::tomorrow();
 
-        $data['today'] = DayInHistory::where([
-            'month','=',Carbon::today()->month,
-            'day','=',Carbon::today()->day,
-        ])->get();
+        $data['today'] = DayInHistory::where('month','=',Carbon::today()->month)->where(
+            'day','=',Carbon::today()->day)->get();
 
-        $data['tomorrow'] = DayInHistory::where([
-            'month','=',Carbon::tomorrow()->month,
-            'day','=',Carbon::tomorrow()->day,
-        ])->get();
+        $data['tomorrow'] = DayInHistory::where(
+            'month','=',Carbon::tomorrow()->month)->where(
+            'day','=',Carbon::tomorrow()->day)->get();
 
-        $data['yesterday'] = DayInHistory::where([
-            'month','=',Carbon::yesterday()->month,
-            'day','=',Carbon::yesterday()->day,
-        ])->get();
+        $data['yesterday'] = DayInHistory::where('month','=',Carbon::yesterday()->month)->where('day','=',Carbon::yesterday()->day)->get();
 
         return $data;
     }
