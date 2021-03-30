@@ -26,7 +26,7 @@ class RandController extends Controller
     public function getRandNews(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? NewsShortResource::collection(News::all()->where('published_at', '<', now())->random($rand)) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? NewsShortResource::collection(News::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
     public function getRandArticles(Request $request)
@@ -39,55 +39,55 @@ class RandController extends Controller
     public function getRandBiographies(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? BiographyShortResource::collection(Biography::all()->where('published_at', '<', now())->random($rand)) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? BiographyShortResource::collection(Biography::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
     public function getRandVideolectures(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? VideoLectureShortResource::collection(Videomaterial::all()->where('type','=','lecture')->where('published_at', '<', now())->random($rand)) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? VideoLectureShortResource::collection(Videomaterial::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
     public function getRandAudiolectures(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? AudiomaterialResource::collection(Audiomaterial::all()->where('published_at', '<', now())->random($rand)) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? AudiomaterialResource::collection(Audiomaterial::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
     public function getRandFilms(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? FilmsShortResource::collection(Videomaterial::all()->where('type','=','film')->where('published_at', '<', now())->random($rand)) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? FilmsShortResource::collection(Videomaterial::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
     public function getRandHighlights(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? HighlightShortResource::collection(Highlight::all()->where('type','=','highlight')->where('published_at', '<', now())->random($rand)) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? HighlightShortResource::collection(Highlight::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
     public function getRandCourses(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? CourseShortResource::collection(Highlight::all()->where('type','=','course')->where('published_at', '<', now())->random($rand)) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? CourseShortResource::collection(Highlight::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
     public function getRandVideoCourses(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? CourseShortResource::collection(Highlight::all()->where('type','=','videocourse')->where('published_at', '<', now())->random($rand)) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? CourseShortResource::collection(Highlight::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
     public function getRandAudioCourses(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? CourseShortResource::collection(Highlight::all()->where('type','=','audiocourse')->where('published_at', '<', now())->random($rand)) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? CourseShortResource::collection(Highlight::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
     public function getRandTest(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? TestShortResource::collection(Test::all()->where('published_at', '<', now())->random($rand)) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? TestShortResource::collection(Test::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
 }
