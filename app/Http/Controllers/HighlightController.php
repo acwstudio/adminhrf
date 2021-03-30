@@ -35,7 +35,12 @@ class HighlightController extends Controller
 
     public function show(Highlight $highlight,Request $request)
     {
-        return HighlightResource::collection($highlight->highlightable->sortBy('event_date'));
+//        return HighlightResource::collection($highlight->highlightable->sortBy('event_date'));
+	return
+            [
+              'data' =>  HighlightResource::collection($highlight->highlightable->sortBy('event_date')),
+                'highlight' => HighlightShortResource::make($highlight)
+            ];
     }
 
 
