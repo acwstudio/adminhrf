@@ -39,8 +39,8 @@ class AfishaController extends Controller
     }
 
     public function categories(Request $request){
-        $data['cities'] = CityResource::collection(City::where('count','>',0));
-        $data['leisures'] = LeisureResource::collection(Leisure::where('active',true)->where('count','>',0));
+        $data['cities'] = CityResource::collection(City::where('count','>',0)->get());
+        $data['leisures'] = LeisureResource::collection(Leisure::where('active',true)->where('count','>',0)->get());
         return $data;
     }
 
