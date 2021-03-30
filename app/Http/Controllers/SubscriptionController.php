@@ -45,7 +45,7 @@ class SubscriptionController extends Controller
         }
 
         $user->subscription()->create([
-            'tag_id',
+            'tag_id' => $tag->id,
         ]);
 
         return response('Ok', 200);
