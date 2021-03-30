@@ -41,16 +41,14 @@ class SubscriptionController extends Controller
 
 
         $user = $request->user();
-        $check = $user->subscriptions()->where('tag_id','=',$tag->id);
-        if(!is_null($check)){
+        $check = $user->subscriptions()->where('tag_id','=',$tag->id)->count();
+        if($check>0){
             return ['err'=>'Sry, you already have subscription to this tag'];
         }
-
-        $user->subscription()->create([
-            'tag_id',
+        $user->subscriptions()->create([
+            'tag_id' => $tag->id,
         ]);
 
         return response('Ok', 200);
-
     }
 }
