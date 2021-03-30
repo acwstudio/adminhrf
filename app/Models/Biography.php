@@ -51,19 +51,9 @@ class Biography extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function likes()
-    {
-        return $this->morphMany(Like::class, 'likeable');
-    }
-
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
-    }
-
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function images()

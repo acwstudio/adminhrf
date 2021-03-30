@@ -99,6 +99,10 @@ class ParseImages extends Command
         $this->newLine();
         $this->line('Processing images');
 
+
+        DB::unprepared("SELECT SETVAL('images_id_seq', (SELECT MAX(id) + 1 FROM images))");
+
+
         switch ($entity) {
             case 'article':
 
@@ -167,9 +171,16 @@ class ParseImages extends Command
                 foreach ($biographies as $biography) {
 
                     try {
-                        $newImage = $this->imageService->storeOld($biography->image, $paths['oldPath'], $paths['newPath']);
-                        $bio = Biography::find($biography->id);
-                        $bio->images()->save($newImage);
+                        $bio = Biography::where('slug', $biography->slug)->first();
+
+                        if (!is_null($bio)) {
+
+
+                            $newImage = $this->imageService->storeOld($biography->image, $paths['oldPath'], $paths['newPath']);
+
+                            $bio->images()->save($newImage);
+                        }
+
                     } catch (\Throwable $exception) {
 
                         Log::info($exception->getMessage(), ['Old article id' => $biography->id]);
