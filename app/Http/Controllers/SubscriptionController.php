@@ -16,7 +16,7 @@ class SubscriptionController extends Controller
     {
         $perPage = $request->get('per_page', $this->perPage);
         $page = $request->get('page', 1);
-
+        dd( $request->user());
         //$user = $request->user();
         $user = $request->get('user_id',1);
         if(!$user){
@@ -38,6 +38,8 @@ class SubscriptionController extends Controller
 
 
     public function subscribe(Tag $tag,Request $request){
+
+
         $user = $request->user();
         $check = $user->subscriptions()->where('tag_id','=',$tag->id);
         if(!is_null($check)){
