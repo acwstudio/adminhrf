@@ -262,6 +262,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/news/{news:slug}', [NewsController::class, 'show']);
 
             Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'index']);
+            Route::get('/subscription/set/{tag:slug}', [\App\Http\Controllers\SubscriptionController::class,'subscribe']);
 
 
         }
