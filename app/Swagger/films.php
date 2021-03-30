@@ -40,7 +40,7 @@
  *     summary="Display paginated listing of films by tag's slug",
  *     @OA\Parameter(
  *         name="slug",
- *         in="query",
+ *         in="path",
  *         description="Tag's slug",
  *         required=true,
  *         @OA\Schema(

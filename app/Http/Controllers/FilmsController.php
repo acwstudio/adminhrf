@@ -28,7 +28,24 @@ class FilmsController extends Controller
                 $query
                 ->orderBy('published_at', 'desc')
                 ->paginate($perPage));
-        //Film::
+    }
+
+    public function indexByTag(Tag $tag,Request $request)
+    {
+        $perPage = $request->get('per_page', 16);
+        $sortBy = $request->get('sort_by');
+        $query = $tag->videomaterials()->where('published_at', '<', now())
+            ->where('type', '=', 'film')
+            ->where('active', '=', true)
+            ->with('images');
+
+        if ($sortBy && in_array($sortBy, $this->sortParams)) {
+            $query->orderBy('liked', 'desc');
+        }
+        return FilmsShortResource::collection(
+            $query
+                ->orderBy('published_at', 'desc')
+                ->paginate($perPage));
     }
 
 

@@ -54,7 +54,7 @@
  *
  *     @OA\Parameter(
  *         name="slug",
- *         in="query",
+ *         in="path",
  *         description="Tag's slug",
  *         required=true,
  *         @OA\Schema(
