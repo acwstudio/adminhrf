@@ -10,6 +10,7 @@ use App\Http\Resources\FilmsShortResource;
 use App\Http\Resources\HighlightResource;
 use App\Http\Resources\HighlightShortResource;
 use App\Http\Resources\NewsShortResource;
+use App\Http\Resources\PodcastResource;
 use App\Http\Resources\TestShortResource;
 use App\Http\Resources\VideoLectureShortResource;
 use App\Models\Article;
@@ -88,6 +89,12 @@ class RandController extends Controller
     {
         $rand = $request->get('rand', 1);
         return $rand < 21 ? TestShortResource::collection(Test::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
+    }
+
+    public function getRandPodcasts(Request $request)
+    {
+        $rand = $request->get('rand', 1);
+        return $rand < 21 ? PodcastResource::collection(PodcastResource::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
 }
