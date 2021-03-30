@@ -44,9 +44,10 @@ class CourseResource extends JsonResource
             'comments' => $this->highlightable->countComments(),
             'likes' => $this->highlightable->countLikes(),
             'views' => $this->viewed,
+	    'path' => $this->highlightable_type == 'audiomaterial' ? $this->highlightable->path : null,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
-            'tags' => TagResource::collection($this->tags),
+            'tags' => TagResource::collection($this->highlightable->tags),
             'image' => [
                 "model_type" => "image",
                 "id" => 1294,
