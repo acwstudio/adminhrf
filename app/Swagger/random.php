@@ -278,6 +278,32 @@
  *     ),
  * )
  *
+ * @OA\Get(
+ *     path="/random/podcasts",
+ *     operationId="randomPodcastsList",
+ *     tags={"Random"},
+ *     summary="Display listing of random podcasts",
+ *
+ *     @OA\Parameter(
+ *         name="rand",
+ *         in="query",
+ *         description="Qty podcasts in result - 1 by default",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="integer",
+ *         )
+ *     ),
+ *
+ *     @OA\Response(
+ *         response="200",
+ *         description="Everything is fine",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *
+ *         )
+ *     ),
+ * )
+ *
  *
  *
  *

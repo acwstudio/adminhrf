@@ -18,6 +18,7 @@ use App\Models\Audiomaterial;
 use App\Models\Biography;
 use App\Models\Highlight;
 use App\Models\News;
+use App\Models\Podcast;
 use App\Models\Test;
 use App\Models\Videomaterial;
 use Illuminate\Http\Request;
@@ -94,7 +95,7 @@ class RandController extends Controller
     public function getRandPodcasts(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? PodcastResource::collection(PodcastResource::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? PodcastResource::collection(Podcast::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
 }
