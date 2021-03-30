@@ -97,4 +97,8 @@
  *     name="Afisha",
  *     description="Get Afisha's events",
  * )
+ *  @OA\Tag(
+ *     name="DayInHistory",
+ *     description="Get days of history",
+ * )
  */

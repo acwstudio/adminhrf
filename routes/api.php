@@ -267,6 +267,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/popular/articles', [PopularController::class, 'articles']);
     Route::get('/popular/comments', [PopularController::class, 'comments'])->name('popular.comments');
 
+    Route::get('/dayinhistory', [\App\Http\Controllers\dayInHistoryController::class, 'getDays']);
 
     Route::get('/documents', [DocumentController::class, 'index']);
     Route::get('/documents/{category:slug}', [DocumentController::class, 'documents']);

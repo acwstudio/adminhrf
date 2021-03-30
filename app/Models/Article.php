@@ -143,6 +143,10 @@ class Article extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
+    public function taggable(){
+        return $this->morphMany(Taggable::class,'taggable');
+    }
+
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');

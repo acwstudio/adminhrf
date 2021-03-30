@@ -65,5 +65,4 @@ class Tag extends Model
         return $this->morphedByMany(Audiomaterial::class, 'taggable');
     }
 
-
 }

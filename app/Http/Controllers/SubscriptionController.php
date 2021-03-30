@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
+use App\Models\Taggable;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -20,28 +21,23 @@ class SubscriptionController extends Controller
         if(!$user){
             return ['err' => 'Not authorized'];
         }
-        $subscriptions = User::findOrFail($user)->subscriptions();
+        $subscriptions = User::findOrFail($user)->subscriptions;
         $data = [];
-        $i = 0;
-        foreach($subscriptions as $subscription){
-            if($i=0){
-                $data =$subscription->tag->news();
+        foreach ($subscriptions as $subscription){
+            //return $subscription;
+            $all = Taggable::where('tag_id','=',$subscription->tag_id)->orderBy('taggable_id','desc')->get();
+            foreach ($all as $element){
+                //return $element;
+                $data[] = $element->taggable;
             }
-            else{
-                $data->merge($subscription->tag->news());
-            }
-            $data = $data->merge($subscription->tag->article());
-            $data = $data->merge($subscription->tag->highlights());
-            $data = $data->merge($subscription->tag->videomaterials());
-            $data = $data->merge($subscription->tag->audiomaterials());
-            $i++;
         }
-
-        return User::findOrFail($user)->first()->subscriptions->first->tag();//['msg' => 'This user doesn\'t have entities in a bookmark list'];
+        return $data;
+        //['msg' => 'This user doesn\'t have entities in a bookmark list'];
     }
 
 
-    public function subscribe(Tag $tag){
+    public function subscribe(Tag $tag, Request $request){
+        $user = $request->user();
 
     }
 }
