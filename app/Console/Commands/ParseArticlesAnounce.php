@@ -59,7 +59,7 @@ class ParseArticlesAnounce extends Command
 
         foreach ($articles as $article) {
 
-            $article->announce = '<p>'.Str::words(strip_tags($article->body), 35).'</p>';
+            $article->announce = '<p>'.Str::words(strip_tags($article->body)).'</p>';
             $article->save();
 
             $bar->advance();
