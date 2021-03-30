@@ -42,7 +42,8 @@ class AppServiceProvider extends ServiceProvider
             'videomaterial' => 'App\Models\Videomaterial',
             'audiomaterial' => 'App\Models\Audiomaterial',
             'event' => 'App\Models\Event',
-            'highlight' => 'App\Models\Highlight'
+            'highlight' => 'App\Models\Highlight',
+            'podcast' => 'App\Models\Podcast',
 
         ]);
 
