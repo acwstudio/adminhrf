@@ -6,6 +6,7 @@ use App\Models\Article as Article;
 use App\Models\Old\Tag as OldTag;
 use App\Models\Old\Tagging;
 use App\Models\Tag;
+use App\Models\Taggable;
 use App\Models\Videomaterial;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -76,21 +77,24 @@ class ParseTags extends Command
                     'updated_at' => $tag->updated_at,
                 ]);
 
-                $relations=Tagging::where('tag_id',$tag->id)->where('resource_type','=',$entitiesMap['article']);
+                $relations=Tagging::where('tag_id',$tag->id)->where('resource_type','=',$entitiesMap['article'])->get();
                 var_dump($newTag->id);
                 foreach($relations as $relation){
+//		if(!is_null($article)){
                     $article = Article::where('id',$relation->resource_id);
-                    if($article){
+//                    if($article){
+			$exists = Taggable::where('tag_id',$tag->id)->where('taggable_type','=','article')->where('taggable_id','=',$relation->resource_id)->get();
+			if(!is_null($article)&&is_null($exists)){
                         DB::unprepared("INSERT INTO taggables(tag_id,taggable_id,taggable_type)
-                                values({$tag->id},{$article->first()->resource_id},'article')");
+                                values({$tag->id},{$relation->resource_id},'article')");
                     }
                 }
-                $relations=Tagging::where('tag_id',$tag->id)->where('resource_type','=',$entitiesMap['videomaterial']);
+                $relations=Tagging::where('tag_id',$tag->id)->where('resource_type','=',$entitiesMap['videomaterial'])->get();
                 foreach($relations as $relation){
                     $film = Videomaterial::where('id',$relation->resource_id);
-                    if($film){
+                    if(!is_null($film)){
                         DB::unprepared("INSERT INTO taggables(tag_id,taggable_id,taggable_type)
-                                values({$tag->id},{$film->first()->resource_id},'article')");
+                                values({$tag->id},{$relation->resource_id},'article')");
                     }
                 }
             }

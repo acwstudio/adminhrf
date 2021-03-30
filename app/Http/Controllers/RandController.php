@@ -33,7 +33,7 @@ class RandController extends Controller
     {
         $rand = $request->get('rand', 1);
 
-        return $rand < 21 ? ArticleShortResource::collection(Article::all()->where('published_at', '<', now())->random($rand)) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? ArticleShortResource::collection(Article::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
     public function getRandBiographies(Request $request)

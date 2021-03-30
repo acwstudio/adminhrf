@@ -112,15 +112,15 @@ class ArticleController extends Controller
         $perPage = $request->get('per_page', 16);
         $sortBy = $request->get('sort_by');
 
-        $query = $tag->articles->where('active', true)
+        $query = $tag->articles()->where('active', true)
                         ->where('published_at', '<', now())
                         ->with('images');
-
+	;
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
             $query->orderBy('liked', 'desc');
         }
 
-        $result = $query->orderBy('published_at', 'desc')
+        $result = $query->orderBy('published_at','desc')
                         ->paginate($perPage);
 
         return new ArticleCollection($result);
