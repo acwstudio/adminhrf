@@ -35,6 +35,7 @@ class HighlightShortResource extends JsonResource
                 "original" => null,
                 "order" => 1
             ],
+            //'list' => $this->highlight->highlightables()->limit(6),
         ];
     }
 }
