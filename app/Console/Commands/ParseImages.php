@@ -6,7 +6,9 @@ use App\Models\Article;
 use App\Models\Biography;
 use App\Models\Image;
 use App\Models\Old\Event;
+use App\Models\Old\Film;
 use App\Models\Old\Person;
+use App\Models\Videomaterial;
 use App\Services\ImageService;
 use Illuminate\Console\Command;
 use App\Models\Old\Article as OldArticle;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\Old\VideoLecture;
 
 class ParseImages extends Command
 {
@@ -22,7 +25,7 @@ class ParseImages extends Command
      *
      * @var string
      */
-    protected $signature = 'parse:images {entity : Process images by entity article|event|document|biography}
+    protected $signature = 'parse:images {entity : Process images by entity article|event|document|biography|film|videolecture}
     {--D|delete : Be careful! It will delete ALL entity images}';
 
     /**
@@ -52,6 +55,14 @@ class ParseImages extends Command
             'biography' => [
                 'oldPath' => ImageService::OLD_BIO_PATH,
                 'newPath' => ImageService::BIO_PATH
+            ],
+            'film' => [
+                'oldPath' => ImageService::OLD_FILMS_PATH,
+                'newPath' => ImageService::VIDEOMATERIAL_PATH
+            ],
+            'videolecture' => [
+                'oldPath' => ImageService::OLD_VIDEOLECTURES_PATH,
+                'newPath' => ImageService::VIDEOMATERIAL_PATH
             ]
         ]);
         $this->imageService = $imageService;
@@ -66,7 +77,7 @@ class ParseImages extends Command
     public function handle(): int
     {
         $entity = $this->argument('entity');
-        if (!in_array($entity, ['article', 'event', 'document','biography'])) {
+        if (!in_array($entity, ['article', 'event', 'document', 'biography', 'film', 'videolecture'])) {
             $this->newLine();
             $this->error('Wrong argument passed, entity must be of type article|event|document|biography' );
             return 0;
@@ -183,7 +194,77 @@ class ParseImages extends Command
 
                     } catch (\Throwable $exception) {
 
-                        Log::info($exception->getMessage(), ['Old article id' => $biography->id]);
+                        Log::info($exception->getMessage(), ['Old bio id' => $biography->id]);
+
+                    }
+
+                    $bar->advance();
+                }
+
+                $bar->finish();
+                break;
+
+            case 'film':
+                // Process films
+                $films = Film::with('image')->cursor();
+
+                $bar = $this->output->createProgressBar($films->count());
+                $this->newLine();
+                $this->line('Processing images for films');
+
+                $bar->start();
+
+                foreach ($films as $film) {
+
+                    try {
+                        $video = Videomaterial::where('slug', $film->slug)->where('type', 'film')->first();
+
+                        if (!is_null($video)) {
+
+
+                            $newImage = $this->imageService->storeOld($film->image, $paths['oldPath'], $paths['newPath']);
+
+                            $video->images()->save($newImage);
+                        }
+
+                    } catch (\Throwable $exception) {
+
+                        Log::info($exception->getMessage(), ['Old film id' => $film->id]);
+
+                    }
+
+                    $bar->advance();
+                }
+
+                $bar->finish();
+                break;
+
+            case 'videolecture':
+                // Process videolectures
+                $films = VideoLecture::with('image')->cursor();
+
+                $bar = $this->output->createProgressBar($films->count());
+                $this->newLine();
+                $this->line('Processing images for videolectures');
+
+                $bar->start();
+
+                foreach ($films as $film) {
+
+                    try {
+                        $video = Videomaterial::where('slug', $film->slug)->where('type', 'lecture')->first();
+
+                        if (!is_null($video)) {
+
+
+                            $newImage = $this->imageService->storeOld($film->image, $paths['oldPath'], $paths['newPath']);
+
+                            $video->images()->save($newImage);
+                        }
+
+                    } catch (\Throwable $exception) {
+
+                        Log::info($exception->getMessage(), ['Old film id' => $film->id]);
 
                     }
 

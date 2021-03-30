@@ -23,3 +23,4 @@ Homestead.yaml
 /app/.DS_Store
 /logs
 /logs/*
+/uploads
