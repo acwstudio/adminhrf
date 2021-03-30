@@ -11,6 +11,15 @@ class Taggable extends Model
 
     protected $table = 'taggables';
 
+    protected $fillable = [
+        'tag_id'
+    ];
+
+    protected $casts = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function taggable(){
         return $this->morphTo('taggable');
     }

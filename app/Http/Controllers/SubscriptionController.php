@@ -6,33 +6,59 @@ use App\Models\Subscription;
 use App\Models\Tag;
 use App\Models\Taggable;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
-    //
+    protected $map = [
+        'read' => ['news','article','biography','course'],
+        'watch' => ['videomaterial','videocourse'],
+        'listen' => ['audiomaterial','podcast'],
+        'highlights' => ['highlights']
+    ];
 
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', $this->perPage);
         $page = $request->get('page', 1);
+        $category = $request->get('category');
 
-        //$user = $request->user();
-        $user = $request->get('user_id',1);
+        $user = $request->user();
         if(!$user){
             return ['err' => 'Not authorized'];
         }
-        $subscriptions = User::findOrFail($user)->subscriptions;
-        $data = [];
-        foreach ($subscriptions as $subscription){
-            //return $subscription;
-            $all = Taggable::where('tag_id','=',$subscription->tag_id)->orderBy('taggable_id','desc')->get();
-            foreach ($all as $element){
-                //return $element;
-                $data[] = $element->taggable;
+        if(!$category){
+            $subscriptions = User::findOrFail($user)->subscriptions;
+            $data = [];
+            foreach ($subscriptions as $subscription){
+                $all = Taggable::where('tag_id','=',$subscription->tag_id)->where('updated_at','>',Carbon::now()->subDays(30))
+                    ->orderBy('taggable_id','desc')->paginate();
+                foreach ($all as $element){
+                    $data[] = $element->taggable;
+                }
             }
+            return $data;
         }
-        return $data;
+        elseif(key_exists($category,$this->map)){
+            $subscriptions = User::findOrFail($user)->subscriptions;
+            $data = [];
+            $array = $this->map["{$category}"];
+            foreach ($subscriptions as $subscription){
+                $all = Taggable::where('tag_id','=',$subscription->tag_id)
+                    ->where('updated_at','>',Carbon::now()->subDays(30))
+                    ->whereHas('categories', function (Builder $query) use ($array) {
+                        $query->whereIn('taggable_type', $array);
+                    })->orderBy('taggable_id','desc')->paginate();
+                foreach ($all as $element){
+                    $data[] = $element->taggable;
+                }
+            }
+            return $data;
+        }
+
+
         //['msg' => 'This user doesn\'t have entities in a bookmark list'];
     }
 
