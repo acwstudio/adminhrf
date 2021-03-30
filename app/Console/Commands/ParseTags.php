@@ -83,16 +83,16 @@ class ParseTags extends Command
                     $article = Article::where('id', $relation->resource_id);
                     //$exists = Taggable::where('tag_id', $tag->id)->where('taggable_type', '=', 'article')->where('taggable_id', '=', $relation->resource_id)->get();
                     if (!is_null($article)) {
-                        DB::unprepared("INSERT INTO taggables(tag_id,taggable_id,taggable_type)
-                                values({$tag->id},{$relation->resource_id},'article')");
+                        DB::unprepared("INSERT INTO taggables(tag_id,taggable_id,taggable_type,created_at,updated_at)
+                                values({$tag->id},{$relation->resource_id},'article'),{$tag->created_at},{$tag->updated_at}");
                     }
                 }
                 $relations = Tagging::where('tag_id', $tag->id)->where('resource_type', '=', $entitiesMap['videomaterial'])->get();
                 foreach ($relations as $relation) {
                     $film = Videomaterial::where('id', $relation->resource_id);
                     if (!is_null($film)) {
-                        DB::unprepared("INSERT INTO taggables(tag_id,taggable_id,taggable_type)
-                                values({$tag->id},{$relation->resource_id},'videomaterial')");
+                        DB::unprepared("INSERT INTO taggables(tag_id,taggable_id,taggable_type,created_at,updated_at)
+                                values({$tag->id},{$relation->resource_id},'videomaterial',{$tag->created_at},{$tag->updated_at})");
                     }
                 }
             }

@@ -21,7 +21,7 @@ class HighlightController extends Controller
     {
         $perPage = $request->get('per_page', $this->perPage);
         $sortBy = $request->get('sort_by');
-        $query = Highlight::where('active', true)
+        $query = Highlight::where('active','=', true)
             ->where('published_at', '<', now())
             ->where('type', '=', 'highlight');
 
