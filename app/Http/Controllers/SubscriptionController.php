@@ -37,11 +37,9 @@ class SubscriptionController extends Controller
     }
 
 
-    public function subscribe(Request $request){
+    public function subscribe(Tag $tag,Request $request){
         $user = $request->user();
-        $tag = $request->get('tag_id');
-        $tag = Tag::where('slug','=',$tag)->first();
-        $check = $user->subsriptions->where('tag_id','=',$tag->id);
+        $check = $user->subscriptions()->where('tag_id','=',$tag->id);
         if(!is_null($check)){
             return ['err'=>'Sry, you already have subscription to this tag'];
         }
