@@ -4,7 +4,9 @@ namespace App\Console\Commands;
 
 use App\Models\Article;
 use App\Models\Biography;
+use App\Models\DayInHistory;
 use App\Models\Image;
+use App\Models\Old\DayInHistory as OldDay;
 use App\Models\Old\Event;
 use App\Models\Old\Film;
 use App\Models\Old\Person;
@@ -25,7 +27,7 @@ class ParseImages extends Command
      *
      * @var string
      */
-    protected $signature = 'parse:images {entity : Process images by entity article|event|document|biography|film|videolecture}
+    protected $signature = 'parse:images {entity : Process images by entity article|event|document|biography|film|videolecture|dayinhistory}
     {--D|delete : Be careful! It will delete ALL entity images}';
 
     /**
@@ -63,6 +65,10 @@ class ParseImages extends Command
             'videolecture' => [
                 'oldPath' => ImageService::OLD_VIDEOLECTURES_PATH,
                 'newPath' => ImageService::VIDEOMATERIAL_PATH
+            ],
+            'dayinhistory' => [
+                'oldPath' => ImageService::OLD_DAYINHISTORY_PATH,
+                'newPath' => ImageService::DAYINHISTORY_PATH
             ]
         ]);
         $this->imageService = $imageService;
@@ -77,9 +83,9 @@ class ParseImages extends Command
     public function handle(): int
     {
         $entity = $this->argument('entity');
-        if (!in_array($entity, ['article', 'event', 'document', 'biography', 'film', 'videolecture'])) {
+        if (!in_array($entity, ['article', 'event', 'document', 'biography', 'film', 'videolecture', 'dayinhistory'])) {
             $this->newLine();
-            $this->error('Wrong argument passed, entity must be of type article|event|document|biography' );
+            $this->error('Wrong argument passed, entity must be of type article|event|document|biography|dayinhistory' );
             return 0;
         }
 
@@ -265,6 +271,41 @@ class ParseImages extends Command
                     } catch (\Throwable $exception) {
 
                         Log::info($exception->getMessage(), ['Old film id' => $film->id]);
+
+                    }
+
+                    $bar->advance();
+                }
+
+                $bar->finish();
+                break;
+
+            case 'dayinhistory':
+                // Process dayinhistory
+                $days = OldDay::with('image')->cursor();
+
+                $bar = $this->output->createProgressBar($days->count());
+                $this->newLine();
+                $this->line('Processing images for dayinhistory');
+
+                $bar->start();
+
+                foreach ($days as $day) {
+
+                    try {
+                        $newDay = DayInHistory::find($day->id);
+
+                        if (!is_null($newDay)) {
+
+
+                            $newImage = $this->imageService->storeOld($day->image, $paths['oldPath'], $paths['newPath']);
+
+                            $newDay->image()->save($newImage);
+                        }
+
+                    } catch (\Throwable $exception) {
+
+                        Log::info($exception->getMessage(), ['Old dayinhistory id' => $day->id]);
 
                     }
 

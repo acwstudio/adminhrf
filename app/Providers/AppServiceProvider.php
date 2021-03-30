@@ -44,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
             'event' => 'App\Models\Event',
             'highlight' => 'App\Models\Highlight',
             'podcast' => 'App\Models\Podcast',
+            'dayinhistory' => 'App\Models\DayInHistory',
 
         ]);
 

@@ -32,6 +32,7 @@ class ImageService
     const VIDEOMATERIAL_PATH = '/images/videomaterial/';
     const AUDIOMATERIAL_PATH = '/images/audiomaterial/';
     const EVENT_PATH = '/images/event/';
+    const DAYINHISTORY_PATH = '/images/dayinhistory/';
     const COMMON_PATH = '/images/common/';
 
 
@@ -43,6 +44,7 @@ class ImageService
     const OLD_BIO_PATH = '/uploads/media/person/0001/';
     const OLD_FILMS_PATH = '/uploads/media/films/0001/';
     const OLD_VIDEOLECTURES_PATH = '/uploads/media/educational/0001/';
+    const OLD_DAYINHISTORY_PATH = '/uploads/media/dayInHistory/0001/';
 
 
 
