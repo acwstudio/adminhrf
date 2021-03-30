@@ -48,4 +48,9 @@ class Event extends Model
     }
 
 
+    public function leisure(){
+        return $this->belongsTo(Leisure::class, 'leisure_id','id');
+    }
+
+
 }

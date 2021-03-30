@@ -19,10 +19,13 @@ class AfishaResource extends JsonResource
             'model_type' => 'afisha',
             'id' => $this->id,
             'body' => $this->announce,
-            'city' =>$this->city,
             'street' => $this->street,
             'afisha_date' => $this->afisha_date,
             'has_bookmark' => $user?$this->hasBookmark($user):false,
+            'city' => CityResource::make($this->city),
+            'leisure' => LeisureResource::make($this->leisure),
+            'comment' => $this->commented,
+            'likes' => $this->liked,
 
         ];
     }

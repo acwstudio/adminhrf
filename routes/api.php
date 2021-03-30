@@ -239,6 +239,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/videolectures/{videomaterial:slug}', [\App\Http\Controllers\VideolectureController::class, 'show']);
 
             Route::get('/afisha', [\App\Http\Controllers\AfishaController::class, 'index']);
+            Route::get('/afisha/categories', [\App\Http\Controllers\AfishaController::class, 'categories']);
             Route::get('/afisha/{event:id}', [\App\Http\Controllers\AfishaController::class, 'show']);
 
             Route::get('/courses/video', [\App\Http\Controllers\CourseController::class, 'getVideocourses']);

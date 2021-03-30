@@ -93,5 +93,8 @@
  *     name="Random",
  *     description="Get random resources",
  * )
- *
+ *  @OA\Tag(
+ *     name="Afisha",
+ *     description="Get Afisha's events",
+ * )
  */
