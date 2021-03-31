@@ -21,6 +21,7 @@ use App\Http\Controllers\BiographyController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\MagazineController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\PopularController;
@@ -303,4 +304,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/random/videocourses/', [\App\Http\Controllers\RandController::class, 'getRandVideoCourses']);
     Route::get('/random/highlights/', [\App\Http\Controllers\RandController::class, 'getRandHighlights']);
     Route::get('/random/podcasts/', [\App\Http\Controllers\RandController::class, 'getRandPodcasts']);
+
+
+    Route::get('/magazine/', [MagazineController::class, 'index']);
+
+
 });

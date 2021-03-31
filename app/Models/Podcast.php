@@ -27,9 +27,9 @@ class Podcast extends Model
     /**
      * Get podcast images.
      */
-    public function images()
+    public function image()
     {
-        return $this->morphMany(Image::class, 'imageable')->orderBy('order');
+        return $this->morphOne(Image::class, 'imageable');
     }
 
     public function bookmarks()
