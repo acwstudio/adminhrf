@@ -308,6 +308,7 @@ Route::prefix('v1')->group(function () {
 
     //Route::get('/magazine/', [MagazineController::class, 'index']);
     Route::get('/magazine/', [MagazineController::class, 'indexMagazines']);
+    Route::get('/magazine/{magazine:id}', [MagazineController::class, 'show']);
 
 
 });

@@ -24,9 +24,9 @@ class MagazineController extends Controller
 
 
 
-    public function show()
+    public function show(MagazineRelease $magazineRelease, Request $request)
     {
-        //
+        return CategoryResource::collection($magazineRelease->categories());
     }
 
 
