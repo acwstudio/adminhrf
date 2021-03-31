@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MagazineResource extends JsonResource
+class MagazineArticleShortResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,14 +14,14 @@ class MagazineResource extends JsonResource
      */
     public function toArray($request)
     {
-//        return parent::toArray($request);
-	return [
-		'model_type' =>'journal',
+        return [
+		'model_type' => 'magazine_article',
 		'id' =>$this->id,
-		'type_text'=> $this->type_text,
-		'created_at' =>$this->created_at,
-		'categories' =>$this->categories,
-		'image_path' => '/images/oblojka.jpg'
-	];
+		'author' => $this->author,
+		'category' => $this->category,
+		'release'=> $this->release,
+		'type_text' =>$this->type_text,
+		'created_at'=>$this->created_at,
+		];
     }
 }
