@@ -22,6 +22,8 @@ class QuestionResource extends JsonResource
             'position' => $this->position,
             'has_points' => $this->has_points,
             'max_points' => $this->points,
+//	    'image' =>$this->image
+//	    'image' => ImageResource::make($this->images()->first())
         ];
     }
 }

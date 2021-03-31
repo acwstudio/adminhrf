@@ -15,6 +15,6 @@ class Test extends Model
 
 
     public function questions(){
-        return $this->hasMany(Question::class,'quiz_id','id');
+        return $this->hasMany(\App\Models\Old\Question::class,'quiz_id','id');
     }
 }
