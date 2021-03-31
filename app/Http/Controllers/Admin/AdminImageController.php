@@ -49,7 +49,7 @@ class AdminImageController extends Controller
         if (!is_null($imageable_id = $data['imageable_id'] ?? null)) {
 
             if (is_null(
-                Image::where('imagable_id', $imageable_id)
+                Image::where('imageable_id', $imageable_id)
                     ->where('imageable_type', $data['imageable_type'])
                     ->first()
             )) {

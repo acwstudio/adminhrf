@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
             'highlight' => 'App\Models\Highlight',
             'podcast' => 'App\Models\Podcast',
             'dayinhistory' => 'App\Models\DayInHistory',
-
+            'user' => 'App\Models\User',
         ]);
 
         ResetPassword::createUrlUsing(
