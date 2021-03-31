@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SubscriptionResource extends JsonResource
+class ArticleCategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,7 +15,11 @@ class SubscriptionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            
+            'model_type' => 'article_category',
+            'id' => $this->id,
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'old_slug' => 'category'.'-'.$this->id
         ];
     }
 }
