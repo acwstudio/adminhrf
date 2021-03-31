@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\MagazineResource;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\MagazineArticleResource;
 use App\Models\Old\MagazineRelease;
+use App\Models\Old\MagazineReleaseArticle;
 use Illuminate\Http\Request;
 
 class MagazineController extends Controller
@@ -33,7 +35,7 @@ class MagazineController extends Controller
 
     public function showArticle($magazineArticle, Request $request)
     {
-        return CategoryResource::make(MagazineRelease::find($magazineArticle));
+        return MagazineArticleResource::make(MagazineReleaseArticle::find($magazineArticle));
 //	return  MagazineRelease::find($magazineRelease)->categories;
     }
 
