@@ -45,6 +45,7 @@ class ImageService
     const OLD_FILMS_PATH = '/uploads/media/films/0001/';
     const OLD_VIDEOLECTURES_PATH = '/uploads/media/educational/0001/';
     const OLD_DAYINHISTORY_PATH = '/uploads/media/dayInHistory/0001/';
+    const OLD_NEWS_PATH = '/uploads/media/news/0001/';
 
 
 
@@ -70,6 +71,7 @@ class ImageService
         'audiomaterial' => self::AUDIOMATERIAL_PATH,
         'event' => self::EVENT_PATH,
         'common' => self::COMMON_PATH,
+        'dayinhistory' => self::DAYINHISTORY_PATH,
 
     ];
 
