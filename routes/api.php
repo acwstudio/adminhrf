@@ -306,7 +306,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/random/podcasts/', [\App\Http\Controllers\RandController::class, 'getRandPodcasts']);
 
 
-    Route::get('/magazine/', [MagazineController::class, 'index']);
+    //Route::get('/magazine/', [MagazineController::class, 'index']);
+    Route::get('/magazine/', [MagazineController::class, 'indexMagazines']);
 
 
 });
