@@ -35,7 +35,7 @@ class SubscriptionController extends Controller
             foreach ($subscriptions as $subscription){
 		//return Carbon::now()->subDays(30);
                 $all = Taggable::where('tag_id','=',$subscription->tag_id) //->where('updated_at','>',Carbon::now()->subDays(30))
-                    ->orderBy('taggable_id','desc')->paginate(50);
+                    ->orderBy('taggable_id','desc')->paginate($perPage);
                 foreach ($all as $element){
 			$data[] = $element->taggable;
                 }
@@ -49,7 +49,7 @@ class SubscriptionController extends Controller
             foreach ($subscriptions as $subscription){
                 $all = Taggable::where('tag_id','=',$subscription->tag_id)
 //                    ->where('updated_at','>',Carbon::now()->subDays(30))
-                    ->whereIn('taggable_type',$array)->orderBy('taggable_id','desc')->paginate(50);
+                    ->whereIn('taggable_type',$array)->orderBy('taggable_id','desc')->paginate($perPage);
                 foreach ($all as $element){
                     $data[] = $element->taggable;
                 }
