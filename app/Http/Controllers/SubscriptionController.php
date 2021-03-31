@@ -82,7 +82,7 @@ class SubscriptionController extends Controller
         }
         $data = [];
         foreach ($user->subscriptions as $subscription){
-            $data[]=$subscription->tag;
+            $data[]=$subscription->tag()->get();
         }
         return $data;
     }
