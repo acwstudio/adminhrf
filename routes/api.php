@@ -311,7 +311,7 @@ Route::prefix('v1')->group(function () {
     //Route::get('/magazine/', [MagazineController::class, 'index']);
     Route::get('/magazine/', [MagazineController::class, 'indexMagazines']);
     Route::get('/magazine/{category:id}', [MagazineController::class, 'show']);
-    Route::get('/magazine/category/{article:id}', [MagazineController::class, '']);
+    Route::get('/magazine/category/{article:id}', [MagazineController::class, 'showArticle']);
 
 
 });
