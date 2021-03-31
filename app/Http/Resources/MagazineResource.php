@@ -16,7 +16,7 @@ class MagazineResource extends JsonResource
     {
 //        return parent::toArray($request);
 	return [
-		'model_type' =>'journal',
+		'model_type' =>'magazine_release',
 		'id' =>$this->id,
 		'type_text'=> $this->type_text,
 		'created_at' =>$this->created_at,

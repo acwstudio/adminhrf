@@ -31,5 +31,11 @@ class MagazineController extends Controller
 //	return  MagazineRelease::find($magazineRelease)->categories;
     }
 
+    public function showArticle($magazineArticle, Request $request)
+    {
+        return CategoryResource::make(MagazineRelease::find($magazineArticle));
+//	return  MagazineRelease::find($magazineRelease)->categories;
+    }
+
 
 }
