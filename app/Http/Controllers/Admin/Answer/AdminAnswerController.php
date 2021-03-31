@@ -56,17 +56,17 @@ class AdminAnswerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return AdminQuestionResource
+     * @param TAnswer $answer
+     * @return AdminAnswerResource
      */
     public function show(TAnswer $answer)
     {
         $query = QueryBuilder::for(TAnswer::class)
             ->where('id', $answer->id)
-            ->allowedIncludes(['questions'])
+            ->allowedIncludes(['question'])
             ->firstOrFail();
 
-        return new AdminQuestionResource($query);
+        return new AdminAnswerResource($query);
     }
 
     /**

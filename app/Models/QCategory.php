@@ -15,7 +15,7 @@ class QCategory extends Model
         'position',
     ];
     protected $table = 'qcategories';
-
+    public $timestamps = false;
     public function sluggable(): array
     {
         return [

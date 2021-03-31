@@ -31,9 +31,8 @@ class AdminAnswerResource extends JsonResource
             'relationships' => [
                 'question' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
-                    ]
+                        'related' => route('answers.question', [$this->id])
+                    ],
                 ]
             ]
         ];

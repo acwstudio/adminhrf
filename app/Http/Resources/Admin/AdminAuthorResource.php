@@ -40,8 +40,7 @@ class AdminAuthorResource extends JsonResource
                         'related' => route('authors.articles', ['author' => $this->id])
                     ],
                     'data' => AdminArticlesIdentifireResource::collection(
-                        $this->articles
-//                        $this->whenLoaded('articles')
+                        $this->whenLoaded('articles')
                     ),
                 ],
             ],

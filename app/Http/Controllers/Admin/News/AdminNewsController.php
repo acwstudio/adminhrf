@@ -28,7 +28,8 @@ class AdminNewsController extends Controller
     public function index()
     {
         $query = QueryBuilder::for(News::class)
-            ->allowedIncludes('tags')
+            ->with('tags')
+//            ->allowedIncludes('tags')
             ->jsonPaginate();
 
         return new AdminNewsCollection($query);
@@ -61,7 +62,9 @@ class AdminNewsController extends Controller
      */
     public function show(News $news)
     {
-        $query = QueryBuilder::for(News::where('id', $news->id))
+        $query = QueryBuilder::for(News::class)
+            ->where('id', $news->id)
+            ->with('tags', 'comments')
             ->firstOrFail();
 
         return new AdminNewsResource($query);

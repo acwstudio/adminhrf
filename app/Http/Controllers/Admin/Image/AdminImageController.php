@@ -34,7 +34,7 @@ class AdminImageController extends Controller
     public function index()
     {
         $query = QueryBuilder::for(Image::class)
-            ->with('articles')
+//            ->with('articles')
 //            ->allowedIncludes('articles')
             ->jsonPaginate();
 
@@ -76,17 +76,19 @@ class AdminImageController extends Controller
      */
     public function show(Image $image)
     {
-        $query = QueryBuilder::for(Image::where('id', $image->id))
+        $query = QueryBuilder::for(Image::class)
+            ->where('id', $image->id)
             ->firstOrFail();
 
+//        return $query->imageable;
         return new AdminImageResource($query);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param ImageUpdateRequest $request
+     * @param Image $image
      * @return AdminImageResource
      */
     public function update(ImageUpdateRequest $request, Image $image)

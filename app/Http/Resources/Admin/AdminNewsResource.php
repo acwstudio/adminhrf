@@ -48,17 +48,17 @@ class AdminNewsResource extends JsonResource
                 ],
                 'comments' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('news.relationships.comments', [$this->id]),
+                        'related' => route('news.comments', [$this->id])
                     ],
-                    'data' =>[]
+                    'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
                 ],
                 'tags' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('news.relationships.tags', [$this->id]),
+                        'related' => route('news.relationships.tags', [$this->id])
                     ],
-                    'data' =>[]
+                    'data' =>AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
                 ],
                 'bookmarks' => [
                     'links' => [

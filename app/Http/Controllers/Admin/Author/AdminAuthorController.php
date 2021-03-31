@@ -61,11 +61,12 @@ class AdminAuthorController extends Controller
      */
     public function show(Author $author)
     {
-        $query = QueryBuilder::for(Author::where('id', $author->id))
+        $query = QueryBuilder::for(Author::class)
+            ->where('id', $author->id)
             ->allowedIncludes('articles')
             ->allowedFilters('firstname')
             ->firstOrFail();
-//        return $query;
+
         return new AdminAuthorResource($query);
     }
 
