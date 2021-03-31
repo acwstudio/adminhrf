@@ -31,6 +31,7 @@ class ImageService
     const TIMELINE_PATH = '/images/timeline/';
     const VIDEOMATERIAL_PATH = '/images/videomaterial/';
     const AUDIOMATERIAL_PATH = '/images/audiomaterial/';
+    const PODCAST_PATH = '/images/podcast/';
     const EVENT_PATH = '/images/event/';
     const DAYINHISTORY_PATH = '/images/dayinhistory/';
     const COMMON_PATH = '/images/common/';
@@ -72,6 +73,7 @@ class ImageService
         'event' => self::EVENT_PATH,
         'common' => self::COMMON_PATH,
         'dayinhistory' => self::DAYINHISTORY_PATH,
+        'podcast' => self::PODCAST_PATH
 
     ];
 
