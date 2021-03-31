@@ -171,4 +171,13 @@ class Article extends Model
         }
         return is_null($user->bookmarkGroup->bookmarks()->firstWhere('bookmarkable_id', $this->id));
     }
+
+    public function oldCategories(){
+        return $this->belongsToMany(\App\Models\Old\ArticleCategory::class,'content_artworks_category_book','category_book_id');
+    }
+
+    public function categories(){
+        return $this->belongsTo(ArticleCategory::class,'category_id');
+    }
+
 }
