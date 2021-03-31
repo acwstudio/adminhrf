@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\Taggable;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Http\Resources\SubscriptionResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,7 @@ class SubscriptionController extends Controller
                 $all = Taggable::where('tag_id','=',$subscription->tag_id) //->where('updated_at','>',Carbon::now()->subDays(30))
                     ->orderBy('taggable_id','desc')->paginate($perPage);
                 foreach ($all as $element){
-			$data[] = $element->taggable;
+                    $data[] = SubscriptionResource::make($element); //$element->taggable;
                 }
             }
             return $data;
@@ -51,7 +52,7 @@ class SubscriptionController extends Controller
 //                    ->where('updated_at','>',Carbon::now()->subDays(30))
                     ->whereIn('taggable_type',$array)->orderBy('taggable_id','desc')->paginate($perPage);
                 foreach ($all as $element){
-                    $data[] = $element->taggable;
+                    $data[] = SubscriptionResource::make($element);
                 }
             }
             return $data;
@@ -73,5 +74,17 @@ class SubscriptionController extends Controller
         ]);
 
         return response('Ok', 200);
+    }
+
+    public function getTags(Request $request){
+        $user = $request->user();
+        if(!$user){
+            return ['err' => 'Not authorized'];
+        }
+        $data = [];
+        foreach ($user->subscriptions as $subscription){
+            $data[]=Tag::find($subscription->tag_id);
+        }
+        return $data;
     }
 }

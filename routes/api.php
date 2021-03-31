@@ -267,6 +267,7 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'index']);
             Route::get('/subscription/{tag:id}', [\App\Http\Controllers\SubscriptionController::class,'subscribe']);
+            Route::get('/subscriptions/tags/', [\App\Http\Controllers\SubscriptionController::class,'getTags']);
 
 
         }
@@ -312,7 +313,7 @@ Route::prefix('v1')->group(function () {
     //Route::get('/magazine/', [MagazineController::class, 'index']);
     Route::get('/magazine/', [MagazineController::class, 'indexMagazines']);
     Route::get('/magazine/{category:id}', [MagazineController::class, 'show']);
-    Route::get('/magazine/category/{article:id}', [MagazineController::class, '']);
+    Route::get('/magazine/category/{article:id}', [MagazineController::class, 'showArticle']);
 
 
 });
