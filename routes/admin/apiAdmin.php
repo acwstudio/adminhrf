@@ -22,6 +22,8 @@ use App\Http\Controllers\Admin\Biography\AdminBiographyCommentsRelationshipsCont
 use App\Http\Controllers\Admin\Biography\AdminBiographyController;
 use App\Http\Controllers\Admin\Comment\AdminCommentController;
 use App\Http\Controllers\Admin\Document\AdminDocumentController;
+use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelatedController;
+use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelationshipsController;
 use App\Http\Controllers\Admin\Image\AdminImageController;
 use App\Http\Controllers\Admin\News\AdminNewsCommentsRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsCommentsRelationshipsController;
@@ -189,12 +191,20 @@ Route::get('/comments/{comment}', [AdminCommentController::class, 'show'])
 
 /*****************  DOCUMENTS ROUTES **************/
 
-Route::get('/documents', [AdminDocumentController::class, 'index']);
-Route::get('/documents/{document}', [AdminDocumentController::class, 'show'])
-    ->name('admin.documents.show');
-Route::post('/documents', [AdminDocumentController::class, 'store']);
-Route::patch('/documents/{document}', [AdminDocumentController::class, 'update']);
-Route::delete('/documents/{document}', [AdminDocumentController::class, 'destroy']);
+Route::apiResource('/documents', AdminDocumentController::class, ['as' => 'admin']);
+
+// Documents to Tags relations
+Route::get('/documents/{document}/relationships/tags', [
+    AdminDocumentsTagsRelationshipsController::class, 'index'
+])->name('documents.relationships.tags');
+
+Route::patch('/documents/{document}/relationships/tags', [
+    AdminDocumentsTagsRelationshipsController::class, 'update'
+])->name('documents.relationships.tags');
+
+Route::get('/documents/{document}/tags', [
+    AdminDocumentsTagsRelatedController::class, 'index'
+])->name('documents.tags');
 
 /*****************  IMAGES ROUTES **************/
 

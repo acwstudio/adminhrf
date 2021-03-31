@@ -59,11 +59,6 @@ class AdminArticleController extends Controller
 //        $article->bookmarks()->saveMany($dataRelBookmarks);
 //        $article->images()->save($dataRelImages);
 
-//        $query = QueryBuilder::for(Article::class)
-//            ->allowedIncludes('authors', 'comments', 'tags', 'images', 'bookmarks')
-//            ->where('id', $article->id)
-//            ->firstOrFail();
-
         return (new AdminArticleResource($article))
             ->response()
             ->header('Location', route('admin.articles.show', [

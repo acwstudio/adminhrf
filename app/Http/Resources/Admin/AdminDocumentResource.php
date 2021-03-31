@@ -37,10 +37,10 @@ class AdminDocumentResource extends JsonResource
             'relationships' => [
                 'tags' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('documents.relationships.tags', [$this->id]),
+                        'related' => route('documents.tags', [$this->id])
                     ],
-                    'data' => []
+                    'data' => AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
                 ],
                 'images' => [
                     'links' => [
