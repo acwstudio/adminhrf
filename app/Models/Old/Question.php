@@ -15,11 +15,11 @@ class Question extends Model
     protected $table = 'content_quiz_question';
 
     public function quiz(){
-        return $this->belongsTo(Test::class,'quiz_id','id');
+        return $this->belongsTo(\App\Models\Old\Test::class,'quiz_id','id');
     }
 
     public function answers(){
-        return $this->hasMany(Answer::class,'question_id','id');
+        return $this->hasMany(\App\Models\Old\Answer::class,'question_id','id');
     }
 
 

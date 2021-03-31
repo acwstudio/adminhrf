@@ -11,7 +11,7 @@ use App\Models\TAnswer;
 use App\Models\Test;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\DB;
 
 class ParseTests extends Command
 {
@@ -62,13 +62,14 @@ class ParseTests extends Command
 
         foreach ($tests as $test) {
 
-            if($test->questions()->count()>1){
+            if(strlen($test->description)<510){
+		
                 $newTest = Test::create([
                     'id' => $test->id,
                     'title' => $test->title,
                     'description' => $test->description,
                     'is_active' => $test->is_active,
-                    'time' => $test->time,
+                    'time' => is_null($test->time)?0:$test->time,
                     'created_at'=> $test->created_at,
                     'updated_at'=> $test->updated_at,
                     'published_at' => $test->updated_at,
@@ -81,7 +82,7 @@ class ParseTests extends Command
                 ]);
                 $questions = $test->questions;
                 foreach($questions as $question){
-                    $newQuestion = $newTest->question([
+                    $newQuestion = Question::create([
                         'id' => $question->id,
                         'text' => $question->text,
                         'type' => $question->type,
@@ -91,16 +92,22 @@ class ParseTests extends Command
                         'created_at'=> $test->created_at,
                         'updated_at'=> $test->updated_at,
                     ]);
+//		    $test->questions->save($newQuestion);
+			DB::unprepared("INSERT INTO tests_question(test_id,question_id)
+                                values({$newTest->id},{$newQuestion->id})");
                     $answers = $question->answers;
                     foreach ($answers as $answer)
                     {
-                        $newAnswer = $newQuestion->answer(
+                        $newAnswer = TAnswer::create(
                             [
                                 'id' => $answer->id,
                                 'title'=> $answer->title,
                                 'is_right' => $answer->is_right,
-                                'description' => $answer->descrription,
-                                'points' => 0
+                                'description' => $answer->description,
+				'question_id' => $question->id,
+                                'points' => 0,
+				'created_at'=> $test->created_at,
+	                        'updated_at'=> $test->updated_at,
                             ]
                         );
                     }

@@ -16,6 +16,7 @@ class TestResource extends JsonResource
     {
         return [
             'model_type' => 'test',
+	    'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
             'time' => $this->time,
@@ -28,7 +29,7 @@ class TestResource extends JsonResource
             'has_bookmark' => false,
             'is_finished' => false,
             #'time_solved' => $this->test->checkSolved(1),
-            'image' => [
+/*            'image' => [
                 "model_type" => "image",
                 "id" => 1294,
                 "alt" => null,
@@ -36,8 +37,8 @@ class TestResource extends JsonResource
                 "preview" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
                 "original" => null,
                 "order" => 1
-            ],
-            //'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
+            ], */
+            'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'categories' => QCategoryResource::collection($this->categories),
 
         ];
