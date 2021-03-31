@@ -78,6 +78,8 @@ Route::prefix('v1')->group(function () {
             Route::delete('/token', [TokenAuthController::class, 'destroy']);
 
             Route::get('/me', [UserController::class, 'me']);
+            Route::post('/avatar', [UserController::class, 'avatarStore']);
+            Route::delete('/avatar', [UserController::class, 'avatarDelete']);
 
             Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
                 ->middleware(['auth', 'throttle:6,1'])
