@@ -21,30 +21,31 @@ class SubscriptionResource extends JsonResource
             'news', 'highlight', 'event', 'audiomaterial', 'biography'
         ];
         $user = $request->user();
-        $arr = in_array($this->highlightable_type, $map) ? $this->highlightable->type : $this->highlightable_type;
+        $arr = in_array($this->taggable_type, $map) ? $this->taggable->type : $this->taggable_type;
         if ($arr == 'audiomaterial') {
             $arr = 'audiolecture';
         }
         return [
-            'model_type' => $arr, //(in_array($this->highlightable_type, $map)?$this->highlightable->type:$this->highlightable_type=='audiomaterial')?'audiolecture':$this->highlightable_type,
-            'id' => $this->taggable,
-            'slug' => $this->highlightable->slug,
-            'title' => $this->highlightable->title,
-            'surname' => $this->highlightable_type == 'biography' ? $this->highlightable->surname : null,
-            'firstname' => $this->highlightable_type == 'biography' ? $this->highlightable->firstname : null,
-            'birth_date' => $this->highlightable_type == 'biography' ? Carbon::parse(($this->highlightable->birth_date))->format('Y-m-d') : null,
-            'group_date' => $this->highlightable_type == 'biography' ? Carbon::parse(($this->highlightable->birth_date))->format('Y-m') : null,
-            'death_date' => $this->highlightable_type == 'biography' ? Carbon::parse(($this->highlightable->death_date))->format('Y-m-d') : null,
-            'announce' => $this->highlightable->announce,
-            'published_at' => $this->highlightable->published_at,
-            'video_code' => $this->highlightable_type == 'videomaterial' ? explode('"', $this->highlightable->video_code)[0] : null,
-            'author' => !in_array($this->highlightable_type, $notMap) ? AuthorShortResource::collection($this->highlightable->authors) : null,
-            'path' => $this->highlightable_type == 'audiomaterial' ? $this->highlightable->path : null,
-            'comments' => $this->highlightable->countComments(),
-            'likes' => $this->highlightable_type != 'news' ? $this->highlightable->countLikes() : null,
+            'model_type' => $arr, //(in_array($this->taggable_type, $map)?$this->taggable->type:$this->taggable_type=='audiomaterial')?'audiolecture':$this->taggable_type,
+            'id' => $this->taggable->id,
+            'slug' => $this->taggable->slug,
+            'title' => $this->taggable->title,
+            'surname' => $this->taggable_type == 'biography' ? $this->taggable->surname : null,
+            'firstname' => $this->taggable_type == 'biography' ? $this->taggable->firstname : null,
+            'birth_date' => $this->taggable_type == 'biography' ? Carbon::parse(($this->taggable->birth_date))->format('Y-m-d') : null,
+            'group_date' => $this->taggable_type == 'biography' ? Carbon::parse(($this->taggable->birth_date))->format('Y-m') : null,
+            'death_date' => $this->taggable_type == 'biography' ? Carbon::parse(($this->taggable->death_date))->format('Y-m-d') : null,
+            'announce' => $this->taggable->announce,
+            'published_at' => $this->taggable->published_at,
+            'video_code' => $this->taggable_type == 'videomaterial' ? explode('"', $this->taggable->video_code)[0] : null,
+            'author' => !in_array($this->taggable_type, $notMap) ? AuthorShortResource::collection($this->taggable->authors) : null,
+            'path' => $this->taggable_type == 'audiomaterial' ? $this->taggable->path : null,
+            'comments' => $this->taggable->countComments(),
+#            'likes' => $this->taggable_type != 'news' && $this->taggable_type != 'audiomaterial'? $this->taggable->countLikes() : null,
             'views' => $this->viewed,
-            'has_like' => $user && $this->highlightable_type != 'news' ? $this->checkLiked($user) : false,
-            'has_bookmark' => $user ? $this->hasBookmark($user) : false,
+#            'has_like' => $user && $this->taggable_type != 'news' && $this->taggable_type != 'audiomaterial' ? $this->checkLiked($user) : false,
+#            'has_bookmark' => $user ? $this->hasBookmark($user) : false,
+	    'image' => ImageResource::make($this->taggable->images()->first()),
             ];
     }
 }

@@ -266,7 +266,7 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'index']);
             Route::get('/subscription/{tag:id}', [\App\Http\Controllers\SubscriptionController::class,'subscribe']);
-            Route::get('/subscription/tags/', [\App\Http\Controllers\SubscriptionController::class,'getTags']);
+            Route::get('/subscriptions/tags/', [\App\Http\Controllers\SubscriptionController::class,'getTags']);
 
 
         }
