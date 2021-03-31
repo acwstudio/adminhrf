@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Article;
+use App\Models\Old\ArticleCategory;
 use App\Models\Old\ArticleCategory as OldCategory;
 use App\Models\Question;
 use App\Models\TAnswer;
@@ -54,12 +56,18 @@ class ParseCategories extends Command
         $bar = $this->output->createProgressBar($categories->count());
         $bar->start();
         foreach ($categories as $category){
-            $articles = $category->articles;
-            foreach ($articles as $article){
-                $article->category_id=$category->id;
+            $artwork = Article::where('id','=',$category->artworks_id);
+            if(!is_null($artwork))
+            {
+                $article = $artwork->first();
+                $article->category_id = $category->category_book_id;
+                $artwork->save();
             }
+
             $bar->advance();
         }
+
+
 
         $bar->finish();
 

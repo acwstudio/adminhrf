@@ -18,7 +18,7 @@ class SubscriptionController extends Controller
         'listen' => ['audiomaterial','podcast'],
         'highlights' => ['highlights']
    ];
-    
+
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 50); //TODO: change to $this->perPage
@@ -49,7 +49,7 @@ class SubscriptionController extends Controller
             foreach ($subscriptions as $subscription){
                 $all = Taggable::where('tag_id','=',$subscription->tag_id)
 //                    ->where('updated_at','>',Carbon::now()->subDays(30))
-                    ->whereIn('taggable_type',$array)->orderBy('taggable_id','desc')->paginate();
+                    ->whereIn('taggable_type',$array)->orderBy('taggable_id','desc')->paginate(50);
                 foreach ($all as $element){
                     $data[] = $element->taggable;
                 }
