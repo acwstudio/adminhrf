@@ -18,6 +18,10 @@ class MagazineController extends Controller
         return MagazineResource::collection(MagazineRelease::with('categories', 'categories.article')->latest()->get());
     }
 
+    public function indexMagazines(){
+        return MagazineResource::collection(MagazineRelease::all());
+    }
+
 
 
     public function show()
