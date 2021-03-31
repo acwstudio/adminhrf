@@ -164,4 +164,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(TResult::class);
     }
+
+    /**
+     * Get user avatar
+     */
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }
