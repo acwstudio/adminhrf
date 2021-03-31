@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Fortify\UpdateUserPassword;
+use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\UserResource;
 use App\Models\Image;
@@ -19,9 +21,25 @@ class UserController extends Controller
      * @return UserResource
      */
 
-    public function me(Request $request): UserResource
+    public function getProfile(Request $request): UserResource
     {
         return new UserResource($request->user());
+    }
+
+    public function updateProfile(UserUpdateRequest $request)
+    {
+        $data = $request->validated();
+
+        $user = $request->user();
+        $user->name = $data['name'];
+        $user->save();
+
+        if (!is_null($password = $data['password'] ?? null)) {
+            (new UpdateUserPassword())->update($user, $data);
+        }
+
+        return new UserResource($user);
+
     }
 
     public function avatarStore(Request $request, ImageService $service)
