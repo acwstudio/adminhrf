@@ -31,11 +31,16 @@ class ArticleController extends Controller
 
         $perPage = $request->get('per_page', 16);
         $sortBy = $request->get('sort_by');
+        $category = $request->get('category');
 
         $query = Article::where('active', true)
             ->where('published_at', '<', now())
             ->with('images', 'authors','tags');
 
+        if(!is_null($category))
+        {
+            $query = $query->where('category_id','=',$category);
+        }
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
             $query->orderBy('viewed', 'desc');
         }
@@ -111,11 +116,17 @@ class ArticleController extends Controller
 
         $perPage = $request->get('per_page', 16);
         $sortBy = $request->get('sort_by');
+        $category = $request->get('category');
 
         $query = $tag->articles()->where('active', true)
                         ->where('published_at', '<', now())
                         ->with('images');
-	;
+
+        if(!is_null($category))
+        {
+            $query = $query->where('category_id','=',$category);
+        }
+
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
             $query->orderBy('liked', 'desc');
         }

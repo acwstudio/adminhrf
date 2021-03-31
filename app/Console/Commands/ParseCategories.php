@@ -56,12 +56,13 @@ class ParseCategories extends Command
         $bar = $this->output->createProgressBar($categories->count());
         $bar->start();
         foreach ($categories as $category){
-            $artwork = Article::where('id','=',$category->artworks_id);
+            $artwork = Article::where('id','=',$category->artwork_id);
+//	    dd($artwork);
             if(!is_null($artwork))
             {
                 $article = $artwork->first();
                 $article->category_id = $category->category_book_id;
-                $artwork->save();
+                $article->save();
             }
 
             $bar->advance();
