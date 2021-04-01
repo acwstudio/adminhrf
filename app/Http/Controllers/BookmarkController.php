@@ -36,7 +36,7 @@ class BookmarkController extends Controller
         $bookmarkableId = (int)$request->get('id');
         $map = ['audiolecture' => 'audiomaterial',
                 'videolecture' => 'videomaterial',
-                'films' => 'videomaterial',
+                'film' => 'videomaterial',
                 'course' => 'highlight',
                 'audiocourse' => 'highlight',
                 'videocourse' => 'highlight',
@@ -84,6 +84,7 @@ class BookmarkController extends Controller
             }
             else{
                 $bookmark->delete();
+		return response('Deleted', 200);
             }
 
         }
