@@ -45,6 +45,12 @@ class ArticleUpdateRequest extends FormRequest
             'data.attributes.biblio' => 'json',
             'data.attributes.event_start_date' => 'string',
             'data.event_end_date' => 'string',
+
+            'data.relationships.*' => 'present|array',
+            'data.relationships.tags.data.*.type' => 'present|in:tags',
+            'data.relationships.authors.data.*.type' => 'present|in:authors',
+            'data.relationships.images.data.*.type' => 'present|in:images',
+//            'data.relationships.images.data.*.id' => 'exists:images,id',
         ];
     }
 }

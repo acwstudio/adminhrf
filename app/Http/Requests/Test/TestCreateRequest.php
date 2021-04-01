@@ -37,6 +37,10 @@ class TestCreateRequest extends FormRequest
             'data.attributes.time' => 'required|integer',
             'data.attributes.created_at' => 'required|string',
             'data.attributes.updated_at' => 'required|string',
+
+            'data.relationships.*' => 'present|array',
+            'data.relationships.images.data.*.type' => 'present|in:images',
+            'data.relationships.images.data.*.id' => 'exists:images,id',
         ];
     }
 }

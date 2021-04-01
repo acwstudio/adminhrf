@@ -46,9 +46,10 @@ class ArticleCreateRequest extends FormRequest
             'data.event_end_date' => 'string',
 
             'data.relationships.*' => 'present|array',
-//            'data.relationships.tags.data.*.type' => 'required|in:tags',
-//            'data.relationships.authors.data.*.type' => 'required|in:authors',
-//            'data.relationships.images.data.*.type' => 'required|in:images',
+            'data.relationships.tags.data.*.type' => 'present|in:tags',
+            'data.relationships.authors.data.*.type' => 'present|in:authors',
+            'data.relationships.images.data.*.type' => 'present|in:images',
+            'data.relationships.images.data.*.id' => 'exists:images,id',
         ];
     }
 }

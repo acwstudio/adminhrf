@@ -48,40 +48,64 @@ class AdminArticleResource extends JsonResource
                         'self' => route('articles.relationships.authors', ['article' => $this->id]),
                         'related' => route('articles.authors', ['article' => $this->id])
                     ],
-                    'data' => AdminAuthorsIdentifireResource::collection($this->whenLoaded('authors'))
-//                    'data' => AdminAuthorResource::collection($this->whenLoaded('authors'))
+//                    'data' => AdminAuthorsIdentifireResource::collection($this->whenLoaded('authors'))
+                    'data' => AdminAuthorResource::collection($this->whenLoaded('authors'))
                 ],
                 'comments' => [
                     'links' => [
                         'self' => route('article.relationships.comments', ['article' => $this->id]),
                         'related' => route('article.comments', ['article' => $this->id])
                     ],
-                    'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
+//                    'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
+                    'data' => AdminCommentResource::collection($this->whenLoaded('comments'))
                 ],
                 'tags' => [
                     'links' => [
                         'self' => route('articles.relationships.tags', ['article' => $this->id]),
                         'related' => route('articles.tags', ['article' => $this->id])
                     ],
-                    'data' => AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
+//                    'data' => AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
+                    'data' => AdminTagResource::collection($this->whenLoaded('tags'))
                 ],
                 'images' => [
                     'links' => [
                         'self' => route('article.relationships.images', ['article' => $this->id]),
                         'related' => route('article.images', ['article' => $this->id])
                     ],
-                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+//                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ],
                 'bookmarks' => [
                     'links' => [
                         'self' => route('article.relationships.bookmarks', ['article' => $this->id]),
                         'related' => route('article.bookmarks', ['article' => $this->id])
                     ],
-                    'data' => AdminBookmarksIdentifierResource::collection($this->whenLoaded('bookmarks'))
+//                    'data' => AdminBookmarksIdentifierResource::collection($this->whenLoaded('bookmarks'))
+                    'data' => AdminBookmarkResource::collection($this->whenLoaded('bookmarks'))
                 ]
             ],
 //            'timeline' => $this->timeline,
         ];
     }
 
+//    private function relations()
+//    {
+//        return [
+//            AdminAuthorResource::collection($this->whenLoaded('authors')),
+//            AdminTagResource::collection($this->whenLoaded('tags'))
+//        ];
+//    }
+
+//    public function with($request)
+//    {
+//        return [
+
+//            'included' => collect($this->relations())->flatMap(function ($value) use($request) {
+                /** @var \Illuminate\Http\Resources\Json\ResourceCollection $value */
+//                return $value->toArray($request);
+//                return $value;
+//            }),
+//            'included' => $this->relations()
+//        ];
+//    }
 }

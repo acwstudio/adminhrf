@@ -8,6 +8,8 @@ use App\Http\Requests\Article\ArticleUpdateRequest;
 use App\Http\Resources\Admin\AdminArticleCollection;
 use App\Http\Resources\Admin\AdminArticleResource;
 use App\Models\Article;
+use App\Models\Image;
+use App\Services\ImageService;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -16,6 +18,17 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminArticleController extends Controller
 {
+    private $imageService;
+
+    /**
+     * AdminArticleController constructor.
+     * @param ImageService $imageService
+     */
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +37,6 @@ class AdminArticleController extends Controller
      */
     public function index()
     {
-
         $this->authorize('manage', Article::class);
 
         $articles = QueryBuilder::for(Article::class)
@@ -49,15 +61,26 @@ class AdminArticleController extends Controller
 
         $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
-        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
+//        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $article = Article::create($dataAttributes);
 
+        // update field imageable_id of images table with new $article->id
+        foreach ($dataRelImages as $imageId) {
+            $image = Image::find($imageId);
+            if ($image) {
+                Image::findOrFail($imageId)->update([
+                    'imageable_id' => $article->id
+                ]);
+            }
+        }
+
+        // attach authors and tags for the article
         $article->authors()->attach($dataRelAuthors);
         $article->tags()->attach($dataRelTags);
+
 //        $article->bookmarks()->saveMany($dataRelBookmarks);
-//        $article->images()->save($dataRelImages);
 
         return (new AdminArticleResource($article))
             ->response()
@@ -75,9 +98,8 @@ class AdminArticleController extends Controller
     public function show(Article $article)
     {
         $query = QueryBuilder::for(Article::class)
-            ->allowedIncludes(['comments','bookmarks'])
-            ->with('tags', 'authors', 'images')
             ->where('id', $article->id)
+            ->allowedIncludes(['authors', 'tags', 'images'])
             ->firstOrFail();
 
         return new AdminArticleResource($query);
@@ -100,15 +122,17 @@ class AdminArticleController extends Controller
 
         $article->update($dataAttributes);
 
+        foreach ($dataRelImages as $imageId) {
+            $image = Image::find($imageId);
+            if ($image) {
+                Image::findOrFail($imageId)->update([
+                    'imageable_id' => $article->id
+                ]);
+            }
+        }
+
         $article->authors()->sync($dataRelAuthors);
         $article->tags()->sync($dataRelTags);
-//        I don't know what these relationships
-//        $article->bookmarks()->saveMany($dataRelBookmarks);
-//        $article->images()->save($dataRelImages);
-
-//        $query = QueryBuilder::for(Article::class)
-//            ->where('id', $article->id)
-//            ->firstOrFail();
 
         return (new AdminArticleResource($article))
             ->response()
@@ -131,10 +155,13 @@ class AdminArticleController extends Controller
 
         $article->authors()->detach($idAuthors);
         $article->tags()->detach($idTags);
-        $article->images()->delete();
-        $article->bookmarks()->delete();
+//        $article->bookmarks()->delete();
+        $images = Image::where('imageable_id', $article->id)
+            ->where('imageable_type', 'article');
 
-//        delete images files....
+        foreach ($images as $image) {
+            $this->imageService->delete($image);
+        }
 
         $article->delete();
 

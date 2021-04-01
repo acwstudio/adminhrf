@@ -20,6 +20,10 @@ class AdminImageController extends Controller
 {
     public $imageService;
 
+    /**
+     * AdminImageController constructor.
+     * @param ImageService $imageService
+     */
     public function __construct(ImageService $imageService)
     {
         $this->imageService = $imageService;
@@ -51,15 +55,8 @@ class AdminImageController extends Controller
     {
 
         $file = $request->file('file');
-        $this->imageService->storeByType($file, $request->imageable_type);
 
-//        $filename = 'test-image-' . $request->input('imageable_type') . time() . $file
-//                ->getClientOriginalExtension();
-//        $path = $file->store('public/sump');
-
-        $image = Image::create([
-            'imageable_type' => $request->input('imageable_type')
-        ]);
+        $image = $this->imageService->storeByType($file, $request->imageable_type);
 
         return (new AdminImageResource($image))
             ->response()
@@ -95,10 +92,7 @@ class AdminImageController extends Controller
     {
         $file = $request->file('image');
 
-//      it's not reall code, it's only for testing by Postman
-        $filename = $image->name;
-
-        $path = $file->store('public/sump');
+        $image = $this->imageService->storeByType($file, $request->imageable_type);
 
         return new AdminImageResource($image);
     }
@@ -112,24 +106,11 @@ class AdminImageController extends Controller
      */
     public function destroy(Image $image)
     {
+//        $this->imageService->delete($image);
+
         $image->delete();
+
         return response(null, 204);
     }
 
-    /**
-     * @param Request $request
-     * @return array|\Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile[]|null
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function loadImage(Request $request, UploadedFile $uploadedFile)
-    {
-//        It's not real code, it's only test for Postman
-//        $this->validate($request, [
-//            'image' => 'required'
-//        ]);
-
-        $image = $request->file('image');
-
-        return $image;
-    }
 }

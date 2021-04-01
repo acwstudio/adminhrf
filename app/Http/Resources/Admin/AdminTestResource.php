@@ -42,7 +42,8 @@ class AdminTestResource extends JsonResource
                         'self' => route('test.relationships.images', ['test' => $this->id]),
                         'related' => route('test.images', ['test' => $this->id])
                     ],
-                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+//                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ],
                 'comments' => [
                     'links' => [

@@ -7,6 +7,7 @@ use App\Http\Requests\Test\TestCreateRequest;
 use App\Http\Requests\Test\TestUpdateRequest;
 use App\Http\Resources\Admin\AdminTestCollection;
 use App\Http\Resources\Admin\AdminTestResource;
+use App\Models\Image;
 use App\Models\Test;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -25,11 +26,11 @@ class AdminTestController extends Controller
      */
     public function index()
     {
-//        $this->authorize('manage', Test::class);
+//        $this->authorize('global', Test::class);
 
         $query = QueryBuilder::for(Test::class)
-            ->with(['images', 'questions', 'messages'])
-            ->allowedIncludes(['comments'])
+//            ->with(['images', 'questions', 'messages'])
+            ->allowedIncludes(['images', 'questions', 'messages', 'comments'])
             ->allowedSorts('title', 'created_at')
             ->jsonPaginate();
 
@@ -46,7 +47,19 @@ class AdminTestController extends Controller
     {
         $dataAttributes = $request->input('data.attributes');
 
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
+//        return $dataRelImages;
         $test = Test::create($dataAttributes);
+
+        // update field imageable_id of images table with new $article->id
+        foreach ($dataRelImages as $imageId) {
+            $image = Image::find($imageId);
+            if ($image) {
+                Image::findOrFail($imageId)->update([
+                    'imageable_id' => $test->id
+                ]);
+            }
+        }
 
         return (new AdminTestResource($test))
             ->response()
@@ -65,8 +78,7 @@ class AdminTestController extends Controller
     {
         $query = QueryBuilder::for(Test::class)
             ->where('id', $test->id)
-            ->with(['images', 'messages', 'questions', 'results'])
-            ->allowedIncludes(['comments'])
+            ->allowedIncludes(['images', 'messages', 'questions', 'results', 'comments'])
             ->firstOrFail();
 
         return new AdminTestResource($query);
@@ -97,6 +109,13 @@ class AdminTestController extends Controller
      */
     public function destroy(Test $test)
     {
+        $images = Image::where('imageable_id', $test->id)
+            ->where('imageable_type', 'article');
+
+        foreach ($images as $image) {
+            $this->imageService->delete($image);
+        }
+
         $test->delete();
 
         return response(null, 204);
