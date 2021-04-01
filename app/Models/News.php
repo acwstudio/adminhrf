@@ -65,30 +65,11 @@ class News extends Model
     }
 
     public function hasBookmark(User $user){
-        if(is_null($user->bookmarkGroup())){
+        if(is_null($user->bookmarkGroup)){
             return false;
         }
-        return is_null($user->bookmarkGroup()->first()->bookmarks()->firstWhere('bookmarkable_id',$this->id));
+        return is_null($user->bookmarkGroup->bookmarks()->firstWhere('bookmarkable_id', $this->id));
     }
 
-    /**
-     * Check if specific article is liked
-     */
-//    public function checkLiked($userId)
-//    {
-//        $val = $this->likes()->first(['user_id']);
-//        return $val ? $val->user_id == $userId : false;
-//    }
-
-    /**
-     * Deprecated or supposed for future features
-     */
-    /*    public function likes(){
-        return $this->morphMany(Like::class,'likeable');
-    }
-
-    public function countLikes(){
-        return $this->likes()->count();
-    }*/
 
 }

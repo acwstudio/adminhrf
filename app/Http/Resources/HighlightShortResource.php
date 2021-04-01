@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Models\Highlight;
 class HighlightShortResource extends JsonResource
 {
     /**
@@ -17,8 +17,9 @@ class HighlightShortResource extends JsonResource
         $user = $request->user();
         return [
             'model_type' => $this->type,
+	    'id' =>$this->id,
             'title' => $this->title,
-	        'slug' => $this->slug,
+	    'slug' => $this->slug,
             'announce' => $this->announce,
             'published_at' => $this->published_at,
             'count' => $this->highlightable->count(),
@@ -35,6 +36,7 @@ class HighlightShortResource extends JsonResource
                 "original" => null,
                 "order" => 1
             ],
+	  'list' => HighlightsSuperShortResource::collection($this->highlightable()->limit(5)->get())
         ];
     }
 }

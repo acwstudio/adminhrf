@@ -26,6 +26,11 @@ class DecrementCommentedCounter
      */
     public function handle(CommentDeleted $event)
     {
+        // Decrement parent's children counter
+        if (!is_null($event->comment->parent_id)) {
+            $event->comment->parent()->decrement('children_count');
+        }
+
         optional($event->comment->commentable)->decrementCommentedCounter();
     }
 }

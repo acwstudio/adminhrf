@@ -30,16 +30,8 @@ class FilmsResource extends JsonResource
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
-            //'image' => ImageResource::collection($this->whenLoaded('images')),
-            'image' => [
-                "model_type" => "image",
-                "id" => 1294,
-                "alt" => null,
-                "src" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt.jpg",
-                "preview" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
-                "original" => null,
-                "order" => 1
-            ],
+            'image' => ImageResource::make(optional($this->images)->first()),
+
         ];
     }
 }

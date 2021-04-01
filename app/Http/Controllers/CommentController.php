@@ -68,17 +68,17 @@ class CommentController extends Controller
 
         $data['answer_to'] = $data['answer_to'] ?? null;
 
-        if (!is_null($data['answer_to'])) {
+        if (!is_null($data['parent_id']) && !is_null($data['answer_to'])) {
 
             if($toUser = User::find(Arr::get($data, 'answer_to.user_id'))) {
 
                 Arr::set($data,'answer_to.user_name', $toUser->name);
 
-            } else {
-
-                $data['answer_to'] = null;
-
             }
+
+        } else {
+
+            $data['answer_to'] = null;
 
         }
 

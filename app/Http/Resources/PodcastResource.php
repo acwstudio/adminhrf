@@ -14,6 +14,23 @@ class PodcastResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $user = $request->user();
+
+        return [
+            'model_type' => 'podcast',
+            'id' => $this->id,
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'announce' => $this->description,
+            'iframe' => $this->iframe,
+            'order' => $this->order,
+            'comments' => $this->commented,
+            'likes' => $this->liked,
+            'views' => $this->viewed,
+            'has_like' => $user ? $this->checkLiked($user) : false,
+            'has_bookmark' => $user ? $this->hasBookmark($user): false,
+            'image' => ImageResource::make($this->whenLoaded('image')),
+
+        ];
     }
 }

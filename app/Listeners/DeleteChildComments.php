@@ -26,6 +26,8 @@ class DeleteChildComments
      */
     public function handle(CommentDeleted $event)
     {
+        optional($event->comment->commentable)->decrementCommentedCounter($event->comment->children_count);
+
         $event->comment->children()->delete();
     }
 }

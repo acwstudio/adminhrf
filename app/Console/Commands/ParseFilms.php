@@ -143,7 +143,7 @@ class ParseFilms extends Command
 
                 $author = $oldVideoLecture->lecturer_id;
                 DB::unprepared("INSERT INTO author_material(author_id,material_id,material_type)
-                                values({$author},{$Videomaterial->id},'video')");
+                                values({$author},{$Videomaterial->id},'videomaterial')");
 //                Author::where('id','=',$author)->firstOrFail()->materialable()->attach($Videomaterial);
             }
 

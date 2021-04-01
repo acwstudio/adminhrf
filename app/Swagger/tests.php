@@ -44,17 +44,17 @@
  * )
  *
  * @OA\Get(
- *     path="/tests/{id}",
+ *     path="/tests/{slug}",
  *     operationId="testItem",
  *     tags={"Tests"},
- *     summary="Display tests by id",
+ *     summary="Display tests by slug",
  *     @OA\Parameter(
- *         name="testId",
+ *         name="slig",
  *         in="path",
- *         description="test ID",
+ *         description="test slug",
  *         required=true,
  *         @OA\Schema(
- *             type="integer",
+ *             type="string",
  *         )
  *     ),
  *     @OA\Response(
