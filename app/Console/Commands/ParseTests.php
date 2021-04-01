@@ -62,8 +62,8 @@ class ParseTests extends Command
 
         foreach ($tests as $test) {
 
-            if(strlen($test->description)<510){
-		
+//            if(strlen($test->description)<750){
+
                 $newTest = Test::create([
                     'id' => $test->id,
                     'title' => $test->title,
@@ -92,6 +92,7 @@ class ParseTests extends Command
                         'created_at'=> $test->created_at,
                         'updated_at'=> $test->updated_at,
                     ]);
+                    $this->line('Parsing question #'.$question->id);
 //		    $test->questions->save($newQuestion);
 			DB::unprepared("INSERT INTO tests_question(test_id,question_id)
                                 values({$newTest->id},{$newQuestion->id})");
@@ -104,16 +105,18 @@ class ParseTests extends Command
                                 'title'=> $answer->title,
                                 'is_right' => $answer->is_right,
                                 'description' => $answer->description,
-				'question_id' => $question->id,
+				'question_id' => $newQuestion->id,
                                 'points' => 0,
 				'created_at'=> $test->created_at,
 	                        'updated_at'=> $test->updated_at,
                             ]
                         );
+                        $this->line('Parsing question #'.$answer->id);
                     }
                 }
-            }
 
+//            }
+            $bar->advance();
         }
 
         return 0;

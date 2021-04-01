@@ -34,8 +34,17 @@ class BookmarkController extends Controller
     {
         $bookmarkableType = $request->get('model_type');
         $bookmarkableId = (int)$request->get('id');
-//        $userId = (int)$request->get('user_id');
-//      $user= User::find($userId)->first();
+        $map = ['audiolecture' => 'audiomaterial',
+                'videolecture' => 'videomaterial',
+                'film' => 'videomaterial',
+                'course' => 'highlight',
+                'audiocourse' => 'highlight',
+                'videocourse' => 'highlight',
+                'article' => 'article',
+                'biography' => 'biography',
+                'document' => 'document',
+                'test' => 'test',
+                ];
 
         $user = $request->user();
 
@@ -43,6 +52,12 @@ class BookmarkController extends Controller
             return ['err' => 'You are not authorized or there are no such user'];
         }
         $bookmarkGroup = $user->bookmarkGroup()->first();
+        if(key_exists($bookmarkableType,$map)){
+            $bookmarkableType=$map["{$bookmarkableType}"];
+        }
+        else{
+            return ['There are no such models'];
+        }
         if (is_null($bookmarkGroup)&&!is_null($bookmarkableId)) {
             $bookmarkGroup = BookmarkGroup::create(
                 [
@@ -56,6 +71,7 @@ class BookmarkController extends Controller
                 'group_id' => $bookmarkGroup->id
             ]);
         }
+
         elseif(!is_null($bookmarkableId)) {
             $bookmark = $bookmarkGroup->bookmarks->where('bookmarkable_type','=',$bookmarkableType)
                                     ->where('bookmarkable_id', '=', $bookmarkableId)->first();
@@ -68,6 +84,7 @@ class BookmarkController extends Controller
             }
             else{
                 $bookmark->delete();
+		return response('Deleted', 200);
             }
 
         }

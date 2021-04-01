@@ -43,10 +43,10 @@ class CourseResource extends JsonResource
             'author' => !in_array($this->highlightable_type, $notMap) ? AuthorShortResource::collection($this->highlightable->authors) : null,
             'comments' => $this->highlightable->countComments(),
             'likes' => $this->highlightable->countLikes(),
-            'views' => $this->viewed,
+            'views' => $this->highlightable->viewed,
 	    'path' => $this->highlightable_type == 'audiomaterial' ? $this->highlightable->path : null,
-            'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark' => $user ? $this->hasBookmark($user): false,
+            'has_like' => $user ? $this->highlightable->checkLiked($user) : false,
+            'has_bookmark' => $user ? $this->highlightable->hasBookmark($user): false,
             'tags' => TagResource::collection($this->highlightable->tags),
             'image' => [
                 "model_type" => "image",
