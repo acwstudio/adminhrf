@@ -38,7 +38,11 @@ use App\Http\Controllers\Admin\Question\AdminQuestionController;
 use App\Http\Controllers\Admin\Question\AdminQuestionsTestsRelatedController;
 use App\Http\Controllers\Admin\Question\AdminQuestionsTestsRelationshipsController;
 use App\Http\Controllers\Admin\Tag\AdminTagController;
+use App\Http\Controllers\Admin\Tag\AdminTagsArticlesRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsArticlesRelationshipsController;
+use App\Http\Controllers\Admin\Tag\AdminTagsBiographiesRelatedController;
+use App\Http\Controllers\Admin\Tag\AdminTagsDocumentsRelatedController;
+use App\Http\Controllers\Admin\Tag\AdminTagsDocumentsRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestCommentsRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestCommentsRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestController;
@@ -52,6 +56,9 @@ use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelationshipsController;
 use App\Http\Controllers\Admin\TestCategory\AdminTCategoryController;
 use App\Http\Controllers\Admin\TestMessage\AdminMessageController;
 use App\Http\Controllers\Admin\TestResult\AdminResultController;
+use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelatedController;
+use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelationshipsController;
+use App\Http\Controllers\Admin\Tag\AdminTagsBiographiesRelationshipsController;
 
 /*****************  ANSWERS ROUTES **************/
 Route::apiResource('/answers', AdminAnswerController::class, ['as' =>'admin']);
@@ -302,17 +309,56 @@ Route::apiResource('/results', AdminResultController::class, ['as' =>'admin']);
 Route::apiResource('/tags', AdminTagController::class, ['as' =>'admin']);
 
 // Tags to Articles relations
-Route::get('/tags/{tag}/relatioships/articles', [
+Route::get('/tags/{tag}/relationships/articles', [
     AdminTagsArticlesRelationshipsController::class, 'index'
 ])->name('tags.relationships.articles');
 
-Route::patch('/tags/{tag}/relatioships/articles', [
+Route::patch('/tags/{tag}/relationships/articles', [
     AdminTagsArticlesRelationshipsController::class, 'update'
 ])->name('tags.relationships.articles');
 
 Route::get('/tags/{tag}/articles', [
-    AdminArticlesTagsRelatedController::class, 'index'
+    AdminTagsArticlesRelatedController::class, 'index'
 ])->name('tags.articles');
+
+// Tags to Biographies relations
+Route::get('/tags/{tag}/relationships/biographies', [
+    AdminTagsBiographiesRelationshipsController::class, 'index'
+])->name('tags.relationships.biographies');
+
+Route::patch('/tags/{tag}/relationships/biographies', [
+    AdminTagsBiographiesRelationshipsController::class, 'update'
+])->name('tags.relationships.biographies');
+
+Route::get('/tags/{tag}/biographies', [
+    AdminTagsBiographiesRelatedController::class, 'index'
+])->name('tags.biographies');
+
+// Tags to Documents relations
+Route::get('/tags/{tag}/relationships/documents', [
+    AdminTagsDocumentsRelationshipsController::class, 'index'
+])->name('tags.relationships.documents');
+
+Route::patch('/tags/{tag}/relationships/documents', [
+    AdminTagsDocumentsRelationshipsController::class, 'update'
+])->name('tags.relationships.documents');
+
+Route::get('/tags/{tag}/documents', [
+    AdminTagsDocumentsRelatedController::class, 'index'
+])->name('tags.documents');
+
+// Tags to News relations
+Route::get('/tags/{tag}/relationships/news', [
+    AdminTagsNewsRelationshipsController::class, 'index'
+])->name('tags.relationships.news');
+
+Route::patch('/tags/{tag}/relationships/news', [
+    AdminTagsNewsRelationshipsController::class, 'update'
+])->name('tags.relationships.news');
+
+Route::get('/tags/{tag}/news', [
+    AdminTagsNewsRelatedController::class, 'index'
+])->name('tags.news');
 
 /*****************  TESTS ROUTES **************/
 

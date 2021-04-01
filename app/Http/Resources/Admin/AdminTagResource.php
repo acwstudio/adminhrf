@@ -35,6 +35,27 @@ class AdminTagResource extends JsonResource
                     ],
                     'data' => AdminArticlesIdentifireResource::collection($this->whenLoaded('articles'))
                 ],
+                'documents' => [
+                    'links' => [
+                        'self' => route('tags.relationships.documents', ['tag' => $this->id]),
+                        'related' => route('tags.documents', ['tag' => $this->id])
+                    ],
+                    'data' => AdminDocumentsIdentifireResource::collection($this->whenLoaded('documents'))
+                ],
+                'news' => [
+                    'links' => [
+                        'self' => route('tags.relationships.news', ['tag' => $this->id]),
+                        'related' => route('tags.news', ['tag' => $this->id])
+                    ],
+                    'data' => AdminNewsIdentifireResource::collection($this->whenLoaded('news'))
+                ],
+                'biographies' => [
+                    'links' => [
+                        'self' => route('tags.relationships.biographies', ['tag' => $this->id]),
+                        'related' => route('tags.biographies', ['tag' => $this->id])
+                    ],
+                    'data' => AdminBiographiesIdentifireResource::collection($this->whenLoaded('biographies'))
+                ],
             ]
         ];
     }

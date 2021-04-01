@@ -26,8 +26,7 @@ class AdminTagController extends Controller
     public function index()
     {
         $tags = QueryBuilder::for(Tag::class)
-//            ->with('articles')
-            ->allowedIncludes('articles')
+            ->allowedIncludes(['articles', 'documents', 'news', 'biographies'])
             ->allowedSorts('title')
             ->jsonPaginate();
 
@@ -62,7 +61,7 @@ class AdminTagController extends Controller
     public function show(Tag $tag)
     {
         $tag = QueryBuilder::for(Tag::where('id', $tag->id))
-            ->allowedIncludes('articles')
+            ->allowedIncludes(['articles', 'documents', 'news', 'biographies'])
             ->firstOrFail();
 
         return new AdminTagResource($tag);
