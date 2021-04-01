@@ -49,7 +49,7 @@
 
 /**
  * @OA\Get(
- *     path="/me",
+ *     path="/profile",
  *     operationId="user",
  *     tags={"User"},
  *     summary="Return logged in user",
@@ -75,6 +75,48 @@
  *         {"bearer": {}}
  *     }
  *
+ * )
+ */
+
+/**
+ * @OA\Post(
+ *     path="/profile",
+ *     operationId="profileUpdate",
+ *     tags={"User"},
+ *     summary="Update user info",
+ *
+ *     @OA\RequestBody(
+ *         description="Credentials",
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                  required={"name"},
+ *                  @OA\Property(property="name", type="string"),
+ *                  @OA\Property(property="current_password", type="string"),
+ *                  @OA\Property(property="password", type="string"),
+ *                  @OA\Property(property="password_confirmation", type="string"),
+ *             )
+ *         )
+ *     ),
+ *
+ *     @OA\Response(
+ *         response="200",
+ *         description="Password reset"
+ *     ),
+ *     @OA\Response(
+ *         response="422",
+ *         description="Bad credentials"
+ *     ),
+ *     @OA\Response(
+ *         response="default",
+ *         description="unexpected error",
+ *         @OA\JsonContent(ref="#/components/schemas/ErrorModel")
+ *     ),
+ *
+ *     security={
+ *         {"bearer": {}}
+ *     }
  * )
  */
 

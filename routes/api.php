@@ -77,7 +77,8 @@ Route::prefix('v1')->group(function () {
 
             Route::delete('/token', [TokenAuthController::class, 'destroy']);
 
-            Route::get('/me', [UserController::class, 'me']);
+            Route::get('/profile', [UserController::class, 'getProfile']);
+            Route::post('/profile', [UserController::class, 'updateProfile']);
             Route::post('/avatar', [UserController::class, 'avatarStore']);
             Route::delete('/avatar', [UserController::class, 'avatarDelete']);
 
