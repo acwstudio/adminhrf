@@ -24,6 +24,6 @@ class AdminArticleImagesRelationshipsController extends Controller
 
     public function update(Request $request, Article $article)
     {
-        return response()->json(['message' => 'Wait please, I am doing nothing now']);
+        return response()->json(['message' => 'Update action is disabled']);
     }
 }

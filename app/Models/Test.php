@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Test extends Model
 {
-    use HasFactory, Likeable, Commentable;
+    use HasFactory, Sluggable, Likeable, Commentable;
 
     public $fillable = [
         'title',
         'description',
         'is_active',
         'time',
+        'slug'
     ];
     public $casts = [
         'created_at' => 'datetime',
