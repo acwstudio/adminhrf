@@ -23,14 +23,14 @@ class Test extends Model
         'updated_at' => 'datetime',
     ];
 
-//    public function sluggable(): array
-//    {
-//        return [
-//            'slug' => [
-//                'source' => 'title'
-//            ]
-//        ];
-//    }
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 
     public function categories()
     {
