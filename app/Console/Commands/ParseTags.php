@@ -80,7 +80,7 @@ class ParseTags extends Command
                 $relations = Tagging::where('tag_id', $tag->id)->where('resource_type', '=', $entitiesMap['article'])->get();
                 var_dump($newTag->id);
                 foreach ($relations as $relation) {
-                    $article = Article::where('id', $relation->resource_id);
+                    $article = Article::find($relation->resource_id);
                     //$exists = Taggable::where('tag_id', $tag->id)->where('taggable_type', '=', 'article')->where('taggable_id', '=', $relation->resource_id)->get();
                     if (!is_null($article)) {
                         DB::unprepared("INSERT INTO taggables(tag_id,taggable_id,taggable_type,created_at,updated_at)

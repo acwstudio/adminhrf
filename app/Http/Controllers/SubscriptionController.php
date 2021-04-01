@@ -33,10 +33,12 @@ class SubscriptionController extends Controller
         if(is_null($category)){
             $subscriptions = User::findOrFail($user->id)->subscriptions;
             $data = [];
+	    $count = 10;
             foreach ($subscriptions as $subscription){
 		//return Carbon::now()->subDays(30);
+//		$count = (int)$subscriptions->count;
                 $all = Taggable::where('tag_id','=',$subscription->tag_id) //->where('updated_at','>',Carbon::now()->subDays(30))
-                    ->orderBy('taggable_id','desc')->paginate($perPage);
+                    ->orderBy('taggable_id','desc')->paginate($perPage/$count);
                 foreach ($all as $element){
                     $data[] = SubscriptionResource::make($element); //$element->taggable;
                 }
@@ -48,9 +50,10 @@ class SubscriptionController extends Controller
             $data = [];
             $array = $this->map["{$category}"];
             foreach ($subscriptions as $subscription){
+		$count = 5;
                 $all = Taggable::where('tag_id','=',$subscription->tag_id)
 //                    ->where('updated_at','>',Carbon::now()->subDays(30))
-                    ->whereIn('taggable_type',$array)->orderBy('taggable_id','desc')->paginate($perPage);
+                    ->whereIn('taggable_type',$array)->orderBy('taggable_id','desc')->paginate($perPage/$count);
                 foreach ($all as $element){
                     $data[] = SubscriptionResource::make($element);
                 }
