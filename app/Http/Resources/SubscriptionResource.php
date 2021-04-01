@@ -43,8 +43,8 @@ class SubscriptionResource extends JsonResource
             'comments' => $this->taggable->countComments(),
 #            'likes' => $this->taggable_type != 'news' && $this->taggable_type != 'audiomaterial'? $this->taggable->countLikes() : null,
             'views' => $this->viewed,
-#            'has_like' => $user && $this->taggable_type != 'news' && $this->taggable_type != 'audiomaterial' ? $this->checkLiked($user) : false,
-#            'has_bookmark' => $user ? $this->hasBookmark($user) : false,
+#            'has_like' => $user && $this->taggable_type != 'news' && $this->taggable_type != 'audiomaterial' ? $this->taggable->checkLiked($user) : false,
+            'has_bookmark' => $user ? $this->taggable->hasBookmark($user) : false,
 	    'image' => ImageResource::make($this->taggable->images()->first()),
             ];
     }
