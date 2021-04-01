@@ -30,6 +30,6 @@ class DayInHistory extends Model
 
     public function image()
     {
-        return $this->hasOne(Image::class, 'id', 'image_id');
+        return $this->morphOne(Image::class, 'imageable');
     }
 }

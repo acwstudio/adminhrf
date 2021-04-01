@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\AudiomaterialResource;
 use App\Models\Audiomaterial;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class AudiomaterialController extends Controller
@@ -48,5 +50,25 @@ class AudiomaterialController extends Controller
         return AudiomaterialResource::make($audio->load('highlights'));
     }
 
+    public function indexByTag(Tag $tag,Request $request)
+    {
+
+        $perPage = $request->get('per_page', 16);
+        $sortBy = $request->get('sort_by');
+
+        $query = $tag->audiomaterials()
+            ->where('active', true)
+            ->where('published_at', '<', now())
+            ->with('images');
+
+        if ($sortBy && in_array($sortBy, $this->sortParams)) {
+            $query->orderBy('liked', 'desc');
+        }
+
+        $result = $query->orderBy('published_at', 'desc')
+            ->paginate($perPage);
+
+        return AudiomaterialResource::collection($result);
+    }
 
 }

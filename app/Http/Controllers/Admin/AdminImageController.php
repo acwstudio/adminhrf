@@ -32,7 +32,7 @@ class AdminImageController extends Controller
      *
      * @param ImageCreateRequest $request
      * @param ImageService $service
-     * @return AdminImageResource
+     * @return AdminImageResource|JsonResponse
      */
     public function store(ImageCreateRequest $request, ImageService $service)
     {
@@ -44,6 +44,24 @@ class AdminImageController extends Controller
 
         } catch (\Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500,);
+        }
+
+        if (!is_null($imageable_id = $data['imageable_id'] ?? null)) {
+
+            if (is_null(
+                Image::where('imageable_id', $imageable_id)
+                    ->where('imageable_type', $data['imageable_type'])
+                    ->first()
+            )) {
+
+                $image->imageable_id = $imageable_id;
+                $image->save();
+
+            } else {
+
+                return response()->json(['error' => 'Image exists, use update'], 500,);
+
+            }
         }
 
 

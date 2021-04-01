@@ -89,5 +89,16 @@
  *     name="Popular",
  *     description="Get popular resources",
  * )
- *
+ *  @OA\Tag(
+ *     name="Random",
+ *     description="Get random resources",
+ * )
+ *  @OA\Tag(
+ *     name="Afisha",
+ *     description="Get Afisha's events",
+ * )
+ *  @OA\Tag(
+ *     name="DayInHistory",
+ *     description="Get days of history",
+ * )
  */

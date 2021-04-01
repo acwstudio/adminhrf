@@ -31,7 +31,8 @@ class TimelineResource extends JsonResource
 
             'tags' => TagResource::collection($this->timelinable->tags),
             'comments' => $this->timelinable->commented,
-            'image' => [
+            'image' => $this->timelinable_type=='article'?ImageResource::make($this->timelinable->images->first()):false,
+/*[
                 "model_type" => "image",
                 "id" => 1294,
                 "alt" => null,
@@ -39,7 +40,7 @@ class TimelineResource extends JsonResource
                 "preview" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
                 "original" => null,
                 "order" => 1
-            ],
+            ],*/
 
         ];
     }

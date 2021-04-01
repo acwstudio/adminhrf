@@ -11,7 +11,8 @@ class Subscription extends Model
 
 
     public $fillable = [
-        'user_id'
+        'user_id',
+        'tag_id'
     ];
 
     protected $casts = [
@@ -21,7 +22,7 @@ class Subscription extends Model
 
     public function tag()
     {
-        return $this->belongsTo(Tag::class);
+        return $this->hasOne(Tag::class,'tag_id','id');
     }
 
     public function user()

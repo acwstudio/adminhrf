@@ -51,19 +51,9 @@ class Biography extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function likes()
-    {
-        return $this->morphMany(Like::class, 'likeable');
-    }
-
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
-    }
-
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function images()
@@ -97,10 +87,10 @@ class Biography extends Model
     }
 
     public function hasBookmark(User $user){
-        if(is_null($user->bookmarkGroup())){
+        if(is_null($user->bookmarkGroup)){
             return false;
         }
-        return is_null($user->bookmarkGroup()->first()->bookmarks()->firstWhere('bookmarkable_id',$this->id));
+        return is_null($user->bookmarkGroup->bookmarks()->firstWhere('bookmarkable_id', $this->id));
     }
 
 }

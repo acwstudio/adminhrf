@@ -20,13 +20,9 @@ class ImageService
     const IMG_EXTENSION = 'jpg';
 
     const ARTICLES_PATH = '/images/articles/';
-    const OLD_ARTICLES_PATH = '/uploads/media/artworks/0001/';
-    const OLD_EVENTS_PATH = '/uploads/media/event/0001/';
     const DOCS_PATH = 'files/docs/';
     const DOCS_PREVIEW_PATH = '/images/docs/';
-    const OLD_DOCS_PATH = '/uploads/media/documents_upload/0001/';
     const BIO_PATH = '/images/biographies/';
-    const OLD_BIO_PATH = '/uploads/media/person/0001/';
     const NEWS_PATH = '/images/news/';
     const AUTHOR_PATH = '/images/author/';
     const TEST_PATH = '/images/test/';
@@ -35,8 +31,23 @@ class ImageService
     const TIMELINE_PATH = '/images/timeline/';
     const VIDEOMATERIAL_PATH = '/images/videomaterial/';
     const AUDIOMATERIAL_PATH = '/images/audiomaterial/';
+    const PODCAST_PATH = '/images/podcast/';
     const EVENT_PATH = '/images/event/';
+    const DAYINHISTORY_PATH = '/images/dayinhistory/';
+    const USER_PATH = '/images/user/';
     const COMMON_PATH = '/images/common/';
+
+
+    // Old image paths TODO Delete after deploy new app
+
+    const OLD_ARTICLES_PATH = '/uploads/media/artworks/0001/';
+    const OLD_EVENTS_PATH = '/uploads/media/event/0001/';
+    const OLD_DOCS_PATH = '/uploads/media/documents_upload/0001/';
+    const OLD_BIO_PATH = '/uploads/media/person/0001/';
+    const OLD_FILMS_PATH = '/uploads/media/films/0001/';
+    const OLD_VIDEOLECTURES_PATH = '/uploads/media/educational/0001/';
+    const OLD_DAYINHISTORY_PATH = '/uploads/media/dayInHistory/0001/';
+    const OLD_NEWS_PATH = '/uploads/media/news/0001/';
 
 
 
@@ -62,6 +73,9 @@ class ImageService
         'audiomaterial' => self::AUDIOMATERIAL_PATH,
         'event' => self::EVENT_PATH,
         'common' => self::COMMON_PATH,
+        'dayinhistory' => self::DAYINHISTORY_PATH,
+        'podcast' => self::PODCAST_PATH,
+        'user' => self::USER_PATH
 
     ];
 

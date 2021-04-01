@@ -14,6 +14,7 @@ class TAnswer extends Model
         'title',
         'is_right',
         'description',
+	'title'
     ];
     public $casts = [
         'created_at',

@@ -35,6 +35,7 @@ class ImageCreateRequest extends FormRequest
                 }
             ],
             'file' => 'required|image',
+            'imageable_id' => 'nullable|integer'
         ];
     }
 }

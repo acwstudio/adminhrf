@@ -5,8 +5,8 @@ namespace App\Console\Commands;
 use App\Models\VideoLecture;
 use App\Models\Old\VideoLecture as OldVideoLecture;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\DB;
 class ParseVideoLectures extends Command
 {
     /**

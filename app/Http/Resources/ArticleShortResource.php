@@ -30,6 +30,8 @@ class ArticleShortResource extends JsonResource
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
             'image' => ImageResource::make($this->whenLoaded('images')->shift()),
+            'tags' => TagResource::collection($this->tags),
+            'category' => $this->categories?ArticleCategoryResource::make($this->categories):null
         ];
     }
 }

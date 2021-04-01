@@ -27,9 +27,9 @@ class Podcast extends Model
     /**
      * Get podcast images.
      */
-    public function images()
+    public function image()
     {
-        return $this->morphMany(Image::class, 'imageable')->orderBy('order');
+        return $this->morphOne(Image::class, 'imageable');
     }
 
     public function bookmarks()
@@ -38,9 +38,9 @@ class Podcast extends Model
     }
 
     public function hasBookmark(User $user){
-        if(is_null($user->bookmarkGroup())){
+        if(is_null($user->bookmarkGroup)){
             return false;
         }
-        return is_null($user->bookmarkGroup()->first()->bookmarks()->firstWhere('bookmarkable_id',$this->id));
+        return is_null($user->bookmarkGroup->bookmarks()->firstWhere('bookmarkable_id', $this->id));
     }
 }
