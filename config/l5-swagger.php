@@ -194,6 +194,7 @@ return [
              'L5_SWAGGER_LOCAL_SERVER' => env('L5_SWAGGER_LOCAL_SERVER'),
              'L5_SWAGGER_DEV_SERVER' => env('L5_SWAGGER_DEV_SERVER'),
              'L5_SWAGGER_PROD_SERVER' => env('L5_SWAGGER_PROD_SERVER'),
+             'L5_SWAGGER_STAGE_SERVER' => env('L5_SWAGGER_STAGE_SERVER'),
          ],
     ],
 ];

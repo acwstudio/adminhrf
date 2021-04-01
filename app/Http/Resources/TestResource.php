@@ -14,6 +14,7 @@ class TestResource extends JsonResource
      */
     public function toArray($request)
     {
+	$user=$request->user();
         return [
             'model_type' => 'test',
 	    'id' => $this->id,
@@ -25,7 +26,7 @@ class TestResource extends JsonResource
             'questions' => QuestionResource::collection($this->questions->sortBy('position')),
             'is_reversable' => $this->is_reversable,
             'likes' => $this->countLikes(),
-            'has_like' => $this->checkLiked($request->get('user_id', 0)),
+            'has_like' => $user?$this->checkLiked($user):null,
             'has_bookmark' => false,
             'is_finished' => false,
             #'time_solved' => $this->test->checkSolved(1),

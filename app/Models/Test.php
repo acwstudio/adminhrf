@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Commentable;
 use App\Models\Traits\Likeable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +11,7 @@ use PHPUnit\Framework\TestResult;
 
 class Test extends Model
 {
-    use HasFactory, Sluggable, Likeable;
+    use HasFactory, Sluggable, Likeable, Commentable;
 
     public $fillable = [
         'title',
@@ -56,24 +57,11 @@ class Test extends Model
     }
 
     /**
-     * Get count of likes for test
-     */
-    public function countLikes()
-    {
-        return $this->likes()->count();
-    }
-
-    /**
      * Get test's likes
      */
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
-    }
-
-    public function countComments()
-    {
-        return $this->comments()->count();
     }
 
     /**
@@ -89,14 +77,6 @@ class Test extends Model
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
-    /**
-     * Check if specific test is liked
-     */
-    public function checkLiked($userId)
-    {
-        $val = $this->likes()->first(['user_id']);
-        return $val ? $val->user_id == $userId : false;
-    }
 
     public function checkSolved($userId)
     {

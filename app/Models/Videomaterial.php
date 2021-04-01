@@ -76,7 +76,7 @@ class Videomaterial extends Model
         if(is_null($user->bookmarkGroup)){
             return false;
         }
-        return is_null($user->bookmarkGroup->bookmarks()->firstWhere('bookmarkable_id', $this->id));
+        return !is_null($user->bookmarkGroup->bookmarks->firstWhere('bookmarkable_id', $this->id));
     }
 
 
