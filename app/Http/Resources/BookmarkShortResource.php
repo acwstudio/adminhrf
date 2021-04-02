@@ -15,19 +15,23 @@ class BookmarkShortResource extends JsonResource
     public function toArray($request)
     {
         $user = $request->user();
-        $arr = [true, false];
+        //$arr = [true, false];
         return [
             'model_type' => $this->entity,
             'id' => $this->id,
             'slug' => $this->slug,
             'title' => $this->title,
+            'lastname' => $this->lastname,
+            'firstname' => $this->firstname,
+            'patronymic' => $this->patronymic,
             'publsihed_at' => $this->published_at,
             'viewed' => $this->viewed,
             'announce' => $this->announce,
             'likes' => $this->entity == 'news' ? null : $this->liked,
-            #'comments' => $this->countComments(),
-            'has_like' => $this->entity == 'news' ? null : $this->has_like,
-            'has_bookmarked' => $user?$this->has_bookmark:false,
+            'comments' => $this->commented,
+            'iframe' => $this->iframe,
+            'has_like' => $this->entity == 'news' ? null : $this->hasLike(),
+            'has_bookmark' => $user?$this->hasBookmark($user):false,
             'tags' => TagResource::collection($this->tags),
 
         ];
