@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SocialUser;
 use App\Models\User;
+use App\Services\ImageService;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
@@ -22,7 +23,7 @@ class SocialLoginController extends Controller
         return Socialite::driver($service)->stateless()->redirect();
     }
 
-    public function callback($service, Request $request)
+    public function callback($service, Request $request, ImageService $imageService)
     {
 
         $oauthUser = Socialite::driver($service)->stateless()->user();
@@ -31,7 +32,6 @@ class SocialLoginController extends Controller
         $socialUser = SocialUser::where('external_id', $oauthUser->id)
             ->where('service', $service)
             ->first();
-
 
         if (is_null($socialUser)) {
 
@@ -46,6 +46,20 @@ class SocialLoginController extends Controller
 
             $socialUser->save();
 
+        }
+
+        if (!$socialUser->user->image && $oauthUser->avatar) {
+            try {
+
+                $newImage = $imageService->storeByType($oauthUser->avatar, 'user');
+
+                $newImage->imageable()->associate($socialUser->user);
+                $newImage->save();
+
+
+            } catch (\Exception $exception) {
+
+            }
         }
 
         $token = $socialUser->user->createToken($service, ['user:social']);
