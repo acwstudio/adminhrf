@@ -20,10 +20,7 @@ class CommentResource extends JsonResource
             'model_type' => 'comment',
             'id' => $this->id,
             'created_at' => $this->created_at,
-            'user' => [
-                'id' => $this->user->id,
-                'name' => $this->user->name,
-                ],
+            'user' => UserShortResource::make($this->user),
             'text' => $this->text,
             'parent_id' => $this->parent_id,
             'likes' => $this->liked,
