@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CommentCreateRequest;
+use App\Http\Requests\Comment\CommentCreateRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Article;
 use App\Models\Biography;

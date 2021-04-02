@@ -27,7 +27,7 @@ class PodcastController extends Controller
         $perPage = $request->get('per_page', 8);
         $sortBy = $request->get('sort_by');
 
-        $query = Podcast::with('image');
+        $query = Podcast::with('images');
 
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
             $query->orderBy('liked', 'desc');

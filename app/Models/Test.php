@@ -7,7 +7,6 @@ use App\Models\Traits\Likeable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use PHPUnit\Framework\TestResult;
 
 class Test extends Model
 {
@@ -18,6 +17,7 @@ class Test extends Model
         'description',
         'is_active',
         'time',
+        'slug'
     ];
     public $casts = [
         'created_at' => 'datetime',
@@ -86,7 +86,7 @@ class Test extends Model
 
     public function results()
     {
-        return $this->hasMany(TestResult::class, 'test_id', 'id');
+        return $this->hasMany(TResult::class, 'test_id', 'id');
     }
 
 
