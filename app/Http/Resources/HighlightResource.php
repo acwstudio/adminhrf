@@ -44,8 +44,8 @@ class HighlightResource extends JsonResource
             'comments' => $this->highlightable->countComments(),
             'likes' => $this->highlightable_type != 'news' ? $this->highlightable->countLikes() : null,
             'views' => $this->viewed,
-            'has_like' => $user && $this->highlightable_type != 'news' ? $this->checkLiked($user) : false,
-            'has_bookmark' => $user ? $this->hasBookmark($user) : false,
+            'has_like' => $user && $this->highlightable_type != 'news' ? $this->highlightable->checkLiked($user) : false,
+            'has_bookmark' => $user ? $this->highlightable->hasBookmark($user) : false,
             'image' => [
                 "model_type" => "image",
                 "id" => 1294,

@@ -33,6 +33,8 @@ class BookmarkShortResource extends JsonResource
             'has_like' => $this->entity == 'news' ? null : $this->checkLiked($user),
             'has_bookmark' => $user?$this->hasBookmark($user):false,
             'tags' => TagResource::collection($this->tags),
+	    'image' => ImageResource::make($this->images->first()),
+	    'list' => $this->entity=='highlight'?HighlightsSuperShortResource::collection($this->highlightable()->limit(5)->get()):null
 
         ];
     }
