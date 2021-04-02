@@ -64,7 +64,7 @@ class SocialLoginController extends Controller
 
         $token = $socialUser->user->createToken($service, ['user:social']);
 
-        return redirect(config('app.client_url') . '?type=social_login', 302, ['token' => $token->plainTextToken]);
+        return redirect(config('app.client_url') . "?type=social_login&token={$token->plainTextToken}");
     }
 
 
