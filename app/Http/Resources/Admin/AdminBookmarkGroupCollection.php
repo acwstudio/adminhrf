@@ -5,10 +5,10 @@ namespace App\Http\Resources\Admin;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
- * Class AdminBookmarkCollection
+ * Class AdminBookmarkGroupCollection
  * @package App\Http\Resources\Admin
  */
-class AdminBookmarkCollection extends ResourceCollection
+class AdminBookmarkGroupCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

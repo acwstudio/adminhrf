@@ -5,10 +5,10 @@ namespace App\Http\Resources\Admin;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
- * Class AdminBookmarkCollection
+ * Class AdminHighlightCollection
  * @package App\Http\Resources\Admin
  */
-class AdminBookmarkCollection extends ResourceCollection
+class AdminHighlightCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -19,7 +19,7 @@ class AdminBookmarkCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => $this->collection
+            $this->collection
         ];
     }
 }

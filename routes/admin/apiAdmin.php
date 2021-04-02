@@ -20,10 +20,18 @@ use App\Http\Controllers\Admin\Author\AdminAuthorsArticlesRelationshipsControlle
 use App\Http\Controllers\Admin\Biography\AdminBiographyCommentsRelatedController;
 use App\Http\Controllers\Admin\Biography\AdminBiographyCommentsRelationshipsController;
 use App\Http\Controllers\Admin\Biography\AdminBiographyController;
+use App\Http\Controllers\Admin\Bookmark\AdminBookmarkController;
+use App\Http\Controllers\Admin\Bookmark\AdminBookmarksBookmarkCroupRelatedController;
+use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupController;
 use App\Http\Controllers\Admin\Comment\AdminCommentController;
 use App\Http\Controllers\Admin\Document\AdminDocumentController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelationshipsController;
+use App\Http\Controllers\Admin\Highlight\AdminHighlightController;
+use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelatedController;
+use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelationshipsController;
+use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelatedController;
+use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelationshipsController;
 use App\Http\Controllers\Admin\Image\AdminImageController;
 use App\Http\Controllers\Admin\News\AdminNewsCommentsRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsCommentsRelationshipsController;
@@ -187,6 +195,19 @@ Route::get('/biographies/{biography}/comments', [
     AdminBiographyCommentsRelatedController::class, 'index'
 ])->name('biography.comments');
 
+/*****************  BOOKMARKS ROUTES **************/
+
+Route::apiResource('/bookmarks', AdminBookmarkController::class, ['as' => 'admin']);
+
+// Bookmarks to BookmarkGroup relations
+Route::get('/bookmarks/{bookmark}/bookmark-groups', [
+    AdminBookmarksBookmarkCroupRelatedController::class, 'index'
+])->name('bookmarks.bookmarkgroup');
+
+/*****************  BOOKMARKGROUPS ROUTES **************/
+
+Route::apiResource('/bookmark-groups', AdminBookmarkGroupController::class, ['as' => 'admin']);
+
 /*****************  COMMENTS ROUTES **************/
 
 Route::get('/comments', [AdminCommentController::class, 'index']);
@@ -223,7 +244,37 @@ Route::patch('/images/{image}', [AdminImageController::class, 'update']);
 Route::delete('/images/{image}', [AdminImageController::class, 'destroy']);
 Route::post('/images/loader', [AdminImageController::class, 'loadImage']);
 
-/*****************  MESSGES ROUTES **************/
+/*****************  HIGHLIGHTS ROUTES **************/
+
+Route::apiResource('/highlights', AdminHighlightController::class, ['as' => 'admin']);
+
+// Highlight to Images relations
+Route::get('/highlights/{highlight}/relationships/images', [
+    AdminHighlightImagesRelationshipsController::class, 'index'
+])->name('highlight.relationships.images');
+
+Route::patch('/highlights/{highlight}/relationships/images', [
+    AdminHighlightImagesRelationshipsController::class, 'update'
+])->name('highlight.relationships.images');
+
+Route::get('/highlights/{highlight}/images', [
+    AdminHighlightImagesRelatedController::class
+])->name('highlight.images');
+
+// Highlights to Tags relations
+Route::get('/highlights/{highlight}/relationships/tags', [
+    AdminHighlightsTagsRelationshipsController::class, 'index'
+])->name('highlights.relationships.tags');
+
+Route::patch('/highlights/{highlight}/relationships/tags', [
+    AdminHighlightsTagsRelationshipsController::class, 'update'
+])->name('highlights.relationships.tags');
+
+Route::get('/highlights/{highlight}/tags', [
+    AdminHighlightsTagsRelatedController::class
+])->name('highlights.tags');
+
+/*****************  MESSAGES ROUTES **************/
 
 Route::apiResource('/messages', AdminMessageController::class, ['as' => 'admin']);
 
