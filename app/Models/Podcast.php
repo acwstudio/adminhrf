@@ -27,14 +27,26 @@ class Podcast extends Model
     /**
      * Get podcast images.
      */
-    public function image()
+    public function images()
     {
-        return $this->morphOne(Image::class, 'imageable');
+        return $this->morphMany(Image::class, 'imageable')->orderBy('order');
     }
 
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
+    }
+
+    /**
+     * Get podcasts's tags
+     */
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    public function taggable(){
+        return $this->morphMany(Taggable::class,'taggable');
     }
 
     public function hasBookmark(User $user){
