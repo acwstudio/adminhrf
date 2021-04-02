@@ -62,7 +62,7 @@ class ParseTests extends Command
 
         foreach ($tests as $test) {
 
-            if(strlen($test->description)<510){
+//            if(strlen($test->description)<750){
 
                 $newTest = Test::create([
                     'id' => $test->id,
@@ -115,7 +115,7 @@ class ParseTests extends Command
                     }
                 }
 
-            }
+//            }
             $bar->advance();
         }
 
