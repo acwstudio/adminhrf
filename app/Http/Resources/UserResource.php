@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Image;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -16,14 +17,14 @@ class UserResource extends JsonResource
     {
 
         if (is_null($image = $this->image)) {
-            $image = [
-                "model_type" => "image",
-                "alt" => null,
-                "src" => "/images/user/blank-avatar.jpg",
-                "preview" => "/images/user/blank-avatar_min.jpg",
-                "original" => null,
-                "order" => 1
-            ];
+            $image = new Image([
+
+                "path" => "/images/user/",
+                "name" => "blank-avatar",
+                "ext" => "jpg",
+                "flags" => Image::SRC_FLAG + Image::PREVIEW_FLAG
+
+            ]);
         }
 
         return [
@@ -32,7 +33,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role' => $this->getRole(),
             'permissions' => $this->getPermissionsArray(),
-            'image' => $image
+            'image' => ImageResource::make($image)
 
         ];
     }
