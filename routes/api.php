@@ -67,6 +67,8 @@ Route::prefix('v1')->group(function () {
             Route::post('/profile', [UserController::class, 'updateProfile']);
             Route::post('/avatar', [UserController::class, 'avatarStore']);
             Route::delete('/avatar', [UserController::class, 'avatarDelete']);
+            Route::get('/profile/comments', [CommentController::class, 'getUserComments'])->name('profile.comments');
+
 
             Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
                 ->middleware(['auth', 'throttle:6,1'])
