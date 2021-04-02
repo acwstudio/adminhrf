@@ -67,6 +67,8 @@ Route::prefix('v1')->group(function () {
             Route::post('/profile', [UserController::class, 'updateProfile']);
             Route::post('/avatar', [UserController::class, 'avatarStore']);
             Route::delete('/avatar', [UserController::class, 'avatarDelete']);
+            Route::get('/profile/comments', [CommentController::class, 'getUserComments'])->name('profile.comments');
+
 
             Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
                 ->middleware(['auth', 'throttle:6,1'])
@@ -113,6 +115,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/bookmarks/', [\App\Http\Controllers\BookmarkController::class,'getBookmarks']);
             Route::get('/bookmarks/{action}', [\App\Http\Controllers\BookmarkController::class,'getBookmarksActions']);
             Route::post('/bookmarks/set', [\App\Http\Controllers\BookmarkController::class,'setBookmark']);
+            Route::delete('/bookmarks/unset', [\App\Http\Controllers\BookmarkController::class,'unsetBookmark']);
 
             Route::get('/biographies', [BiographyController::class,'index']);
             Route::get('/biographies/categories', [BiographyController::class,'categories']);
@@ -159,6 +162,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'index']);
             Route::get('/subscription/{tag:id}', [\App\Http\Controllers\SubscriptionController::class,'subscribe']);
             Route::get('/subscriptions/tags/', [\App\Http\Controllers\SubscriptionController::class,'getTags']);
+            //Route::get('/subscriptions/tags/', [\App\Http\Controllers\SubscriptionController::class,'getTags']);
 
 
         }

@@ -17,6 +17,10 @@ use Illuminate\Support\Arr;
 class CommentController extends Controller
 {
 
+    protected $sortParams = [
+        self::SORT_POPULAR
+    ];
+
     /**
      *
      * Display paginated listing of comments.
@@ -47,6 +51,24 @@ class CommentController extends Controller
 
         return CommentResource::collection($comments);
 
+
+    }
+
+    public function getUserComments(Request $request)
+    {
+        $user = $request->user();
+        $perPage = $request->get('per_page', 20);
+        $sortBy = $request->get('sort_by');
+
+        $query = $user->comments();
+
+        if ($sortBy && in_array($sortBy, $this->sortParams)) {
+            $query->orderBy('liked', 'desc');
+        }
+
+        $comments = $query->latest()->paginate($perPage);
+
+        return CommentResource::collection($comments);
 
     }
 

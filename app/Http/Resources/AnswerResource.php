@@ -16,7 +16,7 @@ class AnswerResource extends JsonResource
     {
         return [
             'model_type' => 'answer',
-	    'id' => $this->id,
+	        'id' => $this->id,
             'is_right' => $this->is_right,
             'description' => $this->description,
             'title' => $this->title,

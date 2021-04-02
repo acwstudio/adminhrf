@@ -297,6 +297,55 @@
  * )
  */
 
+/**
+ * @OA\Get(
+ *     path="/profile/comments",
+ *     operationId="userCommentsList",
+ *     tags={"User"},
+ *     summary="Display paginated listing of user comments",
+ *
+ *     @OA\Parameter(
+ *         name="page",
+ *         in="query",
+ *         description="The page number",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="integer",
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="per_page",
+ *         in="query",
+ *         description="Number of items per page",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="integer",
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="sort_by",
+ *         in="query",
+ *         description="Sort by parameter",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="string",
+ *             enum={"popular"}
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response="200",
+ *         description="Everything is fine",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *
+ *         )
+ *     ),
+ *
+ *     security={
+ *         {"bearer": {}}
+ *     }
+ * )
+
 
 
 /**
