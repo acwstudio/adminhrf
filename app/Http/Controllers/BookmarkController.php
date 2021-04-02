@@ -43,8 +43,9 @@ class BookmarkController extends Controller
                 'article' => 'article',
                 'biography' => 'biography',
                 'document' => 'document',
-                'test' => 'test',
-                ];
+                'podcast' => 'podcast',
+                //'afisha' =>
+            ];
 
         $user = $request->user();
 
@@ -115,7 +116,7 @@ class BookmarkController extends Controller
                 }
             }
             return ['data' => BookmarkShortResource::collection($data),
-                'meta' => [
+                    'meta' => [
                     'last_page' => ceil($num / $perPage),
                     'current_page' => (int)$page,
                 ],
