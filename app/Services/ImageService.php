@@ -275,6 +275,4 @@ class ImageService
         return Str::padLeft((string) ceil($id/1000), 2, '0');
     }
 
-
-
 }

@@ -18,6 +18,30 @@ class AdminImageResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'type' => 'images',
+            'attributes' => [
+                'path' => $this->path,
+                'name' => $this->name,
+                'ext' => $this->ext,
+                'alt' => $this->alt,
+                'order' => $this->order,
+                'imageable_id' => $this->imageable_id,
+                'imageable_type' => $this->imageable_type,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
+                'flags' => $this->flags,
+            ],
+            'relationships' => [
+                'articles' => [
+                    'links' => [
+//                        'self' =>
+//                        'related' =>
+                    ],
+//                    'data'
+                ]
+            ]
+        ];
     }
 }

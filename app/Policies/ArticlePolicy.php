@@ -33,6 +33,10 @@ class ArticlePolicy
         }
     }
 
+    /**
+     * @param User $user
+     * @return bool
+     */
     public function manage(User $user)
     {
         return $user->hasAnyPermission(['global', 'section:read', 'manage:articles']);
