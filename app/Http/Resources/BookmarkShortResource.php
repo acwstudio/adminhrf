@@ -17,7 +17,7 @@ class BookmarkShortResource extends JsonResource
         $user = $request->user();
         //$arr = [true, false];
         return [
-            'model_type' => $this->entity,
+            'model_type' => $this->entity=='videomaterial'||$this->entity=='highlight'?$this->type:$this->entity,
             'id' => $this->id,
             'slug' => $this->slug,
             'title' => $this->title,
@@ -30,7 +30,7 @@ class BookmarkShortResource extends JsonResource
             'likes' => $this->entity == 'news' ? null : $this->liked,
             'comments' => $this->commented,
             'iframe' => $this->iframe,
-            'has_like' => $this->entity == 'news' ? null : $this->hasLike(),
+            'has_like' => $this->entity == 'news' ? null : $this->checkLiked($user),
             'has_bookmark' => $user?$this->hasBookmark($user):false,
             'tags' => TagResource::collection($this->tags),
 

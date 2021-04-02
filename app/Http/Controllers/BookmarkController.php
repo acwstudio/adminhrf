@@ -34,8 +34,8 @@ class BookmarkController extends Controller
     {
         $bookmarkableType = $request->get('model_type');
         $bookmarkableId = (int)$request->get('id');
-        $map = ['audiolecture' => 'audiomaterial',
-                'videolecture' => 'videomaterial',
+        $map = ['audiomaterial' => 'audiomaterial',
+                'videomaterial' => 'videomaterial',
                 'film' => 'videomaterial',
                 'course' => 'highlight',
                 'audiocourse' => 'highlight',
@@ -44,6 +44,7 @@ class BookmarkController extends Controller
                 'biography' => 'biography',
                 'document' => 'document',
                 'podcast' => 'podcast',
+		'news' => 'news'
                 //'afisha' =>
             ];
 
