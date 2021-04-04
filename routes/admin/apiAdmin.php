@@ -10,10 +10,15 @@ use App\Http\Controllers\Admin\Article\AdminArticleCommentsRelationshipsControll
 use App\Http\Controllers\Admin\Article\AdminArticleController;
 use App\Http\Controllers\Admin\Article\AdminArticleImagesRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticleImagesRelationshipsController;
+use App\Http\Controllers\Admin\Article\AdminArticlesArticleCategoryRelatedController;
+use App\Http\Controllers\Admin\Article\AdminArticlesArticleCategoryRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticlesAuthorsRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticlesAuthorsRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticlesTagsRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticlesTagsRelationshipsController;
+use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryArticlesRelatedController;
+use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryArticlesRelationshipsController;
+use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryController;
 use App\Http\Controllers\Admin\Author\AdminAuthorController;
 use App\Http\Controllers\Admin\Author\AdminAuthorsArticlesRelatedController;
 use App\Http\Controllers\Admin\Author\AdminAuthorsArticlesRelationshipsController;
@@ -22,11 +27,14 @@ use App\Http\Controllers\Admin\Biography\AdminBiographyCommentsRelationshipsCont
 use App\Http\Controllers\Admin\Biography\AdminBiographyController;
 use App\Http\Controllers\Admin\Bookmark\AdminBookmarkController;
 use App\Http\Controllers\Admin\Bookmark\AdminBookmarksBookmarkCroupRelatedController;
+use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelatedController;
 use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupController;
 use App\Http\Controllers\Admin\Comment\AdminCommentController;
 use App\Http\Controllers\Admin\Document\AdminDocumentController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelationshipsController;
+use App\Http\Controllers\Admin\Highlight\AdminHighlightBookmarksRelatedController;
+use App\Http\Controllers\Admin\Highlight\AdminHighlightBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelationshipsController;
@@ -67,6 +75,7 @@ use App\Http\Controllers\Admin\TestResult\AdminResultController;
 use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelationshipsController;
 use App\Http\Controllers\Admin\Tag\AdminTagsBiographiesRelationshipsController;
+use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelationshipsController;
 
 /*****************  ANSWERS ROUTES **************/
 Route::apiResource('/answers', AdminAnswerController::class, ['as' =>'admin']);
@@ -86,6 +95,19 @@ Route::get('/answers/{answer}/question', [
 
 /*****************  ARTICLES ROUTES **************/
 Route::apiResource('/articles', AdminArticleController::class, ['as' =>'admin']);
+
+// Articles to Article category relations
+Route::get('/articles/{article}/relatioships/article-category', [
+    AdminArticlesArticleCategoryRelationshipsController::class, 'index'
+])->name('articles.relationships.article-category');
+
+Route::patch('/articles/{article}/relatioships/article-category', [
+    AdminArticlesArticleCategoryRelationshipsController::class, 'update'
+])->name('articles.relationships.article-category');
+
+Route::get('/articles/{article}/article-category', [
+    AdminArticlesArticleCategoryRelatedController::class, 'index'
+])->name('articles.article-category');
 
 // Articles to Authors relations
 Route::get('/articles/{article}/relatioships/authors', [
@@ -122,7 +144,7 @@ Route::patch('/articles/{article}/relatioships/comments', [
     AdminArticleCommentsRelationshipsController::class, 'update'
 ])->name('article.relationships.comments');
 
-Route::get('admin/articles/{article}/comments', [
+Route::get('/articles/{article}/comments', [
     AdminArticleCommentsRelatedController::class, 'index'
 ])->name('article.comments');
 
@@ -135,7 +157,7 @@ Route::patch('/articles/{article}/relatioships/images', [
     AdminArticleImagesRelationshipsController::class, 'update'
 ])->name('article.relationships.images');
 
-Route::get('admin/articles/{article}/images', [
+Route::get('/articles/{article}/images', [
     AdminArticleImagesRelatedController::class, 'index'
 ])->name('article.images');
 
@@ -148,9 +170,26 @@ Route::patch('/articles/{article}/relatioships/tags', [
     AdminArticlesTagsRelationshipsController::class, 'update'
 ])->name('articles.relationships.tags');
 
-Route::get('admin/articles/{article}/tags', [
+Route::get('/articles/{article}/tags', [
     AdminArticlesTagsRelatedController::class, 'index'
 ])->name('articles.tags');
+
+/*****************  ARTICLE CATEGORIES ROUTES **************/
+
+Route::apiResource('/article-categories', AdminArticleCategoryController::class, ['as' => 'admin']);
+
+// ArticleCategories to Article relations
+Route::get('/article-categories/{article_category}/relatioships/articles', [
+    AdminArticleCategoryArticlesRelationshipsController::class, 'index'
+])->name('article-category.relationships.articles');
+
+Route::patch('/article-categories/{article_category}/relatioships/articles', [
+    AdminArticleCategoryArticlesRelationshipsController::class, 'update'
+])->name('article-category.relationships.articles');
+
+Route::get('/article-categories/{article_category}/articles', [
+    AdminArticleCategoryArticlesRelatedController::class, 'index'
+])->name('article-category.articles');
 
 /*****************  AUTHORS ROUTES **************/
 
@@ -207,6 +246,11 @@ Route::get('/bookmarks/{bookmark}/bookmark-groups', [
 /*****************  BOOKMARKGROUPS ROUTES **************/
 
 Route::apiResource('/bookmark-groups', AdminBookmarkGroupController::class, ['as' => 'admin']);
+
+// BookmarkGroup to Bookmarks relation
+Route::get('/bookmark-groups/{bookmark_groups}/bookmarks', [
+    AdminBookmarkGroupBookmarksRelatedController::class, 'index'
+])->name('bookmark-group.bookmarks');
 
 /*****************  COMMENTS ROUTES **************/
 
@@ -273,6 +317,19 @@ Route::patch('/highlights/{highlight}/relationships/tags', [
 Route::get('/highlights/{highlight}/tags', [
     AdminHighlightsTagsRelatedController::class
 ])->name('highlights.tags');
+
+// Highlight to Bookmarks relations
+Route::get('/highlights/{highlight}/relationships/bookmarks', [
+    AdminHighlightBookmarksRelationshipsController::class, 'index'
+])->name('highlight.relationships.bookmarks');
+
+Route::patch('/highlights/{highlight}/relationships/bookmarks', [
+    AdminHighlightBookmarksRelationshipsController::class, 'update'
+])->name('highlight.relationships.bookmarks');
+
+Route::get('/highlights/{highlight}/bookmarks', [
+    AdminHighlightBookmarksRelatedController::class
+])->name('highlight.bookmarks');
 
 /*****************  MESSAGES ROUTES **************/
 

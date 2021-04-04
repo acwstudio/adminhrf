@@ -81,7 +81,8 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return string|null
      */
-    public function getRole() {
+    public function getRole()
+    {
 
         return optional($this->role)->role;
 
@@ -141,7 +142,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $permissions = collect($permissions);
 
-        return  $permissions->intersect($this->getPermissionsArray())->count() == $permissions->count();
+        return $permissions->intersect($this->getPermissionsArray())->count() == $permissions->count();
     }
 
 
@@ -175,4 +176,5 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->morphOne(Image::class, 'imageable');
     }
+
 }
