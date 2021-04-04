@@ -179,11 +179,11 @@ Route::get('/articles/{article}/tags', [
 Route::apiResource('/article-categories', AdminArticleCategoryController::class, ['as' => 'admin']);
 
 // ArticleCategories to Article relations
-Route::get('/article-categories/{article_category}/relatioships/articles', [
+Route::get('/article-categories/{article_category}/relationships/articles', [
     AdminArticleCategoryArticlesRelationshipsController::class, 'index'
 ])->name('article-category.relationships.articles');
 
-Route::patch('/article-categories/{article_category}/relatioships/articles', [
+Route::patch('/article-categories/{article_category}/relationships/articles', [
     AdminArticleCategoryArticlesRelationshipsController::class, 'update'
 ])->name('article-category.relationships.articles');
 

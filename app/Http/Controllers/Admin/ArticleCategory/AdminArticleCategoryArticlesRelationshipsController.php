@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin\ArticleCategory;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ArticleCategory\ArticleCategoryArticlesRelationshipsUpdateRequest;
 use App\Http\Resources\Admin\AdminArticleCollection;
+use App\Http\Resources\Admin\AdminArticlesIdentifireResource;
+use App\Models\Article;
 use App\Models\ArticleCategory;
 use Illuminate\Http\Request;
 
@@ -19,6 +22,25 @@ class AdminArticleCategoryArticlesRelationshipsController extends Controller
      */
     public function index(ArticleCategory $articleCategory)
     {
-        return ;
+        return AdminArticlesIdentifireResource::collection($articleCategory->articles);
+    }
+
+    /**
+     * @param ArticleCategoryArticlesRelationshipsUpdateRequest $request
+     * @param ArticleCategory $articleCategory
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function update(
+        ArticleCategoryArticlesRelationshipsUpdateRequest $request,
+        ArticleCategory $articleCategory)
+    {
+        $ids = $request->input('data.*.id');
+
+        foreach ($ids as $id) {
+            $article = Article::find($id);
+            $articleCategory->articles()->save($article);
+        }
+
+        return response(null, 204);
     }
 }

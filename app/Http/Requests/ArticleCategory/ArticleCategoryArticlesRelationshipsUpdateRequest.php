@@ -29,7 +29,7 @@ class ArticleCategoryArticlesRelationshipsUpdateRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'present|string',
+            'data.*.id' => 'present|integer',
             'data.*.type' => 'present|in:articles'
         ];
     }
