@@ -192,6 +192,8 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/categories/article', [\App\Http\Controllers\CategoryController::class, 'index']);
 
+    Route::get('/search/{str}', [\App\Http\Controllers\SearchController::class, 'search']);
+
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
     Route::get('/random/biographies/', [\App\Http\Controllers\RandController::class, 'getRandBiographies']);

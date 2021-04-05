@@ -25,6 +25,15 @@
 *         )
 *     ),
  *     @OA\Parameter(
+ *         name="category",
+ *         in="query",
+ *         description="Category id (if exists)",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="integer",
+ *         )
+ *     ),
+ *     @OA\Parameter(
  *         name="sort_by",
  *         in="query",
  *         description="Sort by parameter",
@@ -74,6 +83,15 @@
  *         name="per_page",
  *         in="query",
  *         description="Number of items per page",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="integer",
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="category",
+ *         in="query",
+ *         description="Category id (if exists)",
  *         required=false,
  *         @OA\Schema(
  *             type="integer",
