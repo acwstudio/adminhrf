@@ -51,7 +51,7 @@ class ParseArticlesAnounce extends Command
 
         $this->newLine();
 
-        $articles = Article::whereNull('announce')->get();
+        $articles = Article::cursor();
 
         $bar = $this->output->createProgressBar($articles->count());
 
@@ -59,7 +59,7 @@ class ParseArticlesAnounce extends Command
 
         foreach ($articles as $article) {
 
-            $article->announce = '<p>'.Str::words(strip_tags($article->body)).'</p>';
+            $article->announce = strip_tags($article->announce);
             $article->save();
 
             $bar->advance();
