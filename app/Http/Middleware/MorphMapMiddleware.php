@@ -22,7 +22,8 @@ class MorphMapMiddleware
         $map = collect([
             'audiomaterial' => ['audiolecture'],
             'videomaterial' => ['videolecture', 'film'],
-            'highlight' => ['course', 'audiocourse', 'videocourse', 'highlight']
+            'highlight' => ['course', 'audiocourse', 'videocourse', 'highlight'],
+            'comment' => ['comment', 'review'],
 
         ]);
 
