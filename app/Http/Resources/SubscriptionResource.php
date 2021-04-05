@@ -46,7 +46,7 @@ class SubscriptionResource extends JsonResource
 #            'has_like' => $user && $this->taggable_type != 'news' && $this->taggable_type != 'audiomaterial' ? $this->taggable->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->taggable->hasBookmark($user) : false,
 	    'image' => ImageResource::make($this->taggable->images()->first()),
-
+	    'tags' => TagResource::collection($this->taggable->tags),
             ];
     }
 }
