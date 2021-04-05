@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
+use Laravel\Scout\Searchable;
 
 class Article extends Model
 {
-    use HasFactory, Sluggable, Likeable, Commentable;
+    use HasFactory, Sluggable, Likeable, Commentable,Searchable;
 
     /**
      * The attributes that are not mass assignable.

@@ -32,7 +32,7 @@ class TestController extends Controller
             $query->orderBy('liked', 'desc');
         }
         $result = $query->where('is_active', '=', true)->orderBy('published_at')->paginate($perPage);
-        return TestShortResource::collection(Test::where('is_active', '=', true)->orderBy('published_at','desc')->paginate($perPage));
+        return TestShortResource::collection(Test::where('is_active', '=', true)->orderBy('id','desc')->orderBy('published_at','desc')->paginate($perPage));
     }
 
     public function show(Test $test, Request $request)
