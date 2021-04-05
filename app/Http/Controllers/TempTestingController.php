@@ -14,7 +14,7 @@ class TempTestingController extends Controller
     public function index($method)
     {
         if (in_array($method, $this->methods)) {
-            return $this->$method;
+            return $this->$method();
         }
 
         abort(404);

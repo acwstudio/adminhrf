@@ -143,6 +143,17 @@ class ImageService
 
     public function storeByType($image, $imageableType = 'common')
     {
+        switch ($imageableType) {
+            case 'user':
+
+                $this->setWidth(350);
+                $this->setMin(100);
+
+                break;
+        }
+
+
+
         $image = $this->store($image, $this->paths[$imageableType]);
         $image->imageable_type = $imageableType;
         $image->save();
@@ -274,7 +285,5 @@ class ImageService
     {
         return Str::padLeft((string) ceil($id/1000), 2, '0');
     }
-
-
 
 }

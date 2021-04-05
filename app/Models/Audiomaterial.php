@@ -37,6 +37,11 @@ class Audiomaterial extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable')->orderBy('order');
+    }
+
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');

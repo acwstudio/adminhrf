@@ -20,21 +20,19 @@ class CommentResource extends JsonResource
             'model_type' => 'comment',
             'id' => $this->id,
             'created_at' => $this->created_at,
-            'user' => [
-                'id' => $this->user->id,
-                'name' => $this->user->name,
-                ],
+            'user' => UserShortResource::make($this->user),
             'text' => $this->text,
             'parent_id' => $this->parent_id,
             'likes' => $this->liked,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'answer_to' => $this->answer_to,
             'children_count' => $this->children_count,
-            $this->mergeWhen($request->routeIs('popular.comments'), [
+            $this->mergeWhen($request->routeIs('popular.comments', 'profile.comments'), [
                 'resource' => [
                     'model_type' => $this->commentable_type,
                     'id' => $this->commentable_id,
-                    'slug' => $this->commentable->slug,
+                    'title' => optional($this->commentable)->title,
+                    'slug' => optional($this->commentable)->slug,
                 ]
             ]),
         ];

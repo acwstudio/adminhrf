@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\TempTestingController;
 use App\Http\Controllers\TestingController;
 use Illuminate\Support\Facades\Route;
 

@@ -29,4 +29,5 @@ class AdminArticleCollection extends ResourceCollection
             'data' => $this->collection,
         ];
     }
+
 }

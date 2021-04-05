@@ -34,8 +34,8 @@ class BookmarkController extends Controller
     {
         $bookmarkableType = $request->get('model_type');
         $bookmarkableId = (int)$request->get('id');
-        $map = ['audiolecture' => 'audiomaterial',
-                'videolecture' => 'videomaterial',
+        $map = ['audiomaterial' => 'audiomaterial',
+                'videomaterial' => 'videomaterial',
                 'film' => 'videomaterial',
                 'course' => 'highlight',
                 'audiocourse' => 'highlight',
@@ -43,8 +43,10 @@ class BookmarkController extends Controller
                 'article' => 'article',
                 'biography' => 'biography',
                 'document' => 'document',
-                'test' => 'test',
-                ];
+                'podcast' => 'podcast',
+		'news' => 'news'
+                //'afisha' =>
+            ];
 
         $user = $request->user();
 
@@ -116,7 +118,7 @@ class BookmarkController extends Controller
                 }
             }
             return ['data' => BookmarkShortResource::collection($data),
-                'meta' => [
+                    'meta' => [
                     'last_page' => ceil($num / $perPage),
                     'current_page' => (int)$page,
                 ],

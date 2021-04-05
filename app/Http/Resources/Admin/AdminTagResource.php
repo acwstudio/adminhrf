@@ -19,13 +19,44 @@ class AdminTagResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'model_type' => 'tag',
             'id' => $this->id,
-            'title' => $this->title,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'type' => 'tags',
             'slug' => $this->slug,
-            'articles' => AdminArticleResource::collection($this->whenLoaded('articles'))
+            'attributes' => [
+                'title' => $this->title,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
+            ],
+            'relationships' => [
+                'articles' => [
+                    'links' => [
+                        'self' => route('tags.relationships.articles', ['tag' => $this->id]),
+                        'related' => route('tags.articles', ['tag' => $this->id])
+                    ],
+                    'data' => AdminArticlesIdentifireResource::collection($this->whenLoaded('articles'))
+                ],
+                'documents' => [
+                    'links' => [
+                        'self' => route('tags.relationships.documents', ['tag' => $this->id]),
+                        'related' => route('tags.documents', ['tag' => $this->id])
+                    ],
+                    'data' => AdminDocumentsIdentifireResource::collection($this->whenLoaded('documents'))
+                ],
+                'news' => [
+                    'links' => [
+                        'self' => route('tags.relationships.news', ['tag' => $this->id]),
+                        'related' => route('tags.news', ['tag' => $this->id])
+                    ],
+                    'data' => AdminNewsIdentifireResource::collection($this->whenLoaded('news'))
+                ],
+                'biographies' => [
+                    'links' => [
+                        'self' => route('tags.relationships.biographies', ['tag' => $this->id]),
+                        'related' => route('tags.biographies', ['tag' => $this->id])
+                    ],
+                    'data' => AdminBiographiesIdentifireResource::collection($this->whenLoaded('biographies'))
+                ],
+            ]
         ];
     }
 }
