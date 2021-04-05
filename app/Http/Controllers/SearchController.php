@@ -6,6 +6,7 @@ use App\Models\Article;
 use Illuminate\Http\Request;
 use MeiliSearch\Endpoints\Indexes;
 use App\Http\Resources\ArticleShortResource;
+use App\Http\Resources\ArticleSearchResource;
 
 class SearchController extends Controller
 {
@@ -17,7 +18,7 @@ class SearchController extends Controller
             return  $meilisearch->search($query,$options);  //->paginate($perPage);
         })->paginate($perPage); */
 
-	return ArticleShortResource::collection(Article::search($query)->paginate($perPage));
+	return ArticleSearchResource::collection(Article::search($query)->orderBy('published_at','desc')->paginate($perPage));
 
     }
 }
