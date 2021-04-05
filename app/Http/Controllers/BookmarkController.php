@@ -44,7 +44,8 @@ class BookmarkController extends Controller
                 'biography' => 'biography',
                 'document' => 'document',
                 'podcast' => 'podcast',
-		'news' => 'news'
+		        'news' => 'news',
+                'highlight' => 'highlight'
                 //'afisha' =>
             ];
 
