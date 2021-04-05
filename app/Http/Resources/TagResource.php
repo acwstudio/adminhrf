@@ -14,12 +14,13 @@ class TagResource extends JsonResource
      */
     public function toArray($request)
     {
+        $user = $request->user();
         return [
             'model_type' => 'tag',
             'id' => $this->id,
             'slug' => $this->slug,
             'title' => $this->title,
-
+            'has_subscribed' =>$user? $this->hasSubscription($user):false,
         ];
     }
 }

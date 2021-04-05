@@ -65,4 +65,12 @@ class Tag extends Model
         return $this->morphedByMany(Audiomaterial::class, 'taggable');
     }
 
+    public function hasSubscription(User $user){
+
+        if(is_null($user->subscriptions)){
+            return false;
+        }
+        return !is_null($user->subscriptions->firstWhere('tag_id', $this->id));
+    }
+
 }
