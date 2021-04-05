@@ -20,8 +20,13 @@
  *     schema="CommentAdd",
  *     description="data to create new comment",
  *     type="object",
- *     required={"text","commentable_type","commentable_id"},
- *      @OA\Property(
+ *     required={"type", "text","commentable_type","commentable_id"},
+ *     @OA\Property(
+ *          property="type",
+ *          description="comment or review",
+ *          type="string"
+ *      ),
+ *     @OA\Property(
  *          property="text",
  *          description="comment text",
  *          type="string"
@@ -57,5 +62,10 @@
  *              type="integer"
  *          ),
  *     ),
+ *     @OA\Property(
+ *          property="estimate",
+ *          description="review estimate",
+ *          type="string"
+ *      ),
  * )
  */

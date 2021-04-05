@@ -22,6 +22,7 @@ class ArticleCollection extends ResourceCollection
      */
     public function toArray($request)
     {
+	$user = $request->user();
         return parent::toArray($request);
     }
 }

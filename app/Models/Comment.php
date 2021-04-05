@@ -5,12 +5,18 @@ namespace App\Models;
 use App\Events\CommentAdded;
 use App\Events\CommentDeleted;
 use App\Models\Traits\Likeable;
+use App\Models\Traits\Rateable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    use HasFactory, Likeable;
+    use HasFactory, Rateable;
+
+    const TYPE_COMMENT = 'comment';
+    const TYPE_REVIEW = 'review';
+    const ESTIMATE_NEGATIVE = 'negative';
+    const ESTIMATE_POSITIVE = 'positive';
 
     public $guarded = [];
 

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AudiomaterialResource extends JsonResource
+class ArticleSearchResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,20 +15,22 @@ class AudiomaterialResource extends JsonResource
     public function toArray($request)
     {
         $user = $request->user();
-
         return [
-            'model_type' => 'audiolecture',
+            'model_type' => 'article',
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'description' => $this->description,
-            'path' => $this->path,
-            'position' => $this->position,
+            'announce' => $this->announce,
+            'published_at' => $this->published_at,
+            'comments' => $this->commented,
             'likes' => $this->liked,
             'views' => $this->viewed,
-            'comments' => $this->commented,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
+            'image' => $this->images?ImageResource::make($this->images->first()):null,
+            'authors' => AuthorShortResource::collection($this->authors),
+//            'tags' => TagResource::collection($this->tags),
+            'category' => $this->categories?ArticleCategoryResource::make($this->category):null
         ];
     }
 }
