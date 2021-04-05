@@ -25,6 +25,7 @@ class AdminArticleResource extends JsonResource
             'slug' => $this->slug,
             'attributes' => [
                 'user_id' => null,
+                'category_id' => $this->category_id,
                 'title' => $this->title,
                 'announce' => $this->announce,
                 'body' => $this->body,
@@ -82,6 +83,14 @@ class AdminArticleResource extends JsonResource
                     ],
 //                    'data' => AdminBookmarksIdentifierResource::collection($this->whenLoaded('bookmarks'))
                     'data' => AdminBookmarkResource::collection($this->whenLoaded('bookmarks'))
+                ],
+                'category' => [
+                    'links' => [
+                        'self' => route('articles.relationships.article-category', ['article' => $this->id]),
+                        'related' => route('articles.article-category', ['article' => $this->id])
+                    ],
+//                    'data' => new AdminArticleCategoryIdentifierResource($this->whenLoaded('category'))
+                    'data' => new AdminArticleCategoryResource($this->whenLoaded('category'))
                 ]
             ],
 //            'timeline' => $this->timeline,
@@ -101,7 +110,7 @@ class AdminArticleResource extends JsonResource
 //        return [
 
 //            'included' => collect($this->relations())->flatMap(function ($value) use($request) {
-                /** @var \Illuminate\Http\Resources\Json\ResourceCollection $value */
+    /** @var \Illuminate\Http\Resources\Json\ResourceCollection $value */
 //                return $value->toArray($request);
 //                return $value;
 //            }),

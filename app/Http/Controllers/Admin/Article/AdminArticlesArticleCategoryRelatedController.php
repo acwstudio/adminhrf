@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminArticleCollection;
+use App\Http\Resources\Admin\AdminArticleCategoryResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminArticleBookmarksRelatedController
+ * Class AdminArticlesArticleCategoryRelatedController
  * @package App\Http\Controllers\Admin\Article
  */
-class AdminArticleBookmarksRelatedController extends Controller
+class AdminArticlesArticleCategoryRelatedController extends Controller
 {
     /**
      * @param Article $article
-     * @return AdminArticleCollection
+     * @return AdminArticleCategoryResource
      */
     public function index(Article $article)
     {
-        return new AdminArticleCollection($article->bookmarks);
+        return new AdminArticleCategoryResource($article->category);
     }
 }

@@ -176,7 +176,7 @@ class Article extends Model
         return $this->belongsToMany(\App\Models\Old\ArticleCategory::class,'content_artworks_category_book','category_book_id');
     }
 
-    public function categories(){
+    public function category(){
         return $this->belongsTo(ArticleCategory::class,'category_id');
     }
 

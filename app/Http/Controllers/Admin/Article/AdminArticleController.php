@@ -40,10 +40,9 @@ class AdminArticleController extends Controller
         $this->authorize('manage', Article::class);
 
         $articles = QueryBuilder::for(Article::class)
-//            ->allowedIncludes('comments', 'bookmarks')
-            ->with('authors', 'tags', 'images')
+            ->allowedIncludes(['comments', 'bookmarks', 'tags', 'category'])
             ->allowedFilters(['yatextid'])
-            ->allowedSorts(['title', 'published_at'])
+            ->allowedSorts(['id', 'title', 'published_at'])
             ->jsonPaginate();
 
         return new AdminArticleCollection($articles);
