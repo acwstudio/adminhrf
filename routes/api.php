@@ -190,7 +190,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
     Route::get('/tags/all/{tagId}', [\App\Http\Controllers\TagController::class, 'getAll']);
 
-    Route::get('/categories/article', [\App\Http\Controllers\CategoryController::class, 'index'])
+    Route::get('/categories/article', [\App\Http\Controllers\CategoryController::class, 'index']);
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
