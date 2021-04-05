@@ -50,7 +50,7 @@ class TimeLineController extends Controller
         $lowerBound = Carbon::createFromDate($request->get('start_year', 1))->startOfMonth()->startOfDay()->format('Y-m-d');
         $upperBound = Carbon::createFromDate($request->get('end_year', 2021))->endOfMonth()->endOfDay()->format('Y-m-d');
         $timelines = Timeline::where('date', '>', $lowerBound)
-            ->where('date', '<', $upperBound)->orderBy('date', 'desc')->paginate($perPage);
+            ->where('date', '<', $upperBound)->orderBy('date', 'asc')->paginate($perPage);
 
         return new TimeLineCollection($timelines);
 
