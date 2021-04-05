@@ -31,7 +31,7 @@ class TimelineResource extends JsonResource
 
             'tags' => TagResource::collection($this->timelinable->tags),
             'comments' => $this->timelinable->commented,
-            'image' => $this->timelinable_type=='article'?ImageResource::make($this->timelinable->images->first()):false,
+            'image' => ImageResource::make($this->timelinable->images->first()),
 /*[
                 "model_type" => "image",
                 "id" => 1294,
