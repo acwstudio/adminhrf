@@ -29,7 +29,7 @@ class ArticleSearchResource extends JsonResource
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
             'image' => $this->images?ImageResource::make($this->images->first()):null,
             'authors' => AuthorShortResource::collection($this->authors),
-            'tags' => TagResource::collection($this->tags),
+//            'tags' => TagResource::collection($this->tags),
             'category' => $this->categories?ArticleCategoryResource::make($this->category):null
         ];
     }

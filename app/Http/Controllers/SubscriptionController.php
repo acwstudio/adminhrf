@@ -69,16 +69,16 @@ class SubscriptionController extends Controller
     public function subscribe(Tag $tag,Request $request){
         $user = $request->user();
 
-        if($tag){
-            return ['err'=>'Sry, you already have subscription to this tag'];
-        }
+//        if($tag){
+  //          return ['err'=>'Sry, you already have subscription to this tag'];
+    //    }
         if(!$tag->hasSubscription($user)){
             $user->subscriptions()->create([
                 'tag_id' => $tag->id,
             ]);
         }
         else{
-            $user->subscriptions->firstWhere('tag_id', $tag->id);
+            $user->subscriptions->firstWhere('tag_id', $tag->id)->delete();
             return response('Deleted', 200);
         }
 
