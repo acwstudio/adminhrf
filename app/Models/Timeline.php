@@ -20,5 +20,4 @@ class Timeline extends Model
         return $this->morphTo();
     }
 
-
 }

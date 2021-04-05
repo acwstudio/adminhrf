@@ -109,7 +109,7 @@ class AdminArticleController extends Controller
      *
      * @param \App\Http\Requests\Article\ArticleUpdateRequest $request
      * @param Article $article
-     * @return \Illuminate\Http\JsonResponse
+     * @return AdminArticleResource
      */
     public function update(ArticleUpdateRequest $request, Article $article)
     {
@@ -133,11 +133,7 @@ class AdminArticleController extends Controller
         $article->authors()->sync($dataRelAuthors);
         $article->tags()->sync($dataRelTags);
 
-        return (new AdminArticleResource($article))
-            ->response()
-            ->header('Location', route('admin.articles.show', [
-                'article' => $article->id
-            ]));
+        return new AdminArticleResource($article);
     }
 
     /**

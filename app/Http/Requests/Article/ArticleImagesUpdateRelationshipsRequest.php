@@ -5,10 +5,10 @@ namespace App\Http\Requests\Article;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ArticleCommentsUpdateRelationshipsRequest
+ * Class ArticleImagesUpdateRelationshipsRequest
  * @package App\Http\Requests\Article
  */
-class ArticleCommentsUpdateRelationshipsRequest extends FormRequest
+class ArticleImagesUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,7 +30,7 @@ class ArticleCommentsUpdateRelationshipsRequest extends FormRequest
         return [
             'data' => 'present|array',
             'data.*.id' => 'required|integer',
-            'data.*.type' => 'required|in:comments',
+            'data.*.type' => 'required|in:images',
         ];
     }
 }

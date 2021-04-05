@@ -76,6 +76,11 @@ use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelationshipsController;
 use App\Http\Controllers\Admin\Tag\AdminTagsBiographiesRelationshipsController;
 use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelationshipsController;
+use App\Http\Controllers\Admin\Timeline\AdminTimelineArticleRelatedController;
+use App\Http\Controllers\Admin\Timeline\AdminTimelineArticleRelationshipsController;
+use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelatedController;
+use App\Http\Controllers\Admin\Timeline\AdminTimelineController;
+use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelationshipsController;
 
 /*****************  ANSWERS ROUTES **************/
 Route::apiResource('/answers', AdminAnswerController::class, ['as' =>'admin']);
@@ -97,11 +102,11 @@ Route::get('/answers/{answer}/question', [
 Route::apiResource('/articles', AdminArticleController::class, ['as' =>'admin']);
 
 // Articles to Article category relations
-Route::get('/articles/{article}/relatioships/article-category', [
+Route::get('/articles/{article}/relationships/article-category', [
     AdminArticlesArticleCategoryRelationshipsController::class, 'index'
 ])->name('articles.relationships.article-category');
 
-Route::patch('/articles/{article}/relatioships/article-category', [
+Route::patch('/articles/{article}/relationships/article-category', [
     AdminArticlesArticleCategoryRelationshipsController::class, 'update'
 ])->name('articles.relationships.article-category');
 
@@ -110,11 +115,11 @@ Route::get('/articles/{article}/article-category', [
 ])->name('articles.article-category');
 
 // Articles to Authors relations
-Route::get('/articles/{article}/relatioships/authors', [
+Route::get('/articles/{article}/relationships/authors', [
     AdminArticlesAuthorsRelationshipsController::class, 'index'
 ])->name('articles.relationships.authors');
 
-Route::patch('/articles/{article}/relatioships/authors', [
+Route::patch('/articles/{article}/relationships/authors', [
     AdminArticlesAuthorsRelationshipsController::class, 'update'
 ])->name('articles.relationships.authors');
 
@@ -123,11 +128,11 @@ Route::get('articles/{article}/authors', [
 ])->name('articles.authors');
 
 // Articles to Bookmarks relations
-Route::get('/articles/{article}/relatioships/bookmarks', [
+Route::get('/articles/{article}/relationships/bookmarks', [
     AdminArticleBookmarksRelationshipsController::class, 'index'
 ])->name('article.relationships.bookmarks');
 
-Route::patch('/articles/{article}/relatioships/bookmarks', [
+Route::patch('/articles/{article}/relationships/bookmarks', [
     AdminArticleBookmarksRelationshipsController::class, 'update'
 ])->name('article.relationships.bookmarks');
 
@@ -136,11 +141,11 @@ Route::get('/articles/{article}/bookmarks', [
 ])->name('article.bookmarks');
 
 // Article to Comments relations
-Route::get('/articles/{article}/relatioships/comments', [
+Route::get('/articles/{article}/relationships/comments', [
     AdminArticleCommentsRelationshipsController::class, 'index'
 ])->name('article.relationships.comments');
 
-Route::patch('/articles/{article}/relatioships/comments', [
+Route::patch('/articles/{article}/relationships/comments', [
     AdminArticleCommentsRelationshipsController::class, 'update'
 ])->name('article.relationships.comments');
 
@@ -162,11 +167,11 @@ Route::get('/articles/{article}/images', [
 ])->name('article.images');
 
 // Articles to Tags relations
-Route::get('/articles/{article}/relatioships/tags', [
+Route::get('/articles/{article}/relationships/tags', [
     AdminArticlesTagsRelationshipsController::class, 'index'
 ])->name('articles.relationships.tags');
 
-Route::patch('/articles/{article}/relatioships/tags', [
+Route::patch('/articles/{article}/relationships/tags', [
     AdminArticlesTagsRelationshipsController::class, 'update'
 ])->name('articles.relationships.tags');
 
@@ -467,6 +472,36 @@ Route::patch('/tags/{tag}/relationships/news', [
 Route::get('/tags/{tag}/news', [
     AdminTagsNewsRelatedController::class, 'index'
 ])->name('tags.news');
+
+/*****************  TIMELINE ROUTES **************/
+
+Route::apiResource('/timelines', AdminTimelineController::class, ['as' => 'admin']);
+
+// Timeline to Article relations
+Route::get('/timelines/{timeline}/relationships/article', [
+    AdminTimelineArticleRelationshipsController::class, 'index'
+])->name('timeline.relationships.article');
+
+Route::patch('/timelines/{timeline}/relationships/article', [
+    AdminTimelineArticleRelationshipsController::class, 'update'
+])->name('timeline.relationships.article');
+
+Route::get('/timelines/{timeline}/article', [
+    AdminTimelineArticleRelatedController::class, 'index'
+])->name('timeline.article');
+
+// Timeline to Biography relations
+Route::get('/timelines/{timeline}/relationships/biography', [
+    AdminTimelineBiographyRelationshipsController::class, 'index'
+])->name('timeline.relationships.biography');
+
+Route::patch('/timelines/{timeline}/relationships/biography', [
+    AdminTimelineBiographyRelationshipsController::class, 'update'
+])->name('timeline.relationships.biography');
+
+Route::get('/timelines/{timeline}/biography', [
+    AdminTimelineBiographyRelatedController::class, 'index'
+])->name('timeline.biography');
 
 /*****************  TESTS ROUTES **************/
 
