@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Image;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuthorShortResource extends JsonResource
@@ -14,12 +15,25 @@ class AuthorShortResource extends JsonResource
      */
     public function toArray($request)
     {
+        if (is_null($image = $this->image)) {
+            $image = new Image([
+
+                "path" => "/images/user/",
+                "name" => "blank-avatar",
+                "ext" => "jpg",
+                "flags" => Image::SRC_FLAG + Image::PREVIEW_FLAG
+
+            ]);
+        }
+
         return [
             'model_type' => 'author',
             'id' => $this->id,
             'firstname' => $this->firstname,
             'surname' => $this->surname,
-            'patronymic' => $this->patronymic
+            'patronymic' => $this->patronymic,
+            'image' => ImageResource::make($image),
+            'announce' => $this->announce,
         ];
     }
 }

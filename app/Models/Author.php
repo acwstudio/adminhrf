@@ -67,4 +67,12 @@ class Author extends Model
 
         return $fullname;
     }
+
+    /**
+     * Get author avatar
+     */
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }
