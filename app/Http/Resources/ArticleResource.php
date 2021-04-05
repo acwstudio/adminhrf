@@ -33,7 +33,7 @@ class ArticleResource extends JsonResource
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
             'tags' => TagResource::collection($this->tags),
             'comments' => CommentResource::collection($this->comments),
-            'category' => ArticleCategoryResource::make($this->categories),
+            'category' => ArticleCategoryResource::make($this->category),
         ];
     }
 }
