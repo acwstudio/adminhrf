@@ -25,7 +25,7 @@ class AdminResultController extends Controller
     public function index()
     {
         $query = QueryBuilder::for(TResult::class)
-            ->with(['test'])
+            ->allowedIncludes(['test'])
 //            ->allowedSorts([''])
             ->jsonPaginate();
 

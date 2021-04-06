@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AllContent\AdminAllContentController;
 use App\Http\Controllers\Admin\Answer\AdminAnswerController;
 use App\Http\Controllers\Admin\Answer\AdminAnswersQuestionRelatedController;
 use App\Http\Controllers\Admin\Answer\AdminAnswersQuestionRelationshipsController;
@@ -16,6 +17,8 @@ use App\Http\Controllers\Admin\Article\AdminArticlesAuthorsRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticlesAuthorsRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticlesTagsRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticlesTagsRelationshipsController;
+use App\Http\Controllers\Admin\Article\AdminArticleTimlineRelatedController;
+use App\Http\Controllers\Admin\Article\AdminArticleTimlineRelationshipsController;
 use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryArticlesRelatedController;
 use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryArticlesRelationshipsController;
 use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryController;
@@ -98,6 +101,10 @@ Route::get('/answers/{answer}/question', [
     AdminAnswersQuestionRelatedController::class, 'index'
 ])->name('answers.question');
 
+/*****************  ALL CONTENT **************/
+
+Route::apiResource('/all-content', AdminAllContentController::class, ['as' => 'admin']);
+
 /*****************  ARTICLES ROUTES **************/
 Route::apiResource('/articles', AdminArticleController::class, ['as' =>'admin']);
 
@@ -178,6 +185,19 @@ Route::patch('/articles/{article}/relationships/tags', [
 Route::get('/articles/{article}/tags', [
     AdminArticlesTagsRelatedController::class, 'index'
 ])->name('articles.tags');
+
+// Article to Timeline relations
+Route::get('/articles/{article}/relationships/timeline', [
+    AdminArticleTimlineRelationshipsController::class, 'index'
+])->name('article.relationships.timeline');
+
+Route::patch('/articles/{article}/relationships/timeline', [
+    AdminArticleTimlineRelationshipsController::class, 'update'
+])->name('article.relationships.timeline');
+
+Route::get('/articles/{article}/timeline', [
+    AdminArticleTimlineRelatedController::class, 'index'
+])->name('article.timeline');
 
 /*****************  ARTICLE CATEGORIES ROUTES **************/
 

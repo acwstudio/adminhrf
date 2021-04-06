@@ -91,6 +91,14 @@ class AdminArticleResource extends JsonResource
                     ],
 //                    'data' => new AdminArticleCategoryIdentifierResource($this->whenLoaded('category'))
                     'data' => new AdminArticleCategoryResource($this->whenLoaded('category'))
+                ],
+                'timeline' => [
+                    'links' => [
+                        'self' => route('article.relationships.timeline', ['article' => $this->id]),
+                        'related' => route('article.timeline', ['article' => $this->id])
+                    ],
+//                    'data' => new AdminArticleCategoryIdentifierResource($this->whenLoaded('category'))
+                    'data' => new AdminTimelineResource($this->whenLoaded('timeline'))
                 ]
             ],
 //            'timeline' => $this->timeline,

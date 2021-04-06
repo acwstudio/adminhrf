@@ -30,18 +30,24 @@ class AdminTimelineResource extends JsonResource
                 'updated_at' => $this->updated_at,
             ],
             'relationships' => [
-                'article' => [
+                'timelaineable' => [
                     'links' => [
                         'self' => route('timeline.relationships.article', ['timeline' => $this->id]),
                         'related' => route('timeline.article', ['timeline' => $this->id])
                     ]
-                ],
-                'biography' => [
-                    'links' => [
-                        'self' => '',
-                        'related' => '',
-                    ]
                 ]
+//                'article' => [
+//                    'links' => [
+//                        'self' => route('timeline.relationships.article', ['timeline' => $this->id]),
+//                        'related' => route('timeline.article', ['timeline' => $this->id])
+//                    ]
+//                ],
+//                'biography' => [
+//                    'links' => [
+//                        'self' => route('timeline.relationships.biography', ['timeline' => $this->id]),
+//                        'related' => route('timeline.biography', ['timeline' => $this->id])
+//                    ]
+//                ]
             ]
         ];
     }

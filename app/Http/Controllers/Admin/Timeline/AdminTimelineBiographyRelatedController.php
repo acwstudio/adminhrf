@@ -19,11 +19,12 @@ class AdminTimelineBiographyRelatedController extends Controller
      */
     public function index(Timeline $timeline)
     {
-        if ($timeline->timelinable_type === 'biography') {
-            return new AdminBiographyResource($timeline->timelinable);
-        } else {
-            return response()->json(['message' => 'does not exist']);
-        }
-
+//        if ($timeline->timelinable_type === 'biography') {
+//            return new AdminBiographyResource($timeline->timelinable);
+//        } else {
+//            return response()->json(['message' => 'does not exist']);
+//        }
+//        return $timeline->timelinable()->where('timelinable_type', 'biography')->get();
+        return response()->json(['message' => 'Is not ready']);
     }
 }

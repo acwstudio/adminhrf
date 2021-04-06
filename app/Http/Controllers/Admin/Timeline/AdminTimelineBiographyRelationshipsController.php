@@ -19,7 +19,6 @@ class AdminTimelineBiographyRelationshipsController extends Controller
      */
     public function index(Timeline $timeline)
     {
-        return new AdminBiographiesIdentifireResource($timeline->timelinable);
-//        return $timeline->timelinable;
+        return ['message' => 'Is not ready'];
     }
 }

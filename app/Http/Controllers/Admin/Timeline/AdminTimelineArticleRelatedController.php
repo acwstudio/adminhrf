@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Timeline;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\AdminArticleCollection;
 use App\Http\Resources\Admin\AdminArticleResource;
+use App\Models\Article;
 use App\Models\Timeline;
 use Illuminate\Http\Request;
 
@@ -16,10 +17,10 @@ class AdminTimelineArticleRelatedController extends Controller
 {
     /**
      * @param Timeline $timeline
-     * @return AdminArticleResource
+     * @return AdminArticleCollection
      */
     public function index(Timeline $timeline)
     {
-        return new AdminArticleResource($timeline->timelinable);
+        return ['message' => 'Is not ready'];
     }
 }

@@ -21,7 +21,8 @@ class AdminTimelineArticleRelationshipsController extends Controller
      */
     public function index(Timeline $timeline)
     {
-        return new AdminArticlesIdentifireResource($timeline->timelinable);
+//        return new AdminArticlesIdentifireResource($timeline->timelinable);
+        return ['message' => 'Is not ready'];
     }
 
     /**
@@ -31,14 +32,15 @@ class AdminTimelineArticleRelationshipsController extends Controller
      */
     public function update(TimelineArticleUpdateRelationshipsRequest $request, Timeline $timeline)
     {
-        $ids = $request->input('data.*.id');
-
-        foreach ($ids as $id) {
-            $article = Article::find($id);
-            $timeline->timelinable()->associate($article)->save();
-        }
-
-
-        return response()->json(['ok']);
+//        $ids = $request->input('data.*.id');
+//
+//        foreach ($ids as $id) {
+//            $article = Article::find($id);
+//            $timeline->timelinable()->associate($article)->save();
+//        }
+//
+//
+//        return response()->json(['ok']);
+        return ['message' => 'Is not ready'];
     }
 }

@@ -98,7 +98,7 @@ class AdminArticleController extends Controller
     {
         $query = QueryBuilder::for(Article::class)
             ->where('id', $article->id)
-            ->allowedIncludes(['authors', 'tags', 'images'])
+            ->allowedIncludes(['authors', 'tags', 'images', 'timeline'])
             ->firstOrFail();
 
         return new AdminArticleResource($query);
