@@ -41,6 +41,7 @@ class BookmarkController extends Controller
                 'audiocourse' => 'highlight',
                 'videocourse' => 'highlight',
                 'article' => 'article',
+		'audiolecture'=>'audiomaterial',
                 'biography' => 'biography',
                 'document' => 'document',
                 'podcast' => 'podcast',

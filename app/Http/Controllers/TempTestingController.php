@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DayInHistory;
 use Illuminate\Http\Request;
 
 class TempTestingController extends Controller
@@ -29,6 +30,8 @@ class TempTestingController extends Controller
     protected function test()
     {
         echo 'This is test method';
+
+        dd(DayInHistory::doesntHave('image')->get()->toArray());
     }
 
 }
