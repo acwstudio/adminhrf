@@ -49,7 +49,7 @@ services:
 
         image: "postgres"
         ports:
-            - '${FORWARD_DB_PORT:-3306}:5432'
+            - '${FORWARD_DB_PORT:-3306}:5400'
         environment:
 #            PGPASSWORD: ''
             POSTGRES_HOST_AUTH_METHOD: trust

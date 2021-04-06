@@ -53,7 +53,7 @@ class RandController extends Controller
     public function getRandAudiolectures(Request $request)
     {
         $rand = $request->get('rand', 1);
-        return $rand < 21 ? AudiomaterialResource::collection(Audiomaterial::inRandomOrder()->where('published_at', '<', now())->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
+        return $rand < 21 ? AudiomaterialResource::collection(Audiomaterial::inRandomOrder()->with('images')->limit($rand)->get()) : ['err' => 'nice try bro;)'];
     }
 
     public function getRandFilms(Request $request)
