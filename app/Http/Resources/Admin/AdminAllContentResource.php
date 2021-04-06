@@ -4,6 +4,10 @@ namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Class AdminAllContentResource
+ * @package App\Http\Resources\Admin
+ */
 class AdminAllContentResource extends JsonResource
 {
     /**
@@ -14,6 +18,13 @@ class AdminAllContentResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'type' => $this->type,
+            'attributes' => [
+                'title' => $this->title,
+                'created_at' => $this->created_at
+            ]
+        ];
     }
 }
