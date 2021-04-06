@@ -89,6 +89,7 @@ class CommentController extends Controller
         $data = $request->validated();
 
         $data['answer_to'] = $data['answer_to'] ?? null;
+        $data['type'] = $data['type'] ?? 'comment';
 
         if (!is_null($data['parent_id']) && !is_null($data['answer_to'])) {
 
