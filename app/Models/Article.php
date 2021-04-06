@@ -23,13 +23,6 @@ class Article extends Model
     protected $guarded = [];
 
     /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = ['type'];
-
-    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -185,14 +178,6 @@ class Article extends Model
 
     public function category(){
         return $this->belongsTo(ArticleCategory::class,'category_id');
-    }
-
-    /**
-     * @return string
-     */
-    public function getTypeAttribute()
-    {
-        return 'article';
     }
 
 }
