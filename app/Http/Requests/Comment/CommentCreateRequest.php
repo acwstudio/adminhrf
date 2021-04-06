@@ -38,7 +38,7 @@ class CommentCreateRequest extends FormRequest
     {
         return [
             'type' => [
-                'required',
+                'sometimes', // TODO make it required
                 'string',
                 function($attribute, $value, $fail) {
                     if(!in_array($value, ['comment', 'review'])) {
