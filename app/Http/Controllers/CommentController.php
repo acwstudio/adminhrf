@@ -63,7 +63,7 @@ class CommentController extends Controller
         $query = $user->comments();
 
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
-            $query->orderBy('liked', 'desc');
+            $query->orderBy('rate', 'desc');
         }
 
         $comments = $query->latest()->paginate($perPage);
@@ -89,6 +89,7 @@ class CommentController extends Controller
         $data = $request->validated();
 
         $data['answer_to'] = $data['answer_to'] ?? null;
+        $data['type'] = $data['type'] ?? 'comment';
 
         if (!is_null($data['parent_id']) && !is_null($data['answer_to'])) {
 
@@ -102,6 +103,12 @@ class CommentController extends Controller
 
             $data['answer_to'] = null;
 
+        }
+
+        if ($data['type'] === 'review') {
+
+            $data['parent_id'] = null;
+            $data['answer_to'] = null;
         }
 
         $data['user_id'] = $request->user()->id;

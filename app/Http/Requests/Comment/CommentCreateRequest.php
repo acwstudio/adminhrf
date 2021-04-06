@@ -24,6 +24,11 @@ class CommentCreateRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge($this->json()->all());
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -32,6 +37,15 @@ class CommentCreateRequest extends FormRequest
     public function rules()
     {
         return [
+            'type' => [
+                'sometimes', // TODO make it required
+                'string',
+                function($attribute, $value, $fail) {
+                    if(!in_array($value, ['comment', 'review'])) {
+                        $fail('Invalid '.$attribute.'='.$value);
+                    }
+                }
+            ],
             'text' => 'required|string',
             'commentable_id' => 'required|integer',
             'commentable_type' => [
@@ -52,9 +66,17 @@ class CommentCreateRequest extends FormRequest
                     }
                 },
             ],
-//                'answer_to' => 'sometimes',
             'answer_to.user_id' => 'nullable|integer|required_with:answer_to.comment_id',
             'answer_to.comment_id' => 'nullable|integer|required_with:answer_to.user_id',
+            'estimate' => [
+                'required_if:type,review',
+                'string',
+                function($attribute, $value, $fail) {
+                    if(!in_array($value, ['negative', 'positive'])) {
+                        $fail('Invalid '.$attribute.'='.$value);
+                    }
+                }
+            ],
         ];
     }
 }
