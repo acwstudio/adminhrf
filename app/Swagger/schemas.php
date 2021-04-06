@@ -64,7 +64,7 @@
  *     ),
  *     @OA\Property(
  *          property="estimate",
- *          description="review estimate",
+ *          description="review estimate: positive or negative",
  *          type="string"
  *      ),
  * )

@@ -54,6 +54,108 @@
 
 /**
  * @OA\Get(
+ *     path="/rateup",
+ *     operationId="rateup",
+ *     tags={"Social"},
+ *     summary="Up rate of selected entity",
+ *
+ *     @OA\Parameter(
+ *         name="model_type",
+ *         in="query",
+ *         description="Model type",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="string",
+ *             enum={"comment"}
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="query",
+ *         description="Rateable model id",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer",
+ *         )
+ *     ),
+ *
+ *     @OA\Response(
+ *         response="200",
+ *         description="Everything is fine",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response="401",
+ *         description="Unauthorized",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *
+ *         )
+ *     ),
+ *
+ *     security={
+ *         {"bearer": {}}
+ *     }
+ *
+ * )
+ */
+
+/**
+ * @OA\Get(
+ *     path="/ratedown",
+ *     operationId="ratedown",
+ *     tags={"Social"},
+ *     summary="Down rate of selected entity",
+ *
+ *     @OA\Parameter(
+ *         name="model_type",
+ *         in="query",
+ *         description="Model type",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="string",
+ *             enum={"comment"}
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="query",
+ *         description="Rateable model id",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer",
+ *         )
+ *     ),
+ *
+ *     @OA\Response(
+ *         response="200",
+ *         description="Everything is fine",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response="401",
+ *         description="Unauthorized",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *
+ *         )
+ *     ),
+ *
+ *     security={
+ *         {"bearer": {}}
+ *     }
+ *
+ * )
+ */
+
+/**
+ * @OA\Get(
  *     path="/comments",
  *     operationId="getComments",
  *     tags={"Social"},
