@@ -28,8 +28,17 @@ class AfishaResource extends JsonResource
             'has_bookmark' => $user?$this->hasBookmark($user):false,
             'city' => CityResource::make($this->city),
             'leisure' => LeisureResource::make($this->leisure),
-            'comments' => $this->commented,
+            'comments' => CommentResource::collection($this->comments),
             'likes' => $this->liked,
+            'image' => [
+                "model_type" => "image",
+                "id" => 1294,
+                "alt" => null,
+                "src" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt.jpg",
+                "preview" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
+                "original" => null,
+                "order" => 1
+            ],
 
         ];
     }
