@@ -51,6 +51,13 @@ use App\Http\Controllers\Admin\News\AdminNewsImagesRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsImagesRelationshipsController;
 use App\Http\Controllers\Admin\News\AdminNewsTagsRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsTagsRelationshipsController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastImagesRelatedController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastImagesRelationshipsController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastsBookmarksRelatedController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastsBookmarksRelationshipsController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastsTagsRelatedController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastsTagsRelationshipsController;
 use App\Http\Controllers\Admin\Question\AdminQuestionAnswersRelatedController;
 use App\Http\Controllers\Admin\Question\AdminQuestionAnswersRelationshipsController;
 use App\Http\Controllers\Admin\Question\AdminQuestionController;
@@ -402,6 +409,49 @@ Route::patch('/news/{news}/relationships/images', [
 Route::get('/news/{news}/images', [
     AdminNewsImagesRelatedController::class, 'index'
 ])->name('news.images');
+
+/*****************  PODCASTS ROUTES **************/
+
+Route::apiResource('/podcasts', AdminPodcastController::class, ['as' => 'admin']);
+
+// Podcasts to Bookmarks relations
+Route::get('/podcasts/{podcast}/relationships/bookmarks', [
+    AdminPodcastsBookmarksRelationshipsController::class, 'index'
+])->name('podcasts.relationships.bookmarks');
+
+Route::patch('/podcasts/{podcast}/relationships/bookmarks', [
+    AdminPodcastsBookmarksRelationshipsController::class, 'update'
+])->name('podcasts.relationships.bookmarks');
+
+Route::get('/podcasts/{podcast}/bookmarks', [
+    AdminPodcastsBookmarksRelatedController::class, 'index'
+])->name('podcasts.bookmarks');
+
+// Podcasts to Images relations
+Route::get('/podcasts/{podcast}/relationships/images', [
+    AdminPodcastImagesRelationshipsController::class, 'index'
+])->name('podcast.relationships.images');
+
+Route::patch('/podcasts/{podcast}/relationships/images', [
+    AdminPodcastImagesRelationshipsController::class, 'update'
+])->name('podcast.relationships.images');
+
+Route::get('/podcasts/{podcast}/images', [
+    AdminPodcastImagesRelatedController::class, 'index'
+])->name('podcast.images');
+
+// Podcasts to Tags relations
+Route::get('/podcasts/{podcast}/relationships/tags', [
+    AdminPodcastsTagsRelationshipsController::class, 'index'
+])->name('podcasts.relationships.tags');
+
+Route::patch('/podcasts/{podcast}/relationships/tags', [
+    AdminPodcastsTagsRelationshipsController::class, 'update'
+])->name('podcasts.relationships.tags');
+
+Route::get('/podcasts/{podcast}/tags', [
+    AdminPodcastsTagsRelatedController::class, 'index'
+])->name('podcasts.tags');
 
 /*****************  QUESTIONS ROUTES **************/
 
