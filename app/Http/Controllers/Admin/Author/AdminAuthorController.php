@@ -27,7 +27,7 @@ class AdminAuthorController extends Controller
     public function index(Request $request)
     {
         $authors = QueryBuilder::for(Author::class)
-            ->with('articles')
+            ->allowedIncludes(['articles'])
             ->allowedSorts(['id', 'birth_date', 'firstname'])
             ->jsonPaginate();
 
