@@ -10,6 +10,7 @@ class TAnswer extends Model
     use HasFactory;
 
     public $fillable = [
+	'id',
         'question_id',
         'title',
         'is_right',

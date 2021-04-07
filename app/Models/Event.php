@@ -10,15 +10,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    use HasFactory, Commentable,Likeable;
+    use HasFactory, Commentable,Likeable, Sluggable;
 
 
     protected $fillable = [
-        ''
+        'title',
+        'slug',
+        'announce'
+
     ];
 
-
-
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 
     public function city()
     {

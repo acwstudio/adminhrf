@@ -67,7 +67,7 @@ return [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5404'),
+            'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'dbhistrf2'),
             'username' => env('DB_USERNAME', 'histrf_api'),
             'password' => env('DB_PASSWORD', ''),

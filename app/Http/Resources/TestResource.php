@@ -29,17 +29,8 @@ class TestResource extends JsonResource
             'has_like' => $user?$this->checkLiked($user):null,
             'has_bookmark' => false,
             'is_finished' => false,
-            #'time_solved' => $this->test->checkSolved(1),
-/*            'image' => [
-                "model_type" => "image",
-                "id" => 1294,
-                "alt" => null,
-                "src" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt.jpg",
-                "preview" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
-                "original" => null,
-                "order" => 1
-            ], */
-            'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
+//            'time_solved' => $this->test->checkSolved(1),
+            'image' => $this->images ? ImageResource::make($this->images()->orderBy('order', 'asc')->first()) : null,
             'categories' => QCategoryResource::collection($this->categories),
 
         ];

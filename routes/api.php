@@ -83,6 +83,8 @@ Route::prefix('v1')->group(function () {
             Route::post('/comments', [CommentController::class, 'store']);
             Route::delete('/comments/{comment:id}', [CommentController::class, 'destroy']);
 
+            Route::post('/images', [\App\Http\Controllers\Admin\AdminImageController::class, 'store']);
+
             /************** ADMIN PART ***********/
 
             Route::middleware('admin')->group(function () {

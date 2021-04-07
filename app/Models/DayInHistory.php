@@ -22,6 +22,7 @@ class DayInHistory extends Model
     }
 
     protected $fillable = [
+	'id',
         'day',
         'month',
         'title',
