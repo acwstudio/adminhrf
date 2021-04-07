@@ -13,6 +13,7 @@ class Test extends Model
     use HasFactory, Sluggable, Likeable, Commentable;
 
     public $fillable = [
+	'id',
         'title',
         'description',
         'is_active',

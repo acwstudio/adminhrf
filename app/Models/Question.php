@@ -10,6 +10,7 @@ class Question extends Model
     use HasFactory;
 
     public $fillable = [
+	'id',
         'text',
         'type',
         'position',

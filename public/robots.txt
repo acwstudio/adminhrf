@@ -1,2 +1,19 @@
-User-agent: *
-Disallow:
+User-Agent: *
+Disallow: /*?*
+Allow: *.css?*
+Allow: *.js?*
+Disallow: /bundles/
+Disallow: /*?clink=
+Disallow: /*rss
+Disallow: /*sort_by
+Disallow: /*search
+Disallow: /*?utm
+Disallow: /api/v1/*
+User-Agent: Yandex
+Disallow: /*?clink=
+Disallow: /*sort_by
+Disallow: /*search
+Disallow: /*?utm
+Disallow: /api/v1/*
+User-agent: Twitterbot
+Allow: /

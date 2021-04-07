@@ -48,7 +48,7 @@ class CourseResource extends JsonResource
             'has_like' => $user ? $this->highlightable->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->highlightable->hasBookmark($user): false,
             'tags' => TagResource::collection($this->highlightable->tags),
-            'image' => ImageResource::make($this->images()->first()),
+            'image' => $this->highlightable->images?ImageResource::make($this->highlightable->images->first()):null,
         ];
     }
 }
