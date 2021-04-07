@@ -22,12 +22,13 @@ class AdminResultController extends Controller
      *
      * @return AdminResultCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(TResult::class)
             ->allowedIncludes(['test'])
 //            ->allowedSorts([''])
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminResultCollection($query);
     }

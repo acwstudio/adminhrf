@@ -10,6 +10,7 @@ use App\Http\Resources\Admin\AdminArticleResource;
 use App\Models\Article;
 use App\Models\Image;
 use App\Services\ImageService;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -35,17 +36,18 @@ class AdminArticleController extends Controller
      * @return AdminArticleCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('manage', Article::class);
-
+        $perPage = $request->get('per_page');
         $articles = QueryBuilder::for(Article::class)
             ->allowedIncludes(['comments', 'bookmarks', 'tags', 'category'])
             ->allowedFilters(['yatextid'])
             ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'event_date'])
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminArticleCollection($articles);
+//        return $perPage;
     }
 
     /**

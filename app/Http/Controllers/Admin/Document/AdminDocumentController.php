@@ -23,13 +23,14 @@ class AdminDocumentController extends Controller
      * @param Request $request
      * @return AdminDocumentCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Document::class)
             ->with(['tags', 'images', 'category'])
             ->allowedIncludes(['comments', 'likes', 'bookmarks'])
             ->allowedSorts('title')
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminDocumentCollection($query);
     }

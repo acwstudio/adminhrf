@@ -23,13 +23,13 @@ class AdminAnswerController extends Controller
      *
      * @return AdminAnswerCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(TAnswer::class)
-            ->with('question')
-//            ->allowedIncludes([''])
+            ->allowedIncludes(['questions'])
 //            ->allowedSorts([''])
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminAnswerCollection($query);
     }

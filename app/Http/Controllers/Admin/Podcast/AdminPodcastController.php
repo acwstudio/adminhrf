@@ -22,13 +22,14 @@ class AdminPodcastController extends Controller
      *
      * @return AdminPodcastCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Podcast::class)
             ->allowedIncludes(['tags', 'images', 'bookmarks'])
             ->allowedSorts(['id', 'title', 'order', 'created_at'])
             ->allowedFilters(['commented', 'viewed', 'liked'])
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminPodcastCollection($query);
     }

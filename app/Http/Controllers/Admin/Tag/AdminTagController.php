@@ -23,12 +23,13 @@ class AdminTagController extends Controller
      * @param Request $request
      * @return AdminTagCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $tags = QueryBuilder::for(Tag::class)
             ->allowedIncludes(['articles', 'documents', 'news', 'biographies'])
             ->allowedSorts('title')
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminTagCollection($tags);
     }

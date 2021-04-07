@@ -22,12 +22,13 @@ class AdminCommentController extends Controller
      *
      * @return AdminCommentCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Comment::class)
             ->with('user')
             ->allowedIncludes('user')
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminCommentCollection($query);
     }

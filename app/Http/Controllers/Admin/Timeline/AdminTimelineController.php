@@ -22,12 +22,13 @@ class AdminTimelineController extends Controller
      *
      * @return AdminTimelineCollection
      */
-    public function index()
+    public function index(request $request)
     {
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Timeline::class)
             ->allowedIncludes(['article', 'biography'])
             ->allowedSorts(['timelinable_type'])
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminTimelineCollection($query);
     }

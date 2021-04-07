@@ -21,8 +21,9 @@ class AdminAllContentController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $podcasts = DB::table('podcasts')
             ->select('id', 'title', 'created_at', DB::raw("'podcasts' as type"));
         $videomaterials = DB::table('videomaterials')
@@ -49,7 +50,7 @@ class AdminAllContentController extends Controller
             ->allowedFilters(db::raw('type'))
             ->allowedSorts(['created_at', 'title'])
 //            ->get();
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return AdminAllContentResource::collection($query);
     }

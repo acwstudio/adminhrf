@@ -22,12 +22,13 @@ class AdminMessageController extends Controller
      *
      * @return AdminMessageCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(TestMessage::class)
             ->with(['test'])
             ->allowedSorts(['title'])
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminMessageCollection($query);
     }
