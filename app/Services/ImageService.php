@@ -36,6 +36,7 @@ class ImageService
     const DAYINHISTORY_PATH = '/images/dayinhistory/';
     const USER_PATH = '/images/user/';
     const COMMON_PATH = '/images/common/';
+    const HIGHLIGHT_PATH = '/images/highlight/';
 
 
     // Old image paths TODO Delete after deploy new app
@@ -75,7 +76,8 @@ class ImageService
         'common' => self::COMMON_PATH,
         'dayinhistory' => self::DAYINHISTORY_PATH,
         'podcast' => self::PODCAST_PATH,
-        'user' => self::USER_PATH
+        'user' => self::USER_PATH,
+        'highlight' => self::HIGHLIGHT_PATH
 
     ];
 

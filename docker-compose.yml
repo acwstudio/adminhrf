@@ -47,9 +47,9 @@ services:
 #          test: ["CMD", "mysqladmin", "ping"]
     pgsql:
 
-        image: "postgres-test"
+        image: "postgres"
         ports:
-            - '${FORWARD_DB_PORT:-3306}:5404'
+            - '${FORWARD_DB_PORT:-3306}:5432'
         environment:
 #            PGPASSWORD: ''
             POSTGRES_HOST_AUTH_METHOD: trust

@@ -48,15 +48,7 @@ class CourseResource extends JsonResource
             'has_like' => $user ? $this->highlightable->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->highlightable->hasBookmark($user): false,
             'tags' => TagResource::collection($this->highlightable->tags),
-            'image' => [
-                "model_type" => "image",
-                "id" => 1294,
-                "alt" => null,
-                "src" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt.jpg",
-                "preview" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
-                "original" => null,
-                "order" => 1
-            ],
+            'image' => $this->highlightable->images?ImageResource::make($this->highlightable->images->first()):null,
         ];
     }
 }

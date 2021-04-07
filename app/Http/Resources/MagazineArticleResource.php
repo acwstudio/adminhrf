@@ -23,7 +23,7 @@ class MagazineArticleResource extends JsonResource
             'type_text' =>$this->type_text,
             'created_at'=>$this->created_at,
             'body' =>$this->body,
-	    'magazine_release' => $this->release
+	        'magazine_release' => $this->release
         ];
     }
 }
