@@ -44,6 +44,8 @@ use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelationshipsContro
 use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelationshipsController;
 use App\Http\Controllers\Admin\Image\AdminImageController;
+use App\Http\Controllers\Admin\News\AdminNewsBookmarksRelatedController;
+use App\Http\Controllers\Admin\News\AdminNewsBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\News\AdminNewsCommentsRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsCommentsRelationshipsController;
 use App\Http\Controllers\Admin\News\AdminNewsController;
@@ -371,6 +373,19 @@ Route::apiResource('/messages', AdminMessageController::class, ['as' => 'admin']
 
 Route::apiResource('/news', AdminNewsController::class, ['as' => 'admin']);
 
+// News to Bookmarks relations
+Route::get('/news/{news}/relationships/bookmarks', [
+    AdminNewsBookmarksRelationshipsController::class, 'index'
+])->name('news.relationships.bookmarks');
+
+Route::patch('/news/{news}/relationships/bookmarks', [
+    AdminNewsBookmarksRelationshipsController::class, 'update'
+])->name('news.relationships.bookmarks');
+
+Route::get('/news/{news}/bookmarks', [
+    AdminNewsBookmarksRelatedController::class, 'index'
+])->name('news.bookmarks');
+
 // News to Tags relations
 Route::get('/news/{news}/relationships/tags', [
     AdminNewsTagsRelationshipsController::class, 'index'
@@ -381,7 +396,7 @@ Route::patch('/news/{news}/relationships/tags', [
 ])->name('news.relationships.tags');
 
 Route::get('/news/{news}/tags', [
-    AdminNewsTagsRelatedController::class
+    AdminNewsTagsRelatedController::class, 'index'
 ])->name('news.tags');
 
 // News to Comments relations

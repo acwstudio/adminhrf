@@ -87,7 +87,7 @@ class AdminPodcastImagesRelationshipsController extends Controller
                             . ' relation'
                     ];
                 }
-                if ($image->imageable_type !== 'article') {
+                if ($image->imageable_type !== 'podcast') {
                     $message = [
                         'id_image' => $image->id,
                         'result' => false,
