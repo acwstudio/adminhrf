@@ -63,7 +63,7 @@ class TestController extends Controller
 
         if (is_null($result)) {
 
-            $test->results->create([
+            TResult::create([
                'test_id' => $test->id,
                'user_id' => $user->id,
                'time_passed' => $time,

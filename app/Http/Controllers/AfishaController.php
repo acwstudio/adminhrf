@@ -22,13 +22,13 @@ class AfishaController extends Controller
         $query = Event::where('published_at','<',now())->where('afisha_date','>',now());
 
         if(!is_null($city)){
-            $query->where('city_id','=',City::findOrFail($city)->first());
+            $query->where('city_id','=',City::findOrFail($city)->first()->id);
         }
 
         if (!is_null($categories)) {
             $params = explode('|', $categories);
 
-            $query->whereHas('categories', function (Builder $query) use ($params) {
+            $query->whereHas('leisure', function (Builder $query) use ($params) {
                 $query->whereIn('slug', $params);
             });
         }

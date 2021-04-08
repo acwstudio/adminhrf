@@ -19,7 +19,7 @@ class AfishaShortResource extends JsonResource
         return [
             'model_type' => 'afisha',
             'id' => $this->id,
-            'slug' =>$this->slug,
+#            'slug' =>$this->slug,
             'title' =>$this->title,
             'link'=>$this->link,
             'views'=>$this->viewed,
