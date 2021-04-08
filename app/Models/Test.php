@@ -79,16 +79,22 @@ class Test extends Model
     }
 
 
-    public function checkSolved($userId)
-    {
-        $val = $this->results()->where('user_id', '=', $userId)->first(['is_closed']);
-        return $val ? $val->is_closed : false;
-    }
+//    public function checkSolved($userId)
+//    {
+//        $val = $this->results()->where('user_id', '=', $userId)->first(['is_closed']);
+//        return $val ? $val->is_closed : false;
+//    }
 
     public function results()
     {
         return $this->hasMany(TResult::class, 'test_id', 'id');
     }
 
+    public function checkSolved(User $user){
+        if(is_null($this->results)){
+            return false;
+        }
+        return $this->results->where('user_id',$user->id)->where('is_closed',true);
+    }
 
 }
