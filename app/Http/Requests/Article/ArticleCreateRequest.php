@@ -43,8 +43,8 @@ class ArticleCreateRequest extends FormRequest
             'data.attributes.liked' => 'required|integer',
             'data.attributes.commented' => 'required|integer',
             'data.attributes.biblio' => 'json',
-            'data.attributes.event_start_date' => 'required|string',
-            'data.attributes.event_end_date' => 'required|string',
+//            'data.attributes.event_start_date' => 'string',
+//            'data.attributes.event_end_date' => 'string',
 
             'data.relationships.*' => 'present|array',
             'data.relationships.tags.data.*.type' => 'present|in:tags',

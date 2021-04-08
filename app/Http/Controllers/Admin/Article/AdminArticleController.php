@@ -159,8 +159,9 @@ class AdminArticleController extends Controller
 
         foreach ($images as $image) {
             $this->imageService->delete($image);
-        }
 
+        }
+        $article->images()->delete();
         $article->delete();
 
         return response(null, 204);

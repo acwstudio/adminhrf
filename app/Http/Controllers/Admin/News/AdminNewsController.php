@@ -11,6 +11,7 @@ use App\Http\Resources\Admin\AdminNewsResource;
 use App\Models\Image;
 use App\Models\News;
 use App\Models\Tag;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -20,6 +21,17 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminNewsController extends Controller
 {
+    private $imageService;
+
+    /**
+     * AdminArticleController constructor.
+     * @param ImageService $imageService
+     */
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -127,7 +139,19 @@ class AdminNewsController extends Controller
      */
     public function destroy(News $news)
     {
+        $idTags = $news->tags()->allRelatedIds();
+
+        $news->tags()->detach($idTags);
+
+        $images = Image::where('imageable_id', $news->id)
+            ->where('imageable_type', 'article');
+
+        foreach ($images as $image) {
+            $this->imageService->delete($image);
+        }
+
         $news->delete();
+
         return response(null, 204);
     }
 }
