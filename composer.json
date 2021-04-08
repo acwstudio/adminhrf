@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "ext-imagick": "*",
+        "algolia/algoliasearch-client-php": "^2.8",
         "cviebrock/eloquent-sluggable": "^8.0",
         "darkaonline/l5-swagger": "^8.0",
         "doctrine/dbal": "^3.0",

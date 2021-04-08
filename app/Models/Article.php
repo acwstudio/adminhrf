@@ -13,7 +13,7 @@ use Laravel\Scout\Searchable;
 
 class Article extends Model
 {
-    use HasFactory, Sluggable, Likeable, Commentable,Searchable;
+    use HasFactory, Sluggable, Likeable, Commentable, Searchable;
 
     /**
      * The attributes that are not mass assignable.
