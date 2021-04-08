@@ -150,6 +150,8 @@ class AdminNewsController extends Controller
             $this->imageService->delete($image);
         }
 
+        $news->images()->delete();
+        $news->comments()->delete();
         $news->delete();
 
         return response(null, 204);
