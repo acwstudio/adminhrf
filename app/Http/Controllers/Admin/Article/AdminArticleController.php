@@ -39,7 +39,9 @@ class AdminArticleController extends Controller
     public function index(Request $request)
     {
         $this->authorize('manage', Article::class);
+
         $perPage = $request->get('per_page');
+
         $articles = QueryBuilder::for(Article::class)
             ->allowedIncludes(['comments', 'bookmarks', 'tags', 'category'])
             ->allowedFilters(['yatextid'])
@@ -47,7 +49,6 @@ class AdminArticleController extends Controller
             ->jsonPaginate($perPage);
 
         return new AdminArticleCollection($articles);
-//        return $perPage;
     }
 
     /**

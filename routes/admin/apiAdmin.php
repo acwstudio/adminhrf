@@ -80,6 +80,7 @@ use App\Http\Controllers\Admin\Test\AdminTestMessagesRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestMessagesRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestResultsRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestResultsRelationshipsController;
+use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelationshipsController;
 use App\Http\Controllers\Admin\TestCategory\AdminTCategoryController;
 use App\Http\Controllers\Admin\TestMessage\AdminMessageController;
@@ -88,11 +89,15 @@ use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelationshipsController;
 use App\Http\Controllers\Admin\Tag\AdminTagsBiographiesRelationshipsController;
 use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelationshipsController;
+use App\Http\Controllers\Admin\TestResult\AdminResultsTestRelatedController;
+use App\Http\Controllers\Admin\TestResult\AdminResultsTestRelationshipsController;
+use App\Http\Controllers\Admin\TestResult\AdminResultsUserRelatedController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineArticleRelatedController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineArticleRelationshipsController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelatedController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelationshipsController;
+use App\Http\Controllers\Admin\TestResult\AdminResultsUserRelationshipsController;
 
 /*****************  ANSWERS ROUTES **************/
 Route::apiResource('/answers', AdminAnswerController::class, ['as' =>'admin']);
@@ -502,6 +507,32 @@ Route::get('/questions/{question}/answers', [
 
 Route::apiResource('/results', AdminResultController::class, ['as' =>'admin']);
 
+// Results to Test relations
+Route::get('/results/{result}/relationships/test', [
+    AdminResultsTestRelationshipsController::class, 'index'
+])->name('results.relationships.test');
+
+Route::patch('/results/{result}/relationships/test', [
+    AdminResultsTestRelationshipsController::class, 'update'
+])->name('results.relationships.test');
+
+Route::get('/results/{result}/test', [
+    AdminResultsTestRelatedController::class, 'index'
+])->name('results.test');
+
+// Results to Test relations
+Route::get('/results/{result}/relationships/user', [
+    AdminResultsUserRelationshipsController::class, 'index'
+])->name('results.relationships.user');
+
+Route::patch('/results/{result}/relationships/user', [
+    AdminResultsUserRelationshipsController::class, 'update'
+])->name('results.relationships.user');
+
+Route::get('/results/{result}/user', [
+    AdminResultsUserRelatedController::class, 'index'
+])->name('results.user');
+
 /*****************  TAGS ROUTES **************/
 
 Route::apiResource('/tags', AdminTagController::class, ['as' =>'admin']);
@@ -641,7 +672,7 @@ Route::patch('/tests/{test}/relationships/questions', [
 ])->name('tests.relationships.questions');
 
 Route::get('/tests/{test}/questions', [
-    AdminTestImagesRelatedController::class, 'index'
+    AdminTestsQuestionsRelatedController::class, 'index'
 ])->name('tests.questions');
 
 // Tests to Results relations

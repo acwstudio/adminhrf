@@ -50,14 +50,14 @@ class AdminTestController extends Controller
         $test = Test::create($dataAttributes);
 
         // update field imageable_id of images table with new $article->id
-        foreach ($dataRelImages as $imageId) {
-            $image = Image::find($imageId);
-            if ($image) {
-                Image::findOrFail($imageId)->update([
-                    'imageable_id' => $test->id
-                ]);
-            }
-        }
+//        foreach ($dataRelImages as $imageId) {
+//            $image = Image::find($imageId);
+//            if ($image) {
+//                Image::findOrFail($imageId)->update([
+//                    'imageable_id' => $test->id
+//                ]);
+//            }
+//        }
 
         return (new AdminTestResource($test))
             ->response()

@@ -25,8 +25,9 @@ class AdminMessageController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $query = QueryBuilder::for(TestMessage::class)
-            ->with(['test'])
+            ->allowedIncludes(['test'])
             ->allowedSorts(['title'])
             ->jsonPaginate($perPage);
 
