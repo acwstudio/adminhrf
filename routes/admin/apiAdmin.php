@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AllContent\AdminAllContentController;
 use App\Http\Controllers\Admin\Answer\AdminAnswerController;
 use App\Http\Controllers\Admin\Answer\AdminAnswersQuestionRelatedController;
 use App\Http\Controllers\Admin\Answer\AdminAnswersQuestionRelationshipsController;
@@ -16,6 +17,8 @@ use App\Http\Controllers\Admin\Article\AdminArticlesAuthorsRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticlesAuthorsRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticlesTagsRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticlesTagsRelationshipsController;
+use App\Http\Controllers\Admin\Article\AdminArticleTimlineRelatedController;
+use App\Http\Controllers\Admin\Article\AdminArticleTimlineRelationshipsController;
 use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryArticlesRelatedController;
 use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryArticlesRelationshipsController;
 use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryController;
@@ -48,6 +51,13 @@ use App\Http\Controllers\Admin\News\AdminNewsImagesRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsImagesRelationshipsController;
 use App\Http\Controllers\Admin\News\AdminNewsTagsRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsTagsRelationshipsController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastImagesRelatedController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastImagesRelationshipsController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastsBookmarksRelatedController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastsBookmarksRelationshipsController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastsTagsRelatedController;
+use App\Http\Controllers\Admin\Podcast\AdminPodcastsTagsRelationshipsController;
 use App\Http\Controllers\Admin\Question\AdminQuestionAnswersRelatedController;
 use App\Http\Controllers\Admin\Question\AdminQuestionAnswersRelationshipsController;
 use App\Http\Controllers\Admin\Question\AdminQuestionController;
@@ -76,6 +86,11 @@ use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelationshipsController;
 use App\Http\Controllers\Admin\Tag\AdminTagsBiographiesRelationshipsController;
 use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelationshipsController;
+use App\Http\Controllers\Admin\Timeline\AdminTimelineArticleRelatedController;
+use App\Http\Controllers\Admin\Timeline\AdminTimelineArticleRelationshipsController;
+use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelatedController;
+use App\Http\Controllers\Admin\Timeline\AdminTimelineController;
+use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelationshipsController;
 
 /*****************  ANSWERS ROUTES **************/
 Route::apiResource('/answers', AdminAnswerController::class, ['as' =>'admin']);
@@ -93,15 +108,19 @@ Route::get('/answers/{answer}/question', [
     AdminAnswersQuestionRelatedController::class, 'index'
 ])->name('answers.question');
 
+/*****************  ALL CONTENT **************/
+
+Route::apiResource('/all-content', AdminAllContentController::class, ['as' => 'admin']);
+
 /*****************  ARTICLES ROUTES **************/
 Route::apiResource('/articles', AdminArticleController::class, ['as' =>'admin']);
 
 // Articles to Article category relations
-Route::get('/articles/{article}/relatioships/article-category', [
+Route::get('/articles/{article}/relationships/article-category', [
     AdminArticlesArticleCategoryRelationshipsController::class, 'index'
 ])->name('articles.relationships.article-category');
 
-Route::patch('/articles/{article}/relatioships/article-category', [
+Route::patch('/articles/{article}/relationships/article-category', [
     AdminArticlesArticleCategoryRelationshipsController::class, 'update'
 ])->name('articles.relationships.article-category');
 
@@ -110,11 +129,11 @@ Route::get('/articles/{article}/article-category', [
 ])->name('articles.article-category');
 
 // Articles to Authors relations
-Route::get('/articles/{article}/relatioships/authors', [
+Route::get('/articles/{article}/relationships/authors', [
     AdminArticlesAuthorsRelationshipsController::class, 'index'
 ])->name('articles.relationships.authors');
 
-Route::patch('/articles/{article}/relatioships/authors', [
+Route::patch('/articles/{article}/relationships/authors', [
     AdminArticlesAuthorsRelationshipsController::class, 'update'
 ])->name('articles.relationships.authors');
 
@@ -123,11 +142,11 @@ Route::get('articles/{article}/authors', [
 ])->name('articles.authors');
 
 // Articles to Bookmarks relations
-Route::get('/articles/{article}/relatioships/bookmarks', [
+Route::get('/articles/{article}/relationships/bookmarks', [
     AdminArticleBookmarksRelationshipsController::class, 'index'
 ])->name('article.relationships.bookmarks');
 
-Route::patch('/articles/{article}/relatioships/bookmarks', [
+Route::patch('/articles/{article}/relationships/bookmarks', [
     AdminArticleBookmarksRelationshipsController::class, 'update'
 ])->name('article.relationships.bookmarks');
 
@@ -136,11 +155,11 @@ Route::get('/articles/{article}/bookmarks', [
 ])->name('article.bookmarks');
 
 // Article to Comments relations
-Route::get('/articles/{article}/relatioships/comments', [
+Route::get('/articles/{article}/relationships/comments', [
     AdminArticleCommentsRelationshipsController::class, 'index'
 ])->name('article.relationships.comments');
 
-Route::patch('/articles/{article}/relatioships/comments', [
+Route::patch('/articles/{article}/relationships/comments', [
     AdminArticleCommentsRelationshipsController::class, 'update'
 ])->name('article.relationships.comments');
 
@@ -162,17 +181,30 @@ Route::get('/articles/{article}/images', [
 ])->name('article.images');
 
 // Articles to Tags relations
-Route::get('/articles/{article}/relatioships/tags', [
+Route::get('/articles/{article}/relationships/tags', [
     AdminArticlesTagsRelationshipsController::class, 'index'
 ])->name('articles.relationships.tags');
 
-Route::patch('/articles/{article}/relatioships/tags', [
+Route::patch('/articles/{article}/relationships/tags', [
     AdminArticlesTagsRelationshipsController::class, 'update'
 ])->name('articles.relationships.tags');
 
 Route::get('/articles/{article}/tags', [
     AdminArticlesTagsRelatedController::class, 'index'
 ])->name('articles.tags');
+
+// Article to Timeline relations
+Route::get('/articles/{article}/relationships/timeline', [
+    AdminArticleTimlineRelationshipsController::class, 'index'
+])->name('article.relationships.timeline');
+
+Route::patch('/articles/{article}/relationships/timeline', [
+    AdminArticleTimlineRelationshipsController::class, 'update'
+])->name('article.relationships.timeline');
+
+Route::get('/articles/{article}/timeline', [
+    AdminArticleTimlineRelatedController::class, 'index'
+])->name('article.timeline');
 
 /*****************  ARTICLE CATEGORIES ROUTES **************/
 
@@ -378,6 +410,49 @@ Route::get('/news/{news}/images', [
     AdminNewsImagesRelatedController::class, 'index'
 ])->name('news.images');
 
+/*****************  PODCASTS ROUTES **************/
+
+Route::apiResource('/podcasts', AdminPodcastController::class, ['as' => 'admin']);
+
+// Podcasts to Bookmarks relations
+Route::get('/podcasts/{podcast}/relationships/bookmarks', [
+    AdminPodcastsBookmarksRelationshipsController::class, 'index'
+])->name('podcasts.relationships.bookmarks');
+
+Route::patch('/podcasts/{podcast}/relationships/bookmarks', [
+    AdminPodcastsBookmarksRelationshipsController::class, 'update'
+])->name('podcasts.relationships.bookmarks');
+
+Route::get('/podcasts/{podcast}/bookmarks', [
+    AdminPodcastsBookmarksRelatedController::class, 'index'
+])->name('podcasts.bookmarks');
+
+// Podcasts to Images relations
+Route::get('/podcasts/{podcast}/relationships/images', [
+    AdminPodcastImagesRelationshipsController::class, 'index'
+])->name('podcast.relationships.images');
+
+Route::patch('/podcasts/{podcast}/relationships/images', [
+    AdminPodcastImagesRelationshipsController::class, 'update'
+])->name('podcast.relationships.images');
+
+Route::get('/podcasts/{podcast}/images', [
+    AdminPodcastImagesRelatedController::class, 'index'
+])->name('podcast.images');
+
+// Podcasts to Tags relations
+Route::get('/podcasts/{podcast}/relationships/tags', [
+    AdminPodcastsTagsRelationshipsController::class, 'index'
+])->name('podcasts.relationships.tags');
+
+Route::patch('/podcasts/{podcast}/relationships/tags', [
+    AdminPodcastsTagsRelationshipsController::class, 'update'
+])->name('podcasts.relationships.tags');
+
+Route::get('/podcasts/{podcast}/tags', [
+    AdminPodcastsTagsRelatedController::class, 'index'
+])->name('podcasts.tags');
+
 /*****************  QUESTIONS ROUTES **************/
 
 Route::apiResource('/questions', AdminQuestionController::class, ['as' => 'admin']);
@@ -467,6 +542,36 @@ Route::patch('/tags/{tag}/relationships/news', [
 Route::get('/tags/{tag}/news', [
     AdminTagsNewsRelatedController::class, 'index'
 ])->name('tags.news');
+
+/*****************  TIMELINE ROUTES **************/
+
+Route::apiResource('/timelines', AdminTimelineController::class, ['as' => 'admin']);
+
+// Timeline to Article relations
+Route::get('/timelines/{timeline}/relationships/article', [
+    AdminTimelineArticleRelationshipsController::class, 'index'
+])->name('timeline.relationships.article');
+
+Route::patch('/timelines/{timeline}/relationships/article', [
+    AdminTimelineArticleRelationshipsController::class, 'update'
+])->name('timeline.relationships.article');
+
+Route::get('/timelines/{timeline}/article', [
+    AdminTimelineArticleRelatedController::class, 'index'
+])->name('timeline.article');
+
+// Timeline to Biography relations
+Route::get('/timelines/{timeline}/relationships/biography', [
+    AdminTimelineBiographyRelationshipsController::class, 'index'
+])->name('timeline.relationships.biography');
+
+Route::patch('/timelines/{timeline}/relationships/biography', [
+    AdminTimelineBiographyRelationshipsController::class, 'update'
+])->name('timeline.relationships.biography');
+
+Route::get('/timelines/{timeline}/biography', [
+    AdminTimelineBiographyRelatedController::class, 'index'
+])->name('timeline.biography');
 
 /*****************  TESTS ROUTES **************/
 

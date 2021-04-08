@@ -24,15 +24,13 @@ class AdminTestController extends Controller
      * @return AdminTestCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index()
+    public function index(Request $request)
     {
-//        $this->authorize('global', Test::class);
-
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Test::class)
-//            ->with(['images', 'questions', 'messages'])
             ->allowedIncludes(['images', 'questions', 'messages', 'comments'])
-            ->allowedSorts('title', 'created_at')
-            ->jsonPaginate();
+            ->allowedSorts(['title', 'created_at'])
+            ->jsonPaginate($perPage);
 
         return new AdminTestCollection($query);
     }

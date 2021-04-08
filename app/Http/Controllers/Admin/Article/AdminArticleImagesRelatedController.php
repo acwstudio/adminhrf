@@ -19,6 +19,6 @@ class AdminArticleImagesRelatedController extends Controller
      */
     public function index(Article $article)
     {
-        return new AdminImageCollection($article->comments);
+        return new AdminImageCollection($article->images);
     }
 }

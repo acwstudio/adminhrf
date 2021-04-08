@@ -15,6 +15,7 @@ class TestResource extends JsonResource
     public function toArray($request)
     {
 	$user=$request->user();
+	$hasSolved = $user?$this->checkSolved($user):false;
         return [
             'model_type' => 'test',
 	    'id' => $this->id,
@@ -29,10 +30,10 @@ class TestResource extends JsonResource
             'has_like' => $user?$this->checkLiked($user):null,
             'has_bookmark' => false,
             'is_finished' => false,
-//            'time_solved' => $this->test->checkSolved(1),
             'image' => $this->images ? ImageResource::make($this->images()->orderBy('order', 'asc')->first()) : null,
             'categories' => QCategoryResource::collection($this->categories),
-
+            'has_solved' => $hasSolved,
+            'test_result' => $hasSolved&&$user->testResult?TestResultResource::collection($user->testResult->firstWhere('test_id',$this->id)):null
         ];
     }
 }

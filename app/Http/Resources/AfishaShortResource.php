@@ -19,6 +19,7 @@ class AfishaShortResource extends JsonResource
         return [
             'model_type' => 'afisha',
             'id' => $this->id,
+#            'slug' =>$this->slug,
             'title' =>$this->title,
             'link'=>$this->link,
             'views'=>$this->viewed,
@@ -28,8 +29,17 @@ class AfishaShortResource extends JsonResource
             'has_bookmark' => $user?$this->hasBookmark($user):false,
             'city' => CityResource::make($this->city),
             'leisure' => LeisureResource::make($this->leisure),
-            'comment' => $this->commented,
+            'comments' => $this->commented,
             'likes' => $this->liked,
+            'image' => $this->images->count()>0 ? ImageResource::make($this->images()->orderBy('order', 'asc')->first()) :[
+                "model_type" => "image",
+                "id" => 1294,
+                "alt" => null,
+                "src" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt.jpg",
+                "preview" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
+                "original" => null,
+                "order" => 1
+            ],
         ];
     }
 }

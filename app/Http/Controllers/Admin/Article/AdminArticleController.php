@@ -10,6 +10,7 @@ use App\Http\Resources\Admin\AdminArticleResource;
 use App\Models\Article;
 use App\Models\Image;
 use App\Services\ImageService;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -35,17 +36,18 @@ class AdminArticleController extends Controller
      * @return AdminArticleCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('manage', Article::class);
-
+        $perPage = $request->get('per_page');
         $articles = QueryBuilder::for(Article::class)
             ->allowedIncludes(['comments', 'bookmarks', 'tags', 'category'])
             ->allowedFilters(['yatextid'])
-            ->allowedSorts(['id', 'title', 'published_at'])
-            ->jsonPaginate();
+            ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'event_date'])
+            ->jsonPaginate($perPage);
 
         return new AdminArticleCollection($articles);
+//        return $perPage;
     }
 
     /**
@@ -98,7 +100,7 @@ class AdminArticleController extends Controller
     {
         $query = QueryBuilder::for(Article::class)
             ->where('id', $article->id)
-            ->allowedIncludes(['authors', 'tags', 'images'])
+            ->allowedIncludes(['authors', 'tags', 'images', 'timeline'])
             ->firstOrFail();
 
         return new AdminArticleResource($query);
@@ -109,7 +111,7 @@ class AdminArticleController extends Controller
      *
      * @param \App\Http\Requests\Article\ArticleUpdateRequest $request
      * @param Article $article
-     * @return \Illuminate\Http\JsonResponse
+     * @return AdminArticleResource
      */
     public function update(ArticleUpdateRequest $request, Article $article)
     {
@@ -133,11 +135,7 @@ class AdminArticleController extends Controller
         $article->authors()->sync($dataRelAuthors);
         $article->tags()->sync($dataRelTags);
 
-        return (new AdminArticleResource($article))
-            ->response()
-            ->header('Location', route('admin.articles.show', [
-                'article' => $article->id
-            ]));
+        return new AdminArticleResource($article);
     }
 
     /**

@@ -23,13 +23,14 @@ class AdminHighlightController extends Controller
      *
      * @return AdminHighlightCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Highlight::class)
             ->allowedIncludes(['tags', 'images'])
             ->allowedSorts(['title', 'order'])
             ->allowedFilters('type')
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminHighlightCollection($query);
     }

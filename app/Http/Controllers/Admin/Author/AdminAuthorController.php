@@ -26,10 +26,11 @@ class AdminAuthorController extends Controller
      */
     public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $authors = QueryBuilder::for(Author::class)
-            ->with('articles')
+            ->allowedIncludes(['articles'])
             ->allowedSorts(['id', 'birth_date', 'firstname'])
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminAuthorCollection($authors);
     }

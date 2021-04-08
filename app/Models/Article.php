@@ -22,7 +22,6 @@ class Article extends Model
      */
     protected $guarded = [];
 
-
     /**
      * The attributes that should be cast to native types.
      *

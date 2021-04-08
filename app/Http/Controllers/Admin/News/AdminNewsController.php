@@ -25,12 +25,14 @@ class AdminNewsController extends Controller
      * @param Request $request
      * @return AdminNewsCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(News::class)
-            ->with('tags')
-//            ->allowedIncludes('tags')
-            ->jsonPaginate();
+            ->allowedIncludes(['tags', 'images', 'bookmarks', 'comments'])
+            ->allowedSorts(['id', 'title', 'published_at'])
+            ->allowedFilters(['status', 'show_in_main', 'show_in_afisha'])
+            ->jsonPaginate($perPage);
 
         return new AdminNewsCollection($query);
     }
@@ -64,7 +66,7 @@ class AdminNewsController extends Controller
     {
         $query = QueryBuilder::for(News::class)
             ->where('id', $news->id)
-            ->with('tags', 'comments')
+            ->allowedIncludes('tags', 'images', 'bookmarks', 'comments')
             ->firstOrFail();
 
         return new AdminNewsResource($query);

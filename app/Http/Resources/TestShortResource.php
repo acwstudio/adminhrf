@@ -14,10 +14,11 @@ class TestShortResource extends JsonResource
      */
     public function toArray($request)
     {
-	$user = $request->user();
+	    $user = $request->user();
+        $hasSolved = $user?$this->checkSolved($user):false;
         return [
             'model_type' => 'test',
-	    'id' =>$this->id,
+	        'id' =>$this->id,
             'title' => $this->title,
             'description' => $this->description,
             'time' => $this->time,
@@ -30,7 +31,8 @@ class TestShortResource extends JsonResource
             'has_bookmark' => false,
             'image' => $this->images ? ImageResource::make($this->images()->orderBy('order', 'asc')->first()) : null,
             'categories' => QCategoryResource::collection($this->categories),
-
+            'has_solved' => $hasSolved,
+            'test_result' => $hasSolved &&$user->testResult?TestResultResource::collection($user->testResult->firstWhere('test_id',$this->id)):null
         ];
     }
 }

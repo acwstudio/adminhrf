@@ -22,12 +22,13 @@ class AdminTCategoryController extends Controller
      *
      * @return AdminTCategoryCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(QCategory::class)
 //            ->with('')
             ->allowedSorts(['text'])
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminTCategoryCollection($query);
     }

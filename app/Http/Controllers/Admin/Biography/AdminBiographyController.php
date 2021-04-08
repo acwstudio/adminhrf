@@ -22,12 +22,13 @@ class AdminBiographyController extends Controller
      *
      * @return AdminBiographyCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $biographies = QueryBuilder::for(Biography::class)
             ->allowedIncludes(['comments'])
             ->allowedSorts(['firstname'])
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminBiographyCollection($biographies);
     }

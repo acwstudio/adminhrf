@@ -22,12 +22,13 @@ class AdminBookmarkGroupController extends Controller
      *
      * @return AdminBookmarkGroupCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(BookmarkGroup::class)
 //            ->allowedIncludes('')
 //            ->allowedSorts()
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return new AdminBookmarkGroupCollection($query);
     }

@@ -56,6 +56,10 @@ class Event extends Model
         return is_null($user->bookmarkGroup->bookmarks()->firstWhere('bookmarkable_id', $this->id));
     }
 
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable')->orderBy('order');
+    }
 
     public function leisure(){
         return $this->belongsTo(Leisure::class, 'leisure_id','id');

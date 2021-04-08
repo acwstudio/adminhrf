@@ -49,8 +49,8 @@ class AdminArticleResource extends JsonResource
                         'self' => route('articles.relationships.authors', ['article' => $this->id]),
                         'related' => route('articles.authors', ['article' => $this->id])
                     ],
-//                    'data' => AdminAuthorsIdentifireResource::collection($this->whenLoaded('authors'))
-                    'data' => AdminAuthorResource::collection($this->whenLoaded('authors'))
+                    'data' => AdminAuthorsIdentifireResource::collection($this->whenLoaded('authors'))
+//                    'data' => AdminAuthorResource::collection($this->whenLoaded('authors'))
                 ],
                 'comments' => [
                     'links' => [
@@ -65,8 +65,8 @@ class AdminArticleResource extends JsonResource
                         'self' => route('articles.relationships.tags', ['article' => $this->id]),
                         'related' => route('articles.tags', ['article' => $this->id])
                     ],
-//                    'data' => AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
-                    'data' => AdminTagResource::collection($this->whenLoaded('tags'))
+                    'data' => AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
+//                    'data' => AdminTagResource::collection($this->whenLoaded('tags'))
                 ],
                 'images' => [
                     'links' => [
@@ -91,30 +91,45 @@ class AdminArticleResource extends JsonResource
                     ],
 //                    'data' => new AdminArticleCategoryIdentifierResource($this->whenLoaded('category'))
                     'data' => new AdminArticleCategoryResource($this->whenLoaded('category'))
+                ],
+                'timeline' => [
+                    'links' => [
+                        'self' => route('article.relationships.timeline', ['article' => $this->id]),
+                        'related' => route('article.timeline', ['article' => $this->id])
+                    ],
+                    'data' => new AdminArticleCategoryIdentifierResource($this->whenLoaded('category'))
+//                    'data' => new AdminTimelineResource($this->whenLoaded('timeline'))
                 ]
             ],
 //            'timeline' => $this->timeline,
         ];
     }
 
-//    private function relations()
-//    {
-//        return [
-//            AdminAuthorResource::collection($this->whenLoaded('authors')),
-//            AdminTagResource::collection($this->whenLoaded('tags'))
-//        ];
-//    }
+    private function relations()
+    {
+        return [
+            new AdminAuthorCollection($this->whenLoaded('authors')),
+            new AdminTagCollection($this->whenLoaded('tags'))
+        ];
+    }
 
-//    public function with($request)
-//    {
-//        return [
+    public function with($request)
+    {
+        return [
+            'included' => $this->relations(),
 
-//            'included' => collect($this->relations())->flatMap(function ($value) use($request) {
-    /** @var \Illuminate\Http\Resources\Json\ResourceCollection $value */
-//                return $value->toArray($request);
-//                return $value;
-//            }),
-//            'included' => $this->relations()
+//        'included' => collect($this->relations())
+//            ->flatMap(function ($resource) use($request){
+//                return $resource->toArray($request);
+//            })
 //        ];
-//    }
+//            'included' => collect($this->relations())
+//                ->filter(function ($resource) {
+//                    return $resource->collection !== null;
+//                })
+//                ->flatMap(function ($resource) use ($request) {
+//                    return $resource->toArray($request);
+//                })
+        ];
+    }
 }

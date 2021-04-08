@@ -35,12 +35,13 @@ class AdminImageController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Image::class)
 //            ->with('articles')
 //            ->allowedIncludes('articles')
-            ->jsonPaginate();
+            ->jsonPaginate($perPage);
 
         return AdminImageResource::collection($query);
     }

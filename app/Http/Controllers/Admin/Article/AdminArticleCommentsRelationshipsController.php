@@ -31,6 +31,6 @@ class AdminArticleCommentsRelationshipsController extends Controller
      */
     public function update(ArticleCommentsUpdateRelationshipsRequest $request, Article $article)
     {
-        return response()->json(['message' => 'Update action is disabled']);
+        return response()->json(['message' => 'Update comments action for article is disabled']);
     }
 }
