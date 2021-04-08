@@ -44,7 +44,6 @@ class TestController extends Controller
     {
         $count = $request->get('count', 0);
         $points = $request->get('points', 0);
-        $id = $request->get('user_id');
         $is_closed = $request->boolean('finished', false);
         $time = (int)$request->get('time', 0);
         $val = $test->has_points == 1 ? $points : $count;
@@ -54,22 +53,22 @@ class TestController extends Controller
 
         $user = $request->user();
         //TODO: Change checking id by param to Auth service (so change the if condition)
-        if (!$id || !User::where('id', $id)->first()) {
+        if (!$user) {
 
             return $test->messages->where('lowest_value', '<=', $val)->where('highest_value', '>=', $val)->first();
         }
 
-        $result = TResult::where('user_id', $id)->where('test_id', $test->id)->first();
+        $result = $user->testResults->firstWhere('test_id',$test->id);
+        //TResult::where('user_id', $id)->where('test_id', $test->id)->first();
 
         if (is_null($result)) {
 
-            TResult::create([
-                'test_id' => $test->id,
-                'user_id' => $id,
-                'time_passed' => $time,
-                'is_closed' => $is_closed,
-                'value' => $val
-            ]);
+            $test->results->create([
+               'test_id' => $test->id,
+               'user_id' => $user->id,
+               'time_passed' => $time,
+               'is_closed' => $is_closed,
+               'value' => $val ]);
 
             //return response('Result saved', 201);
 
