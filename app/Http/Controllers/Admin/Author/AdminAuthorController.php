@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Author\AuthorCreateRequest;
 use App\Http\Requests\Author\AuthorUpdateRequest;
 use App\Http\Resources\Admin\AdminAuthorCollection;
+use App\Http\Resources\Admin\AdminAuthorLightResource;
 use App\Http\Resources\Admin\AdminAuthorResource;
 use App\Http\Resources\AuthorResource;
 use App\Models\Author;
@@ -98,5 +99,17 @@ class AdminAuthorController extends Controller
     {
         $author->delete();
         return response(null, 204);
+    }
+
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function light()
+    {
+        $authors = QueryBuilder::for(Author::class)
+            ->allowedSorts(['id', 'firstname', 'surname'])
+            ->get();
+
+        return AdminAuthorLightResource::collection($authors);
     }
 }
