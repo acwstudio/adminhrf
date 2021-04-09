@@ -106,7 +106,7 @@ class AdminTagController extends Controller
     {
         $tags = QueryBuilder::for(Tag::class)
             ->allowedSorts(['id', 'title'])
-        ->get();
+            ->get();
 
         return AdminTagLightResource::collection($tags);
     }

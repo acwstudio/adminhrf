@@ -37,7 +37,7 @@ class ArticleCreateRequest extends FormRequest
             'data.attributes.body' => 'required|string',
             'data.attributes.show_in_rss' => 'required|boolean',
             'data.attributes.yatextid' => 'required|string',
-            'data.attributes.active' => 'required|boolean',
+            'data.attributes.active' => 'required|integer',
             'data.attributes.published_at' => 'required|string',
             'data.attributes.viewed' => 'required|integer',
             'data.attributes.liked' => 'required|integer',

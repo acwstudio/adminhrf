@@ -216,6 +216,8 @@ Route::get('/articles/{article}/timeline', [
 
 Route::apiResource('/article-categories', AdminArticleCategoryController::class, ['as' => 'admin']);
 
+Route::get('/article-categories-light', [AdminArticleCategoryController::class, 'light']);
+
 // ArticleCategories to Article relations
 Route::get('/article-categories/{article_category}/relationships/articles', [
     AdminArticleCategoryArticlesRelationshipsController::class, 'index'
