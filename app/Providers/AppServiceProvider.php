@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
             'comment' => 'App\Models\Comment',
             'videomaterial' => 'App\Models\Videomaterial',
             'audiomaterial' => 'App\Models\Audiomaterial',
-            'event' => 'App\Models\Event',
+            'afisha' => 'App\Models\Event',
             'highlight' => 'App\Models\Highlight',
             'podcast' => 'App\Models\Podcast',
             'dayinhistory' => 'App\Models\DayInHistory',
