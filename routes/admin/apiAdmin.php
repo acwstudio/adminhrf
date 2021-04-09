@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\Article\AdminArticleBookmarksRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticleBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticleCommentsRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticleCommentsRelationshipsController;
-use App\Http\Controllers\Admin\Article\AdminArticleController;
+//use App\Http\Controllers\Admin\Article\AdminArticleController;
 use App\Http\Controllers\Admin\Article\AdminArticleImagesRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticleImagesRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticlesArticleCategoryRelatedController;
@@ -123,7 +123,7 @@ Route::get('/answers/{answer}/question', [
 Route::apiResource('/all-content', AdminAllContentController::class, ['as' => 'admin']);
 
 /*****************  ARTICLES ROUTES **************/
-Route::apiResource('/articles', AdminArticleController::class, ['as' =>'admin']);
+Route::apiResource('/articles', \App\Http\Controllers\Admin\Article\AdminArticleController::class, ['as' =>'admin']);
 
 // Articles to Article category relations
 Route::get('/articles/{article}/relationships/article-category', [
