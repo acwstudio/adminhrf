@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Tag\TagCreateRequest;
 use App\Http\Requests\Tag\TagUpdateRequest;
 use App\Http\Resources\Admin\AdminTagCollection;
+use App\Http\Resources\Admin\AdminTagLightResource;
 use App\Http\Resources\Admin\AdminTagResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ class AdminTagController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $tags = QueryBuilder::for(Tag::class)
             ->allowedIncludes(['articles', 'documents', 'news', 'biographies'])
             ->allowedSorts('title')
@@ -95,5 +97,17 @@ class AdminTagController extends Controller
     {
         $tag->delete();
         return response(null, 204);
+    }
+
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function light()
+    {
+        $tags = QueryBuilder::for(Tag::class)
+            ->allowedSorts(['id', 'title'])
+        ->get();
+
+        return AdminTagLightResource::collection($tags);
     }
 }

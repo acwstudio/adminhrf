@@ -50,7 +50,7 @@ class ArticleCreateRequest extends FormRequest
             'data.relationships.tags.data.*.type' => 'present|in:tags',
             'data.relationships.authors.data.*.type' => 'present|in:authors',
             'data.relationships.images.data.*.type' => 'present|in:images',
-            'data.relationships.images.data.*.id' => 'exists:images,id',
+//            'data.relationships.images.data.*.id' => 'exists:images,id',
         ];
     }
 }

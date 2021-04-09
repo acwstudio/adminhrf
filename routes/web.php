@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Admin\Image\AdminImageController;
 use App\Http\Controllers\TempTestingController;
 use App\Http\Controllers\TestingController;
 use Illuminate\Support\Facades\Route;
@@ -21,5 +22,6 @@ Route::get('/', function () {
 });
 
 Route::get('/api/v1/testing_controller/{method}', [TempTestingController::class, 'index']);
+//Route::get('/images-admin/{image}', [AdminImageController::class, 'show']);
 
 

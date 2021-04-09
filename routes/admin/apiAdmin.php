@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\AllContent\AdminAllContentController;
 use App\Http\Controllers\Admin\Answer\AdminAnswerController;
 use App\Http\Controllers\Admin\Answer\AdminAnswersQuestionRelatedController;
-use App\Http\Controllers\Admin\Answer\AdminAnswersQuestionRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticleBookmarksRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticleBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticleCommentsRelatedController;
@@ -43,7 +42,7 @@ use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelationshipsController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelationshipsController;
-use App\Http\Controllers\Admin\Image\AdminImageController;
+//use App\Http\Controllers\Admin\Image\AdminImageController;
 use App\Http\Controllers\Admin\News\AdminNewsBookmarksRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\News\AdminNewsCommentsRelatedController;
@@ -319,13 +318,7 @@ Route::get('/documents/{document}/tags', [
 
 /*****************  IMAGES ROUTES **************/
 
-Route::get('/images', [AdminImageController::class, 'index']);
-Route::get('/images/{image}', [AdminImageController::class, 'show'])
-    ->name('admin.images.show');
-Route::post('/images', [AdminImageController::class, 'store']);
-Route::patch('/images/{image}', [AdminImageController::class, 'update']);
-Route::delete('/images/{image}', [AdminImageController::class, 'destroy']);
-Route::post('/images/loader', [AdminImageController::class, 'loadImage']);
+Route::apiResource('/images', \App\Http\Controllers\Admin\AdminImageController::class, ['as' => 'admin']);
 
 /*****************  HIGHLIGHTS ROUTES **************/
 
@@ -536,6 +529,8 @@ Route::get('/results/{result}/user', [
 /*****************  TAGS ROUTES **************/
 
 Route::apiResource('/tags', AdminTagController::class, ['as' =>'admin']);
+
+Route::get('/tags-light', [AdminTagController::class, 'light']);
 
 // Tags to Articles relations
 Route::get('/tags/{tag}/relationships/articles', [
