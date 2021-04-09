@@ -31,10 +31,10 @@ class AdminTCategoryResource extends JsonResource
             'relationships' => [
                 'tests' => [
                     'links' => [
-//                        'self' => route('tags.relationships.articles', ['tag' => $this->id]),
-//                        'related' => route('tags.articles', ['tag' => $this->id])
+                        'self' => route('test-categories.relationships.tests', ['test_category' => $this->id]),
+                        'related' => route('test-categories.tests', ['test_category' => $this->id])
                     ],
-//                    'data' => AdminArticlesIdentifireResource::collection($this->whenLoaded('articles'))
+                    'data' => AdminTestsIdentifierResource::collection($this->whenLoaded('tests'))
                 ],
             ]
         ];

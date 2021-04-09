@@ -58,7 +58,9 @@ class AdminTestController extends Controller
         $dataAttributes = $request->input('data.attributes');
 
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
-//        return $dataRelImages;
+        $dataRelQuestions = $request->input('data.relationships.questions.data.*.id');
+        $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
+
         $test = Test::create($dataAttributes);
 
         // update field imageable_id of images table with new $article->id
@@ -72,6 +74,10 @@ class AdminTestController extends Controller
                 }
             }
         }
+
+        // attach authors and tags for the article
+        $test->questions()->attach($dataRelQuestions);
+        $test->categories()->attach($dataRelCategories);
 
         return (new AdminTestResource($test))
             ->response()

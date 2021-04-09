@@ -87,11 +87,12 @@ class AdminArticleController extends Controller
 
 //        $article->bookmarks()->saveMany($dataRelBookmarks);
 
-        return (new AdminArticleResource($article))
-            ->response()
-            ->header('Location', route('admin.articles.show', [
-                'article' => $article->id
-            ]));
+        return $article->id;
+//        return (new AdminArticleResource($article))
+//            ->response()
+//            ->header('Location', route('admin.articles.show', [
+//                'article' => $article->id
+//            ]));
     }
 
     /**

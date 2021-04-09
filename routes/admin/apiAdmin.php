@@ -81,6 +81,8 @@ use App\Http\Controllers\Admin\Test\AdminTestResultsRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestResultsRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelationshipsController;
+use App\Http\Controllers\Admin\Test\AdminTestsTCategoriesRelatedController;
+use App\Http\Controllers\Admin\Test\AdminTestsTCategoriesRelationshipsController;
 use App\Http\Controllers\Admin\TestCategory\AdminTCategoriesTestsRelatedController;
 use App\Http\Controllers\Admin\TestCategory\AdminTCategoriesTestsRelationshipsController;
 use App\Http\Controllers\Admin\TestCategory\AdminTCategoryController;
@@ -686,6 +688,19 @@ Route::patch('/tests/{test}/relationships/results', [
 Route::get('/tests/{test}/results', [
     AdminTestResultsRelatedController::class, 'index'
 ])->name('test.results');
+
+// Tests to Tests Categories relations
+Route::get('/tests/{test}/relationships/test-categories', [
+    AdminTestsTCategoriesRelationshipsController::class, 'index'
+])->name('tests.relationships.results');
+
+Route::patch('/tests/{test}/relationships/test-categories', [
+    AdminTestsTCategoriesRelationshipsController::class, 'update'
+])->name('tests.relationships.test-categories');
+
+Route::get('/tests/{test}/test-categories', [
+    AdminTestsTCategoriesRelatedController::class, 'index'
+])->name('tests.test-categories');
 
 /*****************  TESTS CATEGORIES ROUTES **************/
 

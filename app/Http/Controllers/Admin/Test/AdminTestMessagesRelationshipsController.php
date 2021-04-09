@@ -35,10 +35,16 @@ class AdminTestMessagesRelationshipsController extends Controller
         $id = $request->input('data.*.id');
 
         $message = TestMessage::find($id[0]);
-        $message->update([
-            'test_id' => $id[0]
-        ]);
+
+        if ($message) {
+            $message->update([
+                'test_id' => $test->id
+            ]);
+        } else {
+            return response()->json(['message' => 'Test message id = ' . $id[0] . ' does not exist']);
+        }
 
         return response(null, 204);
+
     }
 }

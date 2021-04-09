@@ -30,7 +30,7 @@ class TCategoriesTestsUpdateRelationshipsRequest extends FormRequest
         return [
             'data' => 'present|array',
             'data.*.id' => 'required|integer',
-            'data.*.type' => 'required|in:tcategories'
+            'data.*.type' => 'required|in:tests'
         ];
     }
 }

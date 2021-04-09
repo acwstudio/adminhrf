@@ -5,10 +5,10 @@ namespace App\Http\Requests\Test;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class TestResultsUpdateRelationshipsRequest
+ * Class TestsTCategoriesUpdateRelationshipsRequest
  * @package App\Http\Requests\Test
  */
-class TestResultsUpdateRelationshipsRequest extends FormRequest
+class TestsTCategoriesUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,7 +30,7 @@ class TestResultsUpdateRelationshipsRequest extends FormRequest
         return [
             'data' => 'present|array',
             'data.*.id' => 'required|integer',
-            'data.*.type' => 'required|in:results',
+            'data.*.type' => 'required|in:tcategories'
         ];
     }
 }
