@@ -70,29 +70,29 @@ class AdminArticleController extends Controller
         $article = Article::create($dataAttributes);
 
         // update field imageable_id of images table with new $article->id
-//        if ($dataRelImages) {
-//            foreach ($dataRelImages as $imageId) {
-//                $image = Image::find($imageId);
-//                if ($image) {
-//                    Image::findOrFail($imageId)->update([
-//                        'imageable_id' => $article->id
-//                    ]);
-//                }
-//            }
-//        }
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $imageId) {
+                $image = Image::find($imageId);
+                if ($image) {
+                    Image::findOrFail($imageId)->update([
+                        'imageable_id' => $article->id
+                    ]);
+                }
+            }
+        }
 
         // attach authors and tags for the article
-//        $article->authors()->attach($dataRelAuthors);
-//        $article->tags()->attach($dataRelTags);
+        $article->authors()->attach($dataRelAuthors);
+        $article->tags()->attach($dataRelTags);
 
 //        $article->bookmarks()->saveMany($dataRelBookmarks);
 
-        return $article->id;
-//        return (new AdminArticleResource($article))
-//            ->response()
-//            ->header('Location', route('admin.articles.show', [
-//                'article' => $article->id
-//            ]));
+//        return $article->id;
+        return (new AdminArticleResource($article))
+            ->response()
+            ->header('Location', route('admin.articles.show', [
+                'article' => $article->id
+            ]));
     }
 
     /**
