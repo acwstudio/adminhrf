@@ -123,7 +123,7 @@ Route::get('/answers/{answer}/question', [
 Route::apiResource('/all-content', AdminAllContentController::class, ['as' => 'admin']);
 
 /*****************  ARTICLES ROUTES **************/
-Route::apiResource('/articles', App\Http\Controllers\Admin\Article\AdminArticleController::class, ['as' =>'admin']);
+Route::apiResource('/articles', \App\Http\Controllers\Admin\Article\AdminArticleController::class, ['as' =>'admin']);
 
 // Articles to Article category relations
 Route::get('/articles/{article}/relationships/article-category', [
