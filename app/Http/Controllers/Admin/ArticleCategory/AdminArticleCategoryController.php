@@ -98,6 +98,9 @@ class AdminArticleCategoryController extends Controller
         return response(null, 204);
     }
 
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function light()
     {
         $categories = QueryBuilder::for(ArticleCategory::class)

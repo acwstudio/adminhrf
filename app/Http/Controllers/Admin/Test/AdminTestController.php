@@ -40,7 +40,7 @@ class AdminTestController extends Controller
     {
         $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Test::class)
-            ->allowedIncludes(['images', 'questions', 'messages', 'comments'])
+            ->allowedIncludes(['images', 'questions', 'messages', 'comments', 'categories'])
             ->allowedSorts(['title', 'created_at'])
             ->jsonPaginate($perPage);
 

@@ -81,6 +81,8 @@ use App\Http\Controllers\Admin\Test\AdminTestResultsRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestResultsRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelationshipsController;
+use App\Http\Controllers\Admin\TestCategory\AdminTCategoriesTestsRelatedController;
+use App\Http\Controllers\Admin\TestCategory\AdminTCategoriesTestsRelationshipsController;
 use App\Http\Controllers\Admin\TestCategory\AdminTCategoryController;
 use App\Http\Controllers\Admin\TestMessage\AdminMessageController;
 use App\Http\Controllers\Admin\TestResult\AdminResultController;
@@ -690,5 +692,18 @@ Route::get('/tests/{test}/results', [
 Route::apiResource('/test-categories', AdminTCategoryController::class, ['as' => 'admin']);
 
 Route::get('/test-categories-light', [AdminTCategoryController::class, 'light']);
+
+// Tests Categories to Tests relations
+Route::get('/test-categories/{test_category}/relationships/tests', [
+    AdminTCategoriesTestsRelationshipsController::class, 'index'
+])->name('test-categories.relationships.tests');
+
+Route::patch('/test-categories/{test_category}/relationships/tests', [
+    AdminTCategoriesTestsRelationshipsController::class, 'update'
+])->name('test-categories.relationships.tests');
+
+Route::patch('/test-categories/{test_category}/tests', [
+    AdminTCategoriesTestsRelatedController::class, 'index'
+])->name('test-categories.tests');
 
 
