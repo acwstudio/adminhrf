@@ -25,17 +25,17 @@ class EmailVerify
             if ($user = User::where('email', $email)->first()) {
 
                 if ($user->hasVerifiedEmail()) {
-                    return redirect(config('app.client_url') . "?type=email_confirm&email_verified={$email}");
+                    return redirect(config('app.client_url') . "?type=email_confirm");
                 }
 
                 if ($user->markEmailAsVerified()) {
                     event(new Verified($user));
-                    return redirect(config('app.client_url') . "?type=email_confirm&email_verified?email_verified={$email}");
+                    return redirect(config('app.client_url') . "?type=email_confirm");
                 }
             }
         }
 
-        return redirect(config('app.client_url') . '?type=email_confirm&email_verified=false');
+        return redirect(config('app.client_url'));
 
     }
 }
