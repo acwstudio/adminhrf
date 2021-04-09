@@ -94,7 +94,7 @@ class Test extends Model
         if(is_null($this->results)){
             return false;
         }
-        return $this->results->where('user_id',$user->id)->where('is_closed',true);
+        return !is_null($this->results->where('user_id',$user->id)->where('is_closed',true));
     }
 
 }

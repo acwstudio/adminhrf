@@ -18,6 +18,7 @@ class LeisureResource extends JsonResource
             'model_type' => 'leisure',
             'id' => $this->id,
             'title' => $this->title,
+	    'slug' =>$this->slug,
             'count' => $this->count,
         ];
     }

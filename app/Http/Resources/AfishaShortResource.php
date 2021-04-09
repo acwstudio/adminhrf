@@ -19,7 +19,7 @@ class AfishaShortResource extends JsonResource
         return [
             'model_type' => 'afisha',
             'id' => $this->id,
-            'slug' =>$this->slug,
+#            'slug' =>$this->slug,
             'title' =>$this->title,
             'link'=>$this->link,
             'views'=>$this->viewed,
@@ -31,7 +31,7 @@ class AfishaShortResource extends JsonResource
             'leisure' => LeisureResource::make($this->leisure),
             'comments' => $this->commented,
             'likes' => $this->liked,
-            'image' => [
+            'image' => $this->images->count()>0 ? ImageResource::make($this->images()->orderBy('order', 'asc')->first()) :[
                 "model_type" => "image",
                 "id" => 1294,
                 "alt" => null,

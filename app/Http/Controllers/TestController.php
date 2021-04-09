@@ -63,11 +63,12 @@ class TestController extends Controller
 
         if (is_null($result)) {
 
-            $test->results->create([
+            TResult::create([
                'test_id' => $test->id,
                'user_id' => $user->id,
                'time_passed' => $time,
-               'is_closed' => $is_closed,
+//               'is_closed' => $is_closed,
+	       'is_closed' => true,
                'value' => $val ]);
 
             //return response('Result saved', 201);
@@ -75,7 +76,7 @@ class TestController extends Controller
         } else {
             $result->update([
                 'time_passed' => ($result->time_passed > $time) ? $time : $result->time_passed,
-                'is_closed' => ($result->is_closed == false && $is_closed == true) ? $is_closed : $result->is_closed,
+                'is_closed' => true, //($result->is_closed == false && $is_closed == true) ? $is_closed : $result->is_closed,
                 'value' => ($val > $result->value) ? $val : $result->value,
             ]);
             //return response('Result saved', 201);

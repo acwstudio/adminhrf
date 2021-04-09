@@ -32,7 +32,7 @@ class TestShortResource extends JsonResource
             'image' => $this->images ? ImageResource::make($this->images()->orderBy('order', 'asc')->first()) : null,
             'categories' => QCategoryResource::collection($this->categories),
             'has_solved' => $hasSolved,
-            'test_result' => $hasSolved?TestResultResource::collection($user->testResult->firstWhere('test_id',$this->id)):null
+            'test_result' => $hasSolved &&$user->testResult?TestResultResource::collection($user->testResult->firstWhere('test_id',$this->id)):null
         ];
     }
 }

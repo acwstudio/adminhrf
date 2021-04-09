@@ -18,11 +18,11 @@ class TestResultResource extends JsonResource
         return [
             'model_type' => 'test_result',
             'id' => $this->id,
-            'test_id' => $this->test_id,
-            'is_closed'=> $this->is_closed,
-            'time_passed'=> $this->time_passed,
-            'value'=> $this->value,
-            'updated_at'=> $this->updated_at
+#            'test_id' => $this->test_id,
+ #           'is_closed'=> $this->is_closed,
+  #          'time_passed'=> $this->time_passed,
+   #         'value'=> $this->value,
+    #        'updated_at'=> $this->updated_at
         ];
     }
 }
