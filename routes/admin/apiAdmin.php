@@ -216,7 +216,7 @@ Route::get('/articles/{article}/timeline', [
 
 Route::apiResource('/article-categories', AdminArticleCategoryController::class, ['as' => 'admin']);
 
-Route::get('/article-categories-light', [AdminArticleCategoryController::class, 'light']);
+Route::get('/article-categories/light', [AdminArticleCategoryController::class, 'light']);
 
 // ArticleCategories to Article relations
 Route::get('/article-categories/{article_category}/relationships/articles', [
@@ -532,7 +532,7 @@ Route::get('/results/{result}/user', [
 
 Route::apiResource('/tags', AdminTagController::class, ['as' =>'admin']);
 
-Route::get('/tags-light', [AdminTagController::class, 'light']);
+Route::get('/tags/light', [AdminTagController::class, 'light']);
 
 // Tags to Articles relations
 Route::get('/tags/{tag}/relationships/articles', [
@@ -688,5 +688,7 @@ Route::get('/tests/{test}/results', [
 /*****************  TESTS CATEGORIES ROUTES **************/
 
 Route::apiResource('/test-categories', AdminTCategoryController::class, ['as' => 'admin']);
+
+Route::get('/test-categories/light', [AdminTCategoryController::class, 'light']);
 
 
