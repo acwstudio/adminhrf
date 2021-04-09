@@ -26,8 +26,9 @@ class AdminTCategoryController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $query = QueryBuilder::for(QCategory::class)
-//            ->with('')
+            ->allowedIncludes(['tests'])
             ->allowedSorts(['text'])
             ->jsonPaginate($perPage);
 
@@ -102,9 +103,10 @@ class AdminTCategoryController extends Controller
     public function light()
     {
         $categories = QueryBuilder::for(QCategory::class)
-            ->allowedSorts(['id', 'title'])
+            ->allowedSorts(['id', 'text'])
             ->get();
 
         return AdminTCategoryLightResource::collection($categories);
+//        return 'ok';
     }
 }
