@@ -16,6 +16,7 @@ class TestMessage extends Model
         'title',
         'lowest_value',
         'highest_value',
+        'test_id'
     ];
 
     public function test()

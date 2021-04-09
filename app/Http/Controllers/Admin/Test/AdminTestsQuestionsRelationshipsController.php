@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Test;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Test\TestsQuestionsUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\AdminQuestionsIdentifireResource;
+use App\Models\Question;
 use App\Models\Test;
 use Illuminate\Http\Request;
 
@@ -16,11 +17,11 @@ class AdminTestsQuestionsRelationshipsController extends Controller
 {
     /**
      * @param Test $test
-     * @return AdminQuestionsIdentifireResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Test $test)
     {
-        return new AdminQuestionsIdentifireResource($test->questions);
+        return AdminQuestionsIdentifireResource::collection($test->questions);
     }
 
     /**
@@ -30,6 +31,9 @@ class AdminTestsQuestionsRelationshipsController extends Controller
      */
     public function update(TestsQuestionsUpdateRelationshipsRequest $request, Test $test)
     {
-        return response()->json(['message' => 'Update action is disabled']);
+        $ids = $request->input('data.*.id');
+        $test->questions()->sync($ids);
+
+        return response(null, 204);
     }
 }

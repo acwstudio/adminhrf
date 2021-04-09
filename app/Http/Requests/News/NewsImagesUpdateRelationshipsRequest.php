@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Tag;
+namespace App\Http\Requests\News;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class TagsNewsUpdateRelationshipsRequest
- * @package App\Http\Requests\Tag
+ * Class NewsImagesUpdateRelationshipsRequest
+ * @package App\Http\Requests\News
  */
-class TagsNewsUpdateRelationshipsRequest extends FormRequest
+class NewsImagesUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,8 @@ class TagsNewsUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer',
-            'data.*.type' => 'required|in:news',
+            'data.*.id' => 'required|string',
+            'data.*.type' => 'required|in:images',
         ];
     }
 }

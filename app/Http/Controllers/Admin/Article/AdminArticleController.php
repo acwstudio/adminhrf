@@ -39,7 +39,9 @@ class AdminArticleController extends Controller
     public function index(Request $request)
     {
         $this->authorize('manage', Article::class);
+
         $perPage = $request->get('per_page');
+
         $articles = QueryBuilder::for(Article::class)
             ->allowedIncludes(['comments', 'bookmarks', 'tags', 'category'])
             ->allowedFilters(['yatextid'])
@@ -47,7 +49,6 @@ class AdminArticleController extends Controller
             ->jsonPaginate($perPage);
 
         return new AdminArticleCollection($articles);
-//        return $perPage;
     }
 
     /**
@@ -64,16 +65,19 @@ class AdminArticleController extends Controller
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
 //        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
+//        $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
 
         $article = Article::create($dataAttributes);
 
         // update field imageable_id of images table with new $article->id
-        foreach ($dataRelImages as $imageId) {
-            $image = Image::find($imageId);
-            if ($image) {
-                Image::findOrFail($imageId)->update([
-                    'imageable_id' => $article->id
-                ]);
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $imageId) {
+                $image = Image::find($imageId);
+                if ($image) {
+                    Image::findOrFail($imageId)->update([
+                        'imageable_id' => $article->id
+                    ]);
+                }
             }
         }
 
@@ -120,16 +124,23 @@ class AdminArticleController extends Controller
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
 //        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
 
         $article->update($dataAttributes);
 
-        foreach ($dataRelImages as $imageId) {
-            $image = Image::find($imageId);
-            if ($image) {
-                Image::findOrFail($imageId)->update([
-                    'imageable_id' => $article->id
-                ]);
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $imageId) {
+                $image = Image::find($imageId);
+                if ($image) {
+                    Image::findOrFail($imageId)->update([
+                        'imageable_id' => $article->id
+                    ]);
+                }
             }
+        }
+
+        if ($dataRelCategories) {
+            $article->category()->associate($dataRelCategories[0])->save();
         }
 
         $article->authors()->sync($dataRelAuthors);
@@ -154,11 +165,14 @@ class AdminArticleController extends Controller
         $article->tags()->detach($idTags);
 //        $article->bookmarks()->delete();
         $images = Image::where('imageable_id', $article->id)
-            ->where('imageable_type', 'article');
+            ->where('imageable_type', 'article')->get();
 
         foreach ($images as $image) {
             $this->imageService->delete($image);
         }
+        $article->images()->delete();
+        $article->comments()->delete();
+        $article->timeline()->delete();
 
         $article->delete();
 

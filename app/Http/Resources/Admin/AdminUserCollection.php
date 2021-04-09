@@ -2,16 +2,16 @@
 
 namespace App\Http\Resources\Admin;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
- * Class AdminTagsIdentifierResource
+ * Class AdminUserCollection
  * @package App\Http\Resources\Admin
  */
-class AdminTagsIdentifierResource extends JsonResource
+class AdminUserCollection extends ResourceCollection
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -19,8 +19,7 @@ class AdminTagsIdentifierResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'type' => 'tags'
+            'data' => $this->collection
         ];
     }
 }

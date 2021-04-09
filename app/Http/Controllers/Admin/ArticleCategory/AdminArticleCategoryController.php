@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleCategory\ArticleCategoryCreateRequest;
 use App\Http\Requests\ArticleCategory\ArticleCategoryUpdateRequest;
 use App\Http\Resources\Admin\AdminArticleCategoryCollection;
+use App\Http\Resources\Admin\AdminArticleCategoryLightResource;
 use App\Http\Resources\Admin\AdminArticleCategoryResource;
 use App\Models\ArticleCategory;
 use Illuminate\Http\Request;
@@ -95,5 +96,17 @@ class AdminArticleCategoryController extends Controller
         $articleCategory->delete();
 
         return response(null, 204);
+    }
+
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function light()
+    {
+        $categories = QueryBuilder::for(ArticleCategory::class)
+            ->allowedSorts(['id', 'title'])
+            ->get();
+
+        return AdminArticleCategoryLightResource::collection($categories);
     }
 }

@@ -24,7 +24,7 @@ class AdminArticleResource extends JsonResource
             'type' => 'articles',
             'slug' => $this->slug,
             'attributes' => [
-                'user_id' => null,
+                'user_id' => $this->user_id,
                 'category_id' => $this->category_id,
                 'title' => $this->title,
                 'announce' => $this->announce,
@@ -105,18 +105,18 @@ class AdminArticleResource extends JsonResource
         ];
     }
 
-    private function relations()
-    {
-        return [
-            new AdminAuthorCollection($this->whenLoaded('authors')),
-            new AdminTagCollection($this->whenLoaded('tags'))
-        ];
-    }
+//    private function relations()
+//    {
+//        return [
+//            new AdminAuthorCollection($this->whenLoaded('authors')),
+//            new AdminTagCollection($this->whenLoaded('tags'))
+//        ];
+//    }
 
-    public function with($request)
-    {
-        return [
-            'included' => $this->relations(),
+//    public function with($request)
+//    {
+//        return [
+//            'included' => $this->relations(),
 
 //        'included' => collect($this->relations())
 //            ->flatMap(function ($resource) use($request){
@@ -130,6 +130,6 @@ class AdminArticleResource extends JsonResource
 //                ->flatMap(function ($resource) use ($request) {
 //                    return $resource->toArray($request);
 //                })
-        ];
-    }
+//        ];
+//    }
 }

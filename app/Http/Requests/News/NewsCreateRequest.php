@@ -43,6 +43,11 @@ class NewsCreateRequest extends FormRequest
             'data.attributes.close_commentation' => 'required|boolean',
             'data.attributes.published_at' => 'required|string',
             'data.attributes.viewed' => 'required|integer',
+
+            'data.relationships.*' => 'present|array',
+            'data.relationships.tags.data.*.type' => 'present|in:tags',
+            'data.relationships.images.data.*.type' => 'present|in:images',
+            'data.relationships.images.data.*.id' => 'exists:images,id',
         ];
     }
 }

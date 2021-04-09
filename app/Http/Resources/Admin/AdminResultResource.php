@@ -33,17 +33,17 @@ class AdminResultResource extends JsonResource
             'relationships' => [
                 'test' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('results.relationships.test', ['result' => $this->id]),
+                        'related' => route('results.test', ['result' => $this->id])
                     ],
-                    'data' => []
+                    'data' => new AdminTestsIdentifierResource($this->whenLoaded('test'))
                 ],
                 'user' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('results.relationships.user', ['result' => $this->id]),
+                        'related' => route('results.user', ['result' => $this->id])
                     ],
-                    'data' => []
+                    'data' => new AdminUserIdentifierResource($this->whenLoaded('user'))
                 ]
             ]
         ];

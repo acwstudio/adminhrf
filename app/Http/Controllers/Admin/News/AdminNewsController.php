@@ -8,8 +8,10 @@ use App\Http\Requests\News\NewsUpdateRequest;
 use App\Http\Requests\Tag\TagUpdateRequest;
 use App\Http\Resources\Admin\AdminNewsCollection;
 use App\Http\Resources\Admin\AdminNewsResource;
+use App\Models\Image;
 use App\Models\News;
 use App\Models\Tag;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -19,6 +21,17 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminNewsController extends Controller
 {
+    private $imageService;
+
+    /**
+     * AdminArticleController constructor.
+     * @param ImageService $imageService
+     */
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,7 +60,23 @@ class AdminNewsController extends Controller
     {
         $data = $request->input('data.attributes');
 
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
+
         $news = News::create($data);
+
+        // update field imageable_id of images table with new $article->id
+        foreach ($dataRelImages as $imageId) {
+            $image = Image::find($imageId);
+            if ($image) {
+                Image::findOrFail($imageId)->update([
+                    'imageable_id' => $news->id
+                ]);
+            }
+        }
+
+        // attach tags for the news
+        $news->tags()->attach($dataRelTags);
 
         return (new AdminNewsResource($news))
             ->response()
@@ -82,8 +111,21 @@ class AdminNewsController extends Controller
     public function update(NewsUpdateRequest $request, News $news)
     {
         $data = $request->input('data.attributes');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
 
         $news->update($data);
+
+        foreach ($dataRelImages as $imageId) {
+            $image = Image::find($imageId);
+            if ($image) {
+                Image::findOrFail($imageId)->update([
+                    'imageable_id' => $news->id
+                ]);
+            }
+        }
+
+        $news->tags()->sync($dataRelTags);
 
         return new AdminNewsResource($news);
     }
@@ -97,7 +139,21 @@ class AdminNewsController extends Controller
      */
     public function destroy(News $news)
     {
+        $idTags = $news->tags()->allRelatedIds();
+
+        $news->tags()->detach($idTags);
+
+        $images = Image::where('imageable_id', $news->id)
+            ->where('imageable_type', 'article');
+
+        foreach ($images as $image) {
+            $this->imageService->delete($image);
+        }
+
+        $news->images()->delete();
+        $news->comments()->delete();
         $news->delete();
+
         return response(null, 204);
     }
 }

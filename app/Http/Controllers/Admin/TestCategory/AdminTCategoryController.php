@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TestCategory\TCategoryCreateRequest;
 use App\Http\Requests\TestCategory\TCategoryUpdateRequest;
 use App\Http\Resources\Admin\AdminTCategoryCollection;
+use App\Http\Resources\Admin\AdminTCategoryLightResource;
 use App\Http\Resources\Admin\AdminTCategoryResource;
 use App\Models\QCategory;
 use Illuminate\Http\Request;
@@ -25,8 +26,9 @@ class AdminTCategoryController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $query = QueryBuilder::for(QCategory::class)
-//            ->with('')
+            ->allowedIncludes(['tests'])
             ->allowedSorts(['text'])
             ->jsonPaginate($perPage);
 
@@ -93,5 +95,18 @@ class AdminTCategoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function light()
+    {
+        $categories = QueryBuilder::for(QCategory::class)
+            ->allowedSorts(['id', 'text'])
+            ->get();
+
+        return AdminTCategoryLightResource::collection($categories);
+//        return 'ok';
     }
 }

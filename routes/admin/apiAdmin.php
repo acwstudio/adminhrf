@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\AllContent\AdminAllContentController;
 use App\Http\Controllers\Admin\Answer\AdminAnswerController;
 use App\Http\Controllers\Admin\Answer\AdminAnswersQuestionRelatedController;
-use App\Http\Controllers\Admin\Answer\AdminAnswersQuestionRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticleBookmarksRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticleBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticleCommentsRelatedController;
@@ -43,7 +42,9 @@ use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelationshipsController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelationshipsController;
-use App\Http\Controllers\Admin\Image\AdminImageController;
+//use App\Http\Controllers\Admin\Image\AdminImageController;
+use App\Http\Controllers\Admin\News\AdminNewsBookmarksRelatedController;
+use App\Http\Controllers\Admin\News\AdminNewsBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\News\AdminNewsCommentsRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsCommentsRelationshipsController;
 use App\Http\Controllers\Admin\News\AdminNewsController;
@@ -78,7 +79,10 @@ use App\Http\Controllers\Admin\Test\AdminTestMessagesRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestMessagesRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestResultsRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestResultsRelationshipsController;
+use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelationshipsController;
+use App\Http\Controllers\Admin\TestCategory\AdminTCategoriesTestsRelatedController;
+use App\Http\Controllers\Admin\TestCategory\AdminTCategoriesTestsRelationshipsController;
 use App\Http\Controllers\Admin\TestCategory\AdminTCategoryController;
 use App\Http\Controllers\Admin\TestMessage\AdminMessageController;
 use App\Http\Controllers\Admin\TestResult\AdminResultController;
@@ -86,11 +90,15 @@ use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelationshipsController;
 use App\Http\Controllers\Admin\Tag\AdminTagsBiographiesRelationshipsController;
 use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelationshipsController;
+use App\Http\Controllers\Admin\TestResult\AdminResultsTestRelatedController;
+use App\Http\Controllers\Admin\TestResult\AdminResultsTestRelationshipsController;
+use App\Http\Controllers\Admin\TestResult\AdminResultsUserRelatedController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineArticleRelatedController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineArticleRelationshipsController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelatedController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelationshipsController;
+use App\Http\Controllers\Admin\TestResult\AdminResultsUserRelationshipsController;
 
 /*****************  ANSWERS ROUTES **************/
 Route::apiResource('/answers', AdminAnswerController::class, ['as' =>'admin']);
@@ -210,6 +218,8 @@ Route::get('/articles/{article}/timeline', [
 
 Route::apiResource('/article-categories', AdminArticleCategoryController::class, ['as' => 'admin']);
 
+Route::get('/article-categories-light', [AdminArticleCategoryController::class, 'light']);
+
 // ArticleCategories to Article relations
 Route::get('/article-categories/{article_category}/relationships/articles', [
     AdminArticleCategoryArticlesRelationshipsController::class, 'index'
@@ -312,13 +322,7 @@ Route::get('/documents/{document}/tags', [
 
 /*****************  IMAGES ROUTES **************/
 
-Route::get('/images', [AdminImageController::class, 'index']);
-Route::get('/images/{image}', [AdminImageController::class, 'show'])
-    ->name('admin.images.show');
-Route::post('/images', [AdminImageController::class, 'store']);
-Route::patch('/images/{image}', [AdminImageController::class, 'update']);
-Route::delete('/images/{image}', [AdminImageController::class, 'destroy']);
-Route::post('/images/loader', [AdminImageController::class, 'loadImage']);
+Route::apiResource('/images', \App\Http\Controllers\Admin\AdminImageController::class, ['as' => 'admin']);
 
 /*****************  HIGHLIGHTS ROUTES **************/
 
@@ -371,6 +375,19 @@ Route::apiResource('/messages', AdminMessageController::class, ['as' => 'admin']
 
 Route::apiResource('/news', AdminNewsController::class, ['as' => 'admin']);
 
+// News to Bookmarks relations
+Route::get('/news/{news}/relationships/bookmarks', [
+    AdminNewsBookmarksRelationshipsController::class, 'index'
+])->name('news.relationships.bookmarks');
+
+Route::patch('/news/{news}/relationships/bookmarks', [
+    AdminNewsBookmarksRelationshipsController::class, 'update'
+])->name('news.relationships.bookmarks');
+
+Route::get('/news/{news}/bookmarks', [
+    AdminNewsBookmarksRelatedController::class, 'index'
+])->name('news.bookmarks');
+
 // News to Tags relations
 Route::get('/news/{news}/relationships/tags', [
     AdminNewsTagsRelationshipsController::class, 'index'
@@ -381,7 +398,7 @@ Route::patch('/news/{news}/relationships/tags', [
 ])->name('news.relationships.tags');
 
 Route::get('/news/{news}/tags', [
-    AdminNewsTagsRelatedController::class
+    AdminNewsTagsRelatedController::class, 'index'
 ])->name('news.tags');
 
 // News to Comments relations
@@ -487,9 +504,37 @@ Route::get('/questions/{question}/answers', [
 
 Route::apiResource('/results', AdminResultController::class, ['as' =>'admin']);
 
+// Results to Test relations
+Route::get('/results/{result}/relationships/test', [
+    AdminResultsTestRelationshipsController::class, 'index'
+])->name('results.relationships.test');
+
+Route::patch('/results/{result}/relationships/test', [
+    AdminResultsTestRelationshipsController::class, 'update'
+])->name('results.relationships.test');
+
+Route::get('/results/{result}/test', [
+    AdminResultsTestRelatedController::class, 'index'
+])->name('results.test');
+
+// Results to Test relations
+Route::get('/results/{result}/relationships/user', [
+    AdminResultsUserRelationshipsController::class, 'index'
+])->name('results.relationships.user');
+
+Route::patch('/results/{result}/relationships/user', [
+    AdminResultsUserRelationshipsController::class, 'update'
+])->name('results.relationships.user');
+
+Route::get('/results/{result}/user', [
+    AdminResultsUserRelatedController::class, 'index'
+])->name('results.user');
+
 /*****************  TAGS ROUTES **************/
 
 Route::apiResource('/tags', AdminTagController::class, ['as' =>'admin']);
+
+Route::get('/tags-light', [AdminTagController::class, 'light']);
 
 // Tags to Articles relations
 Route::get('/tags/{tag}/relationships/articles', [
@@ -626,7 +671,7 @@ Route::patch('/tests/{test}/relationships/questions', [
 ])->name('tests.relationships.questions');
 
 Route::get('/tests/{test}/questions', [
-    AdminTestImagesRelatedController::class, 'index'
+    AdminTestsQuestionsRelatedController::class, 'index'
 ])->name('tests.questions');
 
 // Tests to Results relations
@@ -645,5 +690,20 @@ Route::get('/tests/{test}/results', [
 /*****************  TESTS CATEGORIES ROUTES **************/
 
 Route::apiResource('/test-categories', AdminTCategoryController::class, ['as' => 'admin']);
+
+Route::get('/test-categories-light', [AdminTCategoryController::class, 'light']);
+
+// Tests Categories to Tests relations
+Route::get('/test-categories/{test_category}/relationships/tests', [
+    AdminTCategoriesTestsRelationshipsController::class, 'index'
+])->name('test-categories.relationships.tests');
+
+Route::patch('/test-categories/{test_category}/relationships/tests', [
+    AdminTCategoriesTestsRelationshipsController::class, 'update'
+])->name('test-categories.relationships.tests');
+
+Route::patch('/test-categories/{test_category}/tests', [
+    AdminTCategoriesTestsRelatedController::class, 'index'
+])->name('test-categories.tests');
 
 

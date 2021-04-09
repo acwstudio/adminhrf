@@ -42,8 +42,8 @@ class AdminTestResource extends JsonResource
                         'self' => route('test.relationships.images', ['test' => $this->id]),
                         'related' => route('test.images', ['test' => $this->id])
                     ],
-//                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
-                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
+                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+//                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ],
                 'comments' => [
                     'links' => [
@@ -72,6 +72,13 @@ class AdminTestResource extends JsonResource
                         'related' => route('test.results', ['test' => $this->id])
                     ],
                     'data' => AdminResultsIdentifierResource::collection($this->whenLoaded('results'))
+                ],
+                'categories' => [
+                    'links' => [
+                        'self' => route('test-categories.relationships.tests', ['test_category' => $this->id]),
+                        'related' => route('test-categories.tests', ['test_category' => $this->id])
+                    ],
+                    'data' => AdminTCategoryIdentifierResource::collection($this->whenLoaded('categories'))
                 ]
             ]
         ];

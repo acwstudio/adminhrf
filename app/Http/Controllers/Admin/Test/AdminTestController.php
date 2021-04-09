@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\AdminTestCollection;
 use App\Http\Resources\Admin\AdminTestResource;
 use App\Models\Image;
 use App\Models\Test;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -18,6 +19,17 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminTestController extends Controller
 {
+    private $imageService;
+
+    /**
+     * AdminArticleController constructor.
+     * @param ImageService $imageService
+     */
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +40,7 @@ class AdminTestController extends Controller
     {
         $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Test::class)
-            ->allowedIncludes(['images', 'questions', 'messages', 'comments'])
+            ->allowedIncludes(['images', 'questions', 'messages', 'comments', 'categories'])
             ->allowedSorts(['title', 'created_at'])
             ->jsonPaginate($perPage);
 
@@ -38,7 +50,7 @@ class AdminTestController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(TestCreateRequest $request)
@@ -50,12 +62,14 @@ class AdminTestController extends Controller
         $test = Test::create($dataAttributes);
 
         // update field imageable_id of images table with new $article->id
-        foreach ($dataRelImages as $imageId) {
-            $image = Image::find($imageId);
-            if ($image) {
-                Image::findOrFail($imageId)->update([
-                    'imageable_id' => $test->id
-                ]);
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $imageId) {
+                $image = Image::find($imageId);
+                if ($image) {
+                    Image::findOrFail($imageId)->update([
+                        'imageable_id' => $test->id
+                    ]);
+                }
             }
         }
 
@@ -85,15 +99,27 @@ class AdminTestController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return AdminTestResource
      */
     public function update(TestUpdateRequest $request, Test $test)
     {
         $data = $request->input('data.attributes');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $test->update($data);
+
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $imageId) {
+                $image = Image::find($imageId);
+                if ($image) {
+                    Image::findOrFail($imageId)->update([
+                        'imageable_id' => $test->id
+                    ]);
+                }
+            }
+        }
 
         return new AdminTestResource($test);
     }
@@ -101,7 +127,7 @@ class AdminTestController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param Test $test
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */

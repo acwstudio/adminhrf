@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\AdminResultCollection;
 use App\Http\Resources\Admin\AdminResultResource;
 use App\Models\TResult;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -26,8 +27,11 @@ class AdminResultController extends Controller
     {
         $perPage = $request->get('per_page');
         $query = QueryBuilder::for(TResult::class)
-            ->allowedIncludes(['test'])
-//            ->allowedSorts([''])
+            ->allowedIncludes(['test', 'user'])
+            ->allowedFilters([
+                AllowedFilter::exact('user', 'user_id'),
+                AllowedFilter::exact('test', 'test_id')
+            ])
             ->jsonPaginate($perPage);
 
         return new AdminResultCollection($query);

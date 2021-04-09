@@ -5,10 +5,10 @@ namespace App\Http\Resources\Admin;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminTagsIdentifierResource
+ * Class AdminArticleCategoryLightResource
  * @package App\Http\Resources\Admin
  */
-class AdminTagsIdentifierResource extends JsonResource
+class AdminArticleCategoryLightResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,8 @@ class AdminTagsIdentifierResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => 'tags'
+            'type' => 'articlecategories',
+            'title' => $this->title
         ];
     }
 }
