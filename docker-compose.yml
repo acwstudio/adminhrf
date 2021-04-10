@@ -62,6 +62,19 @@ services:
             - '../histrf_data/_data:/var/lib/postgresql/data'
         networks:
             - sail
+
+    meilisearch:
+      image: getmeili/meilisearch
+      container_name: meilisearch
+      depends_on:
+        - pgsql
+      volumes:
+        - '../histrf_data/data_ms:/data.ms'
+      ports:
+        - 7700:7700
+      networks:
+        - sail
+
     redis:
         image: 'redis:alpine'
         ports:
