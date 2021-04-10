@@ -30,7 +30,7 @@ class EmailVerify
 
                 if ($user->markEmailAsVerified()) {
                     event(new Verified($user));
-                    return redirect(config('app.client_url') . "?type=email_confirm&email_verified?email_verified={$email}");
+                    return redirect(config('app.client_url') . "?type=email_confirm&email_verified={$email}");
                 }
             }
         }
