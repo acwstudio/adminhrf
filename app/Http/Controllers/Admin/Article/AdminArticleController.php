@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin\Article;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\ArticleCreateRequest;
 use App\Http\Requests\Article\ArticleUpdateRequest;
-use App\Http\Resources\Admin\AdminArticleCollection;
-use App\Http\Resources\Admin\AdminArticleResource;
+use App\Http\Resources\Admin\Article\AdminArticleCollection;
+use App\Http\Resources\Admin\Article\AdminArticleResource;
 use App\Models\Article;
 use App\Models\Image;
 use App\Services\ImageService;
@@ -33,7 +33,7 @@ class AdminArticleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return AdminArticleCollection
+     * @return \App\Http\Resources\Admin\Article\AdminArticleCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
@@ -99,7 +99,7 @@ class AdminArticleController extends Controller
      * Display the specified resource.
      *
      * @param Article $article
-     * @return AdminArticleResource
+     * @return \App\Http\Resources\Admin\Article\AdminArticleResource
      */
     public function show(Article $article)
     {
@@ -116,7 +116,7 @@ class AdminArticleController extends Controller
      *
      * @param \App\Http\Requests\Article\ArticleUpdateRequest $request
      * @param Article $article
-     * @return AdminArticleResource
+     * @return \App\Http\Resources\Admin\Article\AdminArticleResource
      */
     public function update(ArticleUpdateRequest $request, Article $article)
     {

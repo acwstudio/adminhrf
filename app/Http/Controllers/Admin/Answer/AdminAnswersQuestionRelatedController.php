@@ -8,7 +8,7 @@ use App\Models\TAnswer;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminAnswersQuestionRelatedController
+ * Class AdminAnswersQuestionRelationshipsController
  * @package App\Http\Controllers\Admin\Answer
  */
 class AdminAnswersQuestionRelatedController extends Controller

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Author;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminArticlesIdentifireResource
+ * Class AdminAuthorLightResource
  * @package App\Http\Resources\Admin
  */
-class AdminArticlesIdentifireResource extends JsonResource
+class AdminAuthorLightResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,8 +19,10 @@ class AdminArticlesIdentifireResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => (string)$this->id,
-            'type' => 'articles'
+            'id' => $this->id,
+            'type' => 'authors',
+            'firstname' => $this->firstname,
+            'surname' => $this->surname,
         ];
     }
 }

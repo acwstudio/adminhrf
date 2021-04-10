@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Timeline;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Timeline\TimelineArticleUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminArticlesIdentifireResource;
+use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
 use App\Models\Article;
 use App\Models\Timeline;
 use Illuminate\Http\Request;
@@ -17,11 +17,11 @@ class AdminTimelineArticleRelationshipsController extends Controller
 {
     /**
      * @param Timeline $timeline
-     * @return AdminArticlesIdentifireResource
+     * @return AdminArticleIdentifireResource
      */
     public function index(Timeline $timeline)
     {
-//        return new AdminArticlesIdentifireResource($timeline->timelinable);
+//        return new AdminArticleIdentifireResource($timeline->timelinable);
         return ['message' => 'Is not ready'];
     }
 

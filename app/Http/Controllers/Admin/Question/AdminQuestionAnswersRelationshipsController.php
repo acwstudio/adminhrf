@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Question;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Question\QuestionAnswersUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminAnswersIdentifireResource;
+use App\Http\Resources\Admin\Answer\AdminAnswerIdentifireResource;
 use App\Models\Question;
 use Illuminate\Http\Request;
 
@@ -20,7 +20,7 @@ class AdminQuestionAnswersRelationshipsController extends Controller
      */
     public function index(Question $question)
     {
-        return AdminAnswersIdentifireResource::collection($question->answers);
+        return AdminAnswerIdentifireResource::collection($question->answers);
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Tag;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminArticleCollection;
+use App\Http\Resources\Admin\Article\AdminArticleCollection;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class AdminTagsArticlesRelatedController extends Controller
 {
     /**
      * @param Tag $tag
-     * @return AdminArticleCollection
+     * @return \App\Http\Resources\Admin\Article\AdminArticleCollection
      */
     public function index(Tag $tag)
     {

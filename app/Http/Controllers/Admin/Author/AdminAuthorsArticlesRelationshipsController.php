@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Author;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Author\AuthorsArticlesUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminArticlesIdentifireResource;
+use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
 
@@ -20,7 +20,7 @@ class AdminAuthorsArticlesRelationshipsController extends Controller
      */
     public function index(Author $author)
     {
-        return AdminArticlesIdentifireResource::collection($author->articles);
+        return AdminArticleIdentifireResource::collection($author->articles);
     }
 
     /**

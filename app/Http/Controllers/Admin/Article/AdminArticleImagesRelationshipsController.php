@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\ArticleImagesUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminArticlesIdentifireResource;
+use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
 use App\Models\Article;
 use App\Models\Image;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class AdminArticleImagesRelationshipsController extends Controller
      */
     public function index(Article $article)
     {
-        return AdminArticlesIdentifireResource::collection($article->images);
+        return AdminArticleIdentifireResource::collection($article->images);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin;
 
+use App\Http\Resources\Admin\Answer\AdminAnswerIdentifireResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -20,7 +21,7 @@ class AdminQuestionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => 'answers',
+            'type' => 'questions',
             'attributes' => [
                 'text' => $this->text,
                 'title' => $this->title,
@@ -35,15 +36,13 @@ class AdminQuestionResource extends JsonResource
                         'related' => route('questions.tests', ['question' => $this->id])
                     ],
                     'data' => AdminTestsIdentifierResource::collection($this->whenLoaded('tests'))
-//                    'data' => AdminTestsIdentifierResource::collection($this->tests)
                 ],
                 'answers' => [
                     'links' => [
                         'self' => route('question.relationships.answers', ['question' => $this->id]),
                         'related' => route('question.answers', ['question' => $this->id])
                     ],
-                    'data' => AdminAnswersIdentifireResource::collection($this->answers)
-//                    'data' => AdminAnswerResource::collection($this->whenLoaded('answers'))
+                    'data' => AdminAnswerIdentifireResource::collection($this->whenLoaded('answers'))
                 ]
             ]
         ];

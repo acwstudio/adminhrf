@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Article;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminArticleCategoryIdentifierResource
+ * Class AdminArticleIdentifireResource
  * @package App\Http\Resources\Admin
  */
-class AdminArticleCategoryIdentifierResource extends JsonResource
+class AdminArticleIdentifireResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,8 +19,8 @@ class AdminArticleCategoryIdentifierResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'type' => 'articlecategory'
+            'id' => (string)$this->id,
+            'type' => 'articles'
         ];
     }
 }

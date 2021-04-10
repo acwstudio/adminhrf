@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin;
 
+use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -33,7 +34,7 @@ class AdminTagResource extends JsonResource
                         'self' => route('tags.relationships.articles', ['tag' => $this->id]),
                         'related' => route('tags.articles', ['tag' => $this->id])
                     ],
-                    'data' => AdminArticlesIdentifireResource::collection($this->whenLoaded('articles'))
+                    'data' => AdminArticleIdentifireResource::collection($this->whenLoaded('articles'))
                 ],
                 'documents' => [
                     'links' => [

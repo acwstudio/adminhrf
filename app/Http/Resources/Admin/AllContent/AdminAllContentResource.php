@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\AllContent;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminArticleCategoryLightResource
+ * Class AdminAllContentResource
  * @package App\Http\Resources\Admin
  */
-class AdminArticleCategoryLightResource extends JsonResource
+class AdminAllContentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,8 +20,11 @@ class AdminArticleCategoryLightResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => 'articlecategories',
-            'title' => $this->title
+            'type' => $this->type,
+            'attributes' => [
+                'title' => $this->title,
+                'created_at' => $this->created_at
+            ]
         ];
     }
 }

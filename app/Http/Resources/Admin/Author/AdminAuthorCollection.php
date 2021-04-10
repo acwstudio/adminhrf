@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Author;
 
+use App\Http\Resources\Admin\Author\AdminAuthorResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
- * Class AdminArticleCollection
+ * Class AdminAuthorCollection
  * @package App\Http\Resources\Admin
  */
-class AdminArticleCollection extends ResourceCollection
+class AdminAuthorCollection extends ResourceCollection
 {
     /**
      * The resource that this resource collects.
      *
      * @var string
      */
-    public $collects = AdminArticleResource::class;
+    public $collects = AdminAuthorResource::class;
 
     /**
      * Transform the resource collection into an array.
@@ -29,5 +30,4 @@ class AdminArticleCollection extends ResourceCollection
             'data' => $this->collection,
         ];
     }
-
 }

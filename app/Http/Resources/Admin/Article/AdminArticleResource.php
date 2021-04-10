@@ -1,7 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Article;
 
+use App\Http\Resources\Admin\Author\AdminAuthorsIdentifireResource;
+use App\Http\Resources\Admin\AdminBookmarkResource;
+use App\Http\Resources\Admin\AdminCommentResource;
+use App\Http\Resources\Admin\AdminImageResource;
+use App\Http\Resources\Admin\AdminTagsIdentifierResource;
+use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryIdentifierResource;
+use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Author;
 
+use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -18,7 +19,6 @@ class AdminAuthorResource extends JsonResource
      */
     public function toArray($request)
     {
-//        dd($this->whenLoaded('articles'));
         return [
             'id' => $this->id,
             'type' => 'authors',
@@ -39,13 +39,11 @@ class AdminAuthorResource extends JsonResource
                         'self' => route('authors.relationships.articles', ['author' => $this->id]),
                         'related' => route('authors.articles', ['author' => $this->id])
                     ],
-                    'data' => AdminArticlesIdentifireResource::collection(
+                    'data' => AdminArticleIdentifireResource::collection(
                         $this->whenLoaded('articles')
                     ),
                 ],
             ],
-//            'articles' => $this->articles,
-//            'articles' => AdminArticleResource::collection($this->whenLoaded('articles')),
         ];
     }
 }

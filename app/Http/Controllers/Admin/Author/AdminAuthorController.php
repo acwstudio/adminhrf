@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin\Author;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Author\AuthorCreateRequest;
 use App\Http\Requests\Author\AuthorUpdateRequest;
-use App\Http\Resources\Admin\AdminAuthorCollection;
-use App\Http\Resources\Admin\AdminAuthorLightResource;
-use App\Http\Resources\Admin\AdminAuthorResource;
+use App\Http\Resources\Admin\Author\AdminAuthorCollection;
+use App\Http\Resources\Admin\Author\AdminAuthorLightResource;
+use App\Http\Resources\Admin\Author\AdminAuthorResource;
 use App\Http\Resources\AuthorResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
@@ -59,7 +59,7 @@ class AdminAuthorController extends Controller
      * Display the specified resource.
      *
      * @param Author $author
-     * @return AdminAuthorResource
+     * @return \App\Http\Resources\Admin\Author\AdminAuthorResource
      */
     public function show(Author $author)
     {
@@ -77,7 +77,7 @@ class AdminAuthorController extends Controller
      *
      * @param \App\Http\Requests\Author\AuthorUpdateRequest $request
      * @param Author $author
-     * @return AdminAuthorResource
+     * @return \App\Http\Resources\Admin\Author\AdminAuthorResource
      */
     public function update(AuthorUpdateRequest $request, Author $author)
     {

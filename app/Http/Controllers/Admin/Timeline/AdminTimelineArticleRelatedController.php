@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Timeline;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminArticleCollection;
-use App\Http\Resources\Admin\AdminArticleResource;
+use App\Http\Resources\Admin\Article\AdminArticleCollection;
+use App\Http\Resources\Admin\Article\AdminArticleResource;
 use App\Models\Article;
 use App\Models\Timeline;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class AdminTimelineArticleRelatedController extends Controller
 {
     /**
      * @param Timeline $timeline
-     * @return AdminArticleCollection
+     * @return \App\Http\Resources\Admin\Article\AdminArticleCollection
      */
     public function index(Timeline $timeline)
     {

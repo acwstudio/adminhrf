@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AllContent\AdminAllContentController;
 use App\Http\Controllers\Admin\Answer\AdminAnswerController;
 use App\Http\Controllers\Admin\Answer\AdminAnswersQuestionRelatedController;
+use App\Http\Controllers\Admin\Answer\AdminAnswersQuestionRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticleBookmarksRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticleBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticleCommentsRelatedController;
@@ -106,13 +107,13 @@ use App\Http\Controllers\Admin\TestResult\AdminResultsUserRelationshipsControlle
 Route::apiResource('/answers', AdminAnswerController::class, ['as' =>'admin']);
 
 // Answer to Questions relations
-//Route::get('/answers/{answer}/relationships/question', [
-//    AdminAnswersQuestionRelationshipsController::class, 'index'
-//])->name('answers.relationships.question');
+Route::get('/answers/{answer}/relationships/question', [
+    AdminAnswersQuestionRelationshipsController::class, 'index'
+])->name('answers.relationships.question');
 
-//Route::patch('/answers/{answer}/relationships/question', [
-//    AdminAnswersQuestionRelationshipsController::class, 'update'
-//])->name('answers.relationships.question');
+Route::patch('/answers/{answer}/relationships/question', [
+    AdminAnswersQuestionRelationshipsController::class, 'update'
+])->name('answers.relationships.question');
 
 Route::get('/answers/{answer}/question', [
     AdminAnswersQuestionRelatedController::class, 'index'

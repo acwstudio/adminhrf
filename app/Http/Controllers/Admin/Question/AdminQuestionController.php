@@ -26,8 +26,7 @@ class AdminQuestionController extends Controller
     {
         $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Question::class)
-            ->with(['tests', 'answers'])
-//            ->allowedIncludes(['tests', 'answers'])
+            ->allowedIncludes(['tests', 'answers'])
             ->allowedSorts(['id'])
             ->jsonPaginate($perPage);
 

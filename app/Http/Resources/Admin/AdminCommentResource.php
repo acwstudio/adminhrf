@@ -41,8 +41,8 @@ class AdminCommentResource extends JsonResource
 //                        'related' =>
                     ],
 
-//                    'data' => AdminArticlesIdentifireResource::collection($this->article)
-//                    'data' => AdminArticlesIdentifireResource::collection($this->whenLoaded('articles'))
+//                    'data' => AdminArticleIdentifireResource::collection($this->article)
+//                    'data' => AdminArticleIdentifireResource::collection($this->whenLoaded('articles'))
                 ]
             ]
         ];
