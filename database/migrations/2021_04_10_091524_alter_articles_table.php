@@ -14,7 +14,7 @@ class AlterArticlesTable extends Migration
     public function up()
     {
         Schema::table('articles', function(Blueprint $table){
-           $table->id('id')->change();
+           $table->id('id')->autoIncrement()->change();
         });
     }
 
@@ -26,7 +26,7 @@ class AlterArticlesTable extends Migration
     public function down()
     {
         Schema::table('articles', function(Blueprint $table){
-            $table->bigIncrements('id')->change();
+            $table->unsignedInteger('id');
         });
     }
 }
