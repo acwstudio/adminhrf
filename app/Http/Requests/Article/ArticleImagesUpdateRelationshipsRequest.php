@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Article;
 
+use App\Rules\EqualImageableType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 /**
  * Class ArticleImagesUpdateRelationshipsRequest
@@ -29,7 +31,7 @@ class ArticleImagesUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer',
+            'data.*.id' => 'required|integer|exists:images,id',
             'data.*.type' => 'required|in:images',
         ];
     }

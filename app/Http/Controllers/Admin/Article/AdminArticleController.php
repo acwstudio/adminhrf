@@ -70,15 +70,32 @@ class AdminArticleController extends Controller
         $article = Article::create($dataAttributes);
 
         // update field imageable_id of images table with new $article->id
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $imageId) {
-                $image = Image::find($imageId);
-                if ($image) {
-                    Image::findOrFail($imageId)->update([
-                        'imageable_id' => $article->id
-                    ]);
-                }
+//        if ($dataRelImages) {
+//            foreach ($dataRelImages as $imageId) {
+//                $image = Image::find($imageId);
+//                if ($image) {
+//                    Image::findOrFail($imageId)->update([
+//                        'imageable_id' => $article->id
+//                    ]);
+//                }
+//            }
+//        }
+
+        $messages = [];
+
+        foreach ($dataRelImages as $id) {
+
+            $image = Image::find($id);
+            $result = $this->handleRelationships($image, $id);
+
+            if ($result['result']) {
+                $article->images()->save($image);
+                array_push($messages, $result);
+            } else {
+                response();
+                array_push($messages, $result);
             }
+
         }
 
         // attach authors and tags for the article
@@ -105,7 +122,7 @@ class AdminArticleController extends Controller
     {
         $query = QueryBuilder::for(Article::class)
             ->where('id', $article->id)
-            ->allowedIncludes(['authors', 'tags', 'images', 'timeline'])
+            ->allowedIncludes(['authors', 'tags', 'images', 'timeline', 'category'])
             ->firstOrFail();
 
         return new AdminArticleResource($query);
@@ -129,15 +146,32 @@ class AdminArticleController extends Controller
 
         $article->update($dataAttributes);
 
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $imageId) {
-                $image = Image::find($imageId);
-                if ($image) {
-                    Image::findOrFail($imageId)->update([
-                        'imageable_id' => $article->id
-                    ]);
-                }
+//        if ($dataRelImages) {
+//            foreach ($dataRelImages as $imageId) {
+//                $image = Image::find($imageId);
+//                if ($image) {
+//                    Image::findOrFail($imageId)->update([
+//                        'imageable_id' => $article->id
+//                    ]);
+//                }
+//            }
+//        }
+
+        $messages = [];
+
+        foreach ($dataRelImages as $id) {
+
+            $image = Image::find($id);
+            $result = $this->handleRelationships($image, $id);
+
+            if ($result['result']) {
+                $article->images()->save($image);
+                array_push($messages, $result);
+            } else {
+                response();
+                array_push($messages, $result);
             }
+
         }
 
         if ($dataRelCategories) {
@@ -164,7 +198,7 @@ class AdminArticleController extends Controller
 
         $article->authors()->detach($idAuthors);
         $article->tags()->detach($idTags);
-//        $article->bookmarks()->delete();
+
         $images = Image::where('imageable_id', $article->id)
             ->where('imageable_type', 'article')->get();
 
@@ -174,9 +208,56 @@ class AdminArticleController extends Controller
         $article->images()->delete();
         $article->comments()->delete();
         $article->timeline()->delete();
+        $article->bookmarks()->delete();
 
         $article->delete();
 
         return response(null, 204);
+    }
+
+    /**
+     * @param $image
+     * @param Article $article
+     * @param $id
+     * @return array
+     */
+    private function handleRelationships($image, $id)
+    {
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'article') {
+            $message = [
+                'id_image' => $image->id,
+                'result' => true,
+                'description' => 'Image ' . $id . ' was related to ' . 'article'
+            ];
+
+            return $message;
+
+        } else {
+            if (!$image) {
+                $message = [
+                    'id_image' => $image->id,
+                    'result' => false,
+                    'description' => 'Image ' . $id . ' is not exists'
+                ];
+            } else {
+                if (!is_null($image->imageable_id)) {
+                    $message = [
+                        'id_image' => $image->id,
+                        'result' => false,
+                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
+                            . ' relation'
+                    ];
+                }
+                if ($image->imageable_type !== 'article') {
+                    $message = [
+                        'id_image' => $image->id,
+                        'result' => false,
+                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
+                    ];
+                }
+            }
+            return $message;
+        }
+
     }
 }

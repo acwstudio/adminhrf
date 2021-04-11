@@ -63,6 +63,7 @@ class AdminArticleCategoryController extends Controller
     {
         $query = QueryBuilder::for(ArticleCategory::class)
             ->where('id', $articleCategory->id)
+            ->allowedIncludes(['articles'])
             ->firstOrFail();
 
         return new AdminArticleCategoryResource($query);
@@ -93,6 +94,10 @@ class AdminArticleCategoryController extends Controller
      */
     public function destroy(ArticleCategory $articleCategory)
     {
+        if ($articleCategory->articles()) {
+            return response('Категория имеет связанные статьи', 405);
+        }
+
         $articleCategory->delete();
 
         return response(null, 204);

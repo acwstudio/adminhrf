@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Admin;
 
 use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
+use App\Http\Resources\Admin\News\AdminNewsIdentifireResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**

@@ -33,6 +33,6 @@ class AdminArticleBookmarksRelationshipsController extends Controller
      */
     public function update(ArticleBookmarksUpdateRelationshipsRequest $request, Article $article)
     {
-        return response()->json(['message' => 'Update bookmark action for article is disabled']);
+        return response('Обновление закладок для статьи отключено', 405);
     }
 }

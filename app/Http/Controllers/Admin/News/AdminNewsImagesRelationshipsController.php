@@ -24,6 +24,11 @@ class AdminNewsImagesRelationshipsController extends Controller
         return AdminImagesIdentifierResource::collection($news->images);
     }
 
+    /**
+     * @param NewsImagesUpdateRelationshipsRequest $request
+     * @param News $news
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(NewsImagesUpdateRelationshipsRequest $request, News $news)
     {
         $ids = $request->input('data.*.id');

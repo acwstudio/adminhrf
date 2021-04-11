@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\News;
 
+use App\Http\Resources\Admin\News\AdminNewsResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**

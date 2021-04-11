@@ -1,7 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\News;
 
+use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
+use App\Http\Resources\Admin\AdminImagesIdentifierResource;
+use App\Http\Resources\Admin\AdminTagsIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -41,31 +45,31 @@ class AdminNewsResource extends JsonResource
             'relationships' => [
                 'images' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('news.relationships.images', ['news' => $this->id]),
+                        'related' => route('news.images', ['news' => $this->id])
                     ],
-                    'data' =>[]
+                    'data' =>AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
                 ],
                 'comments' => [
                     'links' => [
-                        'self' => route('news.relationships.comments', [$this->id]),
-                        'related' => route('news.comments', [$this->id])
+                        'self' => route('news.relationships.comments', ['news' => $this->id]),
+                        'related' => route('news.comments', ['news' => $this->id])
                     ],
                     'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
                 ],
                 'tags' => [
                     'links' => [
-                        'self' => route('news.relationships.tags', [$this->id]),
-                        'related' => route('news.relationships.tags', [$this->id])
+                        'self' => route('news.relationships.tags', ['news' => $this->id]),
+                        'related' => route('news.relationships.tags', ['news' => $this->id])
                     ],
                     'data' =>AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
                 ],
                 'bookmarks' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('news.relationships.bookmarks', ['news' => $this->id]),
+                        'related' => route('news.bookmarks', ['news' => $this->id])
                     ],
-                    'data' =>[]
+                    'data' =>AdminBookmarkIdentifierResource::collection($this->whenLoaded('bookmarks'))
                 ]
             ]
         ];

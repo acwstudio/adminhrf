@@ -238,13 +238,6 @@ Route::get('/article-categories/{article_category}/articles', [
 
 /*****************  AUTHORS ROUTES **************/
 
-//Route::get('/authors', [AdminAuthorController::class, 'index']);
-//Route::get('/authors/{author}', [AdminAuthorController::class, 'show'])
-//    ->name('admin.authors.show');
-//Route::post('/authors', [AdminAuthorController::class, 'store']);
-//Route::patch('/authors/{author}', [AdminAuthorController::class, 'update']);
-//Route::delete('/authors/{author}', [AdminAuthorController::class, 'destroy']);
-
 Route::apiResource('/authors', AdminAuthorController::class, ['as' => 'admin']);
 
 Route::get('/authors-light', [AdminAuthorController::class, 'light']);

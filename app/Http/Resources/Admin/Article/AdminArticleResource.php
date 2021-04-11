@@ -2,6 +2,10 @@
 
 namespace App\Http\Resources\Admin\Article;
 
+use App\Http\Resources\Admin\AdminBookmarksIdentifierResource;
+use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
+use App\Http\Resources\Admin\AdminImagesIdentifierResource;
+use App\Http\Resources\Admin\AdminTimelineIdentifierResource;
 use App\Http\Resources\Admin\Author\AdminAuthorsIdentifireResource;
 use App\Http\Resources\Admin\AdminBookmarkResource;
 use App\Http\Resources\Admin\AdminCommentResource;
@@ -57,15 +61,14 @@ class AdminArticleResource extends JsonResource
                         'related' => route('articles.authors', ['article' => $this->id])
                     ],
                     'data' => AdminAuthorsIdentifireResource::collection($this->whenLoaded('authors'))
-//                    'data' => AdminAuthorResource::collection($this->whenLoaded('authors'))
                 ],
                 'comments' => [
                     'links' => [
                         'self' => route('article.relationships.comments', ['article' => $this->id]),
                         'related' => route('article.comments', ['article' => $this->id])
                     ],
-//                    'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
-                    'data' => AdminCommentResource::collection($this->whenLoaded('comments'))
+                    'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
+//                    'data' => AdminCommentResource::collection($this->whenLoaded('comments'))
                 ],
                 'tags' => [
                     'links' => [
@@ -80,35 +83,34 @@ class AdminArticleResource extends JsonResource
                         'self' => route('article.relationships.images', ['article' => $this->id]),
                         'related' => route('article.images', ['article' => $this->id])
                     ],
-//                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
-                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
+                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+//                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ],
                 'bookmarks' => [
                     'links' => [
                         'self' => route('article.relationships.bookmarks', ['article' => $this->id]),
                         'related' => route('article.bookmarks', ['article' => $this->id])
                     ],
-//                    'data' => AdminBookmarksIdentifierResource::collection($this->whenLoaded('bookmarks'))
-                    'data' => AdminBookmarkResource::collection($this->whenLoaded('bookmarks'))
+                    'data' => AdminBookmarksIdentifierResource::collection($this->whenLoaded('bookmarks'))
+//                    'data' => AdminBookmarkResource::collection($this->whenLoaded('bookmarks'))
                 ],
                 'category' => [
                     'links' => [
                         'self' => route('articles.relationships.article-category', ['article' => $this->id]),
                         'related' => route('articles.article-category', ['article' => $this->id])
                     ],
-//                    'data' => new AdminArticleCategoryIdentifierResource($this->whenLoaded('category'))
-                    'data' => new AdminArticleCategoryResource($this->whenLoaded('category'))
+                    'data' => new AdminArticleCategoryIdentifierResource($this->whenLoaded('category'))
+//                    'data' => new AdminArticleCategoryResource($this->whenLoaded('category'))
                 ],
                 'timeline' => [
                     'links' => [
                         'self' => route('article.relationships.timeline', ['article' => $this->id]),
                         'related' => route('article.timeline', ['article' => $this->id])
                     ],
-                    'data' => new AdminArticleCategoryIdentifierResource($this->whenLoaded('category'))
+                    'data' => new AdminTimelineIdentifierResource($this->whenLoaded('timeline'))
 //                    'data' => new AdminTimelineResource($this->whenLoaded('timeline'))
                 ]
             ],
-//            'timeline' => $this->timeline,
         ];
     }
 

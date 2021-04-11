@@ -51,6 +51,7 @@ class AdminArticleImagesRelationshipsController extends Controller
         }
 
         return response()->json($messages, 200);
+
     }
 
     /**
