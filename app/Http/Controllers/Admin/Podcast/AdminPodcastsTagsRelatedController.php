@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Podcast;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminTagCollection;
+use App\Http\Resources\Admin\Tag\AdminTagCollection;
 use App\Models\Podcast;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class AdminPodcastsTagsRelatedController extends Controller
 {
     /**
      * @param Podcast $podcast
-     * @return AdminTagCollection
+     * @return \App\Http\Resources\Admin\Test\AdminTagCollection
      */
     public function index(Podcast $podcast)
     {

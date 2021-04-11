@@ -5,7 +5,7 @@ namespace App\Http\Resources\Admin\News;
 use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
 use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
-use App\Http\Resources\Admin\AdminTagsIdentifierResource;
+use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -62,7 +62,7 @@ class AdminNewsResource extends JsonResource
                         'self' => route('news.relationships.tags', ['news' => $this->id]),
                         'related' => route('news.relationships.tags', ['news' => $this->id])
                     ],
-                    'data' =>AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
+                    'data' =>AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
                 ],
                 'bookmarks' => [
                     'links' => [

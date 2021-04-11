@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\TestResult;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminTestCollection;
-use App\Http\Resources\Admin\AdminTestResource;
+use App\Http\Resources\Admin\Test\AdminTestCollection;
+use App\Http\Resources\Admin\Test\AdminTestResource;
 use App\Models\TResult;
 use Illuminate\Http\Request;
 
@@ -16,7 +16,7 @@ class AdminResultsTestRelatedController extends Controller
 {
     /**
      * @param TResult $result
-     * @return AdminTestresource
+     * @return \App\Http\Resources\Admin\Test\AdminTestresource
      */
     public function index(TResult $result)
     {

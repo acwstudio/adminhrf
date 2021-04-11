@@ -29,7 +29,7 @@ class TestResultsUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer',
+            'data.*.id' => 'required|integer|exists:tresults,id',
             'data.*.type' => 'required|in:results',
         ];
     }

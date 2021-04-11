@@ -10,7 +10,7 @@ use App\Http\Resources\Admin\Author\AdminAuthorsIdentifireResource;
 use App\Http\Resources\Admin\AdminBookmarkResource;
 use App\Http\Resources\Admin\AdminCommentResource;
 use App\Http\Resources\Admin\AdminImageResource;
-use App\Http\Resources\Admin\AdminTagsIdentifierResource;
+use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryIdentifierResource;
 use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -75,7 +75,7 @@ class AdminArticleResource extends JsonResource
                         'self' => route('articles.relationships.tags', ['article' => $this->id]),
                         'related' => route('articles.tags', ['article' => $this->id])
                     ],
-                    'data' => AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
+                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
 //                    'data' => AdminTagResource::collection($this->whenLoaded('tags'))
                 ],
                 'images' => [

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Tag;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminTagsIdentifierResource
+ * Class AdminTagIdentifierResource
  * @package App\Http\Resources\Admin
  */
-class AdminTagsIdentifierResource extends JsonResource
+class AdminTagIdentifierResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Podcast;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Podcast\PodcastsTagsRelationshipsUpdateRequest;
-use App\Http\Resources\Admin\AdminTagsIdentifierResource;
+use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use App\Models\Podcast;
 use Illuminate\Http\Request;
 
@@ -20,7 +20,7 @@ class AdminPodcastsTagsRelationshipsController extends Controller
      */
     public function index(Podcast $podcast)
     {
-        return AdminTagsIdentifierResource::collection($podcast->tags);
+        return AdminTagIdentifierResource::collection($podcast->tags);
     }
 
     /**

@@ -1,7 +1,13 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Test;
 
+use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
+use App\Http\Resources\Admin\AdminImagesIdentifierResource;
+use App\Http\Resources\Admin\AdminMessagesIdentifierResource;
+use App\Http\Resources\Admin\AdminQuestionsIdentifireResource;
+use App\Http\Resources\Admin\AdminResultsIdentifierResource;
+use App\Http\Resources\Admin\AdminTCategoryIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -75,8 +81,8 @@ class AdminTestResource extends JsonResource
                 ],
                 'categories' => [
                     'links' => [
-                        'self' => route('tests.test-categories', ['test_category' => $this->id]),
-                        'related' => route('tests.relationships.test-categories', ['test_category' => $this->id])
+                        'self' => route('tests.test-categories', ['test' => $this->id]),
+                        'related' => route('tests.relationships.test-categories', ['test' => $this->id])
                     ],
                     'data' => AdminTCategoryIdentifierResource::collection($this->whenLoaded('categories'))
                 ]

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Tag;
 
+use App\Http\Resources\Admin\Tag\AdminTagResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**

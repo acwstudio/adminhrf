@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Tag;
 
+use App\Http\Resources\Admin\AdminBiographiesIdentifireResource;
+use App\Http\Resources\Admin\AdminDocumentsIdentifireResource;
 use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
 use App\Http\Resources\Admin\News\AdminNewsIdentifireResource;
 use Illuminate\Http\Resources\Json\JsonResource;

@@ -29,7 +29,7 @@ class NewsImagesUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|string',
+            'data.*.id' => 'required|string|exists:images,id',
             'data.*.type' => 'required|in:images',
         ];
     }

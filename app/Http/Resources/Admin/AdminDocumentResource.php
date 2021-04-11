@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin;
 
+use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -40,7 +41,7 @@ class AdminDocumentResource extends JsonResource
                         'self' => route('documents.relationships.tags', [$this->id]),
                         'related' => route('documents.tags', [$this->id])
                     ],
-                    'data' => AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
+                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
                 ],
                 'images' => [
                     'links' => [

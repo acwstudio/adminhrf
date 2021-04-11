@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\News;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\News\NewsTagsUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminTagsIdentifierResource;
+use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -20,7 +20,7 @@ class AdminNewsTagsRelationshipsController extends Controller
      */
     public function index(News $news)
     {
-        return AdminTagsIdentifierResource::collection($news->tags);
+        return AdminTagIdentifierResource::collection($news->tags);
     }
 
     /**

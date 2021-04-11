@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin;
 
+use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -49,7 +50,7 @@ class AdminHighlightResource extends JsonResource
                         'self' => route('highlights.relationships.tags', ['highlight' => $this->id]),
                         'related' => route('highlights.tags', ['highlight' => $this->id])
                     ],
-                    'data' => AdminTagsIdentifierResource::collection($this->whenLoaded('comments'))
+                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('comments'))
                 ],
             ]
         ];

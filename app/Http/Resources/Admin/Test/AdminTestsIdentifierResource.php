@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Test;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminTagLightResource
+ * Class AdminTestsIdentifierResource
  * @package App\Http\Resources\Admin
  */
-class AdminTagLightResource extends JsonResource
+class AdminTestsIdentifierResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -19,9 +19,8 @@ class AdminTagLightResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'type' => 'tags',
-            'title' => $this->title
+            'id' => (string)$this->id,
+            'type' => 'tests'
         ];
     }
 }

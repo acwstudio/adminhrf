@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Document;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Document\DocumentsTagsUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminTagsIdentifierResource;
+use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use App\Models\Document;
 use Illuminate\Http\Request;
 
@@ -20,7 +20,7 @@ class AdminDocumentsTagsRelationshipsController extends Controller
      */
     public function index(Document $document)
     {
-        return AdminTagsIdentifierResource::collection($document->tags);
+        return AdminTagIdentifierResource::collection($document->tags);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin;
 
+use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -38,7 +39,7 @@ class AdminPodcastResource extends JsonResource
                         'self' => route('podcasts.relationships.tags', ['podcast' => $this->id]),
                         'related' => route('podcasts.relationships.tags', ['podcast' => $this->id])
                     ],
-                    'data' => AdminTagsIdentifierResource::collection($this->whenLoaded('tags'))
+                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
                 ],
                 'images' => [
                     'links' => [

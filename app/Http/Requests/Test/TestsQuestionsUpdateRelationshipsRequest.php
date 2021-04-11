@@ -29,7 +29,7 @@ class TestsQuestionsUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|string',
+            'data.*.id' => 'required|string|exists:questions,id',
             'data.*.type' => 'required|in:questions',
         ];
     }
