@@ -27,15 +27,7 @@ class HighlightShortResource extends JsonResource
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
-            'image' => [
-                "model_type" => "image",
-                "id" => 1294,
-                "alt" => null,
-                "src" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt.jpg",
-                "preview" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
-                "original" => null,
-                "order" => 1
-            ],
+            'image' => $this->images?ImageResource::make($this->images->first()):null,
 	  'list' => HighlightsSuperShortResource::collection($this->highlightable()->limit(5)->get())
         ];
     }
