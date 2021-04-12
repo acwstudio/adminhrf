@@ -7,6 +7,7 @@ use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseShortResource;
 use App\Http\Resources\HighlightResource;
 use App\Http\Resources\HighlightShortResource;
+use App\Http\Resources\ImageResource;
 use App\Models\Highlight;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -38,8 +39,9 @@ class HighlightController extends Controller
 //        return HighlightResource::collection($highlight->highlightable->sortBy('event_date'));
 	return
             [
-              'data' =>  HighlightResource::collection($highlight->highlightable->sortBy('event_date')),
-                'highlight' => HighlightShortResource::make($highlight)
+              'data' =>  HighlightResource::collection($highlight->highlightable->sortBy('order')),
+	      'image' => $highlight->images?ImageResource::make($highlight->images->first()):null,
+              'highlight' => HighlightShortResource::make($highlight)
             ];
     }
 
