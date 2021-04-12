@@ -59,7 +59,7 @@ class ParseArticlesAnounce extends Command
 
         foreach ($articles as $article) {
 
-            $article->announce = strip_tags($article->announce);
+            $article->announce = htmlspecialchars_decode(html_entity_decode($article->announce));
             $article->save();
 
             $bar->advance();
