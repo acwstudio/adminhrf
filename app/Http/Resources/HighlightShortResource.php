@@ -27,7 +27,8 @@ class HighlightShortResource extends JsonResource
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
-            'image' => $this->images?ImageResource::make($this->images->first()):null,
+#            'image' => $this->images?ImageResource::make($this->images->first()):null,
+	  'image' => $this->images?ImageResource::make($this->images->first()):null,
 	  'list' => HighlightsSuperShortResource::collection($this->highlightable()->limit(5)->get())
         ];
     }
