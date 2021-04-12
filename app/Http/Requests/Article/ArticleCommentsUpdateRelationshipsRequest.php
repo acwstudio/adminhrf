@@ -29,7 +29,7 @@ class ArticleCommentsUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer|comments',
+            'data.*.id' => 'required|integer|exists:comments,id',
             'data.*.type' => 'required|in:comments',
         ];
     }

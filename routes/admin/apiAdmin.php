@@ -17,8 +17,8 @@ use App\Http\Controllers\Admin\Article\AdminArticlesAuthorsRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticlesAuthorsRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticlesTagsRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticlesTagsRelationshipsController;
-use App\Http\Controllers\Admin\Article\AdminArticleTimlineRelatedController;
-use App\Http\Controllers\Admin\Article\AdminArticleTimlineRelationshipsController;
+use App\Http\Controllers\Admin\Article\AdminArticleTimelineRelatedController;
+use App\Http\Controllers\Admin\Article\AdminArticleTimelineRelationshipsController;
 use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryArticlesRelatedController;
 use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryArticlesRelationshipsController;
 use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryController;
@@ -32,7 +32,7 @@ use App\Http\Controllers\Admin\Bookmark\AdminBookmarkController;
 use App\Http\Controllers\Admin\Bookmark\AdminBookmarksBookmarkCroupRelatedController;
 use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelatedController;
 use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupController;
-use App\Http\Controllers\Admin\Comment\AdminCommentController;
+//use App\Http\Controllers\Admin\Comment\AdminCommentController;
 use App\Http\Controllers\Admin\Document\AdminDocumentController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelationshipsController;
@@ -206,15 +206,15 @@ Route::get('/articles/{article}/tags', [
 
 // Article to Timeline relations
 Route::get('/articles/{article}/relationships/timeline', [
-    AdminArticleTimlineRelationshipsController::class, 'index'
+    AdminArticleTimelineRelationshipsController::class, 'index'
 ])->name('article.relationships.timeline');
 
 Route::patch('/articles/{article}/relationships/timeline', [
-    AdminArticleTimlineRelationshipsController::class, 'update'
+    AdminArticleTimelineRelationshipsController::class, 'update'
 ])->name('article.relationships.timeline');
 
 Route::get('/articles/{article}/timeline', [
-    AdminArticleTimlineRelatedController::class, 'index'
+    AdminArticleTimelineRelatedController::class, 'index'
 ])->name('article.timeline');
 
 /*****************  ARTICLE CATEGORIES ROUTES **************/
@@ -296,12 +296,11 @@ Route::get('/bookmark-groups/{bookmark_groups}/bookmarks', [
 
 /*****************  COMMENTS ROUTES **************/
 
-Route::get('/comments', [AdminCommentController::class, 'index']);
-Route::get('/comments/{comment}', [AdminCommentController::class, 'show'])
-    ->name('admin.comments.show');
-//                Route::post('admin/comments', [AdminCommentController::class, 'store']);
-//                Route::patch('admin/comments/{comment}', [AdminCommentController::class, 'update']);
-//                Route::delete('admin/comments/{comment}', [AdminCommentController::class, 'delete']);
+Route::apiResource(
+    '/comments',
+    \App\Http\Controllers\Admin\Comment\AdminCommentController::class,
+    ['as' => 'admin']
+);
 
 /*****************  DOCUMENTS ROUTES **************/
 

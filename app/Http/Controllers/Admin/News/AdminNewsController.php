@@ -179,7 +179,7 @@ class AdminNewsController extends Controller
         $news->tags()->detach($idTags);
 
         $images = Image::where('imageable_id', $news->id)
-            ->where('imageable_type', 'article');
+            ->where('imageable_type', 'news')->get();
 
         foreach ($images as $image) {
             $this->imageService->delete($image);
