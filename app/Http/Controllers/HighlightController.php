@@ -40,7 +40,7 @@ class HighlightController extends Controller
 	return
             [
               'data' =>  HighlightResource::collection($highlight->highlightable->sortBy('order')),
-	      'image' => $highlight->images?ImageResource::make($highlight->images->first()):null,
+                'image' => $highlight->images?ImageResource::make($highlight->images->first()):null,
               'highlight' => HighlightShortResource::make($highlight)
             ];
     }
