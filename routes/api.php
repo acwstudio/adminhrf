@@ -156,7 +156,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/courses/courses/tags/{slug}', [\App\Http\Controllers\CourseController::class, 'getCoursesByTag']);
             Route::get('/courses/{highlight:slug}', [\App\Http\Controllers\CourseController::class, 'show']);
 
-
+            Route::get('/themeoftheweek', [\App\Http\Controllers\TempThemeOfTheWeekController::class, 'index']);
             Route::get('/highlights', [\App\Http\Controllers\HighlightController::class, 'index']);
             Route::get('/highlights/tags/{tag:slug}', [\App\Http\Controllers\HighlightController::class, 'indexByTag']);
             Route::get('/highlights/{highlight:slug}', [\App\Http\Controllers\HighlightController::class, 'show']);

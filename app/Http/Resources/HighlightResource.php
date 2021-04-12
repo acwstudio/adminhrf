@@ -46,7 +46,8 @@ class HighlightResource extends JsonResource
             'views' => $this->viewed,
             'has_like' => $user && $this->highlightable_type != 'news' ? $this->highlightable->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->highlightable->hasBookmark($user) : false,
-            'image' => [
+	    'image' => $this->highlightable->images?ImageResource::make($this->highlightable->images->first()):null,
+/*            'image' => [
                 "model_type" => "image",
                 "id" => 1294,
                 "alt" => null,
@@ -54,7 +55,7 @@ class HighlightResource extends JsonResource
                 "preview" => "/images/articles/02/bwEmBMLhUWJBM5JT3VgHsDZ8NcVTWiytv99WSaxt_min.jpg",
                 "original" => null,
                 "order" => 1
-            ],
+            ],*/
         ];
     }
 }
