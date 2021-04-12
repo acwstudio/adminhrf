@@ -56,6 +56,7 @@ class NewsController extends Controller
 
     public function show(News $news)
     {
+        $news->increment('viewed');
         return NewsResource::make($news);
     }
 

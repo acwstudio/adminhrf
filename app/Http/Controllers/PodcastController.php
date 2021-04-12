@@ -49,6 +49,8 @@ class PodcastController extends Controller
      */
     public function show(Podcast $podcast)
     {
+        $podcast->increment('viewed');
+
         return PodcastResource::make($podcast);
     }
 }

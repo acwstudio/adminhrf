@@ -33,9 +33,9 @@ class HighlightController extends Controller
             ->orderBy('published_at', 'desc')->paginate($perPage));
     }
 
-    public function show(Highlight $highlight,Request $request)
+    public function show(Highlight $highlight, Request $request)
     {
-//        return HighlightResource::collection($highlight->highlightable->sortBy('event_date'));
+        $highlight->increment('viewed');
 	return
             [
               'data' =>  HighlightResource::collection($highlight->highlightable->sortBy('event_date')),
