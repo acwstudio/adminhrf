@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Document;
 
+use App\Http\Resources\Admin\Document\AdminDocumentResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**

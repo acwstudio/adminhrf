@@ -42,7 +42,7 @@ class AdminTestController extends Controller
 
         $query = QueryBuilder::for(Test::class)
             ->allowedIncludes(['images', 'questions', 'messages', 'comments', 'categories'])
-            ->allowedSorts(['title', 'created_at'])
+            ->allowedSorts(['title', 'created_at', 'published_at'])
             ->jsonPaginate($perPage);
 
         return new AdminTestCollection($query);
@@ -59,7 +59,7 @@ class AdminTestController extends Controller
         $dataAttributes = $request->input('data.attributes');
 
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
-        $dataRelQuestions = $request->input('data.relationships.questions.data.*.id');
+//        $dataRelQuestions = $request->input('data.relationships.questions.data.*.id');
         $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
 //        return $dataRelCategories;
         $test = Test::create($dataAttributes);
@@ -68,23 +68,25 @@ class AdminTestController extends Controller
 
         $messages = [];
 
-        foreach ($dataRelImages as $id) {
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $id) {
 
-            $image = Image::find($id);
-            $result = $this->handleRelationships($image, $id);
+                $image = Image::find($id);
+                $result = $this->handleRelationships($image, $id);
 
-            if ($result['result']) {
-                $test->images()->save($image);
-                array_push($messages, $result);
-            } else {
-                response();
-                array_push($messages, $result);
+                if ($result['result']) {
+                    $test->images()->save($image);
+                    array_push($messages, $result);
+                } else {
+                    response();
+                    array_push($messages, $result);
+                }
+
             }
-
         }
 
         // attach authors and categories for the test
-        $test->questions()->attach($dataRelQuestions);
+//        $test->questions()->attach($dataRelQuestions);
         $test->categories()->attach($dataRelCategories);
 
         return (new AdminTestResource($test))
@@ -125,13 +127,19 @@ class AdminTestController extends Controller
         $test->update($data);
 
         if ($dataRelImages) {
-            foreach ($dataRelImages as $imageId) {
-                $image = Image::find($imageId);
-                if ($image) {
-                    Image::findOrFail($imageId)->update([
-                        'imageable_id' => $test->id
-                    ]);
+            foreach ($dataRelImages as $id) {
+
+                $image = Image::find($id);
+                $result = $this->handleRelationships($image, $id);
+
+                if ($result['result']) {
+                    $test->images()->save($image);
+                    array_push($messages, $result);
+                } else {
+                    response();
+                    array_push($messages, $result);
                 }
+
             }
         }
 
@@ -148,7 +156,7 @@ class AdminTestController extends Controller
     public function destroy(Test $test)
     {
         $images = Image::where('imageable_id', $test->id)
-            ->where('imageable_type', 'article');
+            ->where('imageable_type', 'test')->get();
 
         foreach ($images as $image) {
             $this->imageService->delete($image);

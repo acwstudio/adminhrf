@@ -5,10 +5,10 @@ namespace App\Http\Requests\Document;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class DocumentsTagsUpdateRelationshipsRequest
+ * Class DocumentImagesUpdateRelationshipsRequest
  * @package App\Http\Requests\Document
  */
-class DocumentsTagsUpdateRelationshipsRequest extends FormRequest
+class DocumentImagesUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,8 @@ class DocumentsTagsUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer|exists:tags,id',
-            'data.*.type' => 'required|in:tags',
+            'data.*.id' => 'required|integer|exists:images,id',
+            'data.*.type' => 'required|in:images',
         ];
     }
 }

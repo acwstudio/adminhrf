@@ -31,20 +31,6 @@ class AdminTestResultsRelationshipsController extends Controller
      */
     public function update(TestResultsUpdateRelationshipsRequest $request, Test $test)
     {
-//        return response()->json(['message' => 'Update action is disabled']);
-
-        $id = $request->input('data.*.id');
-
-        $result = TResult::find($id[0]);
-
-        if ($result) {
-            $result->update([
-                'test_id' => $test->id
-            ]);
-        } else {
-            return response()->json(['message' => 'Test result id = ' . $id[0] . ' does not exist']);
-        }
-
-        return response(null, 204);
+        return response()->json(['message' => 'Update action is disabled']);
     }
 }

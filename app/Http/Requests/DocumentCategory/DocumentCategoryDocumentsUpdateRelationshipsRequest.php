@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Document;
+namespace App\Http\Requests\DocumentCategory;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class DocumentsTagsUpdateRelationshipsRequest
- * @package App\Http\Requests\Document
+ * Class DocumentCategoryDocumentsUpdateRelationshipsRequest
+ * @package App\Http\Requests\DocumentCategory
  */
-class DocumentsTagsUpdateRelationshipsRequest extends FormRequest
+class DocumentCategoryDocumentsUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,8 @@ class DocumentsTagsUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer|exists:tags,id',
-            'data.*.type' => 'required|in:tags',
+            'data.*.id' => 'present|integer|exists:documents,id',
+            'data.*.type' => 'present|in:documents'
         ];
     }
 }

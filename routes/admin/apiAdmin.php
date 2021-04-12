@@ -34,8 +34,12 @@ use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelatedC
 use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupController;
 //use App\Http\Controllers\Admin\Comment\AdminCommentController;
 use App\Http\Controllers\Admin\Document\AdminDocumentController;
+use App\Http\Controllers\Admin\Document\AdminDocumentImagesRelatedController;
+use App\Http\Controllers\Admin\Document\AdminDocumentImagesRelationshipsController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelationshipsController;
+use App\Http\Controllers\Admin\DocumentCategory\AdminDocumentCategoryDocumentsRelatedController;
+use App\Http\Controllers\Admin\DocumentCategory\AdminDocumentCategoryDocumentsRelationshipsController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightBookmarksRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightController;
@@ -302,6 +306,31 @@ Route::apiResource(
     ['as' => 'admin']
 );
 
+/*****************  DOCUMENT CATEGORIES ROUTES **************/
+
+Route::apiResource(
+    '/document-categories',
+    \App\Http\Controllers\Admin\DocumentCategory\AdminDocumentCategoryController::class,
+    ['as' => 'admin']
+);
+
+Route::get('/document-categories-light', [
+    \App\Http\Controllers\Admin\DocumentCategory\AdminDocumentCategoryController::class, 'light'
+]);
+
+// Document Category to Documents relations
+Route::get('/document-categories/{document_category}/relationships/documents', [
+    AdminDocumentCategoryDocumentsRelationshipsController::class, 'index'
+])->name('document-category.relationships.documents');
+
+Route::patch('/document-categories/{document_category}/relationships/documents', [
+    AdminDocumentCategoryDocumentsRelationshipsController::class, 'update'
+])->name('document-category.relationships.documents');
+
+Route::get('/document-categories/{document_category}/documents', [
+    AdminDocumentCategoryDocumentsRelatedController::class, 'index'
+])->name('document-category.documents');
+
 /*****************  DOCUMENTS ROUTES **************/
 
 Route::apiResource('/documents', AdminDocumentController::class, ['as' => 'admin']);
@@ -318,6 +347,19 @@ Route::patch('/documents/{document}/relationships/tags', [
 Route::get('/documents/{document}/tags', [
     AdminDocumentsTagsRelatedController::class, 'index'
 ])->name('documents.tags');
+
+// Document to Images relations
+Route::get('/documents/{document}/relationships/images', [
+    AdminDocumentImagesRelationshipsController::class, 'index'
+])->name('document.relationships.images');
+
+Route::patch('/documents/{document}/relationships/images', [
+    AdminDocumentImagesRelationshipsController::class, 'update'
+])->name('document.relationships.images');
+
+Route::get('/documents/{document}/images', [
+    AdminDocumentImagesRelatedController::class, 'index'
+])->name('document.images');
 
 /*****************  IMAGES ROUTES **************/
 

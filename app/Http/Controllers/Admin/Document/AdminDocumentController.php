@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin\Document;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Document\DocumentCreateRequest;
 use App\Http\Requests\Document\DocumentUpdateRequest;
-use App\Http\Resources\Admin\AdminDocumentCollection;
-use App\Http\Resources\Admin\AdminDocumentResource;
+use App\Http\Resources\Admin\Document\AdminDocumentCollection;
+use App\Http\Resources\Admin\Document\AdminDocumentResource;
 use App\Models\Document;
+use App\Models\Image;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -17,6 +19,17 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminDocumentController extends Controller
 {
+    private $imageService;
+
+    /**
+     * AdminArticleController constructor.
+     * @param ImageService $imageService
+     */
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,9 +39,10 @@ class AdminDocumentController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $query = QueryBuilder::for(Document::class)
             ->with(['tags', 'images', 'category'])
-            ->allowedIncludes(['comments', 'likes', 'bookmarks'])
+            ->allowedIncludes(['comments', 'bookmarks'])
             ->allowedSorts('title')
             ->jsonPaginate($perPage);
 
@@ -45,7 +59,33 @@ class AdminDocumentController extends Controller
     {
         $data = $request->input('data.attributes');
 
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
+
         $document = Document::create($data);
+
+        // Images
+        $messages = [];
+
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $id) {
+
+                $image = Image::find($id);
+                $result = $this->handleRelationships($image, $id);
+
+                if ($result['result']) {
+                    $document->images()->save($image);
+                    array_push($messages, $result);
+                } else {
+                    response();
+                    array_push($messages, $result);
+                }
+
+            }
+        }
+
+        // attach tags for the document
+        $document->tags()->attach($dataRelTags);
 
         return (new AdminDocumentResource($document))
             ->response()
@@ -57,7 +97,7 @@ class AdminDocumentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return AdminDocumentResource
      */
     public function show(Document $document)
@@ -80,8 +120,28 @@ class AdminDocumentController extends Controller
     public function update(DocumentUpdateRequest $request, Document $document)
     {
         $data = $request->input('data.attributes');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $document->update($data);
+
+        // Images
+        $messages = [];
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $id) {
+
+                $image = Image::find($id);
+                $result = $this->handleRelationships($image, $id);
+
+                if ($result['result']) {
+                    $document->images()->save($image);
+                    array_push($messages, $result);
+                } else {
+                    response();
+                    array_push($messages, $result);
+                }
+
+            }
+        }
 
         return new AdminDocumentResource($document);
     }
@@ -95,8 +155,64 @@ class AdminDocumentController extends Controller
      */
     public function destroy(Document $document)
     {
+        $idTags = $document->tags()->allRelatedIds();
+
+        $document->tags()->detach($idTags);
+
+        $images = Image::where('imageable_id', $document->id)
+            ->where('imageable_type', 'document')->get();
+
+        foreach ($images as $image) {
+            $this->imageService->delete($image);
+        }
+
+        $document->images()->delete();
         $document->delete();
 
         return response(null, 204);
+    }
+
+    /**
+     * @param $image
+     * @param $id
+     * @return array
+     */
+    private function handleRelationships($image, $id)
+    {
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'document') {
+            $message = [
+                'id_image' => $image->id,
+                'result' => true,
+                'description' => 'Image ' . $id . ' was related to ' . 'document'
+            ];
+
+            return $message;
+
+        } else {
+            if (!$image) {
+                $message = [
+                    'id_image' => $image->id,
+                    'result' => false,
+                    'description' => 'Image ' . $id . ' is not exists'
+                ];
+            } else {
+                if (!is_null($image->imageable_id)) {
+                    $message = [
+                        'id_image' => $image->id,
+                        'result' => false,
+                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
+                            . ' relation'
+                    ];
+                }
+                if ($image->imageable_type !== 'document') {
+                    $message = [
+                        'id_image' => $image->id,
+                        'result' => false,
+                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
+                    ];
+                }
+            }
+            return $message;
+        }
     }
 }
