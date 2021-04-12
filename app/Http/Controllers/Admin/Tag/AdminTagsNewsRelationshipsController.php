@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin\Tag;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tag\TagsNewsUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminNewsCollection;
-use App\Http\Resources\Admin\AdminNewsIdentifireResource;
+use App\Http\Resources\Admin\News\AdminNewsCollection;
+use App\Http\Resources\Admin\News\AdminNewsIdentifireResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 

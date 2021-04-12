@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin\ArticleCategory;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleCategory\ArticleCategoryArticlesRelationshipsUpdateRequest;
-use App\Http\Resources\Admin\AdminArticleCollection;
-use App\Http\Resources\Admin\AdminArticlesIdentifireResource;
+use App\Http\Resources\Admin\Article\AdminArticleCollection;
+use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use Illuminate\Http\Request;
@@ -22,7 +22,7 @@ class AdminArticleCategoryArticlesRelationshipsController extends Controller
      */
     public function index(ArticleCategory $articleCategory)
     {
-        return AdminArticlesIdentifireResource::collection($articleCategory->articles);
+        return AdminArticleIdentifireResource::collection($articleCategory->articles);
     }
 
     /**

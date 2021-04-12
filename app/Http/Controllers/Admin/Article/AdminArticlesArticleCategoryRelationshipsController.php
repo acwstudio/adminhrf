@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\ArticlesArticleCategoryRelationshipsUpdateRequest;
-use App\Http\Resources\Admin\AdminArticleCategoryIdentifierResource;
+use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryIdentifierResource;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class AdminArticlesArticleCategoryRelationshipsController extends Controller
 {
     /**
      * @param Article $article
-     * @return AdminArticleCategoryIdentifierResource
+     * @return \App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryIdentifierResource
      */
     public function index(Article $article)
     {

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminArticleCategoryResource;
+use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
 

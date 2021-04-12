@@ -59,6 +59,8 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
+        $article->increment('viewed');
+
         return ArticleResource::make($article);
     }
 

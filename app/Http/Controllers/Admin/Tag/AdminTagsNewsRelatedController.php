@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Tag;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminNewsCollection;
+use App\Http\Resources\Admin\News\AdminNewsCollection;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 

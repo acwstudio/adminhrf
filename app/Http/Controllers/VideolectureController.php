@@ -40,6 +40,8 @@ class VideolectureController extends Controller
     {
         abort_if($videomaterial->type !== 'lecture', 404, 'Idk anout such entity here');
 
+        $videomaterial->increment('viewed');
+
         return VideolectureResource::make($videomaterial);
     }
 

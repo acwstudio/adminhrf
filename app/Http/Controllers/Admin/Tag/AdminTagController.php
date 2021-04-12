@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin\Tag;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tag\TagCreateRequest;
 use App\Http\Requests\Tag\TagUpdateRequest;
-use App\Http\Resources\Admin\AdminTagCollection;
-use App\Http\Resources\Admin\AdminTagLightResource;
-use App\Http\Resources\Admin\AdminTagResource;
+use App\Http\Resources\Admin\Tag\AdminTagCollection;
+use App\Http\Resources\Admin\Tag\AdminTagLightResource;
+use App\Http\Resources\Admin\Tag\AdminTagResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -75,7 +75,7 @@ class AdminTagController extends Controller
      *
      * @param \App\Http\Requests\Tag\TagUpdateRequest $request
      * @param Tag $tag
-     * @return AdminTagResource
+     * @return \App\Http\Resources\Admin\Tag\AdminTagResource
      */
     public function update(TagUpdateRequest $request, Tag $tag)
     {

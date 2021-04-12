@@ -47,6 +47,8 @@ class AudiomaterialController extends Controller
      */
     public function show(Audiomaterial $audio)
     {
+        $audio->increment('viewed');
+
         return AudiomaterialResource::make($audio->load('highlights'));
     }
 

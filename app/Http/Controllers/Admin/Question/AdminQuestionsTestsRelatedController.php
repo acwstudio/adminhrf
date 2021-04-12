@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Question;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminTestCollection;
+use App\Http\Resources\Admin\Test\AdminTestCollection;
 use App\Models\Question;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class AdminQuestionsTestsRelatedController extends Controller
 {
     /**
      * @param Question $question
-     * @return AdminTestCollection
+     * @return \App\Http\Resources\Admin\Test\AdminTestCollection
      */
     public function index(Question $question)
     {

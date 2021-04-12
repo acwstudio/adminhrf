@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Tag;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tag\TagsArticlesUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminArticlesIdentifireResource;
+use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
@@ -20,7 +20,7 @@ class AdminTagsArticlesRelationshipsController extends Controller
      */
     public function index(Tag $tag)
     {
-        return AdminArticlesIdentifireResource::collection($tag->articles);
+        return AdminArticleIdentifireResource::collection($tag->articles);
     }
 
     /**

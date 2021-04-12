@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\ArticlesAuthorsUpdateRelationshipsRequest;
 use App\Http\Requests\Author\AuthorsArticlesUpdateRelationshipsRequest;
 use App\Models\Article;
-use App\Http\Resources\Admin\AdminAuthorsIdentifireResource;
+use App\Http\Resources\Admin\Author\AdminAuthorsIdentifireResource;
 use Illuminate\Http\Request;
 
 /**

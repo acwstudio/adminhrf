@@ -29,7 +29,7 @@ class TestImagesUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer',
+            'data.*.id' => 'required|integer|exists:images,id',
             'data.*.type' => 'required|in:images',
         ];
     }

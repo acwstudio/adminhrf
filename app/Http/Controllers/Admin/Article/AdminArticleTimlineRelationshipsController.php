@@ -24,6 +24,6 @@ class AdminArticleTimlineRelationshipsController extends Controller
 
     public function update(Article $article)
     {
-        return ['message' => 'Is not ready'];
+        return response()->json(['message' => 'Update comments action for article is disabled']);
     }
 }

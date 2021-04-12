@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin\ArticleCategory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleCategory\ArticleCategoryCreateRequest;
 use App\Http\Requests\ArticleCategory\ArticleCategoryUpdateRequest;
-use App\Http\Resources\Admin\AdminArticleCategoryCollection;
-use App\Http\Resources\Admin\AdminArticleCategoryLightResource;
-use App\Http\Resources\Admin\AdminArticleCategoryResource;
+use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryCollection;
+use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryLightResource;
+use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryResource;
 use App\Models\ArticleCategory;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -57,12 +57,13 @@ class AdminArticleCategoryController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return AdminArticleCategoryResource
+     * @return \App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryResource
      */
     public function show(ArticleCategory $articleCategory)
     {
         $query = QueryBuilder::for(ArticleCategory::class)
             ->where('id', $articleCategory->id)
+            ->allowedIncludes(['articles'])
             ->firstOrFail();
 
         return new AdminArticleCategoryResource($query);
@@ -73,7 +74,7 @@ class AdminArticleCategoryController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return AdminArticleCategoryResource
+     * @return \App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryResource
      */
     public function update(ArticleCategoryUpdateRequest $request, ArticleCategory $articleCategory)
     {
@@ -93,6 +94,10 @@ class AdminArticleCategoryController extends Controller
      */
     public function destroy(ArticleCategory $articleCategory)
     {
+        if ($articleCategory->articles()) {
+            return response('Категория имеет связанные статьи', 405);
+        }
+
         $articleCategory->delete();
 
         return response(null, 204);

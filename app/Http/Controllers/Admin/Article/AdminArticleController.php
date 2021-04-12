@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin\Article;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\ArticleCreateRequest;
 use App\Http\Requests\Article\ArticleUpdateRequest;
-use App\Http\Resources\Admin\AdminArticleCollection;
-use App\Http\Resources\Admin\AdminArticleResource;
+use App\Http\Resources\Admin\Article\AdminArticleCollection;
+use App\Http\Resources\Admin\Article\AdminArticleResource;
 use App\Models\Article;
 use App\Models\Image;
 use App\Services\ImageService;
@@ -33,7 +33,7 @@ class AdminArticleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return AdminArticleCollection
+     * @return \App\Http\Resources\Admin\Article\AdminArticleCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
@@ -65,20 +65,37 @@ class AdminArticleController extends Controller
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
 //        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
-//        $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
+//        $dataRelCategories = $request->input('data.relationships.category.data.*.id');
 
         $article = Article::create($dataAttributes);
 
         // update field imageable_id of images table with new $article->id
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $imageId) {
-                $image = Image::find($imageId);
-                if ($image) {
-                    Image::findOrFail($imageId)->update([
-                        'imageable_id' => $article->id
-                    ]);
-                }
+//        if ($dataRelImages) {
+//            foreach ($dataRelImages as $imageId) {
+//                $image = Image::find($imageId);
+//                if ($image) {
+//                    Image::findOrFail($imageId)->update([
+//                        'imageable_id' => $article->id
+//                    ]);
+//                }
+//            }
+//        }
+
+        $messages = [];
+
+        foreach ($dataRelImages as $id) {
+
+            $image = Image::find($id);
+            $result = $this->handleRelationships($image, $id);
+
+            if ($result['result']) {
+                $article->images()->save($image);
+                array_push($messages, $result);
+            } else {
+                response();
+                array_push($messages, $result);
             }
+
         }
 
         // attach authors and tags for the article
@@ -99,13 +116,13 @@ class AdminArticleController extends Controller
      * Display the specified resource.
      *
      * @param Article $article
-     * @return AdminArticleResource
+     * @return \App\Http\Resources\Admin\Article\AdminArticleResource
      */
     public function show(Article $article)
     {
         $query = QueryBuilder::for(Article::class)
             ->where('id', $article->id)
-            ->allowedIncludes(['authors', 'tags', 'images', 'timeline'])
+            ->allowedIncludes(['authors', 'tags', 'images', 'timeline', 'category'])
             ->firstOrFail();
 
         return new AdminArticleResource($query);
@@ -116,7 +133,7 @@ class AdminArticleController extends Controller
      *
      * @param \App\Http\Requests\Article\ArticleUpdateRequest $request
      * @param Article $article
-     * @return AdminArticleResource
+     * @return \App\Http\Resources\Admin\Article\AdminArticleResource
      */
     public function update(ArticleUpdateRequest $request, Article $article)
     {
@@ -125,24 +142,30 @@ class AdminArticleController extends Controller
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
 //        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
-        $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
+//        $dataRelCategories = $request->input('data.relationships.category.data.*.id');
 
         $article->update($dataAttributes);
 
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $imageId) {
-                $image = Image::find($imageId);
-                if ($image) {
-                    Image::findOrFail($imageId)->update([
-                        'imageable_id' => $article->id
-                    ]);
-                }
+        $messages = [];
+
+        foreach ($dataRelImages as $id) {
+
+            $image = Image::find($id);
+            $result = $this->handleRelationships($image, $id);
+
+            if ($result['result']) {
+                $article->images()->save($image);
+                array_push($messages, $result);
+            } else {
+                response();
+                array_push($messages, $result);
             }
+
         }
 
-        if ($dataRelCategories) {
-            $article->category()->associate($dataRelCategories[0])->save();
-        }
+//        if ($dataRelCategories) {
+//            $article->category()->associate($dataRelCategories[0])->save();
+//        }
 
         $article->authors()->sync($dataRelAuthors);
         $article->tags()->sync($dataRelTags);
@@ -164,7 +187,7 @@ class AdminArticleController extends Controller
 
         $article->authors()->detach($idAuthors);
         $article->tags()->detach($idTags);
-//        $article->bookmarks()->delete();
+
         $images = Image::where('imageable_id', $article->id)
             ->where('imageable_type', 'article')->get();
 
@@ -174,9 +197,56 @@ class AdminArticleController extends Controller
         $article->images()->delete();
         $article->comments()->delete();
         $article->timeline()->delete();
+        $article->bookmarks()->delete();
 
         $article->delete();
 
         return response(null, 204);
+    }
+
+    /**
+     * @param $image
+     * @param Article $article
+     * @param $id
+     * @return array
+     */
+    private function handleRelationships($image, $id)
+    {
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'article') {
+            $message = [
+                'id_image' => $image->id,
+                'result' => true,
+                'description' => 'Image ' . $id . ' was related to ' . 'article'
+            ];
+
+            return $message;
+
+        } else {
+            if (!$image) {
+                $message = [
+                    'id_image' => $image->id,
+                    'result' => false,
+                    'description' => 'Image ' . $id . ' is not exists'
+                ];
+            } else {
+                if (!is_null($image->imageable_id)) {
+                    $message = [
+                        'id_image' => $image->id,
+                        'result' => false,
+                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
+                            . ' relation'
+                    ];
+                }
+                if ($image->imageable_type !== 'article') {
+                    $message = [
+                        'id_image' => $image->id,
+                        'result' => false,
+                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
+                    ];
+                }
+            }
+            return $message;
+        }
+
     }
 }

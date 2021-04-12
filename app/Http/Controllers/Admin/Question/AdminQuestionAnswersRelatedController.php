@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Question;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminAnswerCollection;
+use App\Http\Resources\Admin\Answer\AdminAnswerCollection;
 use App\Models\Question;
 use Illuminate\Http\Request;
 

@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\News\NewsCreateRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Http\Requests\Tag\TagUpdateRequest;
-use App\Http\Resources\Admin\AdminNewsCollection;
-use App\Http\Resources\Admin\AdminNewsResource;
+use App\Http\Resources\Admin\News\AdminNewsCollection;
+use App\Http\Resources\Admin\News\AdminNewsResource;
 use App\Models\Image;
 use App\Models\News;
 use App\Models\Tag;
@@ -41,6 +41,7 @@ class AdminNewsController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $query = QueryBuilder::for(News::class)
             ->allowedIncludes(['tags', 'images', 'bookmarks', 'comments'])
             ->allowedSorts(['id', 'title', 'published_at'])
@@ -66,20 +67,37 @@ class AdminNewsController extends Controller
         $news = News::create($data);
 
         // update field imageable_id of images table with new $article->id
-        foreach ($dataRelImages as $imageId) {
-            $image = Image::find($imageId);
-            if ($image) {
-                Image::findOrFail($imageId)->update([
-                    'imageable_id' => $news->id
-                ]);
+//        foreach ($dataRelImages as $imageId) {
+//            $image = Image::find($imageId);
+//            if ($image) {
+//                Image::findOrFail($imageId)->update([
+//                    'imageable_id' => $news->id
+//                ]);
+//            }
+//        }
+
+        $messages = [];
+
+        foreach ($dataRelImages as $id) {
+
+            $image = Image::find($id);
+            $result = $this->handleRelationships($image, $id);
+
+            if ($result['result']) {
+                $news->images()->save($image);
+                array_push($messages, $result);
+            } else {
+                response();
+                array_push($messages, $result);
             }
+
         }
 
         // attach tags for the news
         $news->tags()->attach($dataRelTags);
 
         return (new AdminNewsResource($news))
-            ->response()
+            ->response($messages)
             ->header('Location', route('admin.news.show', [
                 'news' => $news
             ]));
@@ -116,13 +134,30 @@ class AdminNewsController extends Controller
 
         $news->update($data);
 
-        foreach ($dataRelImages as $imageId) {
-            $image = Image::find($imageId);
-            if ($image) {
-                Image::findOrFail($imageId)->update([
-                    'imageable_id' => $news->id
-                ]);
+//        foreach ($dataRelImages as $imageId) {
+//            $image = Image::find($imageId);
+//            if ($image) {
+//                Image::findOrFail($imageId)->update([
+//                    'imageable_id' => $news->id
+//                ]);
+//            }
+//        }
+
+        $messages = [];
+
+        foreach ($dataRelImages as $id) {
+
+            $image = Image::find($id);
+            $result = $this->handleRelationships($image, $id);
+
+            if ($result['result']) {
+                $news->images()->save($image);
+                array_push($messages, $result);
+            } else {
+                response();
+                array_push($messages, $result);
             }
+
         }
 
         $news->tags()->sync($dataRelTags);
@@ -155,5 +190,50 @@ class AdminNewsController extends Controller
         $news->delete();
 
         return response(null, 204);
+    }
+
+    /**
+     * @param $image
+     * @param News $news
+     * @param $id
+     * @return array
+     */
+    private function handleRelationships($image, $id)
+    {
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'news') {
+            $message = [
+                'id_image' => $image->id,
+                'result' => true,
+                'description' => 'Image ' . $id . ' was related to ' . 'news'
+            ];
+
+            return $message;
+
+        } else {
+            if (!$image) {
+                $message = [
+                    'id_image' => $image->id,
+                    'result' => false,
+                    'description' => 'Image ' . $id . ' is not exists'
+                ];
+            } else {
+                if (!is_null($image->imageable_id)) {
+                    $message = [
+                        'id_image' => $image->id,
+                        'result' => false,
+                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
+                            . ' relation'
+                    ];
+                }
+                if ($image->imageable_type !== 'news') {
+                    $message = [
+                        'id_image' => $image->id,
+                        'result' => false,
+                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
+                    ];
+                }
+            }
+            return $message;
+        }
     }
 }

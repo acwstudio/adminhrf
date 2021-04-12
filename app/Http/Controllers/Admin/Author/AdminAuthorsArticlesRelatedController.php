@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Author;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminArticleCollection;
+use App\Http\Resources\Admin\Article\AdminArticleCollection;
 use App\Models\Author;
 use Illuminate\Http\Request;
 

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\AllContent;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminAllContentCollection;
-use App\Http\Resources\Admin\AdminAllContentResource;
+use App\Http\Resources\Admin\AllContent\AdminAllContentCollection;
+use App\Http\Resources\Admin\AllContent\AdminAllContentResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

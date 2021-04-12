@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\TestResult;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TestResult\ResultsTestRelationshipsUpdateRequest;
 use App\Http\Resources\Admin\AdminResultsIdentifierResource;
-use App\Http\Resources\Admin\AdminTestsIdentifierResource;
+use App\Http\Resources\Admin\Test\AdminTestsIdentifierResource;
 use App\Models\Test;
 use App\Models\TResult;
 use Illuminate\Http\Request;
