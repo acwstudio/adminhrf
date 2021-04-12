@@ -65,7 +65,7 @@ class AdminArticleController extends Controller
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
 //        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
-//        $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
+//        $dataRelCategories = $request->input('data.relationships.category.data.*.id');
 
         $article = Article::create($dataAttributes);
 
@@ -142,20 +142,9 @@ class AdminArticleController extends Controller
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
 //        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
-        $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
+//        $dataRelCategories = $request->input('data.relationships.category.data.*.id');
 
         $article->update($dataAttributes);
-
-//        if ($dataRelImages) {
-//            foreach ($dataRelImages as $imageId) {
-//                $image = Image::find($imageId);
-//                if ($image) {
-//                    Image::findOrFail($imageId)->update([
-//                        'imageable_id' => $article->id
-//                    ]);
-//                }
-//            }
-//        }
 
         $messages = [];
 
@@ -174,9 +163,9 @@ class AdminArticleController extends Controller
 
         }
 
-        if ($dataRelCategories) {
-            $article->category()->associate($dataRelCategories[0])->save();
-        }
+//        if ($dataRelCategories) {
+//            $article->category()->associate($dataRelCategories[0])->save();
+//        }
 
         $article->authors()->sync($dataRelAuthors);
         $article->tags()->sync($dataRelTags);

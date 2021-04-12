@@ -29,7 +29,7 @@ class ArticlesAuthorsUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|string',
+            'data.*.id' => 'required|string|exists:authors,id',
             'data.*.type' => 'required|in:authors',
         ];
     }

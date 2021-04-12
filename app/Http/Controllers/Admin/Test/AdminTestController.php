@@ -61,20 +61,10 @@ class AdminTestController extends Controller
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
         $dataRelQuestions = $request->input('data.relationships.questions.data.*.id');
         $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
-
+//        return $dataRelCategories;
         $test = Test::create($dataAttributes);
 
         // update field imageable_id of images table with new $article->id
-//        if ($dataRelImages) {
-//            foreach ($dataRelImages as $imageId) {
-//                $image = Image::find($imageId);
-//                if ($image) {
-//                    Image::findOrFail($imageId)->update([
-//                        'imageable_id' => $test->id
-//                    ]);
-//                }
-//            }
-//        }
 
         $messages = [];
 
@@ -93,7 +83,7 @@ class AdminTestController extends Controller
 
         }
 
-        // attach authors and tags for the article
+        // attach authors and categories for the test
         $test->questions()->attach($dataRelQuestions);
         $test->categories()->attach($dataRelCategories);
 

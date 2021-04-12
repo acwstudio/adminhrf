@@ -41,6 +41,8 @@ class TestCreateRequest extends FormRequest
             'data.relationships.*' => 'present|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
             'data.relationships.images.data.*.id' => 'exists:images,id',
+            'data.relationships.categories.data.*.type' => 'present|in:categories',
+            'data.relationships.categories.data.*.id' => 'exists:categories,id',
         ];
     }
 }
