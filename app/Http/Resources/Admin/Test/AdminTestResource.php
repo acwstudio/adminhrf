@@ -81,8 +81,8 @@ class AdminTestResource extends JsonResource
                 ],
                 'categories' => [
                     'links' => [
-                        'self' => route('tests.test-categories', ['test' => $this->id]),
-                        'related' => route('tests.relationships.test-categories', ['test' => $this->id])
+                        'self' => route('tests.relationships.test-categories', ['test' => $this->id]),
+                        'related' => route('tests.test-categories', ['test' => $this->id])
                     ],
                     'data' => AdminTCategoryIdentifierResource::collection($this->whenLoaded('categories'))
                 ]

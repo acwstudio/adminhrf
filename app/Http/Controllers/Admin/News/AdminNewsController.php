@@ -173,6 +173,7 @@ class AdminNewsController extends Controller
 
         $news->images()->delete();
         $news->comments()->delete();
+        $news->bookmarks()->delete();
         $news->delete();
 
         return response(null, 204);

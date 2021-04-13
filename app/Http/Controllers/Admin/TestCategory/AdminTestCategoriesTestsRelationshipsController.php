@@ -9,10 +9,10 @@ use App\Models\QCategory;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminTCategoriesTestsRelationshipsController
+ * Class AdminTestCategoriesTestsRelationshipsController
  * @package App\Http\Controllers\Admin\TestCategory
  */
-class AdminTCategoriesTestsRelationshipsController extends Controller
+class AdminTestCategoriesTestsRelationshipsController extends Controller
 {
     /**
      * @param QCategory $category
