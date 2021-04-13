@@ -51,4 +51,29 @@ class AfishaController extends Controller
     {
         return AfishaResource::make($event);
     }
+
+    public function old(Request $request)
+    {
+        $city = $request->get('city');
+        $perPage = $request->get('per_page', $this->perPage);
+        $categories = $request->get('categories');
+
+        $query = Event::where('published_at', '<', now())->where('afisha_date', '<', now());
+
+        if (!is_null($city)) {
+            $query->where('city_id', '=', City::findOrFail($city)->first()->id);
+        }
+
+        if (!is_null($categories)) {
+            $params = explode('|', $categories);
+
+            $query->whereHas('leisure', function (Builder $query) use ($params) {
+                $query->whereIn('slug', $params);
+            });
+        }
+
+
+        return AfishaShortResource::collection($query->orderBy('afisha_date', 'desc')
+            ->orderBy('published_at', 'desc')->paginate($perPage));
+    }
 }

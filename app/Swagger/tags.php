@@ -101,4 +101,14 @@
  *     name="DayInHistory",
  *     description="Get days of history",
  * )
+ *
+ *   @OA\Tag(
+ *     name="Podcasts",
+ *     description="Get popular resources",
+ * )
+ *
+ *  @OA\Tag(
+ *     name="Admin Images",
+ *     description="Admin images operations",
+ * )
  */

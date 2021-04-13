@@ -32,15 +32,9 @@ class AdminImageResource extends JsonResource
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
                 'flags' => $this->flags,
-            ],
-            'relationships' => [
-                'articles' => [
-                    'links' => [
-//                        'self' =>
-//                        'related' =>
-                    ],
-//                    'data'
-                ]
+                'src' => $this->src,
+                'preview' => $this->preview,
+                'original' => $this->original,
             ]
         ];
     }

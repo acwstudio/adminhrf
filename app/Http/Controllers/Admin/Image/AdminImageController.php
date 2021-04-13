@@ -8,9 +8,7 @@ use App\Http\Requests\ImageUpdateRequest;
 use App\Http\Resources\Admin\AdminImageResource;
 use App\Models\Image;
 use App\Services\ImageService;
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class AdminImageController
@@ -30,40 +28,45 @@ class AdminImageController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     *  Store a newly created resource in storage and db
      *
-     * @param Request $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function index(Request $request)
-    {
-        $perPage = $request->get('per_page');
-        $query = QueryBuilder::for(Image::class)
-//            ->with('articles')
-//            ->allowedIncludes('articles')
-            ->jsonPaginate($perPage);
-
-        return AdminImageResource::collection($query);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param ImageCreateRequest $request
+     * @return AdminImageResource|JsonResponse
      */
     public function store(ImageCreateRequest $request)
     {
+        $this->authorize('manage', Image::class);
 
-        $file = $request->file('file');
+        $data = $request->validated();
 
-        $image = $this->imageService->storeByType($file, $request->imageable_type);
+        try {
 
-        return (new AdminImageResource($image))
-            ->response()
-            ->header('Location', route('admin.images.show', [
-                'image' => $image
-            ]));
+            $image = $this->imageService->storeByType($data['file'], $data['imageable_type']);
+
+        } catch (\Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500,);
+        }
+
+        if (!is_null($imageable_id = $data['imageable_id'] ?? null)) {
+
+            if (is_null(
+                Image::where('imageable_id', $imageable_id)
+                    ->where('imageable_type', $data['imageable_type'])
+                    ->first()
+            )) {
+
+                $image->imageable_id = $imageable_id;
+                $image->save();
+
+            } else {
+
+                return response()->json(['error' => 'Image exists, use update'], 500,);
+
+            }
+        }
+
+
+        return AdminImageResource::make($image);
     }
 
     /**
@@ -74,32 +77,46 @@ class AdminImageController extends Controller
      */
     public function show(Image $image)
     {
-        $query = QueryBuilder::for(Image::class)
-            ->where('id', $image->id)
-            ->firstOrFail();
-
-//        return $query->imageable;
-        return new AdminImageResource($query);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param ImageUpdateRequest $request
-     * @param Image $image
-     * @return AdminImageResource
-     */
-    public function update(ImageUpdateRequest $request, Image $image)
-    {
-        $file = $request->file('image');
-
-        $image = $this->imageService->storeByType($file, $request->imageable_type);
+        $this->authorize('manage', Image::class);
 
         return new AdminImageResource($image);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Update the specified resource in storage and db
+     *
+     * @param ImageUpdateRequest $request
+     * @param Image $image
+     * @return AdminImageResource|JsonResponse
+     */
+    public function update(ImageUpdateRequest $request, Image $image)
+    {
+        $this->authorize('manage', Image::class);
+
+        $data = $request->validated();
+
+        try {
+
+            $newImage = $this->imageService->storeByType($data['file'], $image->imageable_type);
+
+            if ($image->imageable_type !== 'common') {
+                $model = $image->imageable;
+                $image->imageable()->dissociate();
+                $newImage->imageable()->associate($model);
+                $newImage->save();
+            }
+
+            $image->delete();
+
+        } catch (\Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500,);
+        }
+
+        return new AdminImageResource($newImage);
+    }
+
+    /**
+     * Remove the specified resource from storage and db
      *
      * @param Image $image
      * @return \Illuminate\Http\Response
@@ -107,7 +124,8 @@ class AdminImageController extends Controller
      */
     public function destroy(Image $image)
     {
-        $this->imageService->delete($image);
+
+        $this->authorize('manage', Image::class);
 
         $image->delete();
 
