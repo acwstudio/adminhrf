@@ -143,8 +143,9 @@ class Article extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function taggable(){
-        return $this->morphMany(Taggable::class,'taggable');
+    public function taggable()
+    {
+        return $this->morphMany(Taggable::class, 'taggable');
     }
 
     public function bookmarks()
@@ -165,19 +166,22 @@ class Article extends Model
         return $this->morphOne(Timeline::class, 'timelinable');
     }
 
-    public function hasBookmark(User $user){
-        if(is_null($user->bookmarkGroup)){
+    public function hasBookmark(User $user)
+    {
+        if (is_null($user->bookmarkGroup)) {
             return false;
         }
         return !is_null($user->bookmarkGroup->bookmarks->firstWhere('bookmarkable_id', $this->id));
     }
 
-    public function oldCategories(){
-        return $this->belongsToMany(\App\Models\Old\ArticleCategory::class,'content_artworks_category_book','category_book_id');
+    public function oldCategories()
+    {
+        return $this->belongsToMany(\App\Models\Old\ArticleCategory::class, 'content_artworks_category_book', 'category_book_id');
     }
 
-    public function category(){
-        return $this->belongsTo(ArticleCategory::class,'category_id');
+    public function category()
+    {
+        return $this->belongsTo(ArticleCategory::class, 'category_id');
     }
 
 }

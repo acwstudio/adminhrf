@@ -9,11 +9,13 @@ use Illuminate\Support\Carbon;
 
 class dayInHistoryController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
     }
 
-    public function getDays(Request $request){
+    public function getDays(Request $request)
+    {
 
 
         return [

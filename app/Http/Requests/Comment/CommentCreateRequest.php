@@ -24,11 +24,6 @@ class CommentCreateRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation()
-    {
-        $this->merge($this->json()->all());
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -40,9 +35,9 @@ class CommentCreateRequest extends FormRequest
             'type' => [
                 'sometimes', // TODO make it required
                 'string',
-                function($attribute, $value, $fail) {
-                    if(!in_array($value, ['comment', 'review'])) {
-                        $fail('Invalid '.$attribute.'='.$value);
+                function ($attribute, $value, $fail) {
+                    if (!in_array($value, ['comment', 'review'])) {
+                        $fail('Invalid ' . $attribute . '=' . $value);
                     }
                 }
             ],
@@ -51,9 +46,9 @@ class CommentCreateRequest extends FormRequest
             'commentable_type' => [
                 'required',
                 'string',
-                function($attribute, $value, $fail) {
-                    if(!array_key_exists($value, Relation::$morphMap)) {
-                        $fail('Invalid '.$attribute.'='.$value);
+                function ($attribute, $value, $fail) {
+                    if (!array_key_exists($value, Relation::$morphMap)) {
+                        $fail('Invalid ' . $attribute . '=' . $value);
                     }
                 }
             ],
@@ -61,8 +56,8 @@ class CommentCreateRequest extends FormRequest
                 'nullable',
                 'integer',
                 function ($attribute, $value, $fail) {
-                    if(is_null(Comment::find($value))) {
-                        $fail('Comment with '.$attribute.'='.$value.' not found.');
+                    if (is_null(Comment::find($value))) {
+                        $fail('Comment with ' . $attribute . '=' . $value . ' not found.');
                     }
                 },
             ],
@@ -71,12 +66,17 @@ class CommentCreateRequest extends FormRequest
             'estimate' => [
                 'required_if:type,review',
                 'string',
-                function($attribute, $value, $fail) {
-                    if(!in_array($value, ['negative', 'positive'])) {
-                        $fail('Invalid '.$attribute.'='.$value);
+                function ($attribute, $value, $fail) {
+                    if (!in_array($value, ['negative', 'positive'])) {
+                        $fail('Invalid ' . $attribute . '=' . $value);
                     }
                 }
             ],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge($this->json()->all());
     }
 }

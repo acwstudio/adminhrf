@@ -10,7 +10,7 @@ class Question extends Model
     use HasFactory;
 
     public $fillable = [
-	'id',
+        'id',
         'text',
         'type',
         'position',

@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Comment\CommentCreateRequest;
 use App\Http\Resources\CommentResource;
-use App\Models\Article;
-use App\Models\Biography;
 use App\Models\Comment;
-use App\Models\Event;
-use App\Models\News;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
@@ -83,7 +79,6 @@ class CommentController extends Controller
     }
 
 
-
     public function store(CommentCreateRequest $request)
     {
         $data = $request->validated();
@@ -93,9 +88,9 @@ class CommentController extends Controller
 
         if (!is_null($data['parent_id']) && !is_null($data['answer_to'])) {
 
-            if($toUser = User::find(Arr::get($data, 'answer_to.user_id'))) {
+            if ($toUser = User::find(Arr::get($data, 'answer_to.user_id'))) {
 
-                Arr::set($data,'answer_to.user_name', $toUser->name);
+                Arr::set($data, 'answer_to.user_name', $toUser->name);
 
             }
 

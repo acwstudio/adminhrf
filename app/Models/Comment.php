@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Events\CommentAdded;
 use App\Events\CommentDeleted;
-use App\Models\Traits\Likeable;
 use App\Models\Traits\Rateable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

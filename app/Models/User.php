@@ -57,16 +57,6 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Finds out if user has role 'admin'
-     *
-     * @return bool
-     */
-    public function isAdmin(): bool
-    {
-        return $this->role && $this->role->role == 'admin';
-    }
-
-    /**
      * Finds out if user has access to admin panel
      *
      * @return bool
@@ -96,21 +86,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Permission::class);
     }
 
-
-    /**
-     * Return array of user permissions
-     *
-     * @return array|null
-     */
-    public function getPermissionsArray(): ?array
-    {
-        $permissions = $this->isAdmin() ? Permission::all() : $this->permissions;
-
-        return optional($permissions)->map(function ($item) {
-            return $item->name;
-        })->all();
-    }
-
     /**
      * Check if user has any of given permissions
      *
@@ -126,6 +101,30 @@ class User extends Authenticatable implements MustVerifyEmail
         $permissions = collect($permissions);
 
         return $permissions->intersect($this->getPermissionsArray())->isNotEmpty();
+    }
+
+    /**
+     * Finds out if user has role 'admin'
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role && $this->role->role == 'admin';
+    }
+
+    /**
+     * Return array of user permissions
+     *
+     * @return array|null
+     */
+    public function getPermissionsArray(): ?array
+    {
+        $permissions = $this->isAdmin() ? Permission::all() : $this->permissions;
+
+        return optional($permissions)->map(function ($item) {
+            return $item->name;
+        })->all();
     }
 
     /**

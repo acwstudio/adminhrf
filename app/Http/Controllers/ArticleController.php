@@ -35,11 +35,10 @@ class ArticleController extends Controller
 
         $query = Article::where('active', true)
             ->where('published_at', '<', now())
-            ->with('images', 'authors','tags');
+            ->with('images', 'authors', 'tags');
 
-        if(!is_null($category))
-        {
-            $query = $query->where('category_id','=',$category);
+        if (!is_null($category)) {
+            $query = $query->where('category_id', '=', $category);
         }
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
             $query->orderBy('viewed', 'desc');
@@ -113,7 +112,7 @@ class ArticleController extends Controller
         return response(null, 204);
     }
 
-    public function indexByTag(Tag $tag,Request $request)
+    public function indexByTag(Tag $tag, Request $request)
     {
 
         $perPage = $request->get('per_page', 16);
@@ -121,20 +120,19 @@ class ArticleController extends Controller
         $category = $request->get('category');
 
         $query = $tag->articles()->where('active', true)
-                        ->where('published_at', '<', now())
-                        ->with('images');
+            ->where('published_at', '<', now())
+            ->with('images');
 
-        if(!is_null($category))
-        {
-            $query = $query->where('category_id','=',$category);
+        if (!is_null($category)) {
+            $query = $query->where('category_id', '=', $category);
         }
 
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
             $query->orderBy('liked', 'desc');
         }
 
-        $result = $query->orderBy('published_at','desc')
-                        ->paginate($perPage);
+        $result = $query->orderBy('published_at', 'desc')
+            ->paginate($perPage);
 
         return new ArticleCollection($result);
     }

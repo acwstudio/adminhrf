@@ -20,7 +20,8 @@ class Taggable extends Model
         'updated_at'
     ];
 
-    public function taggable(){
+    public function taggable()
+    {
         return $this->morphTo('taggable');
     }
 }

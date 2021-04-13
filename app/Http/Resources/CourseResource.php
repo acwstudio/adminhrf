@@ -44,11 +44,11 @@ class CourseResource extends JsonResource
             'comments' => $this->highlightable->countComments(),
             'likes' => $this->highlightable->countLikes(),
             'views' => $this->highlightable->viewed,
-	    'path' => $this->highlightable_type == 'audiomaterial' ? $this->highlightable->path : null,
+            'path' => $this->highlightable_type == 'audiomaterial' ? $this->highlightable->path : null,
             'has_like' => $user ? $this->highlightable->checkLiked($user) : false,
-            'has_bookmark' => $user ? $this->highlightable->hasBookmark($user): false,
+            'has_bookmark' => $user ? $this->highlightable->hasBookmark($user) : false,
             'tags' => TagResource::collection($this->highlightable->tags),
-            'image' => $this->highlightable->images?ImageResource::make($this->highlightable->images->first()):null,
+            'image' => $this->highlightable->images ? ImageResource::make($this->highlightable->images->first()) : null,
         ];
     }
 }

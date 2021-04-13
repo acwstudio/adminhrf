@@ -26,17 +26,17 @@ class EventShortResource extends JsonResource
             'published_at' => $this->published_at,
             'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
             'authors' => AuthorResource::collection($this->authors),
-            'likes' => $this->countLikes(),
+            'likes' => $this->liked,
             'views' => $this->viewed,
             'has_like' => $this->checkLiked($request->get('user_id', 1)),
-            'has_bookmark' => $user ? $this->hasBookmark($user): false,
+            'has_bookmark' => $user ? $this->hasBookmark($user) : false,
             'event_date' => Carbon::parse(($this->event_date))->format('Y-m-d'),
             'group_date' => Carbon::parse(($this->event_date))->format('Y-m'),
             'event_start_date' => Carbon::parse(($this->event_start_date))->format('Y-m-d'),
             'event_end_date' => Carbon::parse(($this->event_end_date))->format('Y-m-d'),
             //TODO:  Change event date to event date from timeline entity
             'tags' => TagResource::collection($this->tags),
-            'comments' => $this->comments->count(),
+            'comments' => $this->commented,
         ];
     }
 }

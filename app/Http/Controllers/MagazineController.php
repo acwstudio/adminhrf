@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\MagazineResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\MagazineArticleResource;
+use App\Http\Resources\MagazineResource;
 use App\Models\Old\MagazineRelease;
 use App\Models\Old\MagazineReleaseArticle;
 use Illuminate\Http\Request;
@@ -21,10 +21,10 @@ class MagazineController extends Controller
         return MagazineResource::collection(MagazineRelease::with('categories', 'categories.article')->latest()->get());
     }
 
-    public function indexMagazines(){
+    public function indexMagazines()
+    {
         return MagazineResource::collection(MagazineRelease::all());
     }
-
 
 
     public function show($magazineRelease, Request $request)

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Highlight extends Model
 {
-    use HasFactory, Sluggable, Likeable,Commentable;
+    use HasFactory, Sluggable, Likeable, Commentable;
 
     protected $fillable = [
         'title',
@@ -68,8 +68,9 @@ class Highlight extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
-    public function hasBookmark(User $user){
-        if(is_null($user->bookmarkGroup)){
+    public function hasBookmark(User $user)
+    {
+        if (is_null($user->bookmarkGroup)) {
             return false;
         }
         return !is_null($user->bookmarkGroup->bookmarks->firstWhere('bookmarkable_id', $this->id));

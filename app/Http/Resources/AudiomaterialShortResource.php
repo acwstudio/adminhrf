@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ArticleShortResource extends JsonResource
+class AudiomaterialShortResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,21 +17,18 @@ class ArticleShortResource extends JsonResource
         $user = $request->user();
 
         return [
-            'model_type' => 'article',
+            'model_type' => 'audiolecture',
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'announce' => $this->announce,
-            'published_at' => $this->published_at,
-            'authors' => AuthorShortResource::collection($this->whenLoaded('authors')),
-            'comments' => $this->commented,
+            'description' => $this->description,
+            'path' => $this->path,
+            'position' => $this->position,
             'likes' => $this->liked,
             'views' => $this->viewed,
+            'comments' => $this->commented,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user) : false,
-            'image' => ImageResource::make($this->whenLoaded('images')->shift()),
-            'tags' => TagResource::collection($this->tags),
-            'category' => $this->categories ? ArticleCategoryResource::make($this->category) : null
         ];
     }
 }

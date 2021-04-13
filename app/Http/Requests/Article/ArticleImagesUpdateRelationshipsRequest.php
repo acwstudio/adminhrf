@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\Article;
 
-use App\Rules\EqualImageableType;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 
 /**
  * Class ArticleImagesUpdateRelationshipsRequest

@@ -17,7 +17,7 @@ class BookmarkShortResource extends JsonResource
         $user = $request->user();
         //$arr = [true, false];
         return [
-            'model_type' => $this->entity=='videomaterial'||$this->entity=='highlight'?$this->type:$this->entity,
+            'model_type' => $this->entity == 'videomaterial' || $this->entity == 'highlight' ? $this->type : $this->entity,
             'id' => $this->id,
             'slug' => $this->slug,
             'title' => $this->title,
@@ -31,10 +31,10 @@ class BookmarkShortResource extends JsonResource
             'comments' => $this->commented,
             'iframe' => $this->iframe,
             'has_like' => $this->entity == 'news' ? null : $this->checkLiked($user),
-            'has_bookmark' => $user?$this->hasBookmark($user):false,
+            'has_bookmark' => $user ? $this->hasBookmark($user) : false,
             'tags' => TagResource::collection($this->tags),
-	    'image' => ImageResource::make($this->images->first()),
-	    'list' => $this->entity=='highlight'?HighlightsSuperShortResource::collection($this->highlightable()->limit(5)->get()):null
+            'image' => ImageResource::make($this->images->first()),
+            'list' => $this->entity == 'highlight' ? HighlightsSuperShortResource::collection($this->highlightable()->limit(5)->get()) : null
 
         ];
     }

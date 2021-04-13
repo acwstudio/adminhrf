@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\AudiomaterialResource;
+use App\Http\Resources\AudiomaterialShortResource;
 use App\Models\Audiomaterial;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -26,15 +26,15 @@ class AudiomaterialController extends Controller
         $perPage = $request->get('per_page', 20);
         $sortBy = $request->get('sort_by');
         $query = Audiomaterial::with('highlights')
-                              ->whereNull('parent_id');
+            ->whereNull('parent_id');
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
             $query->orderBy('liked', 'desc');
         }
-        $audio =  $query
+        $audio = $query
             ->orderBy('position')
             ->paginate($perPage);
 
-        return AudiomaterialResource::collection($audio);
+        return AudiomaterialShortResource::collection($audio);
 
     }
 
@@ -42,7 +42,7 @@ class AudiomaterialController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Audiomaterial  $audio
+     * @param \App\Models\Audiomaterial $audio
      * @return AudiomaterialResource
      */
     public function show(Audiomaterial $audio)
@@ -52,7 +52,7 @@ class AudiomaterialController extends Controller
         return AudiomaterialResource::make($audio->load('highlights'));
     }
 
-    public function indexByTag(Tag $tag,Request $request)
+    public function indexByTag(Tag $tag, Request $request)
     {
 
         $perPage = $request->get('per_page', 16);
@@ -70,7 +70,7 @@ class AudiomaterialController extends Controller
         $result = $query->orderBy('published_at', 'desc')
             ->paginate($perPage);
 
-        return AudiomaterialResource::collection($result);
+        return AudiomaterialShortResource::collection($result);
     }
 
 }

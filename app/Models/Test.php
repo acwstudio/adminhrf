@@ -13,7 +13,7 @@ class Test extends Model
     use HasFactory, Sluggable, Likeable, Commentable;
 
     public $fillable = [
-	'id',
+        'id',
         'title',
         'description',
         'is_active',
@@ -90,11 +90,12 @@ class Test extends Model
         return $this->hasMany(TResult::class, 'test_id', 'id');
     }
 
-    public function checkSolved(User $user){
-        if(is_null($this->results)){
+    public function checkSolved(User $user)
+    {
+        if (is_null($this->results)) {
             return false;
         }
-        return !is_null($this->results->where('user_id',$user->id)->where('is_closed',true));
+        return !is_null($this->results->where('user_id', $user->id)->where('is_closed', true));
     }
 
 }

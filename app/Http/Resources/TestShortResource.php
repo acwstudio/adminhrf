@@ -31,6 +31,7 @@ class TestShortResource extends JsonResource
             'has_bookmark' => false,
             'image' => $this->images ? ImageResource::make($this->images()->orderBy('order', 'asc')->first()) : null,
             'categories' => QCategoryResource::collection($this->categories),
+            'comments' => $this->commented,
             'has_solved' => $hasSolved,
             'test_result' => $hasSolved &&$user->testResult?TestResultResource::collection($user->testResult->firstWhere('test_id',$this->id)):null
         ];

@@ -17,7 +17,7 @@ class AdminNewsResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -48,7 +48,7 @@ class AdminNewsResource extends JsonResource
                         'self' => route('news.relationships.images', ['news' => $this->id]),
                         'related' => route('news.images', ['news' => $this->id])
                     ],
-                    'data' =>AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
                 ],
                 'comments' => [
                     'links' => [
@@ -62,14 +62,14 @@ class AdminNewsResource extends JsonResource
                         'self' => route('news.relationships.tags', ['news' => $this->id]),
                         'related' => route('news.relationships.tags', ['news' => $this->id])
                     ],
-                    'data' =>AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
+                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
                 ],
                 'bookmarks' => [
                     'links' => [
                         'self' => route('news.relationships.bookmarks', ['news' => $this->id]),
                         'related' => route('news.bookmarks', ['news' => $this->id])
                     ],
-                    'data' =>AdminBookmarkIdentifierResource::collection($this->whenLoaded('bookmarks'))
+                    'data' => AdminBookmarkIdentifierResource::collection($this->whenLoaded('bookmarks'))
                 ]
             ]
         ];
