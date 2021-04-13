@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Image\AdminImageController;
 use App\Http\Controllers\Admin\AllContent\AdminAllContentController;
 use App\Http\Controllers\Admin\Answer\AdminAnswerController;
 use App\Http\Controllers\Admin\Answer\AdminAnswersQuestionRelatedController;
@@ -47,7 +48,6 @@ use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelationshipsController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelationshipsController;
-//use App\Http\Controllers\Admin\Image\AdminImageController;
 use App\Http\Controllers\Admin\News\AdminNewsBookmarksRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\News\AdminNewsCommentsRelatedController;
@@ -363,7 +363,10 @@ Route::get('/documents/{document}/images', [
 
 /*****************  IMAGES ROUTES **************/
 
-Route::apiResource('/images', \App\Http\Controllers\Admin\AdminImageController::class, ['as' => 'admin']);
+Route::get('/images/{image}', [AdminImageController::class, 'show'])->name('image.show');
+Route::post('/images', [AdminImageController::class, 'store'])->name('image.store');
+Route::post('/images/{image}', [AdminImageController::class, 'update'])->name('image.update');
+Route::delete('/images/{image}', [AdminImageController::class, 'destroy'])->name('image.destroy');
 
 /*****************  HIGHLIGHTS ROUTES **************/
 

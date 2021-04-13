@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Image extends Model
 {
@@ -20,6 +21,29 @@ class Image extends Model
     ];
 
     protected $guarded = [];
+
+    /**
+     * Delete image files from storage when model deleted
+     */
+    protected static function booted()
+    {
+        static::deleted(function ($image) {
+
+            if ($image->flags & self::SRC_FLAG) {
+                Storage::delete($image->src);
+            }
+
+            if ($image->flags & self::PREVIEW_FLAG) {
+                Storage::delete($image->preview);
+            }
+
+            if ($image->flags & self::ORIGINAL_FLAG) {
+                Storage::delete($image->original);
+            }
+
+        });
+    }
+
 
     /**
      * Get the parent imageable model.
