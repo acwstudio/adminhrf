@@ -33,7 +33,7 @@ class ArticleUpdateRequest extends FormRequest
             'data.type' => 'required|in:articles',
             'data.attributes' => 'required|array',
             'data.attributes.title' => 'string',
-            'data.attributes.user_id' => 'required|integer|exists:users,id',
+            'data.attributes.user_id' => 'integer|exists:users,id',
             'data.attributes.category_id' => 'integer|exists:article_categories,id',
             'data.attributes.announce' => 'string',
             'data.attributes.body' => 'string',
