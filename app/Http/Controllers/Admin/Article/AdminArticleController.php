@@ -70,32 +70,23 @@ class AdminArticleController extends Controller
         $article = Article::create($dataAttributes);
 
         // update field imageable_id of images table with new $article->id
-//        if ($dataRelImages) {
-//            foreach ($dataRelImages as $imageId) {
-//                $image = Image::find($imageId);
-//                if ($image) {
-//                    Image::findOrFail($imageId)->update([
-//                        'imageable_id' => $article->id
-//                    ]);
-//                }
-//            }
-//        }
-
         $messages = [];
 
-        foreach ($dataRelImages as $id) {
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $id) {
 
-            $image = Image::find($id);
-            $result = $this->handleRelationships($image, $id);
+                $image = Image::find($id);
+                $result = $this->handleRelationships($image, $id);
 
-            if ($result['result']) {
-                $article->images()->save($image);
-                array_push($messages, $result);
-            } else {
-                response();
-                array_push($messages, $result);
+                if ($result['result']) {
+                    $article->images()->save($image);
+                    array_push($messages, $result);
+                } else {
+                    response();
+                    array_push($messages, $result);
+                }
+
             }
-
         }
 
         // attach authors and tags for the article
@@ -147,22 +138,22 @@ class AdminArticleController extends Controller
         $article->update($dataAttributes);
 
         $messages = [];
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $id) {
 
-        foreach ($dataRelImages as $id) {
+                $image = Image::find($id);
+                $result = $this->handleRelationships($image, $id);
 
-            $image = Image::find($id);
-            $result = $this->handleRelationships($image, $id);
+                if ($result['result']) {
+                    $article->images()->save($image);
+                    array_push($messages, $result);
+                } else {
+                    response();
+                    array_push($messages, $result);
+                }
 
-            if ($result['result']) {
-                $article->images()->save($image);
-                array_push($messages, $result);
-            } else {
-                response();
-                array_push($messages, $result);
             }
-
         }
-
 //        if ($dataRelCategories) {
 //            $article->category()->associate($dataRelCategories[0])->save();
 //        }

@@ -17,8 +17,8 @@ use App\Http\Controllers\Admin\Article\AdminArticlesAuthorsRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticlesAuthorsRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticlesTagsRelatedController;
 use App\Http\Controllers\Admin\Article\AdminArticlesTagsRelationshipsController;
-use App\Http\Controllers\Admin\Article\AdminArticleTimlineRelatedController;
-use App\Http\Controllers\Admin\Article\AdminArticleTimlineRelationshipsController;
+use App\Http\Controllers\Admin\Article\AdminArticleTimelineRelatedController;
+use App\Http\Controllers\Admin\Article\AdminArticleTimelineRelationshipsController;
 use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryArticlesRelatedController;
 use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryArticlesRelationshipsController;
 use App\Http\Controllers\Admin\ArticleCategory\AdminArticleCategoryController;
@@ -32,10 +32,14 @@ use App\Http\Controllers\Admin\Bookmark\AdminBookmarkController;
 use App\Http\Controllers\Admin\Bookmark\AdminBookmarksBookmarkCroupRelatedController;
 use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelatedController;
 use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupController;
-use App\Http\Controllers\Admin\Comment\AdminCommentController;
+//use App\Http\Controllers\Admin\Comment\AdminCommentController;
 use App\Http\Controllers\Admin\Document\AdminDocumentController;
+use App\Http\Controllers\Admin\Document\AdminDocumentImagesRelatedController;
+use App\Http\Controllers\Admin\Document\AdminDocumentImagesRelationshipsController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelationshipsController;
+use App\Http\Controllers\Admin\DocumentCategory\AdminDocumentCategoryDocumentsRelatedController;
+use App\Http\Controllers\Admin\DocumentCategory\AdminDocumentCategoryDocumentsRelationshipsController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightBookmarksRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightController;
@@ -206,15 +210,15 @@ Route::get('/articles/{article}/tags', [
 
 // Article to Timeline relations
 Route::get('/articles/{article}/relationships/timeline', [
-    AdminArticleTimlineRelationshipsController::class, 'index'
+    AdminArticleTimelineRelationshipsController::class, 'index'
 ])->name('article.relationships.timeline');
 
 Route::patch('/articles/{article}/relationships/timeline', [
-    AdminArticleTimlineRelationshipsController::class, 'update'
+    AdminArticleTimelineRelationshipsController::class, 'update'
 ])->name('article.relationships.timeline');
 
 Route::get('/articles/{article}/timeline', [
-    AdminArticleTimlineRelatedController::class, 'index'
+    AdminArticleTimelineRelatedController::class, 'index'
 ])->name('article.timeline');
 
 /*****************  ARTICLE CATEGORIES ROUTES **************/
@@ -296,12 +300,36 @@ Route::get('/bookmark-groups/{bookmark_groups}/bookmarks', [
 
 /*****************  COMMENTS ROUTES **************/
 
-Route::get('/comments', [AdminCommentController::class, 'index']);
-Route::get('/comments/{comment}', [AdminCommentController::class, 'show'])
-    ->name('admin.comments.show');
-//                Route::post('admin/comments', [AdminCommentController::class, 'store']);
-//                Route::patch('admin/comments/{comment}', [AdminCommentController::class, 'update']);
-//                Route::delete('admin/comments/{comment}', [AdminCommentController::class, 'delete']);
+Route::apiResource(
+    '/comments',
+    \App\Http\Controllers\Admin\Comment\AdminCommentController::class,
+    ['as' => 'admin']
+);
+
+/*****************  DOCUMENT CATEGORIES ROUTES **************/
+
+Route::apiResource(
+    '/document-categories',
+    \App\Http\Controllers\Admin\DocumentCategory\AdminDocumentCategoryController::class,
+    ['as' => 'admin']
+);
+
+Route::get('/document-categories-light', [
+    \App\Http\Controllers\Admin\DocumentCategory\AdminDocumentCategoryController::class, 'light'
+]);
+
+// Document Category to Documents relations
+Route::get('/document-categories/{document_category}/relationships/documents', [
+    AdminDocumentCategoryDocumentsRelationshipsController::class, 'index'
+])->name('document-category.relationships.documents');
+
+Route::patch('/document-categories/{document_category}/relationships/documents', [
+    AdminDocumentCategoryDocumentsRelationshipsController::class, 'update'
+])->name('document-category.relationships.documents');
+
+Route::get('/document-categories/{document_category}/documents', [
+    AdminDocumentCategoryDocumentsRelatedController::class, 'index'
+])->name('document-category.documents');
 
 /*****************  DOCUMENTS ROUTES **************/
 
@@ -319,6 +347,19 @@ Route::patch('/documents/{document}/relationships/tags', [
 Route::get('/documents/{document}/tags', [
     AdminDocumentsTagsRelatedController::class, 'index'
 ])->name('documents.tags');
+
+// Document to Images relations
+Route::get('/documents/{document}/relationships/images', [
+    AdminDocumentImagesRelationshipsController::class, 'index'
+])->name('document.relationships.images');
+
+Route::patch('/documents/{document}/relationships/images', [
+    AdminDocumentImagesRelationshipsController::class, 'update'
+])->name('document.relationships.images');
+
+Route::get('/documents/{document}/images', [
+    AdminDocumentImagesRelatedController::class, 'index'
+])->name('document.images');
 
 /*****************  IMAGES ROUTES **************/
 

@@ -8,10 +8,10 @@ use App\Models\Article;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminArticleTimlineRelationshipsController
+ * Class AdminArticleTimelineRelationshipsController
  * @package App\Http\Controllers\Admin\Article
  */
-class AdminArticleTimlineRelationshipsController extends Controller
+class AdminArticleTimelineRelationshipsController extends Controller
 {
     /**
      * @param Article $article

@@ -29,7 +29,7 @@ class ArticlesArticleCategoryRelationshipsUpdateRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer|articlecategories',
+            'data.*.id' => 'required|integer|exists:article_categories,id',
             'data.*.type' => 'required|in:articlecategories'
         ];
     }

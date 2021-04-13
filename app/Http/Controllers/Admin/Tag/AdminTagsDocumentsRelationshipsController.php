@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Tag;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tag\TagsDocumentsUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminDocumentsIdentifireResource;
+use App\Http\Resources\Admin\Document\AdminDocumentsIdentifireResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 

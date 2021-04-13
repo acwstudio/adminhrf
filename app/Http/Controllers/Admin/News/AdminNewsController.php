@@ -66,31 +66,24 @@ class AdminNewsController extends Controller
 
         $news = News::create($data);
 
-        // update field imageable_id of images table with new $article->id
-//        foreach ($dataRelImages as $imageId) {
-//            $image = Image::find($imageId);
-//            if ($image) {
-//                Image::findOrFail($imageId)->update([
-//                    'imageable_id' => $news->id
-//                ]);
-//            }
-//        }
-
+        // Images
         $messages = [];
 
-        foreach ($dataRelImages as $id) {
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $id) {
 
-            $image = Image::find($id);
-            $result = $this->handleRelationships($image, $id);
+                $image = Image::find($id);
+                $result = $this->handleRelationships($image, $id);
 
-            if ($result['result']) {
-                $news->images()->save($image);
-                array_push($messages, $result);
-            } else {
-                response();
-                array_push($messages, $result);
+                if ($result['result']) {
+                    $news->images()->save($image);
+                    array_push($messages, $result);
+                } else {
+                    response();
+                    array_push($messages, $result);
+                }
+
             }
-
         }
 
         // attach tags for the news
@@ -134,30 +127,23 @@ class AdminNewsController extends Controller
 
         $news->update($data);
 
-//        foreach ($dataRelImages as $imageId) {
-//            $image = Image::find($imageId);
-//            if ($image) {
-//                Image::findOrFail($imageId)->update([
-//                    'imageable_id' => $news->id
-//                ]);
-//            }
-//        }
-
         $messages = [];
 
-        foreach ($dataRelImages as $id) {
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $id) {
 
-            $image = Image::find($id);
-            $result = $this->handleRelationships($image, $id);
+                $image = Image::find($id);
+                $result = $this->handleRelationships($image, $id);
 
-            if ($result['result']) {
-                $news->images()->save($image);
-                array_push($messages, $result);
-            } else {
-                response();
-                array_push($messages, $result);
+                if ($result['result']) {
+                    $news->images()->save($image);
+                    array_push($messages, $result);
+                } else {
+                    response();
+                    array_push($messages, $result);
+                }
+
             }
-
         }
 
         $news->tags()->sync($dataRelTags);
@@ -179,7 +165,7 @@ class AdminNewsController extends Controller
         $news->tags()->detach($idTags);
 
         $images = Image::where('imageable_id', $news->id)
-            ->where('imageable_type', 'article');
+            ->where('imageable_type', 'news')->get();
 
         foreach ($images as $image) {
             $this->imageService->delete($image);

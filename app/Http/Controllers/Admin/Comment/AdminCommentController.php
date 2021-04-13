@@ -25,8 +25,8 @@ class AdminCommentController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $query = QueryBuilder::for(Comment::class)
-            ->with('user')
             ->allowedIncludes('user')
             ->jsonPaginate($perPage);
 

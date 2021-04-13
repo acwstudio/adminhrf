@@ -1,35 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\Admin\News;
+namespace App\Http\Controllers\Admin\Document;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\News\NewsImagesUpdateRelationshipsRequest;
+use App\Http\Requests\Document\DocumentImagesUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
+use App\Models\Document;
 use App\Models\Image;
-use App\Models\News;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminNewsImagesRelationshipsController
- * @package App\Http\Controllers\Admin\News
+ * Class AdminDocumentImagesRelationshipsController
+ * @package App\Http\Controllers\Admin\Document
  */
-class AdminNewsImagesRelationshipsController extends Controller
+class AdminDocumentImagesRelationshipsController extends Controller
 {
     /**
-     * @param News $news
+     * @param Document $document
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(News $news)
+    public function index(Document $document)
     {
-        return AdminImagesIdentifierResource::collection($news->images);
+        return AdminImagesIdentifierResource::collection($document->images);
     }
 
-    /**
-     * @param NewsImagesUpdateRelationshipsRequest $request
-     * @param News $news
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(NewsImagesUpdateRelationshipsRequest $request, News $news)
+    public function update(DocumentImagesUpdateRelationshipsRequest $request, Document $document)
     {
         $ids = $request->input('data.*.id');
 
@@ -41,7 +36,7 @@ class AdminNewsImagesRelationshipsController extends Controller
             $result = $this->handleRelationships($image, $id);
 
             if ($result['result']) {
-                $news->images()->save($image);
+                $document->images()->save($image);
                 array_push($messages, $result);
             } else {
                 response();
@@ -60,11 +55,11 @@ class AdminNewsImagesRelationshipsController extends Controller
      */
     private function handleRelationships($image, $id)
     {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'news') {
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'document') {
             $message = [
                 'id_image' => $image->id,
                 'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'news'
+                'description' => 'Image ' . $id . ' was related to ' . 'document'
             ];
 
             return $message;
@@ -85,7 +80,7 @@ class AdminNewsImagesRelationshipsController extends Controller
                             . ' relation'
                     ];
                 }
-                if ($image->imageable_type !== 'news') {
+                if ($image->imageable_type !== 'document') {
                     $message = [
                         'id_image' => $image->id,
                         'result' => false,

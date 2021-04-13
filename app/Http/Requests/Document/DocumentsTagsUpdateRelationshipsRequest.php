@@ -29,8 +29,8 @@ class DocumentsTagsUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|string',
-            'data.*.type' => 'required|in:comments',
+            'data.*.id' => 'required|integer|exists:tags,id',
+            'data.*.type' => 'required|in:tags',
         ];
     }
 }

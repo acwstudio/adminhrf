@@ -107,7 +107,7 @@ class AdminImageController extends Controller
      */
     public function destroy(Image $image)
     {
-//        $this->imageService->delete($image);
+        $this->imageService->delete($image);
 
         $image->delete();
 

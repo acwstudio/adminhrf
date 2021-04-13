@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Document;
 
+use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -34,6 +35,7 @@ class AdminDocumentResource extends JsonResource
                 'options' => $this->options,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
+                'liked' => $this->liked
             ],
             'relationships' => [
                 'tags' => [
@@ -45,10 +47,10 @@ class AdminDocumentResource extends JsonResource
                 ],
                 'images' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('document.relationships.images', ['document' => $this->id]),
+                        'related' => route('document.images', ['document' => $this->id])
                     ],
-                    'data' => []
+                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
                 ],
                 'category' => [
                     'links' => [

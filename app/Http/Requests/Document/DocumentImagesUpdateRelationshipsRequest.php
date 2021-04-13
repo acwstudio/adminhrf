@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Article;
+namespace App\Http\Requests\Document;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ArticleCommentsUpdateRelationshipsRequest
- * @package App\Http\Requests\Article
+ * Class DocumentImagesUpdateRelationshipsRequest
+ * @package App\Http\Requests\Document
  */
-class ArticleCommentsUpdateRelationshipsRequest extends FormRequest
+class DocumentImagesUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,8 @@ class ArticleCommentsUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer|exists:comments,id',
-            'data.*.type' => 'required|in:comments',
+            'data.*.id' => 'required|integer|exists:images,id',
+            'data.*.type' => 'required|in:images',
         ];
     }
 }
