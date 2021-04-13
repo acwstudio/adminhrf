@@ -52,7 +52,7 @@ class FilmsController extends Controller
     public function show(Videomaterial $videomaterial, Request $request)
     {
         #abort_if($videomaterial->type !== 'film', 404, 'Idk anout such entity here');
-
+        $videomaterial->increment('viewed');
         return FilmsResource::make($videomaterial);
     }
 }
