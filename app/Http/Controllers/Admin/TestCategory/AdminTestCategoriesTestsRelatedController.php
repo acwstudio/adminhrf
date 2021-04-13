@@ -8,10 +8,10 @@ use App\Models\QCategory;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminTCategoriesTestsRelatedController
+ * Class AdminTestCategoriesTestsRelatedController
  * @package App\Http\Controllers\Admin\TestCategory
  */
-class AdminTCategoriesTestsRelatedController extends Controller
+class AdminTestCategoriesTestsRelatedController extends Controller
 {
     /**
      * @param QCategory $category

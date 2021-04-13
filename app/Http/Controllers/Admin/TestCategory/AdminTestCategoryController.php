@@ -13,10 +13,10 @@ use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * Class AdminTCategoryController
+ * Class AdminTestCategoryController
  * @package App\Http\Controllers\Admin\TestCategory
  */
-class AdminTCategoryController extends Controller
+class AdminTestCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,7 +29,7 @@ class AdminTCategoryController extends Controller
 
         $query = QueryBuilder::for(QCategory::class)
             ->allowedIncludes(['tests'])
-            ->allowedSorts(['text'])
+            ->allowedSorts(['id', 'text'])
             ->jsonPaginate($perPage);
 
         return new AdminTCategoryCollection($query);
@@ -60,11 +60,11 @@ class AdminTCategoryController extends Controller
      * @param  int  $id
      * @return AdminTCategoryResource
      */
-    public function show(QCategory $category)
+    public function show(QCategory $QCategory)
     {
         $query = QueryBuilder::for(QCategory::class)
-            ->where('id', $category->id)
-//            ->with('')
+            ->where('id', $QCategory->id)
+            ->allowedIncludes(['tests'])
             ->firstOrFail();
 
         return new AdminTCategoryResource($query);
@@ -74,27 +74,34 @@ class AdminTCategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param TCategoryUpdateRequest $request
-     * @param QCategory $category
+     * @param QCategory $QCategory
      * @return AdminTCategoryResource
      */
-    public function update(TCategoryUpdateRequest $request, QCategory $category)
+    public function update(TCategoryUpdateRequest $request, QCategory $QCategory)
     {
         $data = $request->input('data.attributes');
-        return QCategory::find(2);
-//        $category->update($data);
-//
-//        return new AdminTCategoryResource($category);
+
+        $QCategory->update($data);
+
+        return new AdminTCategoryResource($QCategory);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param QCategory $QCategory
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(QCategory $QCategory)
     {
-        //
+        if ($QCategory->tests()) {
+            return response('Категория имеет связанные тесты', 405);
+        }
+
+        $QCategory->delete();
+
+        return response(null, 204);
     }
 
     /**
@@ -107,6 +114,5 @@ class AdminTCategoryController extends Controller
             ->get();
 
         return AdminTCategoryLightResource::collection($categories);
-//        return 'ok';
     }
 }

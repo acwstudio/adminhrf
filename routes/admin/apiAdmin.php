@@ -88,9 +88,9 @@ use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestsQuestionsRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestsTCategoriesRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestsTCategoriesRelationshipsController;
-use App\Http\Controllers\Admin\TestCategory\AdminTCategoriesTestsRelatedController;
-use App\Http\Controllers\Admin\TestCategory\AdminTCategoriesTestsRelationshipsController;
-use App\Http\Controllers\Admin\TestCategory\AdminTCategoryController;
+use App\Http\Controllers\Admin\TestCategory\AdminTestCategoriesTestsRelatedController;
+use App\Http\Controllers\Admin\TestCategory\AdminTestCategoriesTestsRelationshipsController;
+use App\Http\Controllers\Admin\TestCategory\AdminTestCategoryController;
 use App\Http\Controllers\Admin\TestMessage\AdminMessageController;
 use App\Http\Controllers\Admin\TestResult\AdminResultController;
 use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelatedController;
@@ -743,21 +743,21 @@ Route::get('/tests/{test}/test-categories', [
 
 /*****************  TESTS CATEGORIES ROUTES **************/
 
-Route::apiResource('/test-categories', AdminTCategoryController::class, ['as' => 'admin']);
+Route::apiResource('/test-categories', AdminTestCategoryController::class, ['as' => 'admin']);
 
-Route::get('/test-categories-light', [AdminTCategoryController::class, 'light']);
+Route::get('/test-categories-light', [AdminTestCategoryController::class, 'light']);
 
 // Tests Categories to Tests relations
 Route::get('/test-categories/{test_category}/relationships/tests', [
-    AdminTCategoriesTestsRelationshipsController::class, 'index'
+    AdminTestCategoriesTestsRelationshipsController::class, 'index'
 ])->name('test-categories.relationships.tests');
 
 Route::patch('/test-categories/{test_category}/relationships/tests', [
-    AdminTCategoriesTestsRelationshipsController::class, 'update'
+    AdminTestCategoriesTestsRelationshipsController::class, 'update'
 ])->name('test-categories.relationships.tests');
 
 Route::patch('/test-categories/{test_category}/tests', [
-    AdminTCategoriesTestsRelatedController::class, 'index'
+    AdminTestCategoriesTestsRelatedController::class, 'index'
 ])->name('test-categories.tests');
 
 
