@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\DayInHistory;
-use Illuminate\Http\Request;
 
 class TempTestingController extends Controller
 {

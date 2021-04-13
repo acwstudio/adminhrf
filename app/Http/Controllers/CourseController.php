@@ -71,7 +71,7 @@ class CourseController extends Controller
         return CourseShortResource::collection($result);
     }
 
-    public function getVideocoursesByTag(Tag $tag,Request $request)
+    public function getVideocoursesByTag(Tag $tag, Request $request)
     {
         $perPage = $request->get('per_page', 16);
         $sortBy = $request->get('sort_by');
@@ -91,7 +91,7 @@ class CourseController extends Controller
         return CourseShortResource::collection($result);
     }
 
-    public function getAudiocoursesByTag(Tag $tag,Request $request)
+    public function getAudiocoursesByTag(Tag $tag, Request $request)
     {
         $perPage = $request->get('per_page', 16);
         $sortBy = $request->get('sort_by');
@@ -111,15 +111,15 @@ class CourseController extends Controller
         return CourseShortResource::collection($result);
     }
 
-    public function getCoursesByTag(Tag $tag,Request $request)
+    public function getCoursesByTag(Tag $tag, Request $request)
     {
         $perPage = $request->get('per_page', 16);
         $sortBy = $request->get('sort_by');
 
         $query = $tag->highlights()
-                ->where('active', true)
-                ->where('published_at', '<', now())
-                ->where('type', '=', 'course');
+            ->where('active', true)
+            ->where('published_at', '<', now())
+            ->where('type', '=', 'course');
 
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
             $query->orderBy('liked', 'desc');

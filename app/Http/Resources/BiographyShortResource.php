@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Carbon;
 
 class BiographyShortResource extends JsonResource
 {
@@ -34,7 +33,7 @@ class BiographyShortResource extends JsonResource
             'views' => $this->viewed,
             'comments' => $this->commented,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark' => $user ? $this->hasBookmark($user): false,
+            'has_bookmark' => $user ? $this->hasBookmark($user) : false,
             'categories' => BioCategoryResource::collection($this->categories),
             'tags' => $this->tags,
         ];

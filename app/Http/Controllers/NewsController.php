@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AudiomaterialResource;
 use App\Http\Resources\NewsResource;
 use App\Http\Resources\NewsShortResource;
 use App\Models\News;
@@ -60,14 +59,14 @@ class NewsController extends Controller
         return NewsResource::make($news);
     }
 
-    public function indexByTag(Tag $tag,Request $request)
+    public function indexByTag(Tag $tag, Request $request)
     {
 
         $perPage = $request->get('per_page', 16);
         $sortBy = $request->get('sort_by');
 
         $query = $tag->news()->
-            where('status', true)->where('published_at', '<', now())
+        where('status', true)->where('published_at', '<', now())
             ->with('images');
 
         if ($sortBy && in_array($sortBy, $this->sortParams)) {

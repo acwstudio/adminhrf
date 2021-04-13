@@ -16,11 +16,6 @@ class UserUpdateRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation()
-    {
-        $this->merge($this->json()->all());
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -34,5 +29,10 @@ class UserUpdateRequest extends FormRequest
             'password' => 'sometimes|required|string',
             'password_confirmation' => 'required_with:password|same:password',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge($this->json()->all());
     }
 }

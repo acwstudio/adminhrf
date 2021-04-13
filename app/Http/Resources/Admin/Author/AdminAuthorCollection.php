@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Admin\Author;
 
-use App\Http\Resources\Admin\Author\AdminAuthorResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
@@ -21,7 +20,7 @@ class AdminAuthorCollection extends ResourceCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)

@@ -9,7 +9,7 @@ class AudiomaterialShortResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -28,7 +28,7 @@ class AudiomaterialShortResource extends JsonResource
             'views' => $this->viewed,
             'comments' => $this->commented,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark' => $user ? $this->hasBookmark($user): false,
+            'has_bookmark' => $user ? $this->hasBookmark($user) : false,
         ];
     }
 }

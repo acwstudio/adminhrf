@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         return CategoryArticleShortResource::collection(ArticleCategory::all());
     }
 }

@@ -10,9 +10,8 @@ class ArticleCategory extends Model
 {
     use HasFactory, Sluggable;
 
-    protected $table = 'article_categories';
-
     public $fillable = ['title'];
+    protected $table = 'article_categories';
 
     /**
      * Return the sluggable configuration array for this model.
@@ -28,7 +27,8 @@ class ArticleCategory extends Model
         ];
     }
 
-    public function articles(){
-        return $this->hasMany(Article::class,'category_id');
+    public function articles()
+    {
+        return $this->hasMany(Article::class, 'category_id');
     }
 }

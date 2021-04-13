@@ -22,7 +22,7 @@ class Subscription extends Model
 
     public function tag()
     {
-        return $this->hasOne(Tag::class,'tag_id','id');
+        return $this->hasOne(Tag::class, 'tag_id', 'id');
     }
 
     public function user()

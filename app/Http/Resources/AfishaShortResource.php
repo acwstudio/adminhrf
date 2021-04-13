@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Leisure;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AfishaShortResource extends JsonResource
@@ -10,7 +9,7 @@ class AfishaShortResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -20,9 +19,9 @@ class AfishaShortResource extends JsonResource
             'model_type' => 'afisha',
             'id' => $this->id,
 #            'slug' =>$this->slug,
-            'title' =>$this->title,
-            'link'=>$this->link,
-            'views'=>$this->viewed,
+            'title' => $this->title,
+            'link' => $this->link,
+            'views' => $this->viewed,
             'announce' => $this->announce,
             'street' => $this->street,
             'afisha_date' => $this->afisha_date,
@@ -31,8 +30,8 @@ class AfishaShortResource extends JsonResource
             'leisure' => LeisureResource::make($this->leisure),
             'comments' => $this->commented,
             'likes' => $this->liked,
-	    'has_like'=>$user?$this->checkLiked($user):false,
-            'image' => $this->images->count()>0 ? ImageResource::make($this->images()->orderBy('order', 'asc')->first()) :[
+            'has_like' => $user ? $this->checkLiked($user) : false,
+            'image' => $this->images->count() > 0 ? ImageResource::make($this->images()->orderBy('order', 'asc')->first()) : [
                 "model_type" => "image",
                 "id" => 1294,
                 "alt" => null,

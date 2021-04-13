@@ -3,8 +3,8 @@
 namespace App\Http\Resources\Admin\Tag;
 
 use App\Http\Resources\Admin\AdminBiographiesIdentifireResource;
-use App\Http\Resources\Admin\Document\AdminDocumentsIdentifireResource;
 use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
+use App\Http\Resources\Admin\Document\AdminDocumentsIdentifireResource;
 use App\Http\Resources\Admin\News\AdminNewsIdentifireResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,7 +17,7 @@ class AdminTagResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)

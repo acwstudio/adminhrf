@@ -9,7 +9,7 @@ class ArticleCategoryResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -19,7 +19,7 @@ class ArticleCategoryResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'old_slug' => 'category'.'-'.$this->id
+            'old_slug' => 'category' . '-' . $this->id
         ];
     }
 }

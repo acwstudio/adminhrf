@@ -29,9 +29,9 @@ class ImageUpdateRequest extends FormRequest
             'imageable_type' => [
                 'required',
                 'string',
-                function($attribute, $value, $fail) {
-                    if(!array_key_exists($value, Relation::$morphMap) && $value !== 'common') {
-                        $fail('Invalid '.$attribute.'='.$value);
+                function ($attribute, $value, $fail) {
+                    if (!array_key_exists($value, Relation::$morphMap) && $value !== 'common') {
+                        $fail('Invalid ' . $attribute . '=' . $value);
                     }
                 }
             ],

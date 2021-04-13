@@ -58,21 +58,16 @@ class BookmarkController extends Controller
 
         $user = $request->user();
 
-        if (!$user)
-        {
+        if (!$user) {
             return ['err' => 'You are not authorized or there are no such user'];
         }
         $bookmarkGroup = $user->bookmarkGroup()->first();
-        if (key_exists($bookmarkableType, $map))
-        {
+        if (key_exists($bookmarkableType, $map)) {
             $bookmarkableType = $map["{$bookmarkableType}"];
-        }
-        else
-        {
+        } else {
             return ['There are no such models'];
         }
-        if (is_null($bookmarkGroup) && !is_null($bookmarkableId))
-        {
+        if (is_null($bookmarkGroup) && !is_null($bookmarkableId)) {
             $bookmarkGroup = BookmarkGroup::create(
                 [
                     'title' => 'default',
@@ -86,17 +81,13 @@ class BookmarkController extends Controller
                     'group_id' => $bookmarkGroup->id
                 ]
             );
-        }
-
-        elseif (!is_null($bookmarkableId))
-        {
+        } elseif (!is_null($bookmarkableId)) {
             $bookmark = $bookmarkGroup->bookmarks->where('bookmarkable_type', '=', $bookmarkableType)->where(
-                    'bookmarkable_id',
-                    '=',
-                    $bookmarkableId
-                )->first();
-            if (!$bookmark)
-            {
+                'bookmarkable_id',
+                '=',
+                $bookmarkableId
+            )->first();
+            if (!$bookmark) {
                 Bookmark::create(
                     [
                         'bookmarkable_type' => $bookmarkableType,
@@ -104,9 +95,7 @@ class BookmarkController extends Controller
                         'group_id' => $bookmarkGroup->id
                     ]
                 );
-            }
-            else
-            {
+            } else {
                 $bookmark->delete();
 
                 return response('Deleted', 200);
@@ -123,20 +112,16 @@ class BookmarkController extends Controller
         $page = $request->get('page', 1);
         //$user = User::findOrFail($request->get('user_id', 0));id
         $user = $request->user();
-        if (!$user)
-        {
+        if (!$user) {
             return ['err' => 'You are not authorized'];
         }
         $data = [];
         $groups = $user->bookmarkGroup;
-        if ($groups)
-        {
+        if ($groups) {
             $num = $groups->bookmarks->count();
-            foreach ($groups->bookmarks->sortByDesc('created_at')->forPage($page, $perPage) as $bookmark)
-            {
+            foreach ($groups->bookmarks->sortByDesc('created_at')->forPage($page, $perPage) as $bookmark) {
                 $row = $bookmark->bookmarkable;
-                if ($row)
-                {
+                if ($row) {
                     $row->entity = $bookmark->bookmarkable_type;
                     $row->has_like = $user && $row->entity != 'news' ? $row->checkLiked($user) : false;
                     $row->has_bookmark = $user ? $row->hasBookmark($user) : false;
@@ -164,21 +149,16 @@ class BookmarkController extends Controller
         //$user = User::findOrFail($request->get('user_id', 0));
         $user = $request->user();
         $data = [];
-        if (!$user)
-        {
+        if (!$user) {
             return ['err' => 'You are not authorized'];
         }
         $groups = $user->bookmarkGroup;
-        if ($groups)
-        {
+        if ($groups) {
             $num = $groups->bookmarks->count();
-            foreach ($groups->bookmarks->sortByDesc('created_at')->forPage($page, $perPage) as $bookmark)
-            { //->skip($page*$perPage)->take($perPage)
+            foreach ($groups->bookmarks->sortByDesc('created_at')->forPage($page, $perPage) as $bookmark) { //->skip($page*$perPage)->take($perPage)
                 $row = $bookmark->bookmarkable;
-                if ($row)
-                {
-                    if (in_array($bookmark->bookmarkable_type, $this->models["{$action}"]))
-                    {
+                if ($row) {
+                    if (in_array($bookmark->bookmarkable_type, $this->models["{$action}"])) {
                         $row->entity = $bookmark->bookmarkable_type;
                         $row->has_like = $user && $row->entity != 'news' ? $row->checkLiked($user) : false;
                         $row->has_bookmark = $user ? $row->hasBookmark($user) : false;
@@ -206,19 +186,15 @@ class BookmarkController extends Controller
         $user = User::findOrFail($request->get('user_id', 0));
         $data = [];
         $groups = $user->bookmarkGroup;
-        if ($groups)
-        {
+        if ($groups) {
             $num = $groups->bookmarks->count();
-            foreach ($groups->bookmarks->sortByDesc('created_at')->forPage($page, $perPage) as $bookmark)
-            { //->skip($page*$perPage)->take($perPage)
+            foreach ($groups->bookmarks->sortByDesc('created_at')->forPage($page, $perPage) as $bookmark) { //->skip($page*$perPage)->take($perPage)
                 $row = $bookmark->bookmarkable;
-                if ($row)
-                {
+                if ($row) {
                     if ($bookmark->bookmarkable_type == 'news' ||
                         $bookmark->bookmarkable_type == 'article' ||
                         $bookmark->bookmarkable_type == 'document' ||
-                        $bookmark->bookmarkable_type == 'biography')
-                    {
+                        $bookmark->bookmarkable_type == 'biography') {
                         $row->entity = $bookmark->bookmarkable_type;
                         $row->has_like = $user && $row->entity != 'news' ? $row->checkLiked($user) : false;
                         $row->has_bookmark = $user ? $row->hasBookmark($user) : false;

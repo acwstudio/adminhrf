@@ -13,11 +13,6 @@ class RateController extends Controller
         $this->modify($request, 'up');
     }
 
-    public function down(Request $request)
-    {
-        $this->modify($request, 'down');
-    }
-
     protected function modify(Request $request, $type)
     {
         $value = 1;
@@ -64,7 +59,12 @@ class RateController extends Controller
             }
         }
 
-        return response()->json(['status' => 'Rate '.$type]);
+        return response()->json(['status' => 'Rate ' . $type]);
 
+    }
+
+    public function down(Request $request)
+    {
+        $this->modify($request, 'down');
     }
 }

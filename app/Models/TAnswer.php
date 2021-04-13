@@ -10,12 +10,12 @@ class TAnswer extends Model
     use HasFactory;
 
     public $fillable = [
-	'id',
+        'id',
         'question_id',
         'title',
         'is_right',
         'description',
-	'title'
+        'title'
     ];
     public $casts = [
         'created_at',

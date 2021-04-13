@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    use HasFactory, Commentable,Likeable, Sluggable;
+    use HasFactory, Commentable, Likeable, Sluggable;
 
 
     protected $fillable = [
@@ -49,8 +49,9 @@ class Event extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function hasBookmark(User $user){
-        if(is_null($user->bookmarkGroup)){
+    public function hasBookmark(User $user)
+    {
+        if (is_null($user->bookmarkGroup)) {
             return false;
         }
         return is_null($user->bookmarkGroup->bookmarks()->firstWhere('bookmarkable_id', $this->id));
@@ -61,8 +62,9 @@ class Event extends Model
         return $this->morphMany(Image::class, 'imageable')->orderBy('order');
     }
 
-    public function leisure(){
-        return $this->belongsTo(Leisure::class, 'leisure_id','id');
+    public function leisure()
+    {
+        return $this->belongsTo(Leisure::class, 'leisure_id', 'id');
     }
 
 

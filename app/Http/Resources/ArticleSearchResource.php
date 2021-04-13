@@ -9,7 +9,7 @@ class ArticleSearchResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -26,11 +26,11 @@ class ArticleSearchResource extends JsonResource
             'likes' => $this->liked,
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark' => $user ? $this->hasBookmark($user): false,
-            'image' => $this->images?ImageResource::make($this->images->first()):null,
+            'has_bookmark' => $user ? $this->hasBookmark($user) : false,
+            'image' => $this->images ? ImageResource::make($this->images->first()) : null,
             'authors' => AuthorShortResource::collection($this->authors),
 //            'tags' => TagResource::collection($this->tags),
-            'category' => $this->categories?ArticleCategoryResource::make($this->category):null
+            'category' => $this->categories ? ArticleCategoryResource::make($this->category) : null
         ];
     }
 }

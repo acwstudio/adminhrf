@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AudiomaterialResource;
-use App\Http\Resources\CourseResource;
-use App\Http\Resources\CourseShortResource;
 use App\Http\Resources\HighlightResource;
 use App\Http\Resources\HighlightShortResource;
 use App\Http\Resources\ImageResource;
@@ -22,7 +19,7 @@ class HighlightController extends Controller
     {
         $perPage = $request->get('per_page', $this->perPage);
         $sortBy = $request->get('sort_by');
-        $query = Highlight::where('active','=', true)
+        $query = Highlight::where('active', '=', true)
             ->where('published_at', '<', now())
             ->where('type', '=', 'highlight');
 
@@ -37,16 +34,16 @@ class HighlightController extends Controller
     public function show(Highlight $highlight, Request $request)
     {
         $highlight->increment('viewed');
-	return
+        return
             [
-              'data' =>  HighlightResource::collection($highlight->highlightable->sortBy('order')),
-                'image' => $highlight->images?ImageResource::make($highlight->images->first()):null,
-              'highlight' => HighlightShortResource::make($highlight)
+                'data' => HighlightResource::collection($highlight->highlightable->sortBy('order')),
+                'image' => $highlight->images ? ImageResource::make($highlight->images->first()) : null,
+                'highlight' => HighlightShortResource::make($highlight)
             ];
     }
 
 
-    public function indexByTag(Tag $tag,Request $request)
+    public function indexByTag(Tag $tag, Request $request)
     {
 
         $perPage = $request->get('per_page', 16);

@@ -23,14 +23,14 @@ class FilmsShortResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'announce' => $this->announce,
-            'video_code' => explode('"',$this->video_code)[0],
+            'video_code' => explode('"', $this->video_code)[0],
             'published_at' => $this->published_at,
             'authors' => AuthorShortResource::collection($this->authors),
-            'comments' => $this->countComments(),
-            'likes' => $this->countLikes(),
+            'comments' => $this->commented,
+            'likes' => $this->liked,
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark' => $user ? $this->hasBookmark($user): false,
+            'has_bookmark' => $user ? $this->hasBookmark($user) : false,
             'image' => ImageResource::make($this->whenLoaded('images')->first()),
 
         ];

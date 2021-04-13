@@ -6,7 +6,6 @@ use App\Http\Resources\TestResource;
 use App\Http\Resources\TestShortResource;
 use App\Models\Test;
 use App\Models\TResult;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -15,6 +14,7 @@ class TestController extends Controller
     protected $sortParams = [
         self::SORT_POPULAR
     ];
+
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', $this->perPage);
@@ -32,7 +32,7 @@ class TestController extends Controller
             $query->orderBy('liked', 'desc');
         }
         $result = $query->where('is_active', '=', true)->orderBy('published_at')->paginate($perPage);
-        return TestShortResource::collection(Test::where('is_active', '=', true)->orderBy('id','desc')->orderBy('published_at','desc')->paginate($perPage));
+        return TestShortResource::collection(Test::where('is_active', '=', true)->orderBy('id', 'desc')->orderBy('published_at', 'desc')->paginate($perPage));
     }
 
     public function show(Test $test, Request $request)
@@ -58,18 +58,18 @@ class TestController extends Controller
             return $test->messages->where('lowest_value', '<=', $val)->where('highest_value', '>=', $val)->first();
         }
 
-        $result = $user->testResults->firstWhere('test_id',$test->id);
+        $result = $user->testResults->firstWhere('test_id', $test->id);
         //TResult::where('user_id', $id)->where('test_id', $test->id)->first();
 
         if (is_null($result)) {
 
             TResult::create([
-               'test_id' => $test->id,
-               'user_id' => $user->id,
-               'time_passed' => $time,
+                'test_id' => $test->id,
+                'user_id' => $user->id,
+                'time_passed' => $time,
 //               'is_closed' => $is_closed,
-	       'is_closed' => true,
-               'value' => $val ]);
+                'is_closed' => true,
+                'value' => $val]);
 
             //return response('Result saved', 201);
 

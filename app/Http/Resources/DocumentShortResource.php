@@ -14,7 +14,7 @@ class DocumentShortResource extends JsonResource
      */
     public function toArray($request)
     {
-	$user = $request->user();
+        $user = $request->user();
         return [
             'model_type' => 'document',
             'id' => $this->id,
@@ -25,7 +25,8 @@ class DocumentShortResource extends JsonResource
             'document_text_date' => $this->document_text_date,
             'options' => $this->options,
             'image' => ImageResource::make($this->images()->first()),
-	    'has_bookmark' => $user?$this->hasBookmark($user):false,
+            'has_bookmark' => $user ? $this->hasBookmark($user) : false,
+            'comments' => $this->commented
         ];
     }
 }

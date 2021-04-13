@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AudiomaterialResource;
 use App\Http\Resources\VideolectureResource;
 use App\Http\Resources\VideoLectureShortResource;
 use App\Models\Tag;
@@ -21,15 +20,15 @@ class VideolectureController extends Controller
         $sortBy = $request->get('sort_by');
 
         $query = Videomaterial::where('published_at', '<', now())
-                              ->where('type', '=', 'lecture')
-                              ->where('active', '=', true)
-                              ->with('images');
+            ->where('type', '=', 'lecture')
+            ->where('active', '=', true)
+            ->with('images');
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
             $query->orderBy('liked', 'desc');
         }
 
         return VideoLectureShortResource::collection(
-                $query
+            $query
                 ->orderBy('published_at', 'desc')
                 ->paginate($perPage));
 
@@ -45,16 +44,16 @@ class VideolectureController extends Controller
         return VideolectureResource::make($videomaterial);
     }
 
-    public function indexByTag(Tag $tag,Request $request)
+    public function indexByTag(Tag $tag, Request $request)
     {
 
         $perPage = $request->get('per_page', 16);
         $sortBy = $request->get('sort_by');
 
         $query = $tag->videomaterials()
-                ->where('published_at', '<', now())
-                ->where('type', '=', 'lecture')
-                ->where('active', '=', true)
+            ->where('published_at', '<', now())
+            ->where('type', '=', 'lecture')
+            ->where('active', '=', true)
             ->with('images');
 
         if ($sortBy && in_array($sortBy, $this->sortParams)) {

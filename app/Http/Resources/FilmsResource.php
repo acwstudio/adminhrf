@@ -21,7 +21,7 @@ class FilmsResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'video_code' => explode('"',$this->video_code)[0],
+            'video_code' => explode('"', $this->video_code)[0],
             'body' => $this->body,
             'published_at' => $this->published_at,
             'authors' => AuthorShortResource::collection($this->authors),
@@ -29,7 +29,7 @@ class FilmsResource extends JsonResource
             'likes' => $this->countLikes(),
             'views' => $this->viewed,
             'has_like' => $user ? $this->checkLiked($user) : false,
-            'has_bookmark' => $user ? $this->hasBookmark($user): false,
+            'has_bookmark' => $user ? $this->hasBookmark($user) : false,
             'image' => ImageResource::make(optional($this->images)->first()),
 
         ];

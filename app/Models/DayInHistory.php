@@ -11,23 +11,23 @@ class DayInHistory extends Model
     use HasFactory, Sluggable;
 
     protected $table = 'days_in_history';
-    public function sluggable(): array
-    {
-        return [
-            'slug' =>
-            [
-                'source' => 'title'
-            ]
-        ];
-    }
-
     protected $fillable = [
-	'id',
+        'id',
         'day',
         'month',
         'title',
         'url'
     ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' =>
+                [
+                    'source' => 'title'
+                ]
+        ];
+    }
 
     public function image()
     {

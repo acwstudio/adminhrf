@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Admin\News;
 
-use App\Http\Resources\Admin\News\AdminNewsResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
@@ -17,10 +16,11 @@ class AdminNewsCollection extends ResourceCollection
      * @var string
      */
     public $collects = AdminNewsResource::class;
+
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)

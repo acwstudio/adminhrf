@@ -22,7 +22,8 @@ class Leisure extends Model
     }
 
 
-    public function events(){
-        return $this->hasOne(Event::class, 'leisure_id','id');
+    public function events()
+    {
+        return $this->hasOne(Event::class, 'leisure_id', 'id');
     }
 }

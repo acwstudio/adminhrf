@@ -18,19 +18,19 @@ class FilmsController extends Controller
         $perPage = $request->get('per_page', 16);
         $sortBy = $request->get('sort_by');
         $query = Videomaterial::where('published_at', '<', now())
-                              ->where('type', '=', 'film')
-                              ->where('active', '=', true)
-                              ->with('images');
+            ->where('type', '=', 'film')
+            ->where('active', '=', true)
+            ->with('images');
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
             $query->orderBy('liked', 'desc');
         }
         return FilmsShortResource::collection(
-                $query
+            $query
                 ->orderBy('published_at', 'desc')
                 ->paginate($perPage));
     }
 
-    public function indexByTag(Tag $tag,Request $request)
+    public function indexByTag(Tag $tag, Request $request)
     {
         $perPage = $request->get('per_page', 16);
         $sortBy = $request->get('sort_by');

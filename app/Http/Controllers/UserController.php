@@ -6,7 +6,6 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\UserResource;
-use App\Models\Image;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 
@@ -75,7 +74,7 @@ class UserController extends Controller
 
     public function avatarDelete(Request $request, ImageService $service)
     {
-        $user =  $request->user();
+        $user = $request->user();
 
         if ($image = $user->image) {
             $service->delete($image);
