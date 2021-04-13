@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AudiomaterialResource extends JsonResource
+class AudiomaterialShortResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -26,7 +26,7 @@ class AudiomaterialResource extends JsonResource
             'position' => $this->position,
             'likes' => $this->liked,
             'views' => $this->viewed,
-            'comments' => CommentResource::collection($this->comments),
+            'comments' => $this->commented,
             'has_like' => $user ? $this->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->hasBookmark($user): false,
         ];

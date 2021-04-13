@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\AudiomaterialResource;
+use App\Http\Resources\AudiomaterialShortResource;
 use App\Models\Audiomaterial;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -34,7 +35,7 @@ class AudiomaterialController extends Controller
             ->orderBy('position')
             ->paginate($perPage);
 
-        return AudiomaterialResource::collection($audio);
+        return AudiomaterialShortResource::collection($audio);
 
     }
 
@@ -70,7 +71,7 @@ class AudiomaterialController extends Controller
         $result = $query->orderBy('published_at', 'desc')
             ->paginate($perPage);
 
-        return AudiomaterialResource::collection($result);
+        return AudiomaterialShortResource::collection($result);
     }
 
 }
