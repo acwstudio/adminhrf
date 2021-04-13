@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\ArticleCategory;
+namespace App\Http\Requests\Article;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ArticleCategoryArticlesRelationshipsUpdateRequest
- * @package App\Http\Requests\ArticleCategory
+ * Class ArticlesArticleCategoryUpdateRelationshipsRequest
+ * @package App\Http\Requests\Article
  */
-class ArticleCategoryArticlesRelationshipsUpdateRequest extends FormRequest
+class ArticlesArticleCategoryUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,8 @@ class ArticleCategoryArticlesRelationshipsUpdateRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'present|integer',
-            'data.*.type' => 'present|in:articles'
+            'data.*.id' => 'required|integer|exists:article_categories,id',
+            'data.*.type' => 'required|in:articlecategories'
         ];
     }
 }

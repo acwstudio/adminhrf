@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin\Like;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Admin\Like\AdminLikeCollection;
+use App\Models\Like;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * Class AdminLikeController
@@ -14,11 +17,17 @@ class AdminLikeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return AdminLikeCollection
      */
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
+        $query = QueryBuilder::for(Like::class)
+            ->allowedSorts(['id'])
+            ->jsonPaginate($perPage);
+
+        return new AdminLikeCollection($query);
     }
 
     /**

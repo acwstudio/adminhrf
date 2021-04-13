@@ -43,7 +43,9 @@ class AdminArticleController extends Controller
         $perPage = $request->get('per_page');
 
         $articles = QueryBuilder::for(Article::class)
-            ->allowedIncludes(['comments', 'bookmarks', 'tags', 'category'])
+            ->allowedIncludes([
+                'authors', 'comments', 'bookmarks', 'tags', 'category','images', 'timeline'
+            ])
             ->allowedFilters(['yatextid'])
             ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'event_date'])
             ->jsonPaginate($perPage);
@@ -113,7 +115,9 @@ class AdminArticleController extends Controller
     {
         $query = QueryBuilder::for(Article::class)
             ->where('id', $article->id)
-            ->allowedIncludes(['authors', 'tags', 'images', 'timeline', 'category'])
+            ->allowedIncludes([
+                'authors', 'comments', 'bookmarks', 'tags', 'category','images', 'timeline'
+            ])
             ->firstOrFail();
 
         return new AdminArticleResource($query);
@@ -185,6 +189,7 @@ class AdminArticleController extends Controller
         foreach ($images as $image) {
             $this->imageService->delete($image);
         }
+
         $article->images()->delete();
         $article->comments()->delete();
         $article->timeline()->delete();

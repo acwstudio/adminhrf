@@ -80,6 +80,8 @@ use App\Http\Controllers\Admin\Test\AdminTestCommentsRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestController;
 use App\Http\Controllers\Admin\Test\AdminTestImagesRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestImagesRelationshipsController;
+use App\Http\Controllers\Admin\Test\AdminTestLikesRelatedController;
+use App\Http\Controllers\Admin\Test\AdminTestLikesRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestMessagesRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestMessagesRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestResultsRelatedController;
@@ -364,6 +366,10 @@ Route::get('/documents/{document}/images', [
 /*****************  IMAGES ROUTES **************/
 
 Route::apiResource('/images', \App\Http\Controllers\Admin\AdminImageController::class, ['as' => 'admin']);
+
+/*****************  Likes ROUTES **************/
+
+Route::apiResource('/likes', \App\Http\Controllers\Admin\Like\AdminLikeController::class,['as' => 'admin']);
 
 /*****************  HIGHLIGHTS ROUTES **************/
 
@@ -688,6 +694,19 @@ Route::patch('/tests/{test}/relationships/images', [
 Route::get('/tests/{test}/images', [
     AdminTestImagesRelatedController::class, 'index'
 ])->name('test.images');
+
+// Test to Likes relations
+Route::get('/tests/{test}/relationships/likes', [
+    AdminTestLikesRelationshipsController::class, 'index'
+])->name('test.relationships.likes');
+
+Route::patch('/tests/{test}/relationships/likes', [
+    AdminTestLikesRelationshipsController::class, 'update'
+])->name('test.relationships.likes');
+
+Route::get('/tests/{test}/likes', [
+    AdminTestLikesRelatedController::class, 'index'
+])->name('test.likes');
 
 // Test to Messages relations
 Route::get('/tests/{test}/relationships/messages', [

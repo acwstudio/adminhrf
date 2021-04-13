@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Admin\Article;
+namespace App\Http\Resources\Admin\Like;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminArticleIdentifireResource
- * @package App\Http\Resources\Admin
+ * Class AdminLikeIdentifierResource
+ * @package App\Http\Resources\Admin\Like
  */
-class AdminArticleIdentifireResource extends JsonResource
+class AdminLikeIdentifierResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,7 @@ class AdminArticleIdentifireResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => 'articles'
+            'type' => 'likes'
         ];
     }
 }

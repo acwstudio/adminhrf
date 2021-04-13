@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Article\ArticleTimelineUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\AdminTimelineIdentifierResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
@@ -22,7 +23,12 @@ class AdminArticleTimelineRelationshipsController extends Controller
         return new AdminTimelineIdentifierResource($article->timeline);
     }
 
-    public function update(Article $article)
+    /**
+     * @param ArticleTimelineUpdateRelationshipsRequest $request
+     * @param Article $article
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(ArticleTimelineUpdateRelationshipsRequest $request, Article $article)
     {
         return response()->json(['message' => 'Update comments action for article is disabled']);
     }

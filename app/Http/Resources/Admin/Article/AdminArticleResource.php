@@ -7,14 +7,9 @@ use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Http\Resources\Admin\AdminTimelineIdentifierResource;
 use App\Http\Resources\Admin\Author\AdminAuthorsIdentifireResource;
-use App\Http\Resources\Admin\AdminBookmarkResource;
-use App\Http\Resources\Admin\AdminCommentResource;
-use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryIdentifierResource;
-use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AdminArticleResource
@@ -68,7 +63,6 @@ class AdminArticleResource extends JsonResource
                         'related' => route('article.comments', ['article' => $this->id])
                     ],
                     'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
-//                    'data' => AdminCommentResource::collection($this->whenLoaded('comments'))
                 ],
                 'tags' => [
                     'links' => [
@@ -76,7 +70,6 @@ class AdminArticleResource extends JsonResource
                         'related' => route('articles.tags', ['article' => $this->id])
                     ],
                     'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
-//                    'data' => AdminTagResource::collection($this->whenLoaded('tags'))
                 ],
                 'images' => [
                     'links' => [
@@ -84,7 +77,6 @@ class AdminArticleResource extends JsonResource
                         'related' => route('article.images', ['article' => $this->id])
                     ],
                     'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
-//                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ],
                 'bookmarks' => [
                     'links' => [
@@ -92,7 +84,6 @@ class AdminArticleResource extends JsonResource
                         'related' => route('article.bookmarks', ['article' => $this->id])
                     ],
                     'data' => AdminBookmarksIdentifierResource::collection($this->whenLoaded('bookmarks'))
-//                    'data' => AdminBookmarkResource::collection($this->whenLoaded('bookmarks'))
                 ],
                 'category' => [
                     'links' => [
@@ -100,7 +91,6 @@ class AdminArticleResource extends JsonResource
                         'related' => route('articles.article-category', ['article' => $this->id])
                     ],
                     'data' => new AdminArticleCategoryIdentifierResource($this->whenLoaded('category'))
-//                    'data' => new AdminArticleCategoryResource($this->whenLoaded('category'))
                 ],
                 'timeline' => [
                     'links' => [
@@ -108,37 +98,9 @@ class AdminArticleResource extends JsonResource
                         'related' => route('article.timeline', ['article' => $this->id])
                     ],
                     'data' => new AdminTimelineIdentifierResource($this->whenLoaded('timeline'))
-//                    'data' => new AdminTimelineResource($this->whenLoaded('timeline'))
                 ]
             ],
         ];
     }
 
-//    private function relations()
-//    {
-//        return [
-//            new AdminAuthorCollection($this->whenLoaded('authors')),
-//            new AdminTagCollection($this->whenLoaded('tags'))
-//        ];
-//    }
-
-//    public function with($request)
-//    {
-//        return [
-//            'included' => $this->relations(),
-
-//        'included' => collect($this->relations())
-//            ->flatMap(function ($resource) use($request){
-//                return $resource->toArray($request);
-//            })
-//        ];
-//            'included' => collect($this->relations())
-//                ->filter(function ($resource) {
-//                    return $resource->collection !== null;
-//                })
-//                ->flatMap(function ($resource) use ($request) {
-//                    return $resource->toArray($request);
-//                })
-//        ];
-//    }
 }

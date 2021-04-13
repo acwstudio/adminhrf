@@ -31,8 +31,6 @@ class AdminTestImagesRelationshipsController extends Controller
      */
     public function update(TestImagesUpdateRelationshipsRequest $request, Test $test)
     {
-//        return response()->json(['message' => 'Update action is disabled']);
-
         $ids = $request->input('data.*.id');
 
         $messages = [];

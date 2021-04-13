@@ -41,8 +41,10 @@ class AdminTestController extends Controller
         $perPage = $request->get('per_page');
 
         $query = QueryBuilder::for(Test::class)
-            ->allowedIncludes(['images', 'questions', 'messages', 'comments', 'categories'])
-            ->allowedSorts(['title', 'created_at', 'published_at'])
+            ->allowedIncludes([
+                'images', 'questions', 'messages', 'comments', 'categories', 'likes', 'results'
+            ])
+            ->allowedSorts(['id', 'title', 'created_at', 'published_at'])
             ->jsonPaginate($perPage);
 
         return new AdminTestCollection($query);
@@ -106,7 +108,9 @@ class AdminTestController extends Controller
     {
         $query = QueryBuilder::for(Test::class)
             ->where('id', $test->id)
-            ->allowedIncludes(['images', 'messages', 'questions', 'results', 'comments', 'categories'])
+            ->allowedIncludes([
+                'images', 'questions', 'messages', 'comments', 'categories', 'likes', 'results'
+            ])
             ->firstOrFail();
 
         return new AdminTestResource($query);

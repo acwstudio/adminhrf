@@ -8,6 +8,7 @@ use App\Http\Resources\Admin\AdminMessagesIdentifierResource;
 use App\Http\Resources\Admin\AdminQuestionsIdentifireResource;
 use App\Http\Resources\Admin\AdminResultsIdentifierResource;
 use App\Http\Resources\Admin\AdminTCategoryIdentifierResource;
+use App\Http\Resources\Admin\Like\AdminLikeIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -85,6 +86,13 @@ class AdminTestResource extends JsonResource
                         'related' => route('tests.test-categories', ['test' => $this->id])
                     ],
                     'data' => AdminTCategoryIdentifierResource::collection($this->whenLoaded('categories'))
+                ],
+                'likes' => [
+                    'links' => [
+                        'self' => route('test.relationships.likes', ['test' => $this->id]),
+                        'related' => route('test.likes', ['test' => $this->id])
+                    ],
+                    'data' => AdminLikeIdentifierResource::collection($this->whenLoaded('likes'))
                 ]
             ]
         ];

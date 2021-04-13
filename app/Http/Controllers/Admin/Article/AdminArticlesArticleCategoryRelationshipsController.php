@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Article\ArticlesArticleCategoryRelationshipsUpdateRequest;
+use App\Http\Requests\Article\ArticlesArticleCategoryUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryIdentifierResource;
 use App\Models\Article;
 use App\Models\ArticleCategory;
@@ -25,11 +25,11 @@ class AdminArticlesArticleCategoryRelationshipsController extends Controller
     }
 
     /**
-     * @param ArticlesArticleCategoryRelationshipsUpdateRequest $request
+     * @param ArticlesArticleCategoryUpdateRelationshipsRequest $request
      * @param Article $article
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function update(ArticlesArticleCategoryRelationshipsUpdateRequest $request, Article $article)
+    public function update(ArticlesArticleCategoryUpdateRelationshipsRequest $request, Article $article)
     {
         $ids = $request->input('data.*.id');
 

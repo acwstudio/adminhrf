@@ -5,10 +5,10 @@ namespace App\Http\Requests\Article;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ArticlesArticleCategoryRelationshipsUpdateRequest
+ * Class ArticleTimelineUpdateRelationshipsRequest
  * @package App\Http\Requests\Article
  */
-class ArticlesArticleCategoryRelationshipsUpdateRequest extends FormRequest
+class ArticleTimelineUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,8 @@ class ArticlesArticleCategoryRelationshipsUpdateRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer|exists:article_categories,id',
-            'data.*.type' => 'required|in:articlecategories'
+            'data.*.id' => 'required|string|exists:timelines,id',
+            'data.*.type' => 'required|in:timelines',
         ];
     }
 }
