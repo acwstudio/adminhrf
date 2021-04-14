@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\Document\AdminDocumentBookmarksRelatedController;
+use App\Http\Controllers\Admin\Document\AdminDocumentBookmarksRelationshipsController;
+use App\Http\Controllers\Admin\Document\AdminDocumentsDocumentCategoryRelatedController;
+use App\Http\Controllers\Admin\Document\AdminDocumentsDocumentCategoryRelationshipsController;
 use App\Http\Controllers\Admin\Image\AdminImageController;
 use App\Http\Controllers\Admin\AllContent\AdminAllContentController;
 use App\Http\Controllers\Admin\Answer\AdminAnswerController;
@@ -337,6 +341,20 @@ Route::get('/document-categories/{document_category}/documents', [
 
 Route::apiResource('/documents', AdminDocumentController::class, ['as' => 'admin']);
 
+// Documents to Document Category relations
+Route::get('/documents/{document}/relationships/document-category', [
+    AdminDocumentsDocumentCategoryRelationshipsController::class, 'index'
+])->name('document.relationships.document-category');
+
+Route::patch('/documents/{document}/relationships/document-category', [
+    AdminDocumentsDocumentCategoryRelationshipsController::class, 'update'
+])->name('document.relationships.document-category');
+
+Route::get('/documents/{document}/document-category', [
+    AdminDocumentsDocumentCategoryRelatedController::class, 'index'
+])->name('document.document-category');
+
+
 // Documents to Tags relations
 Route::get('/documents/{document}/relationships/tags', [
     AdminDocumentsTagsRelationshipsController::class, 'index'
@@ -362,6 +380,19 @@ Route::patch('/documents/{document}/relationships/images', [
 Route::get('/documents/{document}/images', [
     AdminDocumentImagesRelatedController::class, 'index'
 ])->name('document.images');
+
+// Document to Bookmarks relations
+Route::get('/documents/{document}/relationships/bookmarks', [
+    AdminDocumentBookmarksRelationshipsController::class, 'index'
+])->name('document.relationships.bookmarks');
+
+Route::patch('/documents/{document}/relationships/bookmarks', [
+    AdminDocumentBookmarksRelationshipsController::class, 'update'
+])->name('document.relationships.bookmarks');
+
+Route::get('/documents/{document}/bookmarks', [
+    AdminDocumentBookmarksRelatedController::class, 'index'
+])->name('document.bookmarks');
 
 /*****************  IMAGES ROUTES **************/
 

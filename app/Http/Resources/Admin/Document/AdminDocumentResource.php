@@ -2,7 +2,10 @@
 
 namespace App\Http\Resources\Admin\Document;
 
+use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
+use App\Http\Resources\Admin\DocumentCategory\AdminDocumentCategoryIdentifierResource;
+use App\Http\Resources\Admin\DocumentCategory\AdminDocumentCategoryResource;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -54,31 +57,17 @@ class AdminDocumentResource extends JsonResource
                 ],
                 'category' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('document.relationships.document-category', ['document' => $this->id]),
+                        'related' => route('document.document-category', ['document' => $this->id])
                     ],
-                    'data' => []
-                ],
-                'comments' => [
-                    'links' => [
-                        'self' => '',
-                        'related' => ''
-                    ],
-                    'data' => []
-                ],
-                'likes' => [
-                    'links' => [
-                        'self' => '',
-                        'related' => ''
-                    ],
-                    'data' => []
+                    'data' => new AdminDocumentCategoryIdentifierResource($this->whenLoaded('category'))
                 ],
                 'bookmarks' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('document.relationships.bookmarks', ['document' => $this->id]),
+                        'related' => route('document.bookmarks', ['document' => $this->id])
                     ],
-                    'data' => []
+                    'data' => AdminBookmarkIdentifierResource::collection($this->whenLoaded('bookmarks'))
                 ],
             ]
         ];

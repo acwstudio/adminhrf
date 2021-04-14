@@ -35,15 +35,17 @@ class AdminDocumentController extends Controller
      *
      * @param Request $request
      * @return AdminDocumentCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
     {
+        $this->authorize('manage', Document::class);
+
         $perPage = $request->get('per_page');
 
         $query = QueryBuilder::for(Document::class)
-            ->with(['tags', 'images', 'category'])
-            ->allowedIncludes(['comments', 'bookmarks'])
-            ->allowedSorts('title')
+            ->allowedIncludes(['category', 'bookmarks', 'images', 'tags'])
+            ->allowedSorts(['title', 'document_date', 'created_at'])
             ->jsonPaginate($perPage);
 
         return new AdminDocumentCollection($query);
@@ -52,11 +54,14 @@ class AdminDocumentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param DocumentCreateRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(DocumentCreateRequest $request)
     {
+        $this->authorize('manage', Document::class);
+
         $data = $request->input('data.attributes');
 
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
@@ -97,14 +102,17 @@ class AdminDocumentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param Document $document
      * @return AdminDocumentResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Document $document)
     {
-        $query = QueryBuilder::for(Document::where('id', $document->id))
-            ->with(['tags', 'images', 'category'])
-            ->allowedIncludes(['comments', 'likes', 'bookmarks'])
+        $this->authorize('manage', Document::class);
+
+        $query = QueryBuilder::for(Document::class)
+            ->where('id', $document->id)
+            ->allowedIncludes(['category', 'tags', 'bookmarks', 'images'])
             ->firstOrFail();
 
         return new AdminDocumentResource($query);
@@ -116,9 +124,12 @@ class AdminDocumentController extends Controller
      * @param DocumentUpdateRequest $request
      * @param Document $document
      * @return AdminDocumentResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(DocumentUpdateRequest $request, Document $document)
     {
+        $this->authorize('manage', Document::class);
+
         $data = $request->input('data.attributes');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
@@ -155,6 +166,8 @@ class AdminDocumentController extends Controller
      */
     public function destroy(Document $document)
     {
+        $this->authorize('manage', Document::class);
+
         $idTags = $document->tags()->allRelatedIds();
 
         $document->tags()->detach($idTags);
@@ -167,6 +180,7 @@ class AdminDocumentController extends Controller
         }
 
         $document->images()->delete();
+        $document->bookmarks()->delete();
         $document->delete();
 
         return response(null, 204);

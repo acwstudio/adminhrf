@@ -46,7 +46,7 @@ class Document extends Model
 
     public function category()
     {
-        return $this->BelongsTo(DocumentCategory::class);
+        return $this->BelongsTo(DocumentCategory::class, 'document_category_id');
     }
 
     public function bookmarks()
