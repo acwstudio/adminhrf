@@ -127,9 +127,11 @@ class AdminTestController extends Controller
     {
         $data = $request->input('data.attributes');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
 
         $test->update($data);
 
+        $messages = [];
         if ($dataRelImages) {
             foreach ($dataRelImages as $id) {
 
@@ -147,6 +149,8 @@ class AdminTestController extends Controller
             }
         }
 
+        $test->categories()->sync($dataRelCategories);
+
         return new AdminTestResource($test);
     }
 
@@ -159,12 +163,23 @@ class AdminTestController extends Controller
      */
     public function destroy(Test $test)
     {
+        $idCategories = $test->categories()->allRelatedIds();
+        $idQuestions = $test->questions()->allRelatedIds();
+
         $images = Image::where('imageable_id', $test->id)
             ->where('imageable_type', 'test')->get();
 
         foreach ($images as $image) {
             $this->imageService->delete($image);
         }
+
+        $test->categories()->detach($idCategories);
+        $test->questions()->detach($idQuestions);
+
+        $test->messages()->delete();
+        $test->likes()->delete();
+        $test->comments()->delete();
+        $test->results()->delete();
 
         $test->delete();
 
