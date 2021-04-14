@@ -83,11 +83,19 @@ class AfishaController extends Controller
 //        }
 
         $arr = $query->merge(Event::where('afisha_date', '<', now())->orderBy('afisha_date', 'desc')->get()); //->get()
+        $total = $arr->count();
+        $count = ceil($total/$perPage);
         return
             [
                 'data' => AfishaShortResource::collection($arr->forPage($page,$perPage)),
-                'page' => (int)$page,
-                'last_page' => ceil($arr->count()/$perPage)
+                'meta' => [
+                    'current_page' => $page,
+                    'from' => 1+($page-1)*$count,
+                    'page' => (int)$page,
+                    'last_page' => $count,
+                    'total' => $total,
+                    'to' => 1+$page*$count,
+                ]
             ];
     }
 }
