@@ -72,6 +72,7 @@ class AdminPdfController extends Controller
         $pdf = PdfService::make(Storage::path($path));
         $images = $pdf->saveAllPagesAsImages();
 
+        Storage::delete($document->file);
         $document->file = $path;
         $document->images()->delete();
         $document->images()->saveMany($images);
