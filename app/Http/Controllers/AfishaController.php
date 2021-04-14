@@ -86,7 +86,7 @@ class AfishaController extends Controller
         return
             [
                 'data' => AfishaShortResource::collection($arr->forPage($page,$perPage)),
-                'page' => $page,
+                'page' => (int)$page,
                 'last_page' => ceil($arr->count()/$perPage)
             ];
     }
