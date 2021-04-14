@@ -89,7 +89,7 @@ class AfishaController extends Controller
             [
                 'data' => AfishaShortResource::collection($arr->forPage($page,$perPage)),
                 'meta' => [
-                    'current_page' => $page,
+                    'current_page' => (int)$page,
                     'from' => 1+($page-1)*$count,
                     'page' => (int)$page,
                     'last_page' => $count,
