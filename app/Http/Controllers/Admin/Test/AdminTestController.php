@@ -38,6 +38,8 @@ class AdminTestController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('manage', Test::class);
+
         $perPage = $request->get('per_page');
 
         $query = QueryBuilder::for(Test::class)
@@ -55,9 +57,12 @@ class AdminTestController extends Controller
      *
      * @param TestCreateRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(TestCreateRequest $request)
     {
+        $this->authorize('manage', Test::class);
+
         $dataAttributes = $request->input('data.attributes');
 
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
@@ -103,9 +108,12 @@ class AdminTestController extends Controller
      *
      * @param Test $test
      * @return AdminTestResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Test $test)
     {
+        $this->authorize('manage', Test::class);
+
         $query = QueryBuilder::for(Test::class)
             ->where('id', $test->id)
             ->allowedIncludes([
@@ -119,12 +127,15 @@ class AdminTestController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param TestUpdateRequest $request
+     * @param Test $test
      * @return AdminTestResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(TestUpdateRequest $request, Test $test)
     {
+        $this->authorize('manage', Test::class);
+
         $data = $request->input('data.attributes');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
         $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
@@ -163,6 +174,8 @@ class AdminTestController extends Controller
      */
     public function destroy(Test $test)
     {
+        $this->authorize('manage', Test::class);
+
         $idCategories = $test->categories()->allRelatedIds();
         $idQuestions = $test->questions()->allRelatedIds();
 

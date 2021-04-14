@@ -56,11 +56,14 @@ class AdminArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param ArticleCreateRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(ArticleCreateRequest $request)
     {
+        $this->authorize('manage', Article::class);
+
         $dataAttributes = $request->input('data.attributes');
 
         $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
@@ -110,9 +113,12 @@ class AdminArticleController extends Controller
      *
      * @param Article $article
      * @return \App\Http\Resources\Admin\Article\AdminArticleResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Article $article)
     {
+        $this->authorize('manage', Article::class);
+
         $query = QueryBuilder::for(Article::class)
             ->where('id', $article->id)
             ->allowedIncludes([
@@ -129,9 +135,12 @@ class AdminArticleController extends Controller
      * @param \App\Http\Requests\Article\ArticleUpdateRequest $request
      * @param Article $article
      * @return \App\Http\Resources\Admin\Article\AdminArticleResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(ArticleUpdateRequest $request, Article $article)
     {
+        $this->authorize('manage', Article::class);
+
         $dataAttributes = $request->input('data.attributes');
         $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
@@ -177,6 +186,8 @@ class AdminArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+        $this->authorize('manage', Article::class);
+
         $idAuthors = $article->authors()->allRelatedIds();
         $idTags = $article->tags()->allRelatedIds();
 

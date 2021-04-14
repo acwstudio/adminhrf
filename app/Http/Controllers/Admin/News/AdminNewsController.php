@@ -37,9 +37,12 @@ class AdminNewsController extends Controller
      *
      * @param Request $request
      * @return AdminNewsCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
     {
+        $this->authorize('manage', News::class);
+
         $perPage = $request->get('per_page');
 
         $query = QueryBuilder::for(News::class)
@@ -54,11 +57,14 @@ class AdminNewsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param NewsCreateRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(NewsCreateRequest $request)
     {
+        $this->authorize('manage', News::class);
+
         $data = $request->input('data.attributes');
 
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
@@ -101,9 +107,12 @@ class AdminNewsController extends Controller
      *
      * @param News $news
      * @return AdminNewsResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(News $news)
     {
+        $this->authorize('manage', News::class);
+
         $query = QueryBuilder::for(News::class)
             ->where('id', $news->id)
             ->allowedIncludes('tags', 'images', 'bookmarks', 'comments')
@@ -118,9 +127,12 @@ class AdminNewsController extends Controller
      * @param NewsUpdateRequest $request
      * @param News $news
      * @return AdminNewsResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(NewsUpdateRequest $request, News $news)
     {
+        $this->authorize('manage', News::class);
+
         $data = $request->input('data.attributes');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
@@ -160,6 +172,8 @@ class AdminNewsController extends Controller
      */
     public function destroy(News $news)
     {
+        $this->authorize('manage', News::class);
+
         $idTags = $news->tags()->allRelatedIds();
 
         $news->tags()->detach($idTags);
