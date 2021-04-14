@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin\Biography;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Biography\BiographyTagsUpdateRelationshipsRequest;
+use App\Http\Requests\Biography\BiographiesTagsUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\Biography\AdminBiographiesIdentifireResource;
+use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use App\Models\Biography;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class AdminBiographiesTagsRelationshipsController extends Controller
      */
     public function index(Biography $biography)
     {
-        return AdminBiographiesIdentifireResource::collection($biography->tags);
+        return AdminTagIdentifierResource::collection($biography->tags);
     }
 
     /**
@@ -28,7 +29,7 @@ class AdminBiographiesTagsRelationshipsController extends Controller
      * @param Biography $biography
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function update(BiographyTagsUpdateRelationshipsRequest $request, Biography $biography)
+    public function update(BiographiesTagsUpdateRelationshipsRequest $request, Biography $biography)
     {
         $ids = $request->input('data.*.id');
         $biography->tags()->sync($ids);

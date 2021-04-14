@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Biography;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Biography\BiographiesBioCategoriesUpdateRelationshipsRequest;
-use App\Http\Requests\Biography\BiographyTagsUpdateRelationshipsRequest;
+use App\Http\Requests\Biography\BiographiesTagsUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
 use App\Http\Resources\Admin\BioCategory\AdminBioCategoryIdentifierResource;
 use App\Models\Biography;
@@ -25,7 +25,7 @@ class AdminBiographiesBioCategoriesRelationshipsController extends Controller
     }
 
     /**
-     * @param BiographyTagsUpdateRelationshipsRequest $request
+     * @param BiographiesTagsUpdateRelationshipsRequest $request
      * @param Biography $biography
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */

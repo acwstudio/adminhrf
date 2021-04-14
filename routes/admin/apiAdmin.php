@@ -5,6 +5,12 @@ use App\Http\Controllers\Admin\BioCategory\AdminBioCategoriesBiographiesRelation
 //use App\Http\Controllers\Admin\BioCategory\AdminBioCategoryController;
 use App\Http\Controllers\Admin\Biography\AdminBiographiesTagsRelatedController;
 use App\Http\Controllers\Admin\Biography\AdminBiographiesTagsRelationshipsController;
+use App\Http\Controllers\Admin\Biography\AdminBiographyBookmarksRelatedController;
+use App\Http\Controllers\Admin\Biography\AdminBiographyBookmarksRelationshipsController;
+use App\Http\Controllers\Admin\Biography\AdminBiographyImagesRelatedController;
+use App\Http\Controllers\Admin\Biography\AdminBiographyImagesRelationshipsController;
+use App\Http\Controllers\Admin\Biography\AdminBiographyTimelineRelatedController;
+use App\Http\Controllers\Admin\Biography\AdminBiographyTimelineRelationshipsController;
 use App\Http\Controllers\Admin\Document\AdminDocumentBookmarksRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsDocumentCategoryRelatedController;
@@ -296,7 +302,7 @@ Route::apiResource('/biographies', AdminBiographyController::class, ['as' => 'ad
 
 // Biography to Biocategory relations
 Route::get('/biographies/{biography}/relationships/biocategories', [
-    AdminBiographiesTagsRelationshipsController::class, 'index'
+    AdminBiographiesBioCategoriesRelationshipsController::class, 'index'
 ])->name('biographies.relationships.biocategories');
 
 Route::patch('/biographies/{biography}/relationships/biocategories', [
@@ -306,6 +312,32 @@ Route::patch('/biographies/{biography}/relationships/biocategories', [
 Route::get('/biographies/{biography}/biocategories', [
     AdminBiographiesBioCategoriesRelatedController::class, 'index'
 ])->name('biographies.biocategories');
+
+// Biography to Bookmarks relations
+Route::get('/biographies/{biography}/relationships/bookmarks', [
+    AdminBiographyBookmarksRelationshipsController::class, 'index'
+])->name('biography.relationships.bookmarks');
+
+Route::patch('/biographies/{biography}/relationships/bookmarks', [
+    AdminBiographyBookmarksRelationshipsController::class, 'update'
+])->name('biography.relationships.bookmarks');
+
+Route::get('/biographies/{biography}/bookmarks', [
+    AdminBiographyBookmarksRelatedController::class, 'index'
+])->name('biography.bookmarks');
+
+// Biography to Images relations
+Route::get('/biographies/{biography}/relationships/images', [
+    AdminBiographyImagesRelationshipsController::class, 'index'
+])->name('biography.relationships.images');
+
+Route::patch('/biographies/{biography}/relationships/images', [
+    AdminBiographyImagesRelationshipsController::class, 'update'
+])->name('biography.relationships.images');
+
+Route::get('/biographies/{biography}/images', [
+    AdminBiographyImagesRelatedController::class, 'index'
+])->name('biography.images');
 
 // Biography to Tags relations
 Route::get('/biographies/{biography}/relationships/tags', [
@@ -319,6 +351,19 @@ Route::patch('/biographies/{biography}/relationships/tags', [
 Route::get('/biographies/{biography}/tags', [
     AdminBiographiesTagsRelatedController::class, 'index'
 ])->name('biographies.tags');
+
+// Biography to Timeline relations
+Route::get('/biographies/{biography}/relationships/timeline', [
+    AdminBiographyTimelineRelationshipsController::class, 'index'
+])->name('biography.relationships.timeline');
+
+Route::patch('/biographies/{biography}/relationships/timeline', [
+    AdminBiographyTimelineRelationshipsController::class, 'update'
+])->name('biography.relationships.timeline');
+
+Route::get('/biographies/{biography}/timeline', [
+    AdminBiographyTimelineRelatedController::class, 'index'
+])->name('biography.timeline');
 
 /*****************  BOOKMARKS ROUTES **************/
 

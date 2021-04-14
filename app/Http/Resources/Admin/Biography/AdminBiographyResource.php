@@ -2,7 +2,11 @@
 
 namespace App\Http\Resources\Admin\Biography;
 
+use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
 use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
+use App\Http\Resources\Admin\AdminImagesIdentifierResource;
+use App\Http\Resources\Admin\AdminTimelineIdentifierResource;
+use App\Http\Resources\Admin\AdminTimelineResource;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -55,13 +59,31 @@ class AdminBiographyResource extends JsonResource
                     ],
                     'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
                 ],
+                'images' => [
+                    'links' => [
+                        'self' => route('biography.relationships.images', ['biography' => $this->id]),
+                        'related' => route('biography.images', ['biography' => $this->id])
+                    ],
+                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+                ],
+                'bookmarks' => [
+                    'links' => [
+                        'self' => route('biography.relationships.bookmarks', ['biography' => $this->id]),
+                        'related' => route('biography.bookmarks', ['biography' => $this->id])
+                    ],
+                    'data' => AdminBookmarkIdentifierResource::collection($this->whenLoaded('bookmarks'))
+                ],
+                'timeline' => [
+                    'links' => [
+                        'self' => route('biography.relationships.timeline', ['biography' => $this->id]),
+                        'related' => route('biography.timeline', ['biography' => $this->id])
+                    ],
+                    'data' => new AdminTimelineIdentifierResource($this->whenLoaded('timeline'))
+                ]
             ],
 
-//            'tags' => AdminTagResource::collection($this->tags),
 //            'likes' => $this->likes,
-//            'bookmarks' => $this->bookmarks,
-//            'images' => $this->images,
-//            'categories' => $this->categories,
+
         ];
     }
 }
