@@ -131,28 +131,8 @@ class AdminDocumentController extends Controller
         $this->authorize('manage', Document::class);
 
         $data = $request->input('data.attributes');
-        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $document->update($data);
-
-        // Images
-        $messages = [];
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $document->images()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
 
         return new AdminDocumentResource($document);
     }
@@ -171,13 +151,6 @@ class AdminDocumentController extends Controller
         $idTags = $document->tags()->allRelatedIds();
 
         $document->tags()->detach($idTags);
-
-        $images = Image::where('imageable_id', $document->id)
-            ->where('imageable_type', 'document')->get();
-
-        foreach ($images as $image) {
-            $this->imageService->delete($image);
-        }
 
         $document->images()->delete();
         $document->bookmarks()->delete();
