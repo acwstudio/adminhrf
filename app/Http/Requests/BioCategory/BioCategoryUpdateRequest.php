@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Biography;
+namespace App\Http\Requests\BioCategory;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class BiographyCommentsUpdateRelationshipsRequest
- * @package App\Http\Requests\Biography
+ * Class BioCategoryUpdateRequest
+ * @package App\Http\Requests
  */
-class BiographyCommentsUpdateRelationshipsRequest extends FormRequest
+class BioCategoryUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,9 +28,10 @@ class BiographyCommentsUpdateRelationshipsRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'present|array',
-            'data.*.id' => 'required|string',
-            'data.*.type' => 'required|in:comments',
+            'data' => 'required|array',
+            'data.type' => 'required|in:biocategories',
+            'data.attributes' => 'required|array',
+            'data.attributes.title' => 'string',
         ];
     }
 }

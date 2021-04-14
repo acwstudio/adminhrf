@@ -4,21 +4,22 @@ namespace App\Http\Controllers\Admin\Biography;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\AdminCommentCollection;
+use App\Http\Resources\Admin\BioCategory\AdminBioCategoryCollection;
 use App\Models\Biography;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminBiographyCommentsRelatedController
+ * Class AdminBiographiesBioCategoriesRelatedController
  * @package App\Http\Controllers\Admin\Biography
  */
-class AdminBiographyCommentsRelatedController extends Controller
+class AdminBiographiesBioCategoriesRelatedController extends Controller
 {
     /**
      * @param Biography $biography
-     * @return AdminCommentCollection
+     * @return AdminBioCategoryCollection
      */
     public function index(Biography $biography)
     {
-        return new AdminCommentCollection($biography->comments);
+        return new AdminBioCategoryCollection($biography->categories);
     }
 }

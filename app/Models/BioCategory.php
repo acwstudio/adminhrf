@@ -13,6 +13,7 @@ class BioCategory extends Model
     public $guarded = [];
 
     protected $table = 'biocategories';
+    public $timestamps = false;
 
     public function sluggable(): array
     {

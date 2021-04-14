@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Biography;
 
+use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
+use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -39,13 +41,20 @@ class AdminBiographyResource extends JsonResource
                 'updated_at' => $this->updated_at,
             ],
             'relationships' => [
-                'comments' => [
+                'tags' => [
                     'links' => [
-                        'self' => route('biography.relationships.comments', ['biography' => $this->id]),
-                        'related' => route('biography.comments', ['biography' => $this->id])
+                        'self' => route('biographies.relationships.tags', ['biography' => $this->id]),
+                        'related' => route('biographies.tags', ['biography' => $this->id])
                     ],
-                    'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
-                ]
+                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
+                ],
+                'categories' => [
+                    'links' => [
+                        'self' => route('biographies.relationships.biocategories', ['biography' => $this->id]),
+                        'related' => route('biographies.biocategories', ['biography' => $this->id])
+                    ],
+                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
+                ],
             ],
 
 //            'tags' => AdminTagResource::collection($this->tags),

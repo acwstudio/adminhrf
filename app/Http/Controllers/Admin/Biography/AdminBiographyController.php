@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin\Biography;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Biography\BiographyCreateRequest;
 use App\Http\Requests\Biography\BiographyUpdateRequest;
-use App\Http\Resources\Admin\AdminBiographyCollection;
-use App\Http\Resources\Admin\AdminBiographyResource;
+use App\Http\Resources\Admin\Biography\AdminBiographyCollection;
+use App\Http\Resources\Admin\Biography\AdminBiographyResource;
 use App\Models\Biography;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -26,8 +26,8 @@ class AdminBiographyController extends Controller
     {
         $perPage = $request->get('per_page');
         $biographies = QueryBuilder::for(Biography::class)
-            ->allowedIncludes(['comments'])
-            ->allowedSorts(['firstname'])
+            ->allowedIncludes(['tags', 'bookmarks', 'categories', 'images', 'timeline'])
+            ->allowedSorts(['firstname', 'surname'])
             ->jsonPaginate($perPage);
 
         return new AdminBiographyCollection($biographies);
@@ -62,7 +62,7 @@ class AdminBiographyController extends Controller
     {
         $query = QueryBuilder::for(Biography::class)
             ->where('id', $biography->id)
-            ->allowedIncludes(['comments'])
+            ->allowedIncludes(['tags', 'bookmarks', 'categories', 'images', 'timeline'])
             ->firstOrFail();
 
         return new AdminBiographyResource($query);

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\BioCategory;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminBiographiesIdentifireResource
- * @package App\Http\Resources\Admin
+ * Class AdminBioCategoryIdentifierResource
+ * @package App\Http\Resources\Admin\BioCategory
  */
-class AdminBiographiesIdentifireResource extends JsonResource
+class AdminBioCategoryIdentifierResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,8 +19,8 @@ class AdminBiographiesIdentifireResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => (string)$this->id,
-            'type' => 'biographies'
+            'id' => $this->id,
+            'type' => 'biocategories'
         ];
     }
 }
