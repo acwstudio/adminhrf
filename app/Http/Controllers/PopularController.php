@@ -29,7 +29,23 @@ class PopularController extends Controller
 
 
         $comments = Comment::with('user')
+            ->where('type','=','comment')
             ->whereNull('parent_id')
+            ->latest()
+            ->take($qty)
+            ->get();
+
+        return CommentResource::collection($comments);
+
+
+    }
+
+    public function reviews(Request $request)
+    {
+        $qty = $request->get('qty', 10);
+
+        $comments = Comment::with('user')
+            ->where('type','=','review')
             ->latest()
             ->take($qty)
             ->get();
