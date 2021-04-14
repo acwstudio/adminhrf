@@ -56,24 +56,46 @@ class AfishaController extends Controller
     {
         $city = $request->get('city');
         $perPage = $request->get('per_page', $this->perPage);
+        $page = $request->get('page', 1);
         $categories = $request->get('categories');
 
-        $query = Event::where('published_at', '<', now())->where('afisha_date', '<', now());
+        //$query = Event::where('published_at', '<', now())->where('afisha_date', '>', now())
+          //  ->orderBy('afisha_date', 'asc')->orderBy('published_at', 'asc')->get();
+        $query = Event::where('published_at', '<', now())->where('afisha_date', '>', now())
+            ->orderBy('afisha_date', 'asc')->get();
+       // $old = Event::where('afisha_date', '<', now())->orderBy('afisha_date', 'desc');
+//        foreach ($old as $el){
+//            $el->is_new = false;
+//        }
+//        foreach ($query as $row){
+//            $row->is_new = true;
+//        }
+//        if (!is_null($city)) {
+//            $query->where('city_id', '=', City::findOrFail($city)->first()->id);
+//        }
+//
+//        if (!is_null($categories)) {
+//            $params = explode('|', $categories);
+//
+//            $query->whereHas('leisure', function (Builder $query) use ($params) {
+//                $query->whereIn('slug', $params);
+//            });
+//        }
 
-        if (!is_null($city)) {
-            $query->where('city_id', '=', City::findOrFail($city)->first()->id);
-        }
-
-        if (!is_null($categories)) {
-            $params = explode('|', $categories);
-
-            $query->whereHas('leisure', function (Builder $query) use ($params) {
-                $query->whereIn('slug', $params);
-            });
-        }
-
-
-        return AfishaShortResource::collection($query->orderBy('afisha_date', 'desc')
-            ->orderBy('published_at', 'desc')->paginate($perPage));
+        $arr = $query->merge(Event::where('afisha_date', '<', now())->orderBy('afisha_date', 'desc')->get()); //->get()
+        $total = $arr->count();
+        $count = ceil($total/$perPage);
+        return
+            [
+                'data' => AfishaShortResource::collection($arr->forPage($page,$perPage)),
+                'meta' => [
+                    'current_page' => $page,
+                    'from' => 1+($page-1)*$count,
+                    'page' => (int)$page,
+                    'last_page' => $count,
+                    'total' => $total,
+                    'to' => 1+$page*$count,
+                ]
+            ];
     }
 }
