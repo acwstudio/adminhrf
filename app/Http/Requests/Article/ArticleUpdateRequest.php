@@ -29,7 +29,7 @@ class ArticleUpdateRequest extends FormRequest
     {
         return [
             'data' => 'required|array',
-            'data.id' => 'required|string',
+            'data.id' => 'required|integer',
             'data.type' => 'required|in:articles',
             'data.attributes' => 'required|array',
             'data.attributes.title' => 'string',
@@ -43,7 +43,7 @@ class ArticleUpdateRequest extends FormRequest
             'data.attributes.published_at' => 'string',
             'data.attributes.viewed' => 'integer',
             'data.attributes.liked' => 'integer',
-            'data.attributes.commented' => 'string',
+            'data.attributes.commented' => 'integer',
             'data.attributes.biblio' => 'json',
             'data.attributes.event_start_date' => 'string',
             'data.event_end_date' => 'string',
