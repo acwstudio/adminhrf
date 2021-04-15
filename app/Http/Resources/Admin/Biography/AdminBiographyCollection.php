@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Biography;
 
+use App\Http\Resources\Admin\Biography\AdminBiographyResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**

@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Admin\Tag;
 
-use App\Http\Resources\Admin\AdminBiographiesIdentifireResource;
+use App\Http\Resources\Admin\Biography\AdminBiographiesIdentifireResource;
 use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
 use App\Http\Resources\Admin\Document\AdminDocumentsIdentifireResource;
 use App\Http\Resources\Admin\News\AdminNewsIdentifireResource;

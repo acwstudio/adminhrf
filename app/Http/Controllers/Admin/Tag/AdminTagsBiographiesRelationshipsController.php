@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Tag;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tag\TagsBiographiesUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminBiographiesIdentifireResource;
+use App\Http\Resources\Admin\Biography\AdminBiographiesIdentifireResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 

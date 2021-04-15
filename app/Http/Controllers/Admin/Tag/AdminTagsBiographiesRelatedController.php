@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Tag;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminBiographyCollection;
+use App\Http\Resources\Admin\Biography\AdminBiographyCollection;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 

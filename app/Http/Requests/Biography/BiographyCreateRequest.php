@@ -44,6 +44,14 @@ class BiographyCreateRequest extends FormRequest
             'data.attributes.viewed' => 'required|integer',
             'data.attributes.biblio' => 'required|json',
             'data.attributes.active' => 'required|boolean',
+
+            'data.relationships.*' => 'present|array',
+            'data.relationships.tags.data.*.type' => 'present|in:tags',
+            'data.relationships.tags.data.*.id' => 'exists:tags,id',
+            'data.relationships.biocategories.data.*.type' => 'present|in:biocategories',
+            'data.relationships.biocategories.data.*.id' => 'exists:biocategories,id',
+            'data.relationships.images.data.*.type' => 'present|in:images',
+            'data.relationships.images.data.*.id' => 'exists:images,id',
         ];
     }
 }

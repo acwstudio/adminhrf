@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Admin\Biography;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminCommentCollection;
+use App\Http\Resources\Admin\AdminTimelineResource;
 use App\Models\Biography;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminBiographyCommentsRelatedController
+ * Class AdminBiographyTimelineRelatedController
  * @package App\Http\Controllers\Admin\Biography
  */
-class AdminBiographyCommentsRelatedController extends Controller
+class AdminBiographyTimelineRelatedController extends Controller
 {
     /**
      * @param Biography $biography
-     * @return AdminCommentCollection
+     * @return AdminTimelineResource
      */
     public function index(Biography $biography)
     {
-        return new AdminCommentCollection($biography->comments);
+        return new AdminTimelineResource($biography->timeline);
     }
 }

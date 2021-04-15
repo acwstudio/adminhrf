@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\DocumentCategory;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DocumentCategory\DocumentCategoryDocumentsUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\Document\AdminDocumentsIdentifireResource;
 use App\Models\DocumentCategory;
 use Illuminate\Http\Request;
@@ -22,8 +23,17 @@ class AdminDocumentCategoryDocumentsRelationshipsController extends Controller
         return AdminDocumentsIdentifireResource::collection($documentCategory->documents);
     }
 
-    public function update()
+    /**
+     * @param DocumentCategoryDocumentsUpdateRelationshipsRequest $request
+     * @param DocumentCategory $documentcategory
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function update(
+        DocumentCategoryDocumentsUpdateRelationshipsRequest $request, DocumentCategory $documentcategory)
     {
+        $ids = $request->input('data.*.id');
+        $documentcategory->documents()->sync($ids);
 
+        return response(null, 204);
     }
 }
