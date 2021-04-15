@@ -30,7 +30,7 @@ class CommentResource extends JsonResource
             $this->mergeWhen($this->type === 'review', [
                 'estimate' => $this->estimate,
             ]),
-            $this->mergeWhen($request->routeIs('popular.comments', 'profile.comments'), [
+            $this->mergeWhen($request->routeIs('popular.comments', 'profile.comments', 'popular.reviews'), [
                 'resource' => [
                     'model_type' => $this->commentable_type,
                     'id' => $this->commentable_id,

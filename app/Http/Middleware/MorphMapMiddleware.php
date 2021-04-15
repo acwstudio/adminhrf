@@ -17,7 +17,7 @@ class MorphMapMiddleware
     public function handle(Request $request, Closure $next)
     {
 
-        // Mappings for model_type and commentable_type
+        // Mappings for model_type...
 
         $map = collect([
             'audiomaterial' => ['audiolecture'],
@@ -27,20 +27,39 @@ class MorphMapMiddleware
 
         ]);
 
-        $modelType = $request->get('model_type') ?: $request->get('commentable_type') ?: null;
+        // Types
 
-        if (!is_null($modelType)) {
+        $params = [
+            'model_type',
+            'commentable_type',
+            'imageable_type'
+        ];
 
-            $newType = $map->search(function ($item, $key) use ($modelType) {
-                if (in_array($modelType, $item)) {
-                    return $key;
-                }
-                return false;
-            });
+        foreach ($params as $param) {
 
-            if ($newType) {
-                $request->merge(['commentable_type' => $newType, 'model_type' => $newType]);
+            $modelType = null;
+
+            if (!is_null($request->get($param))) {
+
+                $modelType = $request->get($param);
+                $paramName = $param;
+
             }
+
+            if (!is_null($modelType)) {
+
+                $newType = $map->search(function ($item, $key) use ($modelType) {
+                    if (in_array($modelType, $item)) {
+                        return $key;
+                    }
+                    return false;
+                });
+
+                if ($newType) {
+                    $request->merge([$paramName => $newType]);
+                }
+            }
+
         }
 
         return $next($request);
