@@ -5,10 +5,10 @@ namespace App\Http\Requests\Author;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class AuthorsArticlesUpdateRelationshipsRequest
+ * Class AuthorsVideomaterialsUpdateRelationshipsRequest
  * @package App\Http\Requests\Author
  */
-class AuthorsArticlesUpdateRelationshipsRequest extends FormRequest
+class AuthorsVideomaterialsUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,8 @@ class AuthorsArticlesUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer|exists:articles,id',
-            'data.*.type' => 'required|in:articles',
+            'data.*.id' => 'required|integer|exists:videomaterials,id',
+            'data.*.type' => 'required|in:videomaterials',
         ];
     }
 }

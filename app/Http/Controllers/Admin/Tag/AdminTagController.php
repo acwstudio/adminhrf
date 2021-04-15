@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\Tag\AdminTagCollection;
 use App\Http\Resources\Admin\Tag\AdminTagLightResource;
 use App\Http\Resources\Admin\Tag\AdminTagResource;
 use App\Models\Tag;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -90,13 +91,12 @@ class AdminTagController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Tag $tag
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      * @throws \Exception
      */
     public function destroy(Tag $tag)
     {
-        $tag->delete();
-        return response(null, 204);
+        return response('удаление тегов отключено', 405);
     }
 
     /**

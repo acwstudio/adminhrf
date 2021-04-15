@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Article;
+namespace App\Http\Controllers\Admin\Videomaterial;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Article\ArticleCreateRequest;
-use App\Http\Requests\Article\ArticleUpdateRequest;
-use App\Http\Resources\Admin\Article\AdminArticleCollection;
-use App\Http\Resources\Admin\Article\AdminArticleResource;
-use App\Models\Article;
+use App\Http\Requests\Videomaterial\VideomaterialCreateRequest;
+use App\Http\Requests\Videomaterial\VideomaterialUpdateRequest;
+use App\Http\Resources\Admin\Videomaterial\AdminVideomaterialCollection;
+use App\Http\Resources\Admin\Videomaterial\AdminVideomaterialResource;
 use App\Models\Image;
+use App\Models\Videomaterial;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * Class AdminArticleController
- * @package App\Http\Controllers\Admin\Article
+ * Class AdminVideomaterialController
+ * @package App\Http\Controllers\Admin\Videomaterial
  */
-class AdminArticleController extends Controller
+class AdminVideomaterialController extends Controller
 {
     private $imageService;
 
@@ -33,48 +33,39 @@ class AdminArticleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \App\Http\Resources\Admin\Article\AdminArticleCollection
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return AdminVideomaterialCollection
      */
     public function index(Request $request)
     {
-        $this->authorize('manage', Article::class);
-
         $perPage = $request->get('per_page');
 
-        $articles = QueryBuilder::for(Article::class)
+        $videomaterials = QueryBuilder::for(Videomaterial::class)
             ->allowedIncludes([
-                'authors', 'comments', 'bookmarks', 'tags', 'category','images', 'timeline'
+                'authors', 'comments', 'bookmarks', 'tags','images'
             ])
             ->allowedFilters(['yatextid'])
             ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'event_date'])
             ->jsonPaginate($perPage);
 
-        return new AdminArticleCollection($articles);
+        return new AdminVideomaterialCollection($videomaterials);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param ArticleCreateRequest $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(ArticleCreateRequest $request)
+    public function store(VideomaterialCreateRequest $request)
     {
-        $this->authorize('manage', Article::class);
-
         $dataAttributes = $request->input('data.attributes');
-
         $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
-//        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
-//        $dataRelCategories = $request->input('data.relationships.category.data.*.id');
 
-        $article = Article::create($dataAttributes);
+        /** @var Videomaterial $videomaterial */
+        $videomaterial = Videomaterial::create($dataAttributes);
 
-        // update field imageable_id of images table with new $article->id
         $messages = [];
 
         if ($dataRelImages) {
@@ -84,7 +75,7 @@ class AdminArticleController extends Controller
                 $result = $this->handleRelationships($image, $id);
 
                 if ($result['result']) {
-                    $article->images()->save($image);
+                    $videomaterial->images()->save($image);
                     array_push($messages, $result);
                 } else {
                     response();
@@ -94,63 +85,53 @@ class AdminArticleController extends Controller
             }
         }
 
-        // attach authors and tags for the article
-        $article->authors()->attach($dataRelAuthors);
-        $article->tags()->attach($dataRelTags);
+        $videomaterial->authors()->attach($dataRelAuthors);
+        $videomaterial->tags()->attach($dataRelTags);
 
-//        $article->bookmarks()->saveMany($dataRelBookmarks);
-
-//        return $article->id;
-        return (new AdminArticleResource($article))
+        return (new AdminVideomaterialResource($videomaterial))
             ->response()
-            ->header('Location', route('admin.articles.show', [
-                'article' => $article->id
+            ->header('Location', route('admin.videomaterials.show', [
+                'videomaterial' => $videomaterial->id
             ]));
+//        return $dataAttributes;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Article $article
-     * @return \App\Http\Resources\Admin\Article\AdminArticleResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param  int  $id
+     * @return AdminVideomaterialResource
      */
-    public function show(Article $article)
+    public function show(Videomaterial $videomaterial)
     {
-        $this->authorize('manage', Article::class);
-
-        $query = QueryBuilder::for(Article::class)
-            ->where('id', $article->id)
+        $query = QueryBuilder::for(Videomaterial::class)
+            ->where('id', $videomaterial->id)
             ->allowedIncludes([
-                'authors', 'comments', 'bookmarks', 'tags', 'category','images', 'timeline'
+                'authors', 'comments', 'bookmarks', 'tags','images'
             ])
             ->firstOrFail();
 
-        return new AdminArticleResource($query);
+        return new AdminVideomaterialResource($query);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\Article\ArticleUpdateRequest $request
-     * @param Article $article
-     * @return \App\Http\Resources\Admin\Article\AdminArticleResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return AdminVideomaterialResource
      */
-    public function update(ArticleUpdateRequest $request, Article $article)
+    public function update(VideomaterialUpdateRequest $request, Videomaterial $videomaterial)
     {
-        $this->authorize('manage', Article::class);
-
         $dataAttributes = $request->input('data.attributes');
         $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
-//        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
-//        $dataRelCategories = $request->input('data.relationships.category.data.*.id');
 
-        $article->update($dataAttributes);
+        $videomaterial->update($dataAttributes);
 
         $messages = [];
+
         if ($dataRelImages) {
             foreach ($dataRelImages as $id) {
 
@@ -158,7 +139,7 @@ class AdminArticleController extends Controller
                 $result = $this->handleRelationships($image, $id);
 
                 if ($result['result']) {
-                    $article->images()->save($image);
+                    $videomaterial->images()->save($image);
                     array_push($messages, $result);
                 } else {
                     response();
@@ -167,46 +148,38 @@ class AdminArticleController extends Controller
 
             }
         }
-//        if ($dataRelCategories) {
-//            $article->category()->associate($dataRelCategories[0])->save();
-//        }
 
-        $article->authors()->sync($dataRelAuthors);
-        $article->tags()->sync($dataRelTags);
+        $videomaterial->authors()->sync($dataRelAuthors);
+        $videomaterial->tags()->sync($dataRelTags);
 
-        return new AdminArticleResource($article);
+        return new AdminVideomaterialResource($videomaterial);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Article $article
+     * @param Videomaterial $videomaterial
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(Article $article)
+    public function destroy(Videomaterial $videomaterial)
     {
-        $this->authorize('manage', Article::class);
+        $idAuthors = $videomaterial->authors()->allRelatedIds();
+        $idTags = $videomaterial->tags()->allRelatedIds();
 
-        $idAuthors = $article->authors()->allRelatedIds();
-        $idTags = $article->tags()->allRelatedIds();
+        $videomaterial->authors()->detach($idAuthors);
+        $videomaterial->tags()->detach($idTags);
 
-        $article->authors()->detach($idAuthors);
-        $article->tags()->detach($idTags);
-
-        $images = Image::where('imageable_id', $article->id)
-            ->where('imageable_type', 'article')->get();
+        $images = Image::where('imageable_id', $videomaterial->id)
+            ->where('imageable_type', 'videomaterial')->get();
 
         foreach ($images as $image) {
             $this->imageService->delete($image);
         }
 
-        $article->images()->delete();
-        $article->comments()->delete();
-        $article->timeline()->delete();
-        $article->bookmarks()->delete();
+        $videomaterial->images()->delete();
 
-        $article->delete();
+        $videomaterial->delete();
 
         return response(null, 204);
     }
@@ -218,11 +191,11 @@ class AdminArticleController extends Controller
      */
     private function handleRelationships($image, $id)
     {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'article') {
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'videomaterial') {
             $message = [
                 'id_image' => $image->id,
                 'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'article'
+                'description' => 'Image ' . $id . ' was related to ' . 'videomaterial'
             ];
 
             return $message;
@@ -243,7 +216,7 @@ class AdminArticleController extends Controller
                             . ' relation'
                     ];
                 }
-                if ($image->imageable_type !== 'article') {
+                if ($image->imageable_type !== 'videomaterial') {
                     $message = [
                         'id_image' => $image->id,
                         'result' => false,

@@ -10,6 +10,8 @@ use App\Http\Resources\Admin\Author\AdminAuthorLightResource;
 use App\Http\Resources\Admin\Author\AdminAuthorResource;
 use App\Http\Resources\AuthorResource;
 use App\Models\Author;
+use App\Models\Image;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -19,6 +21,17 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminAuthorController extends Controller
 {
+    private $imageService;
+
+    /**
+     * AdminArticleController constructor.
+     * @param ImageService $imageService
+     */
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,8 +41,9 @@ class AdminAuthorController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $authors = QueryBuilder::for(Author::class)
-            ->allowedIncludes(['articles'])
+            ->allowedIncludes(['articles', 'image', 'video'])
             ->allowedSorts(['id', 'birth_date', 'firstname'])
             ->jsonPaginate($perPage);
 
@@ -44,9 +58,35 @@ class AdminAuthorController extends Controller
      */
     public function store(AuthorCreateRequest $request)
     {
-        $data = $request->input('data.attributes');
+        $dataAttributes = $request->input('data.attributes');
+        $dataRelArticles = $request->input('data.relationships.articles.data.*.id');
+        $dataRelVideomaterials = $request->input('data.relationships.videomaterials.data.*.id');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
-        $author = Author::create($data);
+        $author = Author::create($dataAttributes);
+
+        $messages = [];
+
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $id) {
+
+                $image = Image::find($id);
+                $result = $this->handleRelationships($image, $id);
+
+                if ($result['result']) {
+                    $author->image()->save($image);
+                    array_push($messages, $result);
+                } else {
+                    response();
+                    array_push($messages, $result);
+                }
+
+            }
+        }
+
+        // attach articles and videomaterials for the author
+        $author->articles()->attach($dataRelArticles);
+        $author->video()->attach($dataRelVideomaterials);
 
         return (new AdminAuthorResource($author))
             ->response()
@@ -65,7 +105,7 @@ class AdminAuthorController extends Controller
     {
         $query = QueryBuilder::for(Author::class)
             ->where('id', $author->id)
-            ->allowedIncludes('articles')
+            ->allowedIncludes(['articles', 'video', 'image'])
             ->allowedFilters('firstname')
             ->firstOrFail();
 
@@ -81,9 +121,35 @@ class AdminAuthorController extends Controller
      */
     public function update(AuthorUpdateRequest $request, Author $author)
     {
-        $data = $request->input('data.attributes');
+        $dataAttributes = $request->input('data.attributes');
+        $dataRelArticles = $request->input('data.relationships.articles.data.*.id');
+        $dataRelVideomaterials = $request->input('data.relationships.videomaterials.data.*.id');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
-        $author->update($data);
+        $author->update($dataAttributes);
+
+        $messages = [];
+
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $id) {
+
+                $image = Image::find($id);
+                $result = $this->handleRelationships($image, $id);
+
+                if ($result['result']) {
+                    $author->image()->save($image);
+                    array_push($messages, $result);
+                } else {
+                    response();
+                    array_push($messages, $result);
+                }
+
+            }
+        }
+
+        // sync articles and videomaterials for the author
+        $author->articles()->sync($dataRelArticles);
+        $author->video()->sync($dataRelVideomaterials);
 
         return new AdminAuthorResource($author);
     }
@@ -97,7 +163,23 @@ class AdminAuthorController extends Controller
      */
     public function destroy(Author $author)
     {
+        $idArticles = $author->articles()->allRelatedIds();
+        $idVideomaterials = $author->video()->allRelatedIds();
+
+        $author->articles()->detach($idArticles);
+        $author->video()->detach($idVideomaterials);
+
+        $images = Image::where('imageable_id', $author->id)
+            ->where('imageable_type', 'author')->get();
+
+        foreach ($images as $image) {
+            $this->imageService->delete($image);
+        }
+
+        $author->image()->delete();
+
         $author->delete();
+
         return response(null, 204);
     }
 
@@ -111,5 +193,50 @@ class AdminAuthorController extends Controller
             ->get();
 
         return AdminAuthorLightResource::collection($authors);
+    }
+
+    /**
+     * @param $image
+     * @param $id
+     * @return array
+     */
+    private function handleRelationships($image, $id)
+    {
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'author') {
+            $message = [
+                'id_image' => $image->id,
+                'result' => true,
+                'description' => 'Image ' . $id . ' was related to ' . 'author'
+            ];
+
+            return $message;
+
+        } else {
+            if (!$image) {
+                $message = [
+                    'id_image' => $image->id,
+                    'result' => false,
+                    'description' => 'Image ' . $id . ' is not exists'
+                ];
+            } else {
+                if (!is_null($image->imageable_id)) {
+                    $message = [
+                        'id_image' => $image->id,
+                        'result' => false,
+                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
+                            . ' relation'
+                    ];
+                }
+                if ($image->imageable_type !== 'author') {
+                    $message = [
+                        'id_image' => $image->id,
+                        'result' => false,
+                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
+                    ];
+                }
+            }
+            return $message;
+        }
+
     }
 }

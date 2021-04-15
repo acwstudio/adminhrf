@@ -1,35 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Article;
+namespace App\Http\Controllers\Admin\Author;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Article\ArticleImagesUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
-use App\Models\Article;
+use App\Http\Requests\Author\AuthorImageUpdateRelationshipsRequest;
+use App\Http\Resources\Admin\AdminImagesIdentifierResource;
+use App\Models\Author;
 use App\Models\Image;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminArticleImagesRelationshipsController
- * @package App\Http\Controllers\Admin\Article
+ * Class AdminAuthorImageRelationshipsController
+ * @package App\Http\Controllers\Admin\Author
  */
-class AdminArticleImagesRelationshipsController extends Controller
+class AdminAuthorImageRelationshipsController extends Controller
 {
     /**
-     * @param Article $article
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @param Author $author
+     * @return AdminImagesIdentifierResource
      */
-    public function index(Article $article)
+    public function index(Author $author)
     {
-        return AdminArticleIdentifireResource::collection($article->images);
+        return new AdminImagesIdentifierResource($author->image);
     }
 
-    /**
-     * @param ArticleImagesUpdateRelationshipsRequest $request
-     * @param Article $article
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
-    public function update(ArticleImagesUpdateRelationshipsRequest $request, Article $article)
+    public function update(AuthorImageUpdateRelationshipsRequest $request, Author $author)
     {
         $ids = $request->input('data.*.id');
 
@@ -41,7 +36,7 @@ class AdminArticleImagesRelationshipsController extends Controller
             $result = $this->handleRelationships($image, $id);
 
             if ($result['result']) {
-                $article->images()->save($image);
+                $author->image()->save($image);
                 array_push($messages, $result);
             } else {
                 response();
@@ -51,7 +46,6 @@ class AdminArticleImagesRelationshipsController extends Controller
         }
 
         return response()->json($messages, 200);
-
     }
 
     /**
@@ -61,11 +55,11 @@ class AdminArticleImagesRelationshipsController extends Controller
      */
     private function handleRelationships($image, $id)
     {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'article') {
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'author') {
             $message = [
                 'id_image' => $image->id,
                 'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'article'
+                'description' => 'Image ' . $id . ' was related to ' . 'author'
             ];
 
             return $message;
@@ -86,7 +80,7 @@ class AdminArticleImagesRelationshipsController extends Controller
                             . ' relation'
                     ];
                 }
-                if ($image->imageable_type !== 'article') {
+                if ($image->imageable_type !== 'author') {
                     $message = [
                         'id_image' => $image->id,
                         'result' => false,
