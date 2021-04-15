@@ -61,6 +61,7 @@ use App\Http\Controllers\Admin\News\AdminNewsImagesRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsImagesRelationshipsController;
 use App\Http\Controllers\Admin\News\AdminNewsTagsRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsTagsRelationshipsController;
+use App\Http\Controllers\Admin\Pdf\AdminPdfController;
 use App\Http\Controllers\Admin\Podcast\AdminPodcastController;
 use App\Http\Controllers\Admin\Podcast\AdminPodcastImagesRelatedController;
 use App\Http\Controllers\Admin\Podcast\AdminPodcastImagesRelationshipsController;
@@ -340,6 +341,9 @@ Route::get('/document-categories/{document_category}/documents', [
 /*****************  DOCUMENTS ROUTES **************/
 
 Route::apiResource('/documents', AdminDocumentController::class, ['as' => 'admin']);
+
+Route::post('/documents/pdf', [AdminPdfController::class, 'store'])->name('document.pdf.store');
+Route::post('/documents/pdf/{document}', [AdminPdfController::class, 'update'])->name('document.pdf.update');
 
 // Documents to Document Category relations
 Route::get('/documents/{document}/relationships/document-category', [

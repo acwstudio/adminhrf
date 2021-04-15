@@ -98,7 +98,7 @@ class PdfService
     }
 
 
-    public function saveAllPagesAsImages(string $directory): Collection
+    public function saveAllPagesAsImages(string $imageableType = 'document'): Collection
     {
         $result = collect([]);
 
@@ -113,7 +113,7 @@ class PdfService
             $this->setPage($page);
             $imageData = $this->getImageData();
 
-            $result->push($this->imageService->store($imageData, $directory, $page, false));
+            $result->push($this->imageService->storeByType($imageData, $imageableType, $page));
 
         }
 

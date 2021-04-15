@@ -112,7 +112,7 @@ class ParseDocuments extends Command
                     $doc->file = $newPath;
                 }
                 $pdf = PdfService::make(Storage::path($oldPath));
-                $images = $pdf->saveAllPagesAsImages(ImageService::DOCS_PREVIEW_PATH);
+                $images = $pdf->saveAllPagesAsImages();
 
                 if ($images->isNotEmpty()) {
                     $doc->images()->saveMany($images);

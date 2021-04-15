@@ -111,4 +111,9 @@
  *     name="Admin Images",
  *     description="Admin images operations",
  * )
+ *
+ * @OA\Tag(
+ *     name="Admin Pdf",
+ *     description="Admin documents pdf operations",
+ * )
  */

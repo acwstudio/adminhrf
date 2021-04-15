@@ -20,7 +20,7 @@ class ImageService
     const IMG_EXTENSION = 'jpg';
 
     const ARTICLES_PATH = '/images/articles/';
-    const DOCS_PATH = 'files/docs/';
+    const DOCS_PATH = '/files/docs/';
     const DOCS_PREVIEW_PATH = '/images/docs/';
     const BIO_PATH = '/images/biographies/';
     const NEWS_PATH = '/images/news/';
@@ -143,8 +143,10 @@ class ImageService
 
     }
 
-    public function storeByType($image, $imageableType = 'common')
+    public function storeByType($image, $imageableType = 'common', $order = false)
     {
+        $src = true;
+
         switch ($imageableType) {
             case 'user':
 
@@ -152,11 +154,16 @@ class ImageService
                 $this->setMin(100);
 
                 break;
+
+            case 'document':
+
+                $src = false;
+
+                break;
         }
 
 
-
-        $image = $this->store($image, $this->paths[$imageableType]);
+        $image = $this->store($image, $this->paths[$imageableType], $order, $src);
         $image->imageable_type = $imageableType;
         $image->save();
 
