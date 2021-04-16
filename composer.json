@@ -9,8 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "ext-imagick": "*",
-        "algolia/algoliasearch-client-php": "^2.8",
+        "ext-json": "*",
+        "algolia/scout-extended": "^1.17",
         "cviebrock/eloquent-sluggable": "^8.0",
         "darkaonline/l5-swagger": "^8.0",
         "doctrine/dbal": "^3.0",
@@ -30,8 +30,7 @@
         "socialiteproviders/vkontakte": "^4.2",
         "socialiteproviders/yandex": "^4.1",
         "spatie/laravel-json-api-paginate": "^1.10",
-        "spatie/laravel-query-builder": "^3.3",
-        "ext-json": "*"
+        "spatie/laravel-query-builder": "^3.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.9",
