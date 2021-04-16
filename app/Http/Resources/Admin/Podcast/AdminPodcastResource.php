@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Podcast;
 
+use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -50,8 +52,8 @@ class AdminPodcastResource extends JsonResource
                 ],
                 'bookmarks' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('podcast.relationships.bookmarks', ['podcast' => $this->id]),
+                        'related' => route('podcast.bookmarks', ['podcast' => $this->id])
                     ],
                     'data' => AdminBookmarkIdentifierResource::collection($this->whenLoaded('bookmarks'))
                 ],

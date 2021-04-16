@@ -30,6 +30,6 @@ class AdminArticleTimelineRelationshipsController extends Controller
      */
     public function update(ArticleTimelineUpdateRelationshipsRequest $request, Article $article)
     {
-        return response()->json(['message' => 'Update timeline action for article is disabled']);
+        return response('обновление таймлайн статьи отключено', 405);
     }
 }

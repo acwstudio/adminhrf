@@ -117,5 +117,4 @@ class AdminArticleResource extends JsonResource
             ],
         ];
     }
-
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Podcast;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Podcast\PodcastImagesRelationshipsUpdateRequest;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
-use App\Http\Resources\Admin\AdminPodcastResource;
+use App\Http\Resources\Admin\Podcast\AdminPodcastResource;
 use App\Models\Image;
 use App\Models\Podcast;
 use Illuminate\Http\Request;
