@@ -30,6 +30,6 @@ class AdminTagsBiographiesRelationshipsController extends Controller
      */
     public function update(TagsBiographiesUpdateRelationshipsRequest $request, Tag $tag)
     {
-        return response()->json(['message' => 'Update action is disabled']);
+        return response('обновление тега для связанных биографий отключено', 405);
     }
 }

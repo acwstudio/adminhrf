@@ -692,15 +692,15 @@ Route::apiResource('/podcasts', AdminPodcastController::class, ['as' => 'admin']
 // Podcasts to Bookmarks relations
 Route::get('/podcasts/{podcast}/relationships/bookmarks', [
     AdminPodcastsBookmarksRelationshipsController::class, 'index'
-])->name('podcasts.relationships.bookmarks');
+])->name('podcast.relationships.bookmarks');
 
 Route::patch('/podcasts/{podcast}/relationships/bookmarks', [
     AdminPodcastsBookmarksRelationshipsController::class, 'update'
-])->name('podcasts.relationships.bookmarks');
+])->name('podcast.relationships.bookmarks');
 
 Route::get('/podcasts/{podcast}/bookmarks', [
     AdminPodcastsBookmarksRelatedController::class, 'index'
-])->name('podcasts.bookmarks');
+])->name('podcast.bookmarks');
 
 // Podcasts to Images relations
 Route::get('/podcasts/{podcast}/relationships/images', [

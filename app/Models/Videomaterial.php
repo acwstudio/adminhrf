@@ -7,10 +7,11 @@ use App\Models\Traits\Likeable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Videomaterial extends Model
 {
-    use HasFactory, Sluggable, Likeable, Commentable;
+    use HasFactory, Sluggable, Likeable, Commentable, Searchable;
 
     protected $table = 'videomaterials';
 

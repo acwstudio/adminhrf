@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin\Podcast;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Podcast\PodcastCreateRequest;
 use App\Http\Requests\Podcast\PodcastUpdateRequest;
-use App\Http\Resources\Admin\AdminPodcastCollection;
-use App\Http\Resources\Admin\AdminPodcastResource;
+use App\Http\Resources\Admin\Podcast\AdminPodcastCollection;
+use App\Http\Resources\Admin\Podcast\AdminPodcastResource;
+use App\Models\Image;
 use App\Models\Podcast;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -17,6 +19,17 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminPodcastController extends Controller
 {
+    private $imageService;
+
+    /**
+     * AdminArticleController constructor.
+     * @param ImageService $imageService
+     */
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,10 +38,10 @@ class AdminPodcastController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $query = QueryBuilder::for(Podcast::class)
             ->allowedIncludes(['tags', 'images', 'bookmarks'])
             ->allowedSorts(['id', 'title', 'order', 'created_at'])
-            ->allowedFilters(['commented', 'viewed', 'liked'])
             ->jsonPaginate($perPage);
 
         return new AdminPodcastCollection($query);
@@ -42,9 +55,33 @@ class AdminPodcastController extends Controller
      */
     public function store(PodcastCreateRequest $request)
     {
-        $data = $request->input('data.attributes');
+        $dataAttributes = $request->input('data.attributes');
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
-        $podcast = Podcast::create($data);
+        /** @var Podcast $podcast */
+        $podcast = Podcast::create($dataAttributes);
+
+        $messages = [];
+
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $id) {
+
+                $image = Image::find($id);
+                $result = $this->handleRelationships($image, $id);
+
+                if ($result['result']) {
+                    $podcast->images()->save($image);
+                    array_push($messages, $result);
+                } else {
+                    response();
+                    array_push($messages, $result);
+                }
+
+            }
+        }
+
+        $podcast->tags()->attach($dataRelTags);
 
         return (new AdminPodcastResource($podcast))
             ->response()
@@ -74,13 +111,37 @@ class AdminPodcastController extends Controller
      *
      * @param PodcastUpdateRequest $request
      * @param Podcast $podcast
-     * @return AdminPodcastResource
+     * @return \App\Http\Resources\Admin\Podcast\AdminPodcastResource
      */
     public function update(PodcastUpdateRequest $request, Podcast $podcast)
     {
-        $data = $request->input('data.attributes');
+        $dataAttributes = $request->input('data.attributes');
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
-        $podcast->update($data);
+        /** @var Podcast $podcast */
+        $podcast->update($dataAttributes);
+
+        $messages = [];
+
+        if ($dataRelImages) {
+            foreach ($dataRelImages as $id) {
+
+                $image = Image::find($id);
+                $result = $this->handleRelationships($image, $id);
+
+                if ($result['result']) {
+                    $podcast->images()->save($image);
+                    array_push($messages, $result);
+                } else {
+                    response();
+                    array_push($messages, $result);
+                }
+
+            }
+        }
+
+        $podcast->tags()->sync($dataRelTags);
 
         return new AdminPodcastResource($podcast);
     }
@@ -94,8 +155,66 @@ class AdminPodcastController extends Controller
      */
     public function destroy(Podcast $podcast)
     {
+        $idTags = $podcast->tags()->allRelatedIds();
+
+        $podcast->tags()->detach($idTags);
+
+        $images = Image::where('imageable_id', $podcast->id)
+            ->where('imageable_type', 'podcast')->get();
+
+        foreach ($images as $image) {
+            $this->imageService->delete($image);
+        }
+
+        $podcast->images()->delete();
+
         $podcast->delete();
 
         return response(null, 204);
+    }
+
+    /**
+     * @param $image
+     * @param $id
+     * @return array
+     */
+    private function handleRelationships($image, $id)
+    {
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'podcast') {
+            $message = [
+                'id_image' => $image->id,
+                'result' => true,
+                'description' => 'Image ' . $id . ' was related to ' . 'podcast'
+            ];
+
+            return $message;
+
+        } else {
+            if (!$image) {
+                $message = [
+                    'id_image' => $image->id,
+                    'result' => false,
+                    'description' => 'Image ' . $id . ' is not exists'
+                ];
+            } else {
+                if (!is_null($image->imageable_id)) {
+                    $message = [
+                        'id_image' => $image->id,
+                        'result' => false,
+                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
+                            . ' relation'
+                    ];
+                }
+                if ($image->imageable_type !== 'podcast') {
+                    $message = [
+                        'id_image' => $image->id,
+                        'result' => false,
+                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
+                    ];
+                }
+            }
+            return $message;
+        }
+
     }
 }

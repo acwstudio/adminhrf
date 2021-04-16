@@ -35,11 +35,14 @@ class PodcastCreateRequest extends FormRequest
             'data.attributes.description' => 'required|string',
             'data.attributes.iframe' => 'required|string',
             'data.attributes.order' => 'required|integer',
-            'data.attributes.viewed' => 'required|integer',
-            'data.attributes.commented' => 'required|integer',
-            'data.attributes.liked' => 'required|integer',
-            'data.attributes.created_at' => 'sometimes|string',
-            'data.attributes.updated_at' => 'sometimes|string',
+
+            'data.relationships.*' => 'present|array',
+            'data.relationships.tags.data.*.type' => 'present|in:tags',
+            'data.relationships.tags.data.*.id' => 'exists:tags,id',
+            'data.relationships.bookmarks.data.*.type' => 'present|in:bookmarks',
+            'data.relationships.bookmarks.data.*.id' => 'exists:bookmarks,id',
+            'data.relationships.images.data.*.type' => 'present|in:images',
+            'data.relationships.images.data.*.id' => 'exists:images,id',
         ];
     }
 }

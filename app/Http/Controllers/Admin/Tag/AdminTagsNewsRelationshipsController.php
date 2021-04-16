@@ -31,6 +31,6 @@ class AdminTagsNewsRelationshipsController extends Controller
      */
     public function update(TagsNewsUpdateRelationshipsRequest $request, Tag $tag)
     {
-        return response('обновление тегов новостей отключено', 405);
+        return response('обновление тега для связанных новостей отключено', 405);
     }
 }

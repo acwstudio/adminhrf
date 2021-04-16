@@ -6,10 +6,11 @@ use App\Models\Traits\Commentable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class News extends Model
 {
-    use HasFactory, Sluggable, Commentable;
+    use HasFactory, Sluggable, Commentable, Searchable;
 
 
     protected $fillable = [

@@ -30,6 +30,6 @@ class AdminTagsHighlightsRelationshipsController extends Controller
      */
     public function update(TagsHighlightsUpdateRelationshipsRequest $request, Tag $tag)
     {
-        return response('обновление тегов highlights отключено', 405);
+        return response('обновление тега для связанных highlights отключено', 405);
     }
 }
