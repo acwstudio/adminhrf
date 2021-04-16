@@ -36,6 +36,12 @@ class AuthorCreateRequest extends FormRequest
             'data.attributes.birth_date' => 'required|string',
             'data.attributes.announce' => 'required|string',
             'data.attributes.description' => 'required|string',
+
+            'data.relationships.*' => 'present|array',
+            'data.relationships.articles.data.*.type' => 'present|in:articles',
+            'data.relationships.articles.data.*.id' => 'exists:articles,id',
+            'data.relationships.images.data.*.type' => 'present|in:images',
+            'data.relationships.images.data.*.id' => 'exists:images,id',
         ];
     }
 }

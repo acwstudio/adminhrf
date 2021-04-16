@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Author;
+namespace App\Http\Controllers\Admin\Audiomaterial;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Author\AuthorCreateRequest;
-use App\Http\Requests\Author\AuthorUpdateRequest;
-use App\Http\Resources\Admin\Author\AdminAuthorCollection;
-use App\Http\Resources\Admin\Author\AdminAuthorLightResource;
-use App\Http\Resources\Admin\Author\AdminAuthorResource;
-use App\Http\Resources\AuthorResource;
-use App\Models\Author;
+use App\Http\Requests\Audiomaterial\AudiomaterialCreateRequest;
+use App\Http\Requests\Audiomaterial\AudiomaterialUpdateRequest;
+use App\Http\Resources\Admin\Audiomaterial\AdminAudiomaterialCollection;
+use App\Http\Resources\Admin\Audiomaterial\AdminAudiomaterialResource;
+use App\Models\Audiomaterial;
 use App\Models\Image;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * Class AdminAuthorController
- * @package App\Http\Controllers\Admin\Author
+ * Class AdminAudiomaterialController
+ * @package App\Http\Controllers\Admin\Audiomaterials
  */
-class AdminAuthorController extends Controller
+class AdminAudiomaterialController extends Controller
 {
     private $imageService;
 
@@ -35,35 +33,34 @@ class AdminAuthorController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
-     * @return AdminAuthorCollection
+     * @return AdminAudiomaterialCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
-
-        $authors = QueryBuilder::for(Author::class)
-            ->allowedIncludes(['articles', 'image', 'video'])
-            ->allowedSorts(['id', 'birth_date', 'firstname'])
+        $audiomaterials = QueryBuilder::for(Audiomaterial::class)
+            ->allowedIncludes(['tags', 'authors', 'images'])
+            ->allowedSorts(['firstname', 'surname'])
             ->jsonPaginate($perPage);
 
-        return new AdminAuthorCollection($authors);
+        return new AdminAudiomaterialCollection($audiomaterials);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param AuthorCreateRequest $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(AuthorCreateRequest $request)
+    public function store(AudiomaterialCreateRequest $request)
     {
         $dataAttributes = $request->input('data.attributes');
-        $dataRelArticles = $request->input('data.relationships.articles.data.*.id');
-        $dataRelVideomaterials = $request->input('data.relationships.videomaterials.data.*.id');
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
-        $author = Author::create($dataAttributes);
+        /** @var Audiomaterial $audiomaterial */
+        $audiomaterial = Audiomaterial::create($dataAttributes);
 
         $messages = [];
 
@@ -74,7 +71,7 @@ class AdminAuthorController extends Controller
                 $result = $this->handleRelationships($image, $id);
 
                 if ($result['result']) {
-                    $author->image()->save($image);
+                    $audiomaterial->images()->save($image);
                     array_push($messages, $result);
                 } else {
                     response();
@@ -84,49 +81,45 @@ class AdminAuthorController extends Controller
             }
         }
 
-        // attach articles and videomaterials for the author
-        $author->articles()->attach($dataRelArticles);
-        $author->video()->attach($dataRelVideomaterials);
+        $audiomaterial->tags()->attach($dataRelTags);
 
-        return (new AdminAuthorResource($author))
+        return (new AdminAudiomaterialResource($audiomaterial))
             ->response()
-            ->header('Location', route('admin.authors.show', [
-                'author' => $author
+            ->header('Location', route('admin.audiomaterials.show', [
+                'audiomaterial' => $audiomaterial->id
             ]));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Author $author
-     * @return \App\Http\Resources\Admin\Author\AdminAuthorResource
+     * @param  int  $id
+     * @return AdminAudiomaterialResource
      */
-    public function show(Author $author)
+    public function show(Audiomaterial $audiomaterial)
     {
-        $query = QueryBuilder::for(Author::class)
-            ->where('id', $author->id)
-            ->allowedIncludes(['articles', 'video', 'image'])
-            ->allowedFilters('firstname')
+        $query = QueryBuilder::for(Audiomaterial::class)
+            ->where('id', $audiomaterial->id)
+            ->allowedIncludes(['tags', 'authors', 'images'])
             ->firstOrFail();
 
-        return new AdminAuthorResource($query);
+        return new AdminAudiomaterialResource($query);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\Author\AuthorUpdateRequest $request
-     * @param Author $author
-     * @return \App\Http\Resources\Admin\Author\AdminAuthorResource
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return AdminAudiomaterialResource
      */
-    public function update(AuthorUpdateRequest $request, Author $author)
+    public function update(AudiomaterialUpdateRequest $request, Audiomaterial $audiomaterial)
     {
         $dataAttributes = $request->input('data.attributes');
-        $dataRelArticles = $request->input('data.relationships.articles.data.*.id');
-        $dataRelVideomaterials = $request->input('data.relationships.videomaterials.data.*.id');
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
-        $author->update($dataAttributes);
+        $audiomaterial->update($dataAttributes);
 
         $messages = [];
 
@@ -137,62 +130,45 @@ class AdminAuthorController extends Controller
                 $result = $this->handleRelationships($image, $id);
 
                 if ($result['result']) {
-                    $author->image()->save($image);
+                    $audiomaterial->images()->save($image);
                     array_push($messages, $result);
                 } else {
                     response();
                     array_push($messages, $result);
                 }
-
             }
         }
 
-        // sync articles and videomaterials for the author
-        $author->articles()->sync($dataRelArticles);
-        $author->video()->sync($dataRelVideomaterials);
+        $audiomaterial->tags()->sync($dataRelTags);
 
-        return new AdminAuthorResource($author);
+        return new AdminAudiomaterialResource($audiomaterial);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Author $author
+     * @param int $id
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(Author $author)
+    public function destroy(Audiomaterial $audiomaterial)
     {
-        $idArticles = $author->articles()->allRelatedIds();
-        $idVideomaterials = $author->video()->allRelatedIds();
+        $idTags = $audiomaterial->tags()->allRelatedIds();
 
-        $author->articles()->detach($idArticles);
-        $author->video()->detach($idVideomaterials);
+        $audiomaterial->tags()->detach($idTags);
 
-        $images = Image::where('imageable_id', $author->id)
-            ->where('imageable_type', 'author')->get();
+        $images = Image::where('imageable_id', $audiomaterial->id)
+            ->where('imageable_type', 'videomaterial')->get();
 
         foreach ($images as $image) {
             $this->imageService->delete($image);
         }
 
-        $author->image()->delete();
+        $audiomaterial->images()->delete();
 
-        $author->delete();
+        $audiomaterial->delete();
 
         return response(null, 204);
-    }
-
-    /**
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function light()
-    {
-        $authors = QueryBuilder::for(Author::class)
-            ->allowedSorts(['id', 'firstname', 'surname'])
-            ->get();
-
-        return AdminAuthorLightResource::collection($authors);
     }
 
     /**
@@ -202,11 +178,11 @@ class AdminAuthorController extends Controller
      */
     private function handleRelationships($image, $id)
     {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'author') {
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'audiomaterial') {
             $message = [
                 'id_image' => $image->id,
                 'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'author'
+                'description' => 'Image ' . $id . ' was related to ' . 'audiomaterial'
             ];
 
             return $message;
@@ -227,7 +203,7 @@ class AdminAuthorController extends Controller
                             . ' relation'
                     ];
                 }
-                if ($image->imageable_type !== 'author') {
+                if ($image->imageable_type !== 'audiomaterial') {
                     $message = [
                         'id_image' => $image->id,
                         'result' => false,

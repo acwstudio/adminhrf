@@ -29,7 +29,7 @@ class TagsNewsUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer',
+            'data.*.id' => 'required|integer|exists:news,id',
             'data.*.type' => 'required|in:news',
         ];
     }

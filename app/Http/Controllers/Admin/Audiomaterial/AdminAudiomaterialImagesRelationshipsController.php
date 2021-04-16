@@ -1,35 +1,35 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Article;
+namespace App\Http\Controllers\Admin\Audiomaterial;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Article\ArticleImagesUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
-use App\Models\Article;
+use App\Http\Requests\Audiomaterial\AudiomaterialImagesUpdateRelationshipsRequest;
+use App\Http\Resources\Admin\AdminImagesIdentifierResource;
+use App\Models\Audiomaterial;
 use App\Models\Image;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminArticleImagesRelationshipsController
- * @package App\Http\Controllers\Admin\Article
+ * Class AdminAudiomaterialImagesRelationshipsController
+ * @package App\Http\Controllers\Admin\Audiomaterial
  */
-class AdminArticleImagesRelationshipsController extends Controller
+class AdminAudiomaterialImagesRelationshipsController extends Controller
 {
     /**
-     * @param Article $article
+     * @param Audiomaterial $audiomaterial
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Article $article)
+    public function index(Audiomaterial $audiomaterial)
     {
-        return AdminArticleIdentifireResource::collection($article->images);
+        return AdminImagesIdentifierResource::collection($audiomaterial->images);
     }
 
     /**
-     * @param ArticleImagesUpdateRelationshipsRequest $request
-     * @param Article $article
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @param AudiomaterialImagesUpdateRelationshipsRequest $request
+     * @param Audiomaterial $audiomaterial
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ArticleImagesUpdateRelationshipsRequest $request, Article $article)
+    public function update(AudiomaterialImagesUpdateRelationshipsRequest $request, Audiomaterial $audiomaterial)
     {
         $ids = $request->input('data.*.id');
 
@@ -41,7 +41,7 @@ class AdminArticleImagesRelationshipsController extends Controller
             $result = $this->handleRelationships($image, $id);
 
             if ($result['result']) {
-                $article->images()->save($image);
+                $audiomaterial->images()->save($image);
                 array_push($messages, $result);
             } else {
                 response();
@@ -51,7 +51,6 @@ class AdminArticleImagesRelationshipsController extends Controller
         }
 
         return response()->json($messages, 200);
-
     }
 
     /**
@@ -61,11 +60,11 @@ class AdminArticleImagesRelationshipsController extends Controller
      */
     private function handleRelationships($image, $id)
     {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'article') {
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'audiomaterial') {
             $message = [
                 'id_image' => $image->id,
                 'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'article'
+                'description' => 'Image ' . $id . ' was related to ' . 'audiomaterial'
             ];
 
             return $message;
@@ -86,7 +85,7 @@ class AdminArticleImagesRelationshipsController extends Controller
                             . ' relation'
                     ];
                 }
-                if ($image->imageable_type !== 'article') {
+                if ($image->imageable_type !== 'audiomaterial') {
                     $message = [
                         'id_image' => $image->id,
                         'result' => false,

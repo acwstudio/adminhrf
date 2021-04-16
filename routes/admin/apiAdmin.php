@@ -1,5 +1,15 @@
 <?php
 
+use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialBookmarksRelatedController;
+use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialBookmarksRelationshipsController;
+use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialImagesRelatedController;
+use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialImagesRelationshipsController;
+use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialsTagsRelatedController;
+use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialsTagsRelationshipsController;
+use App\Http\Controllers\Admin\Author\AdminAuthorImageRelatedController;
+use App\Http\Controllers\Admin\Author\AdminAuthorImageRelationshipsController;
+use App\Http\Controllers\Admin\Author\AdminAuthorsVideomaterialsRelatedController;
+use App\Http\Controllers\Admin\Author\AdminAuthorsVideomaterialsRelationshipsController;
 use App\Http\Controllers\Admin\BioCategory\AdminBioCategoriesBiographiesRelatedController;
 use App\Http\Controllers\Admin\BioCategory\AdminBioCategoriesBiographiesRelationshipsController;
 //use App\Http\Controllers\Admin\BioCategory\AdminBioCategoryController;
@@ -91,6 +101,8 @@ use App\Http\Controllers\Admin\Tag\AdminTagsArticlesRelationshipsController;
 use App\Http\Controllers\Admin\Tag\AdminTagsBiographiesRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsDocumentsRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsDocumentsRelationshipsController;
+use App\Http\Controllers\Admin\Tag\AdminTagsVideomaterialsRelatedController;
+use App\Http\Controllers\Admin\Tag\AdminTagsVideomaterialsRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestCommentsRelatedController;
 use App\Http\Controllers\Admin\Test\AdminTestCommentsRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestController;
@@ -124,6 +136,14 @@ use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelatedController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelationshipsController;
 use App\Http\Controllers\Admin\TestResult\AdminResultsUserRelationshipsController;
+use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialController;
+use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialImagesRelatedController;
+use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialImagesRelationshipsController;
+use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialsAuthorsRelatedController;
+use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialsAuthorsRelationshipsController;
+use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialsTagsRelatedController;
+use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialsTagsRelationshipsController;
+use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialController;
 
 /*****************  ANSWERS ROUTES **************/
 Route::apiResource('/answers', AdminAnswerController::class, ['as' =>'admin']);
@@ -258,12 +278,56 @@ Route::get('/article-categories/{article_category}/articles', [
     AdminArticleCategoryArticlesRelatedController::class, 'index'
 ])->name('article-category.articles');
 
+/*****************  AUDIOMATERIALS ROUTES **************/
+
+Route::apiResource('/audiomaterials', AdminAudiomaterialController::class, ['as' => 'admin']);
+
+// Audiomaterials to Tags relations
+Route::get('/audiomaterials/{audiomaterial}/relationships/tags', [
+    AdminAudiomaterialsTagsRelationshipsController::class, 'index'
+])->name('audiomaterials.relationships.tags');
+
+Route::patch('/audiomaterials/{audiomaterial}/relationships/tags', [
+    AdminAudiomaterialsTagsRelationshipsController::class, 'update'
+])->name('audiomaterials.relationships.tags');
+
+Route::get('/audiomaterials/{audiomaterial}/tags', [
+    AdminAudiomaterialsTagsRelatedController::class, 'index'
+])->name('audiomaterials.tags');
+
+// Audiomaterial to Images relations
+Route::get('/audiomaterials/{audiomaterial}/relationships/images', [
+    AdminAudiomaterialImagesRelationshipsController::class, 'index'
+])->name('audiomaterial.relationships.images');
+
+Route::patch('/audiomaterials/{audiomaterial}/relationships/images', [
+    AdminAudiomaterialImagesRelationshipsController::class, 'update'
+])->name('audiomaterial.relationships.images');
+
+Route::get('/audiomaterials/{audiomaterial}/images', [
+    AdminAudiomaterialImagesRelatedController::class, 'index'
+])->name('audiomaterial.images');
+
+// Audiomaterial to Bookmarks relations
+Route::get('/audiomaterials/{audiomaterial}/relationships/bookmarks', [
+    AdminAudiomaterialBookmarksRelationshipsController::class, 'index'
+])->name('audiomaterial.relationships.bookmarks');
+
+Route::patch('/audiomaterials/{audiomaterial}/relationships/bookmarks', [
+    AdminAudiomaterialBookmarksRelationshipsController::class, 'update'
+])->name('audiomaterial.relationships.bookmarks');
+
+Route::get('/audiomaterials/{audiomaterial}/bookmarks', [
+    AdminAudiomaterialBookmarksRelatedController::class, 'index'
+])->name('audiomaterial.bookmarks');
+
 /*****************  AUTHORS ROUTES **************/
 
 Route::apiResource('/authors', AdminAuthorController::class, ['as' => 'admin']);
 
 Route::get('/authors-light', [AdminAuthorController::class, 'light']);
 
+// Authors to Articles relations
 Route::get('/authors/{author}/relatioships/articles', [
     AdminAuthorsArticlesRelationshipsController::class, 'index'
 ])->name('authors.relationships.articles');
@@ -272,9 +336,35 @@ Route::patch('/authors/{author}/relatioships/articles', [
     AdminAuthorsArticlesRelationshipsController::class, 'update'
 ])->name('authors.relationships.articles');
 
-Route::get('admin/authors/{author}/articles', [
+Route::get('/authors/{author}/articles', [
     AdminAuthorsArticlesRelatedController::class, 'index'
 ])->name('authors.articles');
+
+// Author to Image relations
+Route::get('/authors/{author}/relatioships/image', [
+    AdminAuthorImageRelationshipsController::class, 'index'
+])->name('author.relationships.image');
+
+Route::patch('/authors/{author}/relatioships/image', [
+    AdminAuthorImageRelationshipsController::class, 'update'
+])->name('author.relationships.image');
+
+Route::get('/authors/{author}/image', [
+    AdminAuthorImageRelatedController::class, 'index'
+])->name('author.image');
+
+// Authors to Videomaterials relations
+Route::get('/authors/{author}/relatioships/videomaterials', [
+    AdminAuthorsVideomaterialsRelationshipsController::class, 'index'
+])->name('authors.relationships.videomaterials');
+
+Route::patch('/authors/{author}/relatioships/videomaterials', [
+    AdminAuthorsVideomaterialsRelationshipsController::class, 'update'
+])->name('authors.relationships.videomaterials');
+
+Route::get('/authors/{author}/videomaterials', [
+    AdminAuthorsVideomaterialsRelatedController::class, 'index'
+])->name('authors.videomaterials');
 
 /*****************  BIOCATEGORIES ROUTES **************/
 
@@ -284,7 +374,7 @@ Route::apiResource(
     ['as' => 'admin']
 );
 
-// Biography to Biocategory relations
+// Biocategory to Biographies relations
 Route::get('/biocategories/{biocategory}/relationships/biographies', [
     AdminBioCategoriesBiographiesRelationshipsController::class, 'index'
 ])->name('biocategories.relationships.biographies');
@@ -752,6 +842,19 @@ Route::get('/tags/{tag}/news', [
     AdminTagsNewsRelatedController::class, 'index'
 ])->name('tags.news');
 
+// Tags to Videomaterials relations
+Route::get('/tags/{tag}/relationships/videomaterials', [
+    AdminTagsVideomaterialsRelationshipsController::class, 'index'
+])->name('tags.relationships.videomaterials');
+
+Route::patch('/tags/{tag}/relationships/videomaterials', [
+    AdminTagsVideomaterialsRelationshipsController::class, 'update'
+])->name('tags.relationships.videomaterials');
+
+Route::get('/tags/{tag}/videomaterials', [
+    AdminTagsVideomaterialsRelatedController::class, 'index'
+])->name('tags.videomaterials');
+
 /*****************  TIMELINE ROUTES **************/
 
 Route::apiResource('/timelines', AdminTimelineController::class, ['as' => 'admin']);
@@ -867,7 +970,7 @@ Route::get('/tests/{test}/results', [
 // Tests to Tests Categories relations
 Route::get('/tests/{test}/relationships/test-categories', [
     AdminTestsTCategoriesRelationshipsController::class, 'index'
-])->name('tests.relationships.results');
+])->name('tests.relationships.test-categories');
 
 Route::patch('/tests/{test}/relationships/test-categories', [
     AdminTestsTCategoriesRelationshipsController::class, 'update'
@@ -896,4 +999,45 @@ Route::patch('/test-categories/{test_category}/tests', [
     AdminTestCategoriesTestsRelatedController::class, 'index'
 ])->name('test-categories.tests');
 
+/*****************  VIDEOMATERIALS ROUTES **************/
 
+Route::apiResource('/videomaterials', AdminVideomaterialController::class, ['as' => 'admin']);
+
+// Videomaterials to Authors relations
+Route::get('/videomaterials/{videomaterial}/relationships/authors', [
+    AdminVideomaterialsAuthorsRelationshipsController::class, 'index'
+])->name('videomaterials.relationships.authors');
+
+Route::patch('/videomaterials/{videomaterial}/relationships/authors', [
+    AdminVideomaterialsAuthorsRelationshipsController::class, 'update'
+])->name('videomaterials.relationships.authors');
+
+Route::get('/videomaterials/{videomaterial}/authors', [
+    AdminVideomaterialsAuthorsRelatedController::class, 'index'
+])->name('videomaterials.authors');
+
+// Videomaterial to Images relations
+Route::get('/videomaterials/{videomaterial}/relationships/images', [
+    AdminVideomaterialImagesRelationshipsController::class, 'index'
+])->name('videomaterial.relationships.images');
+
+Route::patch('/videomaterials/{videomaterial}/relationships/images', [
+    AdminVideomaterialImagesRelationshipsController::class, 'update'
+])->name('videomaterial.relationships.images');
+
+Route::get('/videomaterials/{videomaterial}/images', [
+    AdminVideomaterialImagesRelatedController::class, 'index'
+])->name('videomaterial.images');
+
+// Videomaterials to Tags relations
+Route::get('/videomaterials/{videomaterial}/relationships/tags', [
+    AdminVideomaterialsTagsRelationshipsController::class, 'index'
+])->name('videomaterials.relationships.tags');
+
+Route::patch('/videomaterials/{videomaterial}/relationships/tags', [
+    AdminVideomaterialsTagsRelationshipsController::class, 'update'
+])->name('videomaterials.relationships.tags');
+
+Route::get('/videomaterials/{videomaterial}/tags', [
+    AdminVideomaterialsTagsRelatedController::class, 'index'
+])->name('videomaterials.tags');

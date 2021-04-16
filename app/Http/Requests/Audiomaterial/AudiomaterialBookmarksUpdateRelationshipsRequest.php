@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Author;
+namespace App\Http\Requests\Audiomaterial;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class AuthorsArticlesUpdateRelationshipsRequest
- * @package App\Http\Requests\Author
+ * Class AudiomaterialBookmarksUpdateRelationshipsRequest
+ * @package App\Http\Requests\Audiomaterial
  */
-class AuthorsArticlesUpdateRelationshipsRequest extends FormRequest
+class AudiomaterialBookmarksUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,8 @@ class AuthorsArticlesUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer|exists:articles,id',
-            'data.*.type' => 'required|in:articles',
+            'data.*.id' => 'required|integer|exists:bookmarks,id',
+            'data.*.type' => 'required|in:bookmarks',
         ];
     }
 }

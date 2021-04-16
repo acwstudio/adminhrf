@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources\Admin\Author;
 
+use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
+use App\Http\Resources\Admin\Videomaterial\AdminVideomaterialIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -29,9 +31,7 @@ class AdminAuthorResource extends JsonResource
                 'patronymic' => $this->patronymic,
                 'birth_date' => $this->birth_date,
                 'announce' => $this->announce,
-                'description' => $this->description,
-                'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at,
+                'description' => $this->description
             ],
             'relationships' => [
                 'articles' => [
@@ -43,6 +43,22 @@ class AdminAuthorResource extends JsonResource
                         $this->whenLoaded('articles')
                     ),
                 ],
+                'videomaterials' => [
+                    'links' => [
+                        'self' => route('authors.relationships.videomaterials', ['author' => $this->id]),
+                        'related' => route('authors.videomaterials', ['author' => $this->id])
+                    ],
+                    'data' => AdminVideomaterialIdentifierResource::collection(
+                        $this->whenLoaded('video')
+                    ),
+                ],
+                'image' => [
+                    'links' => [
+                        'self' => route('author.relationships.image', ['author' => $this->id]),
+                        'related' => route('author.image', ['author' => $this->id])
+                    ],
+                    'data' => new AdminImagesIdentifierResource($this->whenLoaded('image')),
+                ]
             ],
         ];
     }
