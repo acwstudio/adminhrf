@@ -30,6 +30,6 @@ class AdminTagsArticlesRelationshipsController extends Controller
      */
     public function update(TagsArticlesUpdateRelationshipsRequest $request, Tag $tag)
     {
-        return response()->json(['message' => 'Update action is disabled']);
+        return response('обновление тега для связанных статей отключено', 405);
     }
 }

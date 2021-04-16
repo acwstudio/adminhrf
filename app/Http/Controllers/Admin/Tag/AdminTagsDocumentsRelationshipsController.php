@@ -30,6 +30,6 @@ class AdminTagsDocumentsRelationshipsController extends Controller
      */
     public function update(TagsDocumentsUpdateRelationshipsRequest $request, Tag $tag)
     {
-        return response()->json(['message' => 'Update action is disabled']);
+        return response('обновление тега для связанных документов отключено', 405);
     }
 }

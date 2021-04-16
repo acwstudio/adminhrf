@@ -30,6 +30,6 @@ class AdminTagsVideomaterialsRelationshipsController extends Controller
      */
     public function update(TagsVideomaterialsUpdateRelationshipsRequest $request, Tag $tag)
     {
-        return response('обновление тегов видеоматериалов отключено', 405);
+        return response('обновление тега для связанных видеоматериалов отключено', 405);
     }
 }
