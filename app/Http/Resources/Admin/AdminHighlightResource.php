@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Admin;
 
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
+use App\Http\Resources\Admin\Tag\AdminTagResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -42,7 +43,6 @@ class AdminHighlightResource extends JsonResource
                         'self' => route('highlight.relationships.images', ['highlight' => $this->id]),
                         'related' => route('highlight.images', ['highlight' => $this->id])
                     ],
-//                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
                     'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ],
                 'tags' => [
@@ -50,7 +50,14 @@ class AdminHighlightResource extends JsonResource
                         'self' => route('highlights.relationships.tags', ['highlight' => $this->id]),
                         'related' => route('highlights.tags', ['highlight' => $this->id])
                     ],
-                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('comments'))
+                    'data' => AdminTagResource::collection($this->whenLoaded('tags'))
+                ],
+                'highlightables' => [
+                    'links' => [
+                        'self' => route('highlights.relationships.highlightables', ['highlight' => $this->id]),
+                        'related' => route('highlights.highlightables', ['highlight' => $this->id])
+                    ],
+                    'data' => AdminHighlightableResource::collection($this->whenLoaded('highlightable'))
                 ],
             ]
         ];

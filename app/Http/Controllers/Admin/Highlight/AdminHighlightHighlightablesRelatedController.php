@@ -8,17 +8,16 @@ use App\Models\Highlight;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminHighlightBookmarksRelatedController
+ * Class AdminHighlightHighlightablesRelatedController
  * @package App\Http\Controllers\Admin\Highlight
  */
-class AdminHighlightBookmarksRelatedController extends Controller
+class AdminHighlightHighlightablesRelatedController extends Controller
 {
     /**
      * @param Highlight $highlight
-     * @return AdminBookmarkCollection
      */
     public function index(Highlight $highlight)
     {
-        return new AdminBookmarkCollection($highlight->bookmarks);
+
     }
 }

@@ -66,8 +66,8 @@ use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsTagsRelationshipsController;
 use App\Http\Controllers\Admin\DocumentCategory\AdminDocumentCategoryDocumentsRelatedController;
 use App\Http\Controllers\Admin\DocumentCategory\AdminDocumentCategoryDocumentsRelationshipsController;
-use App\Http\Controllers\Admin\Highlight\AdminHighlightBookmarksRelatedController;
-use App\Http\Controllers\Admin\Highlight\AdminHighlightBookmarksRelationshipsController;
+use App\Http\Controllers\Admin\Highlight\AdminHighlightHighlightablesRelatedController;
+use App\Http\Controllers\Admin\Highlight\AdminHighlightHighlightablesRelationshipsController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelationshipsController;
@@ -613,17 +613,17 @@ Route::get('/highlights/{highlight}/tags', [
 ])->name('highlights.tags');
 
 // Highlight to Bookmarks relations
-Route::get('/highlights/{highlight}/relationships/bookmarks', [
-    AdminHighlightBookmarksRelationshipsController::class, 'index'
-])->name('highlight.relationships.bookmarks');
+Route::get('/highlights/{highlight}/relationships/highlightables', [
+    AdminHighlightHighlightablesRelationshipsController::class, 'index'
+])->name('highlights.relationships.highlightables');
 
-Route::patch('/highlights/{highlight}/relationships/bookmarks', [
-    AdminHighlightBookmarksRelationshipsController::class, 'update'
-])->name('highlight.relationships.bookmarks');
+Route::patch('/highlights/{highlight}/relationships/highlightables', [
+    AdminHighlightHighlightablesRelationshipsController::class, 'update'
+])->name('highlights.relationships.highlightables');
 
-Route::get('/highlights/{highlight}/bookmarks', [
-    AdminHighlightBookmarksRelatedController::class
-])->name('highlight.bookmarks');
+Route::get('/highlights/{highlight}/highlightables', [
+    AdminHighlightHighlightablesRelatedController::class
+])->name('highlights.highlightables');
 
 /*****************  MESSAGES ROUTES **************/
 
