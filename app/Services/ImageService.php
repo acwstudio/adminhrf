@@ -37,6 +37,7 @@ class ImageService
     const USER_PATH = '/images/user/';
     const COMMON_PATH = '/images/common/';
     const HIGHLIGHT_PATH = '/images/highlight/';
+    const AFISHA_PATH = '/images/afisha/';
 
 
     // Old image paths TODO Delete after deploy new app
@@ -77,7 +78,8 @@ class ImageService
         'dayinhistory' => self::DAYINHISTORY_PATH,
         'podcast' => self::PODCAST_PATH,
         'user' => self::USER_PATH,
-        'highlight' => self::HIGHLIGHT_PATH
+        'highlight' => self::HIGHLIGHT_PATH,
+        'afisha' => self::AFISHA_PATH
 
     ];
 
