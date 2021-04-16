@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Admin\Tag;
 
+use App\Http\Resources\Admin\AdminHighlightsIdentifierResource;
+use App\Http\Resources\Admin\Audiomaterial\AdminAudiomaterialIdentifierResource;
 use App\Http\Resources\Admin\Biography\AdminBiographiesIdentifireResource;
 use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
 use App\Http\Resources\Admin\Document\AdminDocumentsIdentifireResource;
@@ -70,6 +72,24 @@ class AdminTagResource extends JsonResource
                         $this->whenLoaded('videomaterials')
                     )
                 ],
+                'audiomaterials' => [
+                    'links' => [
+                        'self' => route('tags.relationships.audiomaterials', ['tag' => $this->id]),
+                        'related' => route('tags.audiomaterials', ['tag' => $this->id])
+                    ],
+                    'data' => AdminAudiomaterialIdentifierResource::collection(
+                        $this->whenLoaded('audiomaterials')
+                    )
+                ],
+                'highlights' => [
+                    'links' => [
+                        'self' => route('tags.relationships.highlights', ['tag' => $this->id]),
+                        'related' => route('tags.highlights', ['tag' => $this->id])
+                    ],
+                    'data' => AdminHighlightsIdentifierResource::collection(
+                        $this->whenLoaded('highlights')
+                    )
+                ]
             ]
         ];
     }

@@ -98,9 +98,13 @@ use App\Http\Controllers\Admin\Question\AdminQuestionsTestsRelationshipsControll
 use App\Http\Controllers\Admin\Tag\AdminTagController;
 use App\Http\Controllers\Admin\Tag\AdminTagsArticlesRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsArticlesRelationshipsController;
+use App\Http\Controllers\Admin\Tag\AdminTagsAudiomaterialsRelatedController;
+use App\Http\Controllers\Admin\Tag\AdminTagsAudiomaterialsRelationshipsController;
 use App\Http\Controllers\Admin\Tag\AdminTagsBiographiesRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsDocumentsRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsDocumentsRelationshipsController;
+use App\Http\Controllers\Admin\Tag\AdminTagsHighlightsRelatedController;
+use App\Http\Controllers\Admin\Tag\AdminTagsHighlightsRelationshipsController;
 use App\Http\Controllers\Admin\Tag\AdminTagsVideomaterialsRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsVideomaterialsRelationshipsController;
 use App\Http\Controllers\Admin\Test\AdminTestCommentsRelatedController;
@@ -803,6 +807,19 @@ Route::get('/tags/{tag}/articles', [
     AdminTagsArticlesRelatedController::class, 'index'
 ])->name('tags.articles');
 
+// Tags to Audiomaterials relations
+Route::get('/tags/{tag}/relationships/audiomaterials', [
+    AdminTagsAudiomaterialsRelationshipsController::class, 'index'
+])->name('tags.relationships.audiomaterials');
+
+Route::patch('/tags/{tag}/relationships/audiomaterials', [
+    AdminTagsAudiomaterialsRelationshipsController::class, 'update'
+])->name('tags.relationships.audiomaterials');
+
+Route::get('/tags/{tag}/audiomaterials', [
+    AdminTagsAudiomaterialsRelatedController::class, 'index'
+])->name('tags.audiomaterials');
+
 // Tags to Biographies relations
 Route::get('/tags/{tag}/relationships/biographies', [
     AdminTagsBiographiesRelationshipsController::class, 'index'
@@ -828,6 +845,19 @@ Route::patch('/tags/{tag}/relationships/documents', [
 Route::get('/tags/{tag}/documents', [
     AdminTagsDocumentsRelatedController::class, 'index'
 ])->name('tags.documents');
+
+// Tags to Highlights relations
+Route::get('/tags/{tag}/relationships/highlights', [
+    AdminTagsHighlightsRelationshipsController::class, 'index'
+])->name('tags.relationships.highlights');
+
+Route::patch('/tags/{tag}/relationships/highlights', [
+    AdminTagsHighlightsRelationshipsController::class, 'update'
+])->name('tags.relationships.highlights');
+
+Route::get('/tags/{tag}/highlights', [
+    AdminTagsHighlightsRelatedController::class, 'index'
+])->name('tags.highlights');
 
 // Tags to News relations
 Route::get('/tags/{tag}/relationships/news', [
