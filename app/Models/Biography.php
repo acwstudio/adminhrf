@@ -8,10 +8,11 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 
 class Biography extends Model
 {
-    use HasFactory, Sluggable, Likeable, Commentable;
+    use HasFactory, Sluggable, Likeable, Commentable, Searchable;
 
     public $fillable = [
         'surname',
