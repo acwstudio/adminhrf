@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Videomaterial;
+namespace App\Http\Controllers\Admin\Audiomaterial;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Videomaterial\VideomaterialCreateRequest;
-use App\Http\Requests\Videomaterial\VideomaterialUpdateRequest;
-use App\Http\Resources\Admin\Videomaterial\AdminVideomaterialCollection;
-use App\Http\Resources\Admin\Videomaterial\AdminVideomaterialResource;
+use App\Http\Requests\Audiomaterial\AudiomaterialCreateRequest;
+use App\Http\Requests\Audiomaterial\AudiomaterialUpdateRequest;
+use App\Http\Resources\Admin\Audiomaterial\AdminAudiomaterialCollection;
+use App\Http\Resources\Admin\Audiomaterial\AdminAudiomaterialResource;
+use App\Models\Audiomaterial;
 use App\Models\Image;
-use App\Models\Videomaterial;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * Class AdminVideomaterialController
- * @package App\Http\Controllers\Admin\Videomaterial
+ * Class AdminAudiomaterialController
+ * @package App\Http\Controllers\Admin\Audiomaterials
  */
-class AdminVideomaterialController extends Controller
+class AdminAudiomaterialController extends Controller
 {
     private $imageService;
 
@@ -33,21 +33,18 @@ class AdminVideomaterialController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return AdminVideomaterialCollection
+     * @return AdminAudiomaterialCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
-
-        $videomaterials = QueryBuilder::for(Videomaterial::class)
-            ->allowedIncludes([
-                'authors', 'comments', 'bookmarks', 'tags','images'
-            ])
-            ->allowedFilters(['yatextid'])
-            ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'event_date'])
+        $audiomaterials = QueryBuilder::for(Audiomaterial::class)
+            ->allowedIncludes(['tags', 'authors', 'images'])
+            ->allowedSorts(['firstname', 'surname'])
             ->jsonPaginate($perPage);
 
-        return new AdminVideomaterialCollection($videomaterials);
+        return new AdminAudiomaterialCollection($audiomaterials);
     }
 
     /**
@@ -56,15 +53,14 @@ class AdminVideomaterialController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(VideomaterialCreateRequest $request)
+    public function store(AudiomaterialCreateRequest $request)
     {
         $dataAttributes = $request->input('data.attributes');
-        $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
-        /** @var Videomaterial $videomaterial */
-        $videomaterial = Videomaterial::create($dataAttributes);
+        /** @var Audiomaterial $audiomaterial */
+        $audiomaterial = Audiomaterial::create($dataAttributes);
 
         $messages = [];
 
@@ -75,7 +71,7 @@ class AdminVideomaterialController extends Controller
                 $result = $this->handleRelationships($image, $id);
 
                 if ($result['result']) {
-                    $videomaterial->images()->save($image);
+                    $audiomaterial->images()->save($image);
                     array_push($messages, $result);
                 } else {
                     response();
@@ -85,13 +81,12 @@ class AdminVideomaterialController extends Controller
             }
         }
 
-        $videomaterial->authors()->attach($dataRelAuthors);
-        $videomaterial->tags()->attach($dataRelTags);
+        $audiomaterial->tags()->attach($dataRelTags);
 
-        return (new AdminVideomaterialResource($videomaterial))
+        return (new AdminAudiomaterialResource($audiomaterial))
             ->response()
-            ->header('Location', route('admin.videomaterials.show', [
-                'videomaterial' => $videomaterial->id
+            ->header('Location', route('admin.audiomaterials.show', [
+                'audiomaterial' => $audiomaterial->id
             ]));
     }
 
@@ -99,18 +94,16 @@ class AdminVideomaterialController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return AdminVideomaterialResource
+     * @return AdminAudiomaterialResource
      */
-    public function show(Videomaterial $videomaterial)
+    public function show(Audiomaterial $audiomaterial)
     {
-        $query = QueryBuilder::for(Videomaterial::class)
-            ->where('id', $videomaterial->id)
-            ->allowedIncludes([
-                'authors', 'comments', 'bookmarks', 'tags','images'
-            ])
+        $query = QueryBuilder::for(Audiomaterial::class)
+            ->where('id', $audiomaterial->id)
+            ->allowedIncludes(['tags', 'authors', 'images'])
             ->firstOrFail();
 
-        return new AdminVideomaterialResource($query);
+        return new AdminAudiomaterialResource($query);
     }
 
     /**
@@ -118,16 +111,15 @@ class AdminVideomaterialController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return AdminVideomaterialResource
+     * @return AdminAudiomaterialResource
      */
-    public function update(VideomaterialUpdateRequest $request, Videomaterial $videomaterial)
+    public function update(AudiomaterialUpdateRequest $request, Audiomaterial $audiomaterial)
     {
         $dataAttributes = $request->input('data.attributes');
-        $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
-        $videomaterial->update($dataAttributes);
+        $audiomaterial->update($dataAttributes);
 
         $messages = [];
 
@@ -138,47 +130,43 @@ class AdminVideomaterialController extends Controller
                 $result = $this->handleRelationships($image, $id);
 
                 if ($result['result']) {
-                    $videomaterial->images()->save($image);
+                    $audiomaterial->images()->save($image);
                     array_push($messages, $result);
                 } else {
                     response();
                     array_push($messages, $result);
                 }
-
             }
         }
 
-        $videomaterial->authors()->sync($dataRelAuthors);
-        $videomaterial->tags()->sync($dataRelTags);
+        $audiomaterial->tags()->sync($dataRelTags);
 
-        return new AdminVideomaterialResource($videomaterial);
+        return new AdminAudiomaterialResource($audiomaterial);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Videomaterial $videomaterial
+     * @param int $id
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(Videomaterial $videomaterial)
+    public function destroy(Audiomaterial $audiomaterial)
     {
-        $idAuthors = $videomaterial->authors()->allRelatedIds();
-        $idTags = $videomaterial->tags()->allRelatedIds();
+        $idTags = $audiomaterial->tags()->allRelatedIds();
 
-        $videomaterial->authors()->detach($idAuthors);
-        $videomaterial->tags()->detach($idTags);
+        $audiomaterial->tags()->detach($idTags);
 
-        $images = Image::where('imageable_id', $videomaterial->id)
+        $images = Image::where('imageable_id', $audiomaterial->id)
             ->where('imageable_type', 'videomaterial')->get();
 
         foreach ($images as $image) {
             $this->imageService->delete($image);
         }
 
-        $videomaterial->images()->delete();
+        $audiomaterial->images()->delete();
 
-        $videomaterial->delete();
+        $audiomaterial->delete();
 
         return response(null, 204);
     }
@@ -190,11 +178,11 @@ class AdminVideomaterialController extends Controller
      */
     private function handleRelationships($image, $id)
     {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'videomaterial') {
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'audiomaterial') {
             $message = [
                 'id_image' => $image->id,
                 'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'videomaterial'
+                'description' => 'Image ' . $id . ' was related to ' . 'audiomaterial'
             ];
 
             return $message;
@@ -215,7 +203,7 @@ class AdminVideomaterialController extends Controller
                             . ' relation'
                     ];
                 }
-                if ($image->imageable_type !== 'videomaterial') {
+                if ($image->imageable_type !== 'audiomaterial') {
                     $message = [
                         'id_image' => $image->id,
                         'result' => false,

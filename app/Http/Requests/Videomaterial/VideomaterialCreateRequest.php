@@ -39,10 +39,7 @@ class VideomaterialCreateRequest extends FormRequest
             'data.attributes.show_in_main' => 'required|boolean',
             'data.attributes.active' => 'required|integer',
             'data.attributes.published_at' => 'required|string',
-            'data.attributes.viewed' => 'required|integer',
             'data.attributes.type' => 'required|string',
-            'data.attributes.liked' => 'required|integer',
-            'data.attributes.commented' => 'required|integer',
             'data.attributes.close_commentation' => 'required|boolean',
 
             'data.relationships.*' => 'present|array',

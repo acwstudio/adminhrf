@@ -30,7 +30,9 @@ class AdminTagController extends Controller
         $perPage = $request->get('per_page');
 
         $tags = QueryBuilder::for(Tag::class)
-            ->allowedIncludes(['articles', 'documents', 'news', 'biographies'])
+            ->allowedIncludes([
+                'articles', 'documents', 'news', 'biographies', 'videomaterials'
+            ])
             ->allowedSorts('title')
             ->jsonPaginate($perPage);
 
@@ -65,7 +67,9 @@ class AdminTagController extends Controller
     public function show(Tag $tag)
     {
         $tag = QueryBuilder::for(Tag::where('id', $tag->id))
-            ->allowedIncludes(['articles', 'documents', 'news', 'biographies'])
+            ->allowedIncludes([
+                'articles', 'documents', 'news', 'biographies', 'videomaterials'
+            ])
             ->firstOrFail();
 
         return new AdminTagResource($tag);

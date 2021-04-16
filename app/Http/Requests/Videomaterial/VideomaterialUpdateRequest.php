@@ -40,10 +40,7 @@ class VideomaterialUpdateRequest extends FormRequest
             'data.attributes.show_in_main' => 'boolean',
             'data.attributes.active' => 'integer',
             'data.attributes.published_at' => 'string',
-            'data.attributes.viewed' => 'integer',
             'data.attributes.type' => 'string',
-            'data.attributes.liked' => 'integer',
-            'data.attributes.commented' => 'integer',
             'data.attributes.close_commentation' => 'boolean',
 
             'data.relationships.*' => 'present|array',
