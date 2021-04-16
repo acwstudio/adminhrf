@@ -5,10 +5,10 @@ namespace App\Http\Requests\Tag;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class TagsBiographiesUpdateRelationshipsRequest
+ * Class TagsAudiomaterialsUpdateRelationshipsRequest
  * @package App\Http\Requests\Tag
  */
-class TagsBiographiesUpdateRelationshipsRequest extends FormRequest
+class TagsAudiomaterialsUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,8 @@ class TagsBiographiesUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer|exists:biographies,id',
-            'data.*.type' => 'required|in:biographies',
+            'data.*.id' => 'required|integer|exists:audiomaterials,id',
+            'data.*.type' => 'required|in:audiomaterials',
         ];
     }
 }
