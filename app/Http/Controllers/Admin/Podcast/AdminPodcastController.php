@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\Podcast\AdminPodcastCollection;
 use App\Http\Resources\Admin\Podcast\AdminPodcastResource;
 use App\Models\Image;
 use App\Models\Podcast;
+use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -19,15 +20,20 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminPodcastController extends Controller
 {
+    /** @var ImageService  */
     private $imageService;
+
+    /** @var ImageAssignmentService  */
+    private $imageAssignment;
 
     /**
      * AdminArticleController constructor.
      * @param ImageService $imageService
      */
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService, ImageAssignmentService $imageAssignment)
     {
         $this->imageService = $imageService;
+        $this->imageAssignment = $imageAssignment;
     }
 
     /**
@@ -62,24 +68,7 @@ class AdminPodcastController extends Controller
         /** @var Podcast $podcast */
         $podcast = Podcast::create($dataAttributes);
 
-        $messages = [];
-
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $podcast->images()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
+        $this->imageAssignment->assign($podcast, $dataRelImages, 'podcast');
 
         $podcast->tags()->attach($dataRelTags);
 
@@ -122,24 +111,7 @@ class AdminPodcastController extends Controller
         /** @var Podcast $podcast */
         $podcast->update($dataAttributes);
 
-        $messages = [];
-
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $podcast->images()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
+        $this->imageAssignment->assign($podcast, $dataRelImages, 'podcast');
 
         $podcast->tags()->sync($dataRelTags);
 
@@ -173,48 +145,4 @@ class AdminPodcastController extends Controller
         return response(null, 204);
     }
 
-    /**
-     * @param $image
-     * @param $id
-     * @return array
-     */
-    private function handleRelationships($image, $id)
-    {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'podcast') {
-            $message = [
-                'id_image' => $image->id,
-                'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'podcast'
-            ];
-
-            return $message;
-
-        } else {
-            if (!$image) {
-                $message = [
-                    'id_image' => $image->id,
-                    'result' => false,
-                    'description' => 'Image ' . $id . ' is not exists'
-                ];
-            } else {
-                if (!is_null($image->imageable_id)) {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
-                            . ' relation'
-                    ];
-                }
-                if ($image->imageable_type !== 'podcast') {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
-                    ];
-                }
-            }
-            return $message;
-        }
-
-    }
 }

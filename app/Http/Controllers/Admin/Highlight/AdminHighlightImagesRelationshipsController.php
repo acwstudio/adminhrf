@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Highlight\HihglightImagesUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Models\Highlight;
+use App\Services\ImageAssignmentService;
 use Illuminate\Http\Request;
 
 /**
@@ -14,6 +15,18 @@ use Illuminate\Http\Request;
  */
 class AdminHighlightImagesRelationshipsController extends Controller
 {
+    /** @var ImageAssignmentService  */
+    private $imageAssignment;
+
+    /**
+     * AdminTestImagesRelationshipsController constructor.
+     * @param ImageAssignmentService $imageAssignment
+     */
+    public function __construct(ImageAssignmentService $imageAssignment)
+    {
+        $this->imageAssignment = $imageAssignment;
+    }
+
     /**
      * @param Highlight $highlight
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -30,6 +43,8 @@ class AdminHighlightImagesRelationshipsController extends Controller
      */
     public function update(HihglightImagesUpdateRelationshipsRequest $request, Highlight $highlight)
     {
-        return response()->json(['message' => 'Update action is disabled']);
+        $Ids = $request->input('data.*.id');
+
+        return $this->imageAssignment->assign($highlight, $Ids, 'highlight');
     }
 }

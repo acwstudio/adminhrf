@@ -40,6 +40,7 @@ RUN apt-get update \
 #    && mkdir -p /usr/src/php/ext/imagick; \
 #    curl -fsSL https://github.com/Imagick/imagick/archive/06116aa24b76edaf6b1693198f79e6c295eda8a9.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1; \
     && apt-get install -y php-imagick\
+    && apt-get install -y nano \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

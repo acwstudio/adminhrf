@@ -9,6 +9,8 @@ use App\Http\Resources\Admin\AdminHighlightCollection;
 use App\Http\Resources\Admin\AdminHighlightResource;
 use App\Models\Bookmark;
 use App\Models\Highlight;
+use App\Services\ImageAssignmentService;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -18,6 +20,21 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminHighlightController extends Controller
 {
+    /** @var ImageService  */
+    private $imageService;
+
+    /** @var ImageAssignmentService  */
+    private $imageAssignment;
+
+    /**
+     * AdminArticleController constructor.
+     * @param ImageService $imageService
+     */
+    public function __construct(ImageService $imageService, ImageAssignmentService $imageAssignment)
+    {
+        $this->imageService = $imageService;
+        $this->imageAssignment = $imageAssignment;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -44,8 +61,11 @@ class AdminHighlightController extends Controller
     public function store(HighlightCreateRequest $request)
     {
         $data = $request->input('data.attributes');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $highlight = Highlight::create($data);
+
+        $this->imageAssignment->assign($highlight, $dataRelImages, 'highlight');
 
         return (new AdminHighlightResource($highlight))
             ->response()
@@ -80,8 +100,10 @@ class AdminHighlightController extends Controller
     public function update(HighlightUpdateRequest $request, Highlight $highlight)
     {
         $data = $request->input('data.attributes');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $highlight->update($data);
+        $this->imageAssignment->assign($highlight, $dataRelImages, 'highlight');
 
         return new AdminHighlightResource($highlight);
     }

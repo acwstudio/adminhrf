@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\Videomaterial\AdminVideomaterialCollection;
 use App\Http\Resources\Admin\Videomaterial\AdminVideomaterialResource;
 use App\Models\Image;
 use App\Models\Videomaterial;
+use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -19,15 +20,20 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminVideomaterialController extends Controller
 {
+    /** @var ImageService  */
     private $imageService;
+
+    /** @var ImageAssignmentService  */
+    private $imageAssignment;
 
     /**
      * AdminArticleController constructor.
      * @param ImageService $imageService
      */
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService, ImageAssignmentService $imageAssignment)
     {
         $this->imageService = $imageService;
+        $this->imageAssignment = $imageAssignment;
     }
 
     /**
@@ -66,24 +72,7 @@ class AdminVideomaterialController extends Controller
         /** @var Videomaterial $videomaterial */
         $videomaterial = Videomaterial::create($dataAttributes);
 
-        $messages = [];
-
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $videomaterial->images()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
+        $this->imageAssignment->assign($videomaterial, $dataRelImages, 'videomaterial');
 
         $videomaterial->authors()->attach($dataRelAuthors);
         $videomaterial->tags()->attach($dataRelTags);
@@ -129,24 +118,7 @@ class AdminVideomaterialController extends Controller
 
         $videomaterial->update($dataAttributes);
 
-        $messages = [];
-
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $videomaterial->images()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
+        $this->imageAssignment->assign($videomaterial, $dataRelImages, 'videomaterial');
 
         $videomaterial->authors()->sync($dataRelAuthors);
         $videomaterial->tags()->sync($dataRelTags);
@@ -183,48 +155,4 @@ class AdminVideomaterialController extends Controller
         return response(null, 204);
     }
 
-    /**
-     * @param $image
-     * @param $id
-     * @return array
-     */
-    private function handleRelationships($image, $id)
-    {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'videomaterial') {
-            $message = [
-                'id_image' => $image->id,
-                'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'videomaterial'
-            ];
-
-            return $message;
-
-        } else {
-            if (!$image) {
-                $message = [
-                    'id_image' => $image->id,
-                    'result' => false,
-                    'description' => 'Image ' . $id . ' is not exists'
-                ];
-            } else {
-                if (!is_null($image->imageable_id)) {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
-                            . ' relation'
-                    ];
-                }
-                if ($image->imageable_type !== 'videomaterial') {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
-                    ];
-                }
-            }
-            return $message;
-        }
-
-    }
 }

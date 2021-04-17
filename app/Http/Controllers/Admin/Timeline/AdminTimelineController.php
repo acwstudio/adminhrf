@@ -7,6 +7,8 @@ use App\Http\Requests\Timeline\TimelineCreateRequest;
 use App\Http\Requests\Timeline\TimelineUpdateRequest;
 use App\Http\Resources\Admin\AdminTimelineCollection;
 use App\Http\Resources\Admin\AdminTimelineResource;
+use App\Models\Biography;
+use App\Models\Image;
 use App\Models\Timeline;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -25,6 +27,7 @@ class AdminTimelineController extends Controller
     public function index(request $request)
     {
         $perPage = $request->get('per_page');
+
         $query = QueryBuilder::for(Timeline::class)
             ->allowedIncludes(['article', 'biography'])
             ->allowedSorts(['timelinable_type'])

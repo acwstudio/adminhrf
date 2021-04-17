@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\Audiomaterial\AdminAudiomaterialCollection;
 use App\Http\Resources\Admin\Audiomaterial\AdminAudiomaterialResource;
 use App\Models\Audiomaterial;
 use App\Models\Image;
+use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -19,15 +20,20 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminAudiomaterialController extends Controller
 {
+    /** @var ImageService  */
     private $imageService;
+
+    /** @var ImageAssignmentService  */
+    private $imageAssignment;
 
     /**
      * AdminArticleController constructor.
      * @param ImageService $imageService
      */
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService, ImageAssignmentService $imageAssignment)
     {
         $this->imageService = $imageService;
+        $this->imageAssignment = $imageAssignment;
     }
 
     /**
@@ -62,24 +68,7 @@ class AdminAudiomaterialController extends Controller
         /** @var Audiomaterial $audiomaterial */
         $audiomaterial = Audiomaterial::create($dataAttributes);
 
-        $messages = [];
-
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $audiomaterial->images()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
+        $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
 
         $audiomaterial->tags()->attach($dataRelTags);
 
@@ -121,23 +110,7 @@ class AdminAudiomaterialController extends Controller
 
         $audiomaterial->update($dataAttributes);
 
-        $messages = [];
-
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $audiomaterial->images()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-            }
-        }
+        $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
 
         $audiomaterial->tags()->sync($dataRelTags);
 
@@ -171,48 +144,4 @@ class AdminAudiomaterialController extends Controller
         return response(null, 204);
     }
 
-    /**
-     * @param $image
-     * @param $id
-     * @return array
-     */
-    private function handleRelationships($image, $id)
-    {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'audiomaterial') {
-            $message = [
-                'id_image' => $image->id,
-                'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'audiomaterial'
-            ];
-
-            return $message;
-
-        } else {
-            if (!$image) {
-                $message = [
-                    'id_image' => $image->id,
-                    'result' => false,
-                    'description' => 'Image ' . $id . ' is not exists'
-                ];
-            } else {
-                if (!is_null($image->imageable_id)) {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
-                            . ' relation'
-                    ];
-                }
-                if ($image->imageable_type !== 'audiomaterial') {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
-                    ];
-                }
-            }
-            return $message;
-        }
-
-    }
 }

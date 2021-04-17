@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\Test\AdminTestCollection;
 use App\Http\Resources\Admin\Test\AdminTestResource;
 use App\Models\Image;
 use App\Models\Test;
+use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -19,15 +20,20 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminTestController extends Controller
 {
+    /** @var ImageService  */
     private $imageService;
+
+    /** @var ImageAssignmentService  */
+    private $imageAssignment;
 
     /**
      * AdminArticleController constructor.
      * @param ImageService $imageService
      */
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService, ImageAssignmentService $imageAssignment)
     {
         $this->imageService = $imageService;
+        $this->imageAssignment = $imageAssignment;
     }
 
     /**
@@ -64,33 +70,12 @@ class AdminTestController extends Controller
         $this->authorize('manage', Test::class);
 
         $dataAttributes = $request->input('data.attributes');
-
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
-//        $dataRelQuestions = $request->input('data.relationships.questions.data.*.id');
         $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
-//        return $dataRelCategories;
+
         $test = Test::create($dataAttributes);
 
-        // update field imageable_id of images table with new $article->id
-
-        $messages = [];
-
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $test->images()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
+        $this->imageAssignment->assign($test, $dataRelImages, 'test');
 
         // attach authors and categories for the test
 //        $test->questions()->attach($dataRelQuestions);
@@ -142,23 +127,7 @@ class AdminTestController extends Controller
 
         $test->update($data);
 
-        $messages = [];
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $test->images()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
+        $this->imageAssignment->assign($test, $dataRelImages, 'test');
 
         $test->categories()->sync($dataRelCategories);
 
@@ -200,48 +169,4 @@ class AdminTestController extends Controller
 
     }
 
-    /**
-     * @param $image
-     * @param $id
-     * @return array
-     */
-    private function handleRelationships($image, $id)
-    {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'test') {
-            $message = [
-                'id_image' => $image->id,
-                'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'test'
-            ];
-
-            return $message;
-
-        } else {
-            if (!$image) {
-                $message = [
-                    'id_image' => $image->id,
-                    'result' => false,
-                    'description' => 'Image ' . $id . ' is not exists'
-                ];
-            } else {
-                if (!is_null($image->imageable_id)) {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
-                            . ' relation'
-                    ];
-                }
-                if ($image->imageable_type !== 'test') {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
-                    ];
-                }
-            }
-            return $message;
-        }
-
-    }
 }

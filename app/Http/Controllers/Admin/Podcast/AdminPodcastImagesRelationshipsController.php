@@ -8,6 +8,7 @@ use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Http\Resources\Admin\Podcast\AdminPodcastResource;
 use App\Models\Image;
 use App\Models\Podcast;
+use App\Services\ImageAssignmentService;
 use Illuminate\Http\Request;
 
 /**
@@ -16,6 +17,18 @@ use Illuminate\Http\Request;
  */
 class AdminPodcastImagesRelationshipsController extends Controller
 {
+    /** @var ImageAssignmentService  */
+    private $imageAssignment;
+
+    /**
+     * AdminTestImagesRelationshipsController constructor.
+     * @param ImageAssignmentService $imageAssignment
+     */
+    public function __construct(ImageAssignmentService $imageAssignment)
+    {
+        $this->imageAssignment = $imageAssignment;
+    }
+
     /**
      * @param Podcast $podcast
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -32,72 +45,10 @@ class AdminPodcastImagesRelationshipsController extends Controller
      */
     public function update(PodcastImagesRelationshipsUpdateRequest $request, Podcast $podcast)
     {
-        $ids = $request->input('data.*.id');
+        $Ids = $request->input('data.*.id');
 
-        $messages = [];
-
-        foreach ($ids as $id) {
-
-            $image = Image::find($id);
-            $result = $this->handleRelationships($image, $id);
-
-            if ($result['result']) {
-                $podcast->images()->save($image);
-                array_push($messages, $result);
-            } else {
-                response();
-                array_push($messages, $result);
-            }
-
-        }
-
-        return response()->json($messages, 200);
+        return $this->imageAssignment->assign($podcast, $Ids, 'podcast');
     }
 
-    /**
-     * @param $image
-     * @param Podcast $podcast
-     * @param $id
-     * @return array
-     */
-    private function handleRelationships($image, $id)
-    {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'podcast') {
-            $message = [
-                'id_image' => $image->id,
-                'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'podcast'
-            ];
-
-            return $message;
-
-        } else {
-            if (!$image) {
-                $message = [
-                    'id_image' => $image->id,
-                    'result' => false,
-                    'description' => 'Image ' . $id . ' is not exists'
-                ];
-            } else {
-                if (!is_null($image->imageable_id)) {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
-                            . ' relation'
-                    ];
-                }
-                if ($image->imageable_type !== 'podcast') {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
-                    ];
-                }
-            }
-            return $message;
-        }
-
-    }
 }
 
