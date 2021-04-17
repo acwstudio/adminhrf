@@ -9,10 +9,10 @@ use App\Models\Highlight;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminHighlightBookmarksRelationshipsController
+ * Class AdminHighlightHighlightablesRelationshipsController
  * @package App\Http\Controllers\Admin\Highlight
  */
-class AdminHighlightBookmarksRelationshipsController extends Controller
+class AdminHighlightHighlightablesRelationshipsController extends Controller
 {
     /**
      * @param Highlight $highlight

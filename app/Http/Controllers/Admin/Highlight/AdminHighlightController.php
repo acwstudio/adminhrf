@@ -9,8 +9,7 @@ use App\Http\Resources\Admin\AdminHighlightCollection;
 use App\Http\Resources\Admin\AdminHighlightResource;
 use App\Models\Bookmark;
 use App\Models\Highlight;
-use App\Services\ImageAssignmentService;
-use App\Services\ImageService;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -20,21 +19,6 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminHighlightController extends Controller
 {
-    /** @var ImageService  */
-    private $imageService;
-
-    /** @var ImageAssignmentService  */
-    private $imageAssignment;
-
-    /**
-     * AdminArticleController constructor.
-     * @param ImageService $imageService
-     */
-    public function __construct(ImageService $imageService, ImageAssignmentService $imageAssignment)
-    {
-        $this->imageService = $imageService;
-        $this->imageAssignment = $imageAssignment;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -44,7 +28,7 @@ class AdminHighlightController extends Controller
     {
         $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Highlight::class)
-            ->allowedIncludes(['tags', 'images'])
+            ->allowedIncludes(['tags', 'images', 'highlightable'])
             ->allowedSorts(['title', 'order'])
             ->allowedFilters('type')
             ->jsonPaginate($perPage);
@@ -60,12 +44,31 @@ class AdminHighlightController extends Controller
      */
     public function store(HighlightCreateRequest $request)
     {
+
         $data = $request->input('data.attributes');
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $dataRelHighlightables =  $request->input('data.relationships.highlightables.data');
+
+//        dd($data, $dataRelTags, $dataRelImages, $dataRelHighlightables);
 
         $highlight = Highlight::create($data);
+        $highlight->tags()->attach($dataRelTags);
 
-        $this->imageAssignment->assign($highlight, $dataRelImages, 'highlight');
+        $image = Image::find($dataRelImages[0]);
+        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'highlight') {
+            $highlight->images()->save($image);
+        }
+
+        foreach ($dataRelHighlightables as $highlightable) {
+
+            $created = $highlight->highlightable()->create([
+                'highlightable_type' => $highlightable['type'],
+                'highlightable_id' => $highlightable['id'],
+                'is_additional' => $highlightable['is_additional'] ?? false,
+            ]);
+
+        }
 
         return (new AdminHighlightResource($highlight))
             ->response()
@@ -83,8 +86,8 @@ class AdminHighlightController extends Controller
     public function show(Highlight $highlight)
     {
         $query = QueryBuilder::for(Highlight::class)
-            ->where('id', $highlight)
-            ->allowedIncludes(['tags', 'images'])
+            ->where('id', $highlight->id)
+            ->allowedIncludes(['tags', 'images', 'highlightable'])
             ->firstOrFail();
 
         return new AdminHighlightResource($query);
@@ -100,10 +103,8 @@ class AdminHighlightController extends Controller
     public function update(HighlightUpdateRequest $request, Highlight $highlight)
     {
         $data = $request->input('data.attributes');
-        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $highlight->update($data);
-        $this->imageAssignment->assign($highlight, $dataRelImages, 'highlight');
 
         return new AdminHighlightResource($highlight);
     }

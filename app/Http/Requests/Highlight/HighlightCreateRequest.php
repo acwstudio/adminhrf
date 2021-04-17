@@ -31,17 +31,21 @@ class HighlightCreateRequest extends FormRequest
             'data' => 'required|array',
             'data.type' => 'required|in:highlights',
             'data.attributes' => 'required|array',
-            'data.attributes.created_at' => 'present|string',
-            'data.attributes.updated_at' => 'present|string',
             'data.attributes.title' => 'required|string',
             'data.attributes.type' => 'required|string',
             'data.attributes.announce' => 'required|string',
             'data.attributes.order' => 'required|integer',
             'data.attributes.published_at' => 'required|string',
             'data.attributes.active' => 'required|boolean',
-            'data.attributes.commented' => 'required|integer',
-            'data.attributes.liked' => 'required|integer',
-            'data.attributes.viewed' => 'required|integer',
+
+            'data.relationships.*' => 'present|array',
+            'data.relationships.tags.data.*.type' => 'present|in:tags',
+            'data.relationships.tags.data.*.id' => 'exists:tags,id',
+            'data.relationships.images.data.*.type' => 'present|in:images',
+            'data.relationships.images.data.*.id' => 'exists:images,id',
+            'data.relationships.highlightables.data.*.type' => 'present',
+            'data.relationships.highlightables.data.*.id' => 'present',
+            'data.relationships.highlightables.data.*.is_additional' => 'sometimes|boolean',
         ];
     }
 }

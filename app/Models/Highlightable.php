@@ -9,11 +9,7 @@ class Highlightable extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'id',
-        'highlight_id',
-
-    ];
+    protected $guarded = [];
 
     public function highlightable()
     {
