@@ -3,8 +3,11 @@
 namespace App\Http\Resources\Admin\Podcast;
 
 use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\AdminBookmarkResource;
+use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
+use App\Http\Resources\Admin\Tag\AdminTagResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -41,21 +44,21 @@ class AdminPodcastResource extends JsonResource
                         'self' => route('podcasts.relationships.tags', ['podcast' => $this->id]),
                         'related' => route('podcasts.relationships.tags', ['podcast' => $this->id])
                     ],
-                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
+                    'data' => AdminTagResource::collection($this->whenLoaded('tags'))
                 ],
                 'images' => [
                     'links' => [
                         'self' => route('podcast.relationships.images', ['podcast' => $this->id]),
                         'related' => route('podcast.images', ['podcast' => $this->id])
                     ],
-                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ],
                 'bookmarks' => [
                     'links' => [
                         'self' => route('podcast.relationships.bookmarks', ['podcast' => $this->id]),
                         'related' => route('podcast.bookmarks', ['podcast' => $this->id])
                     ],
-                    'data' => AdminBookmarkIdentifierResource::collection($this->whenLoaded('bookmarks'))
+                    'data' => AdminBookmarkResource::collection($this->whenLoaded('bookmarks'))
                 ],
             ]
         ];

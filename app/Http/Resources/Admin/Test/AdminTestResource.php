@@ -2,13 +2,20 @@
 
 namespace App\Http\Resources\Admin\Test;
 
+use App\Http\Resources\Admin\AdminCommentResource;
 use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
+use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
+use App\Http\Resources\Admin\AdminMessageResource;
 use App\Http\Resources\Admin\AdminMessagesIdentifierResource;
+use App\Http\Resources\Admin\AdminQuestionResource;
 use App\Http\Resources\Admin\AdminQuestionsIdentifireResource;
+use App\Http\Resources\Admin\AdminResultResource;
 use App\Http\Resources\Admin\AdminResultsIdentifierResource;
 use App\Http\Resources\Admin\AdminTCategoryIdentifierResource;
+use App\Http\Resources\Admin\AdminTCategoryResource;
 use App\Http\Resources\Admin\Like\AdminLikeIdentifierResource;
+use App\Http\Resources\Admin\Like\AdminLikeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -49,7 +56,7 @@ class AdminTestResource extends JsonResource
                         'self' => route('test.relationships.images', ['test' => $this->id]),
                         'related' => route('test.images', ['test' => $this->id])
                     ],
-                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
 //                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ],
                 'comments' => [
@@ -57,42 +64,42 @@ class AdminTestResource extends JsonResource
                         'self' => route('test.relationships.comments', ['test' => $this->id]),
                         'related' => route('test.comments', ['test' => $this->id])
                     ],
-                    'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
+                    'data' => AdminCommentResource::collection($this->whenLoaded('comments'))
                 ],
                 'questions' => [
                     'links' => [
                         'self' => route('tests.relationships.questions', ['test' => $this->id]),
                         'related' => route('tests.questions', ['test' => $this->id])
                     ],
-                    'data' => AdminQuestionsIdentifireResource::collection($this->whenLoaded('questions'))
+                    'data' => AdminQuestionResource::collection($this->whenLoaded('questions'))
                 ],
                 'messages' => [
                     'links' => [
                         'self' => route('test.relationships.messages', ['test' => $this->id]),
                         'related' => route('test.messages', ['test' => $this->id])
                     ],
-                    'data' => AdminMessagesIdentifierResource::collection($this->whenLoaded('messages'))
+                    'data' => AdminMessageResource::collection($this->whenLoaded('messages'))
                 ],
                 'results' => [
                     'links' => [
                         'self' => route('test.relationships.results', ['test' => $this->id]),
                         'related' => route('test.results', ['test' => $this->id])
                     ],
-                    'data' => AdminResultsIdentifierResource::collection($this->whenLoaded('results'))
+                    'data' => AdminResultResource::collection($this->whenLoaded('results'))
                 ],
                 'categories' => [
                     'links' => [
                         'self' => route('tests.relationships.test-categories', ['test' => $this->id]),
                         'related' => route('tests.test-categories', ['test' => $this->id])
                     ],
-                    'data' => AdminTCategoryIdentifierResource::collection($this->whenLoaded('categories'))
+                    'data' => AdminTCategoryResource::collection($this->whenLoaded('categories'))
                 ],
                 'likes' => [
                     'links' => [
                         'self' => route('test.relationships.likes', ['test' => $this->id]),
                         'related' => route('test.likes', ['test' => $this->id])
                     ],
-                    'data' => AdminLikeIdentifierResource::collection($this->whenLoaded('likes'))
+                    'data' => AdminLikeResource::collection($this->whenLoaded('likes'))
                 ]
             ]
         ];

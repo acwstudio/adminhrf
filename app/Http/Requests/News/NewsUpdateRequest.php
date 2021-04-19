@@ -42,7 +42,6 @@ class NewsUpdateRequest extends FormRequest
             'data.attributes.show_in_afisha' => 'boolean',
             'data.attributes.close_commentation' => 'boolean',
             'data.attributes.published_at' => 'string',
-            'data.attributes.viewed' => 'integer',
 
             'data.relationships.*' => 'present|array',
             'data.relationships.tags.data.*.type' => 'present|in:tags',

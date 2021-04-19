@@ -33,8 +33,8 @@ class ResultCreateRequest extends FormRequest
             'data.attributes' => 'required|array',
             'data.attributes.user_id' => 'required|integer',
             'data.attributes.test_id' => 'required|integer',
-            'data.attributes.is_closed' => 'required|boolean',
-            'data.attributes.time_passed' => 'required|integer',
+//            'data.attributes.is_closed' => 'required|boolean',
+//            'data.attributes.time_passed' => 'required|integer',
             'data.attributes.value' => 'required|integer',
         ];
     }
