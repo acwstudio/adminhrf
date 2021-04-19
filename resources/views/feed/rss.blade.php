@@ -2,9 +2,9 @@
     <channel>
         <title>История РФ</title>
         <link></link>
-        <img src="https://histrf.ru/favicon.ico">
+        <img src="https://histrf.ru/favicon.ico"></img>
 
-        <turbo:analytics type="Yandex" id="77777777"></turbo:analytics>
+        <turbo:analytics type="Yandex" id="20561137"></turbo:analytics>
 
         @foreach( $articles as $article )
         <item turbo="true">
@@ -15,13 +15,13 @@
             <yandex:genre>article</yandex:genre>
             <guid>{{ url('read/articles', $article->slug) }}</guid>
             <description>{{ $article->announce }}</description>
-            <yandex:full-text>{{ $article->body }}</yandex:full-text>
+            <yandex:full-text>{{ strip_tags($article->body) }}</yandex:full-text>
             <turbo:content>
                 <![CDATA[
                 <header>
                     <h1>{{ $article->heading }}</h1>
                     <figure>
-                        <img src="{{$article->image->preview}}">
+{{--                        <img src="{{$article->images()->first()->preview}}"> --}}
                     </figure>
                     <menu>
 {{--                        @foreach( $categories as $category )--}}
@@ -29,7 +29,7 @@
 {{--                        @endforeach--}}
                     </menu>
                 </header>
-                {!! $article->body !!}
+                {!! strip_tags($article->body) !!}
                 ]]>
             </turbo:content>
         </item>
