@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Biography;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Biography\BiographyTimelineUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminTimelineIdentifierResource;
+use App\Http\Resources\Admin\TimeLine\AdminTimelineIdentifierResource;
 use App\Models\Biography;
 use Illuminate\Http\Request;
 

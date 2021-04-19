@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\Article\AdminArticleCollection;
 use App\Http\Resources\Admin\Article\AdminArticleResource;
 use App\Models\Article;
 use App\Models\Image;
+use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -19,15 +20,20 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminArticleController extends Controller
 {
+    /** @var ImageService  */
     private $imageService;
+
+    /** @var ImageAssignmentService  */
+    private $imageAssignment;
 
     /**
      * AdminArticleController constructor.
      * @param ImageService $imageService
      */
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService, ImageAssignmentService $imageAssignment)
     {
         $this->imageService = $imageService;
+        $this->imageAssignment = $imageAssignment;
     }
 
     /**
@@ -68,39 +74,16 @@ class AdminArticleController extends Controller
 
         $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
-//        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
-//        $dataRelCategories = $request->input('data.relationships.category.data.*.id');
 
         $article = Article::create($dataAttributes);
 
-        // update field imageable_id of images table with new $article->id
-        $messages = [];
+        /** @see ImageAssignmentService creates a relationship Image to Article */
+        $this->imageAssignment->assign($article, $dataRelImages, 'article');
 
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $article->images()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
-
-        // attach authors and tags for the article
         $article->authors()->attach($dataRelAuthors);
         $article->tags()->attach($dataRelTags);
 
-//        $article->bookmarks()->saveMany($dataRelBookmarks);
-
-//        return $article->id;
         return (new AdminArticleResource($article))
             ->response()
             ->header('Location', route('admin.articles.show', [
@@ -144,29 +127,13 @@ class AdminArticleController extends Controller
         $dataAttributes = $request->input('data.attributes');
         $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
-//        $dataRelBookmarks = $request->input('data.relationships.bookmarks.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
-//        $dataRelCategories = $request->input('data.relationships.category.data.*.id');
 
         $article->update($dataAttributes);
 
-        $messages = [];
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
+        /** @see ImageAssignmentService creates a relationship Image to Article */
+        $this->imageAssignment->assign($article, $dataRelImages, 'article');
 
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $article->images()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
 //        if ($dataRelCategories) {
 //            $article->category()->associate($dataRelCategories[0])->save();
 //        }
@@ -211,48 +178,4 @@ class AdminArticleController extends Controller
         return response(null, 204);
     }
 
-    /**
-     * @param $image
-     * @param $id
-     * @return array
-     */
-    private function handleRelationships($image, $id)
-    {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'article') {
-            $message = [
-                'id_image' => $image->id,
-                'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'article'
-            ];
-
-            return $message;
-
-        } else {
-            if (!$image) {
-                $message = [
-                    'id_image' => $image->id,
-                    'result' => false,
-                    'description' => 'Image ' . $id . ' is not exists'
-                ];
-            } else {
-                if (!is_null($image->imageable_id)) {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
-                            . ' relation'
-                    ];
-                }
-                if ($image->imageable_type !== 'article') {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
-                    ];
-                }
-            }
-            return $message;
-        }
-
-    }
 }

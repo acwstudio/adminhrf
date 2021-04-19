@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Videomaterial;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Videomaterial\VideomaterialsTagsUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminTimelineIdentifierResource;
+use App\Http\Resources\Admin\TimeLine\AdminTimelineIdentifierResource;
 use App\Models\Videomaterial;
 use Illuminate\Http\Request;
 

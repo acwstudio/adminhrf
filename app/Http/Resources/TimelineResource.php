@@ -17,7 +17,7 @@ class TimelineResource extends JsonResource
     {
 	$user = $request->user();
         return [
-            'model_type' => $this->timelinable_type,
+            'type' => $this->timelinable_type,
             'id' => $this->timelinable_id,
             'announce' => $this->timelinable->announce,
             'date' => Carbon::parse(($this->date))->format('Y-m'),
