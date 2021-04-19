@@ -19,6 +19,6 @@ class AdminDocumentCategoryDocumentsRelatedController extends Controller
      */
     public function index(DocumentCategory $documentCategory)
     {
-        return new AdminDocumentCollection($documentCategory->documents);
+        return new AdminDocumentCollection($documentCategory->documents()->with(['category', 'images', 'tags'])->get());
     }
 }

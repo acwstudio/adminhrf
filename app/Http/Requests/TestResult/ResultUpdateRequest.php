@@ -34,8 +34,8 @@ class ResultUpdateRequest extends FormRequest
             'data.attributes' => 'required|array',
             'data.attributes.user_id' => 'integer',
             'data.attributes.test_id' => 'integer',
-            'data.attributes.is_closed' => 'boolean',
-            'data.attributes.time_passed' => 'integer',
+//            'data.attributes.is_closed' => 'boolean',
+//            'data.attributes.time_passed' => 'integer',
             'data.attributes.value' => 'integer',
         ];
     }

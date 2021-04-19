@@ -3,8 +3,11 @@
 namespace App\Http\Resources\Admin\Audiomaterial;
 
 use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\AdminBookmarkResource;
+use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
+use App\Http\Resources\Admin\Tag\AdminTagResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -31,6 +34,11 @@ class AdminAudiomaterialResource extends JsonResource
                 'path' => $this->path,
                 'position' => $this->position,
                 'show_in_rss_apple' => $this->show_in_rss_apple,
+                'viewed' => $this->viewed,
+                'commented' => $this->commented,
+                'liked' => $this->liked,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
             ],
             'relationships' => [
                 'tags' => [
@@ -38,21 +46,24 @@ class AdminAudiomaterialResource extends JsonResource
                         'self' => route('audiomaterials.relationships.tags', ['audiomaterial' => $this->id]),
                         'related' => route('audiomaterials.tags', ['audiomaterial' => $this->id])
                     ],
-                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
+//                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
+                    'data' => AdminTagResource::collection($this->whenLoaded('tags'))
                 ],
                 'images' => [
                     'links' => [
                         'self' => route('audiomaterial.relationships.images', ['audiomaterial' => $this->id]),
                         'related' => route('audiomaterial.images', ['audiomaterial' => $this->id])
                     ],
-                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+//                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ],
                 'bookmarks' => [
                     'links' => [
                         'self' => route('audiomaterial.relationships.bookmarks', ['audiomaterial' => $this->id]),
                         'related' => route('audiomaterial.bookmarks', ['audiomaterial' => $this->id])
                     ],
-                    'data' => AdminBookmarkIdentifierResource::collection($this->whenLoaded('bookmarks'))
+//                    'data' => AdminBookmarkIdentifierResource::collection($this->whenLoaded('bookmarks'))
+                    'data' => AdminBookmarkResource::collection($this->whenLoaded('bookmarks'))
                 ]
             ]
         ];

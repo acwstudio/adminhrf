@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Article\AdminArticleController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialBookmarksRelatedController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialImagesRelatedController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\Admin\Document\AdminDocumentBookmarksRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsDocumentCategoryRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsDocumentCategoryRelationshipsController;
+use App\Http\Controllers\Admin\Event\AdminEventController;
 use App\Http\Controllers\Admin\Image\AdminImageController;
 use App\Http\Controllers\Admin\AllContent\AdminAllContentController;
 use App\Http\Controllers\Admin\Answer\AdminAnswerController;
@@ -173,6 +175,7 @@ Route::apiResource('/all-content', AdminAllContentController::class, ['as' => 'a
 
 /*****************  ARTICLES ROUTES **************/
 Route::apiResource('/articles', \App\Http\Controllers\Admin\Article\AdminArticleController::class, ['as' =>'admin']);
+Route::get('/articles-light', [AdminArticleController::class, 'light']);
 
 // Articles to Article category relations
 Route::get('/articles/{article}/relationships/article-category', [
@@ -572,6 +575,10 @@ Route::patch('/documents/{document}/relationships/bookmarks', [
 Route::get('/documents/{document}/bookmarks', [
     AdminDocumentBookmarksRelatedController::class, 'index'
 ])->name('document.bookmarks');
+
+/*****************  EVENTS ROUTES **************/
+
+Route::apiResource('/events', AdminEventController::class, ['as' => 'admin']);
 
 /*****************  IMAGES ROUTES **************/
 

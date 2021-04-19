@@ -2,9 +2,12 @@
 
 namespace App\Http\Resources\Admin\Author;
 
+use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
+use App\Http\Resources\Admin\Article\AdminArticleResource;
 use App\Http\Resources\Admin\Videomaterial\AdminVideomaterialIdentifierResource;
+use App\Http\Resources\Admin\Videomaterial\AdminVideomaterialResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -31,7 +34,9 @@ class AdminAuthorResource extends JsonResource
                 'patronymic' => $this->patronymic,
                 'birth_date' => $this->birth_date,
                 'announce' => $this->announce,
-                'description' => $this->description
+                'description' => $this->description,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
             ],
             'relationships' => [
                 'articles' => [
@@ -39,7 +44,7 @@ class AdminAuthorResource extends JsonResource
                         'self' => route('authors.relationships.articles', ['author' => $this->id]),
                         'related' => route('authors.articles', ['author' => $this->id])
                     ],
-                    'data' => AdminArticleIdentifireResource::collection(
+                    'data' => AdminArticleResource::collection(
                         $this->whenLoaded('articles')
                     ),
                 ],
@@ -48,7 +53,7 @@ class AdminAuthorResource extends JsonResource
                         'self' => route('authors.relationships.videomaterials', ['author' => $this->id]),
                         'related' => route('authors.videomaterials', ['author' => $this->id])
                     ],
-                    'data' => AdminVideomaterialIdentifierResource::collection(
+                    'data' => AdminVideomaterialResource::collection(
                         $this->whenLoaded('video')
                     ),
                 ],
@@ -57,7 +62,7 @@ class AdminAuthorResource extends JsonResource
                         'self' => route('author.relationships.image', ['author' => $this->id]),
                         'related' => route('author.image', ['author' => $this->id])
                     ],
-                    'data' => new AdminImagesIdentifierResource($this->whenLoaded('image')),
+                    'data' => new AdminImageResource($this->whenLoaded('image')),
                 ]
             ],
         ];

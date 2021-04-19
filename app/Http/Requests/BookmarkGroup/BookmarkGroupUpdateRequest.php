@@ -31,8 +31,8 @@ class BookmarkGroupUpdateRequest extends FormRequest
             'data' => 'required|array',
             'data.type' => 'required|in:bookmarkgroups',
             'data.attributes' => 'required|array',
-            'data.attributes.created_at' => 'present|string',
-            'data.attributes.updated_at' => 'present|string',
+//            'data.attributes.created_at' => 'present|string',
+//            'data.attributes.updated_at' => 'present|string',
             'data.attributes.user_id' => 'integer',
             'data.attributes.title' => 'string',
         ];

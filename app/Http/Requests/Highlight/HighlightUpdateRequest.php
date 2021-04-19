@@ -31,17 +31,13 @@ class HighlightUpdateRequest extends FormRequest
             'data' => 'required|array',
             'data.type' => 'required|in:highlights',
             'data.attributes' => 'required|array',
-            'data.attributes.created_at' => 'string',
-            'data.attributes.updated_at' => 'string',
+//            'data.attributes.created_at' => 'string',
+//            'data.attributes.updated_at' => 'string',
             'data.attributes.title' => 'string',
             'data.attributes.type' => 'string',
             'data.attributes.announce' => 'string',
             'data.attributes.order' => 'integer',
             'data.attributes.published_at' => 'string',
-            'data.attributes.active' => 'boolean',
-            'data.attributes.commented' => 'integer',
-            'data.attributes.liked' => 'integer',
-            'data.attributes.viewed' => 'integer',
         ];
     }
 }

@@ -34,7 +34,7 @@ class BookmarkCreateRequest extends FormRequest
             'data.attributes.group_id' => 'required|integer',
             'data.attributes.bookmarkable_type' => 'required|string',
             'data.attributes.bookmarkable_id' => 'required|integer',
-            'data.attributes.created_at' => 'present|string',
+//            'data.attributes.created_at' => 'present|string',
         ];
     }
 }
