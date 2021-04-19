@@ -54,7 +54,7 @@ class AdminNewsController extends Controller
         $query = QueryBuilder::for(News::class)
             ->allowedIncludes(['tags', 'images', 'bookmarks', 'comments'])
             ->allowedSorts(['id', 'title', 'published_at'])
-            ->allowedFilters(['status', 'show_in_main', 'show_in_afisha'])
+//            ->allowedFilters(['status', 'show_in_main', 'show_in_afisha'])
             ->jsonPaginate($perPage);
 
         return new AdminNewsCollection($query);

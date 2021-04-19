@@ -50,7 +50,7 @@ class AdminBiographyController extends Controller
         $perPage = $request->get('per_page');
         $biographies = QueryBuilder::for(Biography::class)
             ->allowedIncludes(['tags', 'bookmarks', 'categories', 'images', 'timeline'])
-            ->allowedSorts(['firstname', 'surname'])
+            ->allowedSorts(['firstname', 'surname', 'published_at'])
             ->jsonPaginate($perPage);
 
         return new AdminBiographyCollection($biographies);
