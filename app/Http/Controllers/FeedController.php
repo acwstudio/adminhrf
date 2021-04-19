@@ -19,20 +19,21 @@ class FeedController extends Controller
         'watch/lectures',
         'timeline'
     ];
+
+    protected $perPage = 50;
     public function rss(Request $request) {
         $perPage = $request->get('per_page',$this->perPage);
         $page = $request->get('page', 1);
+        $type = 'Статьи';
         $articles = Article::orderBy('published_at', 'desc')
             ->where('published_at', '<', now())
 	        ->where('show_in_rss', '=', true)
             ->forPage($page,$perPage)->get();
-//        $randoms = Article::orderBy(DB::raw('RAND()'))
-//            ->where('published_at', '<', now())
-//            ->paginate(5);
 
         return response()->view('feed.rss', [
             'articles' => $articles,
-            'page' => $page
+            'page' => $page,
+            'type' => $type
         ])->header('Content-Type', 'text/xml');
     }
 
