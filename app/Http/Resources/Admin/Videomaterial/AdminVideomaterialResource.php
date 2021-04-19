@@ -2,9 +2,12 @@
 
 namespace App\Http\Resources\Admin\Videomaterial;
 
+use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
+use App\Http\Resources\Admin\Author\AdminAuthorResource;
 use App\Http\Resources\Admin\Author\AdminAuthorsIdentifireResource;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
+use App\Http\Resources\Admin\Tag\AdminTagResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -48,14 +51,14 @@ class AdminVideomaterialResource extends JsonResource
                         'self' => route('videomaterials.relationships.authors', ['videomaterial' => $this->id]),
                         'related' => route('videomaterials.authors', ['videomaterial' => $this->id])
                     ],
-                    'data' => AdminAuthorsIdentifireResource::collection($this->whenLoaded('authors'))
+                    'data' => AdminAuthorResource::collection($this->whenLoaded('authors'))
                 ],
                 "tags" => [
                     'links' => [
                         'self' => route('videomaterials.relationships.tags', ['videomaterial' => $this->id]),
                         'related' => route('videomaterials.tags', ['videomaterial' => $this->id])
                     ],
-                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
+                    'data' => AdminTagResource::collection($this->whenLoaded('tags'))
                 ],
                 "likes" => [
                     'links' => [
@@ -83,7 +86,7 @@ class AdminVideomaterialResource extends JsonResource
                         'self' => route('videomaterial.relationships.images', ['videomaterial' => $this->id]),
                         'related' => route('videomaterial.images', ['videomaterial' => $this->id])
                     ],
-                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ]
             ]
         ];

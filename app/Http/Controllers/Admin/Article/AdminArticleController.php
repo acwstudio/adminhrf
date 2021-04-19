@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\ArticleCreateRequest;
 use App\Http\Requests\Article\ArticleUpdateRequest;
 use App\Http\Resources\Admin\Article\AdminArticleCollection;
+use App\Http\Resources\Admin\Article\AdminArticleLightResource;
 use App\Http\Resources\Admin\Article\AdminArticleResource;
 use App\Models\Article;
 use App\Models\Image;
 use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -52,7 +55,12 @@ class AdminArticleController extends Controller
             ->allowedIncludes([
                 'authors', 'comments', 'bookmarks', 'tags', 'category','images', 'timeline'
             ])
-            ->allowedFilters(['yatextid'])
+            ->allowedFilters([
+                'yatextid',
+                AllowedFilter::callback(
+                    'has_timeline', fn (Builder $query) => $query->whereDoesntHave('timeline')
+                ),
+            ])
             ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'event_date'])
             ->jsonPaginate($perPage);
 
@@ -176,6 +184,29 @@ class AdminArticleController extends Controller
         $article->delete();
 
         return response(null, 204);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function light(Request $request)
+    {
+        $this->authorize('manage', Article::class);
+
+        $perPage = $request->get('per_page');
+
+        $articles = QueryBuilder::for(Article::class)
+            ->allowedFilters([
+                AllowedFilter::callback(
+                    'has_timeline', fn (Builder $query) => $query->whereDoesntHave('timeline')
+                ),
+            ])
+            ->allowedSorts(['id', 'title'])
+            ->jsonPaginate($perPage);
+
+        return AdminArticleLightResource::collection($articles);
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin\DocumentCategory;
 
+use App\Http\Resources\Admin\Document\AdminDocumentResource;
 use App\Http\Resources\Admin\Document\AdminDocumentsIdentifireResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -33,11 +34,13 @@ class AdminDocumentCategoryResource extends JsonResource
                     'links' => [
                         'self' => route(
                             'document-category.relationships.documents',
-                            ['document_category' => $this->id]),
+                            ['document_category' => $this->id]
+                        ),
                         'related' => route('document-category.documents',
-                            ['document_category' => $this->id])
+                            ['document_category' => $this->id]
+                        )
                     ],
-                    'data' => AdminDocumentsIdentifireResource::collection($this->whenLoaded('documents'))
+                    'data' => AdminDocumentResource::collection($this->whenLoaded('documents'))
                 ]
             ]
         ];

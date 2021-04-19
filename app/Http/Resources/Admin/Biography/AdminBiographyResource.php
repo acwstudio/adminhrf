@@ -3,8 +3,12 @@
 namespace App\Http\Resources\Admin\Biography;
 
 use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\AdminBookmarkResource;
 use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
+use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
+use App\Http\Resources\Admin\BioCategory\AdminBioCategoryResource;
+use App\Http\Resources\Admin\Tag\AdminTagResource;
 use App\Http\Resources\Admin\TimeLine\AdminTimelineIdentifierResource;
 use App\Http\Resources\Admin\TimeLine\AdminTimelineResource;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
@@ -50,35 +54,35 @@ class AdminBiographyResource extends JsonResource
                         'self' => route('biographies.relationships.tags', ['biography' => $this->id]),
                         'related' => route('biographies.tags', ['biography' => $this->id])
                     ],
-                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
+                    'data' => AdminTagResource::collection($this->whenLoaded('tags'))
                 ],
                 'categories' => [
                     'links' => [
                         'self' => route('biographies.relationships.biocategories', ['biography' => $this->id]),
                         'related' => route('biographies.biocategories', ['biography' => $this->id])
                     ],
-                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
+                    'data' => AdminBioCategoryResource::collection($this->whenLoaded('categories'))
                 ],
                 'images' => [
                     'links' => [
                         'self' => route('biography.relationships.images', ['biography' => $this->id]),
                         'related' => route('biography.images', ['biography' => $this->id])
                     ],
-                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ],
                 'bookmarks' => [
                     'links' => [
                         'self' => route('biography.relationships.bookmarks', ['biography' => $this->id]),
                         'related' => route('biography.bookmarks', ['biography' => $this->id])
                     ],
-                    'data' => AdminBookmarkIdentifierResource::collection($this->whenLoaded('bookmarks'))
+                    'data' => AdminBookmarkResource::collection($this->whenLoaded('bookmarks'))
                 ],
                 'timeline' => [
                     'links' => [
                         'self' => route('biography.relationships.timeline', ['biography' => $this->id]),
                         'related' => route('biography.timeline', ['biography' => $this->id])
                     ],
-                    'data' => new AdminTimelineIdentifierResource($this->whenLoaded('timeline'))
+                    'data' => new AdminTimelineResource($this->whenLoaded('timeline'))
                 ]
             ],
 

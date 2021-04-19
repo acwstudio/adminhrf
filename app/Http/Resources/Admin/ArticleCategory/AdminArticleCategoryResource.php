@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Admin\ArticleCategory;
 
 use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
+use App\Http\Resources\Admin\Article\AdminArticleResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -38,7 +39,8 @@ class AdminArticleCategoryResource extends JsonResource
                             'article_category' => $this->id
                         ])
                     ],
-                    "data" => AdminArticleIdentifireResource::collection($this->whenLoaded('articles'))
+//                    "data" => AdminArticleIdentifireResource::collection($this->whenLoaded('articles'))
+                    "data" => AdminArticleResource::collection($this->whenLoaded('articles'))
                 ]
             ]
         ];

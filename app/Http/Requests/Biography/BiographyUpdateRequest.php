@@ -41,7 +41,7 @@ class BiographyUpdateRequest extends FormRequest
             'data.attributes.government_start' => 'integer',
             'data.attributes.government_end' => 'integer',
             'data.attributes.published_at' => 'string',
-            'data.attributes.viewed' => 'integer',
+//            'data.attributes.viewed' => 'integer',
             'data.attributes.biblio' => 'json',
             'data.attributes.active' => 'boolean',
 

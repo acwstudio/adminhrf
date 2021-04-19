@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Admin\BioCategory;
 
 use App\Http\Resources\Admin\Biography\AdminBiographiesIdentifireResource;
+use App\Http\Resources\Admin\Biography\AdminBiographyResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -32,7 +33,7 @@ class AdminBioCategoryResource extends JsonResource
                         'self' => '',
                         'related' => '',
                     ],
-                    'data' => AdminBiographiesIdentifireResource::collection($this->whenLoaded('biographies'))
+                    'data' => AdminBiographyResource::collection($this->whenLoaded('biographies'))
                 ]
             ]
         ];

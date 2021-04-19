@@ -25,6 +25,7 @@ class AdminQuestionController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $query = QueryBuilder::for(Question::class)
             ->allowedIncludes(['tests', 'answers'])
             ->allowedSorts(['id'])

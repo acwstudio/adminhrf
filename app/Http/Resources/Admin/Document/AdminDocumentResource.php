@@ -3,10 +3,13 @@
 namespace App\Http\Resources\Admin\Document;
 
 use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\AdminBookmarkResource;
+use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Http\Resources\Admin\DocumentCategory\AdminDocumentCategoryIdentifierResource;
 use App\Http\Resources\Admin\DocumentCategory\AdminDocumentCategoryResource;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
+use App\Http\Resources\Admin\Tag\AdminTagResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -38,7 +41,7 @@ class AdminDocumentResource extends JsonResource
                 'options' => $this->options,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
-                'liked' => $this->liked
+                'liked' => $this->liked,
             ],
             'relationships' => [
                 'tags' => [
@@ -46,28 +49,28 @@ class AdminDocumentResource extends JsonResource
                         'self' => route('documents.relationships.tags', [$this->id]),
                         'related' => route('documents.tags', [$this->id])
                     ],
-                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
+                    'data' => AdminTagResource::collection($this->whenLoaded('tags'))
                 ],
                 'images' => [
                     'links' => [
                         'self' => route('document.relationships.images', ['document' => $this->id]),
                         'related' => route('document.images', ['document' => $this->id])
                     ],
-                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
+                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ],
                 'category' => [
                     'links' => [
                         'self' => route('document.relationships.document-category', ['document' => $this->id]),
                         'related' => route('document.document-category', ['document' => $this->id])
                     ],
-                    'data' => new AdminDocumentCategoryIdentifierResource($this->whenLoaded('category'))
+                    'data' => new AdminDocumentCategoryResource($this->whenLoaded('category'))
                 ],
                 'bookmarks' => [
                     'links' => [
                         'self' => route('document.relationships.bookmarks', ['document' => $this->id]),
                         'related' => route('document.bookmarks', ['document' => $this->id])
                     ],
-                    'data' => AdminBookmarkIdentifierResource::collection($this->whenLoaded('bookmarks'))
+                    'data' => AdminBookmarkResource::collection($this->whenLoaded('bookmarks'))
                 ],
             ]
         ];

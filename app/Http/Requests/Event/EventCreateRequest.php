@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\News;
+namespace App\Http\Requests\Event;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class NewsCreateRequest
- * @package App\Http\Requests\News
+ * Class EventCreateRequest
+ * @package App\Http\Requests\Event
  */
-class NewsCreateRequest extends FormRequest
+class EventCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,12 +29,11 @@ class NewsCreateRequest extends FormRequest
     {
         return [
             'data' => 'required|array',
-            'data.type' => 'required|in:news',
+            'data.type' => 'required|in:events',
             'data.attributes' => 'required|array',
             'data.attributes.title' => 'required|string',
             'data.attributes.yatextid' => 'string',
             'data.attributes.announce' => 'required|string',
-            'data.attributes.listorder' => 'required|integer',
             'data.attributes.body' => 'required|string',
             'data.attributes.show_in_rss' => 'required|boolean',
             'data.attributes.status' => 'required|boolean',
