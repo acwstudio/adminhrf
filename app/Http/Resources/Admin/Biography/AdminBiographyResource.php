@@ -5,8 +5,8 @@ namespace App\Http\Resources\Admin\Biography;
 use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
 use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
-use App\Http\Resources\Admin\AdminTimelineIdentifierResource;
-use App\Http\Resources\Admin\AdminTimelineResource;
+use App\Http\Resources\Admin\TimeLine\AdminTimelineIdentifierResource;
+use App\Http\Resources\Admin\TimeLine\AdminTimelineResource;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 

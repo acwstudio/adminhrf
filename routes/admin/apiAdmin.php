@@ -140,6 +140,8 @@ use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelatedController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelationshipsController;
 use App\Http\Controllers\Admin\TestResult\AdminResultsUserRelationshipsController;
+use App\Http\Controllers\Admin\Timeline\AdminTimelineTimelineableRelatedController;
+use App\Http\Controllers\Admin\Timeline\AdminTimelineTimelineableRelationshipsController;
 use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialController;
 use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialImagesRelatedController;
 use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialImagesRelationshipsController;
@@ -889,31 +891,31 @@ Route::get('/tags/{tag}/videomaterials', [
 
 Route::apiResource('/timelines', AdminTimelineController::class, ['as' => 'admin']);
 
-// Timeline to Article relations
-Route::get('/timelines/{timeline}/relationships/article', [
-    AdminTimelineArticleRelationshipsController::class, 'index'
-])->name('timeline.relationships.article');
+// Timeline to Timelinable relations
+Route::get('/timelines/{timeline}/relationships/timelineable', [
+    AdminTimelineTimelineableRelationshipsController::class, 'index'
+])->name('timeline.relationships.timelineable');
 
-Route::patch('/timelines/{timeline}/relationships/article', [
-    AdminTimelineArticleRelationshipsController::class, 'update'
-])->name('timeline.relationships.article');
+Route::patch('/timelines/{timeline}/relationships/timelineable', [
+    AdminTimelineTimelineableRelationshipsController::class, 'update'
+])->name('timeline.relationships.timelineable');
 
-Route::get('/timelines/{timeline}/article', [
-    AdminTimelineArticleRelatedController::class, 'index'
-])->name('timeline.article');
+Route::get('/timelines/{timeline}/timelineable', [
+    AdminTimelineTimelineableRelatedController::class, 'index'
+])->name('timeline.timelineable');
 
 // Timeline to Biography relations
-Route::get('/timelines/{timeline}/relationships/biography', [
-    AdminTimelineBiographyRelationshipsController::class, 'index'
-])->name('timeline.relationships.biography');
-
-Route::patch('/timelines/{timeline}/relationships/biography', [
-    AdminTimelineBiographyRelationshipsController::class, 'update'
-])->name('timeline.relationships.biography');
-
-Route::get('/timelines/{timeline}/biography', [
-    AdminTimelineBiographyRelatedController::class, 'index'
-])->name('timeline.biography');
+//Route::get('/timelines/{timeline}/relationships/biography', [
+//    AdminTimelineBiographyRelationshipsController::class, 'index'
+//])->name('timeline.relationships.biography');
+//
+//Route::patch('/timelines/{timeline}/relationships/biography', [
+//    AdminTimelineBiographyRelationshipsController::class, 'update'
+//])->name('timeline.relationships.biography');
+//
+//Route::get('/timelines/{timeline}/biography', [
+//    AdminTimelineBiographyRelatedController::class, 'index'
+//])->name('timeline.biography');
 
 /*****************  TESTS ROUTES **************/
 

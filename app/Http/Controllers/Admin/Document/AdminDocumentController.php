@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\Document\AdminDocumentCollection;
 use App\Http\Resources\Admin\Document\AdminDocumentResource;
 use App\Models\Document;
 use App\Models\Image;
+use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -19,15 +20,20 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminDocumentController extends Controller
 {
+    /** @var ImageService  */
     private $imageService;
+
+    /** @var ImageAssignmentService  */
+    private $imageAssignment;
 
     /**
      * AdminArticleController constructor.
      * @param ImageService $imageService
      */
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService, ImageAssignmentService $imageAssignment)
     {
         $this->imageService = $imageService;
+        $this->imageAssignment = $imageAssignment;
     }
 
     /**
@@ -69,27 +75,9 @@ class AdminDocumentController extends Controller
 
         $document = Document::create($data);
 
-        // Images
-        $messages = [];
+        /** @see ImageAssignmentService creates a relationship Image to Document */
+        $this->imageAssignment->assign($document, $dataRelImages, 'document');
 
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $document->images()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
-
-        // attach tags for the document
         $document->tags()->attach($dataRelTags);
 
         return (new AdminDocumentResource($document))
@@ -131,8 +119,15 @@ class AdminDocumentController extends Controller
         $this->authorize('manage', Document::class);
 
         $data = $request->input('data.attributes');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
 
         $document->update($data);
+
+        /** @see ImageAssignmentService creates a relationship Image to Document */
+        $this->imageAssignment->assign($document, $dataRelImages, 'document');
+
+        $document->tags()->sync($dataRelTags);
 
         return new AdminDocumentResource($document);
     }
@@ -159,47 +154,4 @@ class AdminDocumentController extends Controller
         return response(null, 204);
     }
 
-    /**
-     * @param $image
-     * @param $id
-     * @return array
-     */
-    private function handleRelationships($image, $id)
-    {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'document') {
-            $message = [
-                'id_image' => $image->id,
-                'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'document'
-            ];
-
-            return $message;
-
-        } else {
-            if (!$image) {
-                $message = [
-                    'id_image' => $image->id,
-                    'result' => false,
-                    'description' => 'Image ' . $id . ' is not exists'
-                ];
-            } else {
-                if (!is_null($image->imageable_id)) {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
-                            . ' relation'
-                    ];
-                }
-                if ($image->imageable_type !== 'document') {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
-                    ];
-                }
-            }
-            return $message;
-        }
-    }
 }

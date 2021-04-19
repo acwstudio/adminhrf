@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Biography;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminTimelineResource;
+use App\Http\Resources\Admin\TimeLine\AdminTimelineResource;
 use App\Models\Biography;
 use Illuminate\Http\Request;
 

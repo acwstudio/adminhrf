@@ -11,6 +11,7 @@ use App\Http\Resources\Admin\Author\AdminAuthorResource;
 use App\Http\Resources\AuthorResource;
 use App\Models\Author;
 use App\Models\Image;
+use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -21,15 +22,20 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminAuthorController extends Controller
 {
+    /** @var ImageService  */
     private $imageService;
+
+    /** @var ImageAssignmentService  */
+    private $imageAssignment;
 
     /**
      * AdminArticleController constructor.
      * @param ImageService $imageService
      */
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService, ImageAssignmentService $imageAssignment)
     {
         $this->imageService = $imageService;
+        $this->imageAssignment = $imageAssignment;
     }
 
     /**
@@ -65,26 +71,9 @@ class AdminAuthorController extends Controller
 
         $author = Author::create($dataAttributes);
 
-        $messages = [];
+        /** @see ImageAssignmentService creates a relationship Image to Author */
+        $this->imageAssignment->assign($author, $dataRelImages, 'author');
 
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $author->image()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
-
-        // attach articles and videomaterials for the author
         $author->articles()->attach($dataRelArticles);
         $author->video()->attach($dataRelVideomaterials);
 
@@ -128,26 +117,9 @@ class AdminAuthorController extends Controller
 
         $author->update($dataAttributes);
 
-        $messages = [];
+        /** @see ImageAssignmentService creates a relationship Image to Author */
+        $this->imageAssignment->assign($author, $dataRelImages, 'author');
 
-        if ($dataRelImages) {
-            foreach ($dataRelImages as $id) {
-
-                $image = Image::find($id);
-                $result = $this->handleRelationships($image, $id);
-
-                if ($result['result']) {
-                    $author->image()->save($image);
-                    array_push($messages, $result);
-                } else {
-                    response();
-                    array_push($messages, $result);
-                }
-
-            }
-        }
-
-        // sync articles and videomaterials for the author
         $author->articles()->sync($dataRelArticles);
         $author->video()->sync($dataRelVideomaterials);
 
@@ -195,48 +167,4 @@ class AdminAuthorController extends Controller
         return AdminAuthorLightResource::collection($authors);
     }
 
-    /**
-     * @param $image
-     * @param $id
-     * @return array
-     */
-    private function handleRelationships($image, $id)
-    {
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'author') {
-            $message = [
-                'id_image' => $image->id,
-                'result' => true,
-                'description' => 'Image ' . $id . ' was related to ' . 'author'
-            ];
-
-            return $message;
-
-        } else {
-            if (!$image) {
-                $message = [
-                    'id_image' => $image->id,
-                    'result' => false,
-                    'description' => 'Image ' . $id . ' is not exists'
-                ];
-            } else {
-                if (!is_null($image->imageable_id)) {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' already has ' . $image->imageable_type
-                            . ' relation'
-                    ];
-                }
-                if ($image->imageable_type !== 'author') {
-                    $message = [
-                        'id_image' => $image->id,
-                        'result' => false,
-                        'description' => 'Image ' . $id . ' will be related to ' . $image->imageable_type
-                    ];
-                }
-            }
-            return $message;
-        }
-
-    }
 }

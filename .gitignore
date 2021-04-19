@@ -18,7 +18,6 @@ yarn-error.log
 docker-compose.override.yml
 Homestead.json
 Homestead.yaml
-/resources/views
 /config/database.php
 /app/.DS_Store
 /logs
@@ -27,3 +26,6 @@ Homestead.yaml
 composer.lock
 /loaderio-2e48e1b8926f08499d956dd9b01c17d8/
 /loaderio-b9a4fef7db9bdd57a2a9052b40244c5e/
+/docker/pgsql/
+/docker/meilisearch/
+/storage/sitemap.xml

@@ -16,6 +16,7 @@ services:
             LARAVEL_SAIL: 1
         volumes:
             - '.:/var/www/html'
+            - './docker/8.0/imagic/policy.xml:/etc/ImageMagick-6/policy.xml'
         networks:
             - sail
         depends_on:
@@ -59,7 +60,8 @@ services:
             POSTGRES_PASSWORD: jetmix
 #            DATABASE_URL: postgres://histrf_api:jetmix@docker.for.mac.host.internal/histrf_new
         volumes:
-            - '../histrf_data/_data:/var/lib/postgresql/data'
+#            - '../histrf_data/_data:/var/lib/postgresql/data'
+            - './docker/pgsql/_data:/var/lib/postgresql/data'
         networks:
             - sail
 
@@ -69,7 +71,8 @@ services:
       depends_on:
         - pgsql
       volumes:
-        - '../histrf_data/data_ms:/data.ms'
+#        - '../histrf_data/data_ms:/data.ms'
+        - './docker/meilisearch/data_ms:/data.ms'
       ports:
         - 7700:7700
       networks:

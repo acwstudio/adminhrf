@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\ArticleTimelineUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminTimelineIdentifierResource;
+use App\Http\Resources\Admin\TimeLine\AdminTimelineIdentifierResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
 
@@ -16,7 +16,7 @@ class AdminArticleTimelineRelationshipsController extends Controller
 {
     /**
      * @param Article $article
-     * @return AdminTimelineIdentifierResource
+     * @return \App\Http\Resources\Admin\TimeLine\AdminTimelineIdentifierResource
      */
     public function index(Article $article)
     {

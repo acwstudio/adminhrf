@@ -11,6 +11,7 @@ use App\Http\Resources\Admin\Tag\AdminTagResource;
 use App\Models\Tag;
 use http\Env\Response;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -109,6 +110,10 @@ class AdminTagController extends Controller
     public function light()
     {
         $tags = QueryBuilder::for(Tag::class)
+//            ->allowedFilters([
+//                'authors.title',
+//                AllowedFilter::exact('articles.title')
+//            ])
             ->allowedSorts(['id', 'title'])
             ->get();
 
