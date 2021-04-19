@@ -28,7 +28,7 @@ class AdminDocumentCategoryResource extends JsonResource
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
             ],
-            'relationjships' => [
+            'relationships' => [
                 'documents' => [
                     'links' => [
                         'self' => route(
