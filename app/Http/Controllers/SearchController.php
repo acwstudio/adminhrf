@@ -18,10 +18,10 @@ class SearchController extends Controller
 
                     return  $meilisearch->search($query,$options);  //->paginate($perPage);
                 })->paginate($perPage); */
-        $tests=Test::search($query)->orderBy('published_at', 'desc');
+//        $tests=Test::search($query)->orderBy('published_at', 'desc');
 
-        Article::search($query)->orderBy('published_at', 'desc')->union($tests);
-        return ArticleSearchResource::collection(Article::search($query)->orderBy('published_at', 'desc')->union($tests)->orderBy('published_at', 'desc')->paginate($perPage));
+//        Article::search($query)->orderBy('published_at', 'desc')->union($tests);
+        return ArticleSearchResource::collection(Article::search($query)->orderBy('published_at', 'desc')->paginate($perPage)); //->union()
 
     }
 }
