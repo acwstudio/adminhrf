@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Timeline;
 
+use App\Rules\ExistsInAnyTable;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -32,11 +33,18 @@ class TimelineCreateRequest extends FormRequest
             'data.type' => 'required|in:timelines',
             'data.attributes' => 'required|array',
             'data.attributes.date' => 'required|string',
-            'data.attributes.timelinable_type' => 'required|string',
-            'data.attributes.timelinable_id' => 'required|integer',
+            'data.attributes.timelinable_type' => 'required|string|in:articles,biographies',
+//            'data.attributes.timelinable_id' => 'required|integer',
+            'data.attributes.timelinable_id' => [
+                'required', 'integer', new ExistsInAnyTable(['articles', 'biographies'])
+            ],
             'data.attributes.active' => 'required|boolean',
-//            'data.attributes.created_at' => 'present|string',
-//            'data.attributes.updated_at' => 'present|string',
+
+//            'data.relationships.*' => 'present|array',
+//            'data.relationships.timelineable.data.*.id' => [
+//                'required', 'integer', new ExistsInAnyTable(['articles', 'biographies'])
+//            ],
+//            'data.relationships.timelineable.data.*.type' => 'required|in:articles,biographies',
         ];
     }
 }

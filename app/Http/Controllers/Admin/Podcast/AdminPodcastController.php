@@ -68,6 +68,7 @@ class AdminPodcastController extends Controller
         /** @var Podcast $podcast */
         $podcast = Podcast::create($dataAttributes);
 
+        /** @see ImageAssignmentService creates a relationship Image to Podcast */
         $this->imageAssignment->assign($podcast, $dataRelImages, 'podcast');
 
         $podcast->tags()->attach($dataRelTags);
@@ -111,6 +112,7 @@ class AdminPodcastController extends Controller
         /** @var Podcast $podcast */
         $podcast->update($dataAttributes);
 
+        /** @see ImageAssignmentService creates a relationship Image to Podcast */
         $this->imageAssignment->assign($podcast, $dataRelImages, 'podcast');
 
         $podcast->tags()->sync($dataRelTags);

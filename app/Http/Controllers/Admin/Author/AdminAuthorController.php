@@ -71,9 +71,9 @@ class AdminAuthorController extends Controller
 
         $author = Author::create($dataAttributes);
 
+        /** @see ImageAssignmentService creates a relationship Image to Author */
         $this->imageAssignment->assign($author, $dataRelImages, 'author');
 
-        // attach articles and videomaterials for the author
         $author->articles()->attach($dataRelArticles);
         $author->video()->attach($dataRelVideomaterials);
 
@@ -117,9 +117,9 @@ class AdminAuthorController extends Controller
 
         $author->update($dataAttributes);
 
+        /** @see ImageAssignmentService creates a relationship Image to Author */
         $this->imageAssignment->assign($author, $dataRelImages, 'author');
 
-        // sync articles and videomaterials for the author
         $author->articles()->sync($dataRelArticles);
         $author->video()->sync($dataRelVideomaterials);
 

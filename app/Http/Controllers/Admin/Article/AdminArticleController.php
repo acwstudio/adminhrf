@@ -78,9 +78,9 @@ class AdminArticleController extends Controller
 
         $article = Article::create($dataAttributes);
 
+        /** @see ImageAssignmentService creates a relationship Image to Article */
         $this->imageAssignment->assign($article, $dataRelImages, 'article');
 
-        // attach authors and tags for the article
         $article->authors()->attach($dataRelAuthors);
         $article->tags()->attach($dataRelTags);
 
@@ -131,6 +131,7 @@ class AdminArticleController extends Controller
 
         $article->update($dataAttributes);
 
+        /** @see ImageAssignmentService creates a relationship Image to Article */
         $this->imageAssignment->assign($article, $dataRelImages, 'article');
 
 //        if ($dataRelCategories) {

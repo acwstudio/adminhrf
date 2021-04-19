@@ -75,9 +75,9 @@ class AdminDocumentController extends Controller
 
         $document = Document::create($data);
 
+        /** @see ImageAssignmentService creates a relationship Image to Document */
         $this->imageAssignment->assign($document, $dataRelImages, 'document');
 
-        // attach tags for the document
         $document->tags()->attach($dataRelTags);
 
         return (new AdminDocumentResource($document))
@@ -124,7 +124,9 @@ class AdminDocumentController extends Controller
 
         $document->update($data);
 
+        /** @see ImageAssignmentService creates a relationship Image to Document */
         $this->imageAssignment->assign($document, $dataRelImages, 'document');
+
         $document->tags()->sync($dataRelTags);
 
         return new AdminDocumentResource($document);

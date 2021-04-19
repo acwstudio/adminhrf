@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Admin\Timeline;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Timeline\TimelineCreateRequest;
 use App\Http\Requests\Timeline\TimelineUpdateRequest;
-use App\Http\Resources\Admin\AdminTimelineCollection;
-use App\Http\Resources\Admin\AdminTimelineResource;
+use App\Http\Resources\Admin\TimeLine\AdminTimelineCollection;
+use App\Http\Resources\Admin\TimeLine\AdminTimelineResource;
 use App\Models\Biography;
 use App\Models\Image;
 use App\Models\Timeline;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -22,15 +23,16 @@ class AdminTimelineController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return AdminTimelineCollection
+     * @return \App\Http\Resources\Admin\TimeLine\AdminTimelineCollection
      */
     public function index(request $request)
     {
         $perPage = $request->get('per_page');
 
         $query = QueryBuilder::for(Timeline::class)
-            ->allowedIncludes(['article', 'biography'])
-            ->allowedSorts(['timelinable_type'])
+            ->allowedFilters([AllowedFilter::scope('between_date')])
+            ->allowedIncludes(['timelinable'])
+            ->allowedSorts(['id', 'timelinable_type'])
             ->jsonPaginate($perPage);
 
         return new AdminTimelineCollection($query);
@@ -45,14 +47,20 @@ class AdminTimelineController extends Controller
     public function store(TimelineCreateRequest $request)
     {
         $data = $request->input('data.attributes');
+        $dataRelTimelineable = $request->input('data.relationships.timelineable.data');
 
-        $timeline = Timeline::create($data);
+        foreach ($data as $item) {
+//            return $data['id'];
+            $timeline = Timeline::create($item);
+        }
 
-        return (new AdminTimelineResource($timeline))
-            ->response()
-            ->header('Location', route('admin.timelines.show', [
-                'timeline' => $timeline
-            ]));
+//        $timeline = Timeline::create($data);
+//
+//        return (new AdminTimelineResource($timeline))
+//            ->response()
+//            ->header('Location', route('admin.timelines.show', [
+//                'timeline' => $timeline
+//            ]));
     }
 
     /**
@@ -65,7 +73,7 @@ class AdminTimelineController extends Controller
     {
         $query = QueryBuilder::for(Timeline::class)
             ->where('id', $timeline->id)
-            ->allowedIncludes(['article', 'biography'])
+            ->allowedIncludes(['timelinable'])
             ->firstOrFail();
 
         return new AdminTimelineResource($query);

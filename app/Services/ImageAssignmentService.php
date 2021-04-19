@@ -16,6 +16,9 @@ use Illuminate\Database\Eloquent\Model;
 class ImageAssignmentService
 {
     /**
+     * Create the Image relationship to Model
+     * In fact updates the imageable_id field for images table
+     *
      * @param Model $model
      * @param array $Ids
      * @param string $imageableType

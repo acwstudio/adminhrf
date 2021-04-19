@@ -72,6 +72,7 @@ class AdminVideomaterialController extends Controller
         /** @var Videomaterial $videomaterial */
         $videomaterial = Videomaterial::create($dataAttributes);
 
+        /** @see  ImageAssignmentService creates a relationship Image to Videomaterial */
         $this->imageAssignment->assign($videomaterial, $dataRelImages, 'videomaterial');
 
         $videomaterial->authors()->attach($dataRelAuthors);
@@ -118,6 +119,7 @@ class AdminVideomaterialController extends Controller
 
         $videomaterial->update($dataAttributes);
 
+        /** ImageAssignmentService creates a relationship Image to Videomaterial */
         $this->imageAssignment->assign($videomaterial, $dataRelImages, 'videomaterial');
 
         $videomaterial->authors()->sync($dataRelAuthors);

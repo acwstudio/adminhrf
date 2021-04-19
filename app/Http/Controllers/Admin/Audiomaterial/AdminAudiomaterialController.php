@@ -68,6 +68,7 @@ class AdminAudiomaterialController extends Controller
         /** @var Audiomaterial $audiomaterial */
         $audiomaterial = Audiomaterial::create($dataAttributes);
 
+        /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
         $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
 
         $audiomaterial->tags()->attach($dataRelTags);
@@ -110,6 +111,7 @@ class AdminAudiomaterialController extends Controller
 
         $audiomaterial->update($dataAttributes);
 
+        /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
         $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
 
         $audiomaterial->tags()->sync($dataRelTags);
