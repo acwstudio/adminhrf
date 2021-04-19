@@ -213,7 +213,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/random/videocourses/', [\App\Http\Controllers\RandController::class, 'getRandVideoCourses']);
     Route::get('/random/highlights/', [\App\Http\Controllers\RandController::class, 'getRandHighlights']);
     Route::get('/random/podcasts/', [\App\Http\Controllers\RandController::class, 'getRandPodcasts']);
-
+    Route::get('/rss.php', [\App\Http\Controllers\FeedController::class, 'turbo']);
 
     //Route::get('/magazine/', [MagazineController::class, 'index']);
     Route::get('/magazine/', [MagazineController::class, 'indexMagazines']);
