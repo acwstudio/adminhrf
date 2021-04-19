@@ -30,7 +30,8 @@ class HighlightBookmarksUpdateRelationshipsRequest extends FormRequest
         return [
             'data' => 'present|array',
             'data.*.id' => 'required|string',
-            'data.*.type' => 'required|in:bookmarks',
+            'data.*.type' => 'required|string',
+            'data.*.is_additional' => 'sometimes|boolean',
         ];
     }
 }

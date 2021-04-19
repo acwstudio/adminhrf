@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Highlight;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Highlight\HighlightBookmarksUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\AdminHighlightableResource;
 use App\Models\Highlight;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class AdminHighlightHighlightablesRelationshipsController extends Controller
      */
     public function index(Highlight $highlight)
     {
-        return AdminBookmarkIdentifierResource::collection($highlight->bookmarks);
+        return AdminHighlightableResource::collection($highlight->highlightable);
     }
 
     /**
@@ -30,6 +31,19 @@ class AdminHighlightHighlightablesRelationshipsController extends Controller
      */
     public function update(HighlightBookmarksUpdateRelationshipsRequest $request, Highlight $highlight)
     {
-        return $highlight->bookmarks;
+        $highlightables =  $request->input('data');
+        if (!empty($highlightables)) {
+
+            $highlight->highlightable()->delete();
+
+            foreach ($highlightables as $highlightable) {
+
+                $highlight->highlightable()->create([
+                    'highlightable_type' => $highlightable['type'],
+                    'highlightable_id' => $highlightable['id'],
+                    'is_additional' => $highlightable['is_additional'] ?? false,
+                ]);
+            }
+        }
     }
 }
