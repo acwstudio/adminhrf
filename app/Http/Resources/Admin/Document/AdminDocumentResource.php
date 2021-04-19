@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Admin\Document;
 
 use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
-use App\Http\Resources\Admin\AdminBookmarkResource;
 use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Http\Resources\Admin\DocumentCategory\AdminDocumentCategoryIdentifierResource;
@@ -41,7 +40,7 @@ class AdminDocumentResource extends JsonResource
                 'options' => $this->options,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
-                'liked' => $this->liked,
+                'liked' => $this->liked
             ],
             'relationships' => [
                 'tags' => [
@@ -64,14 +63,7 @@ class AdminDocumentResource extends JsonResource
                         'related' => route('document.document-category', ['document' => $this->id])
                     ],
                     'data' => new AdminDocumentCategoryResource($this->whenLoaded('category'))
-                ],
-                'bookmarks' => [
-                    'links' => [
-                        'self' => route('document.relationships.bookmarks', ['document' => $this->id]),
-                        'related' => route('document.bookmarks', ['document' => $this->id])
-                    ],
-                    'data' => AdminBookmarkResource::collection($this->whenLoaded('bookmarks'))
-                ],
+                ]
             ]
         ];
     }
