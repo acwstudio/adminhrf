@@ -28,4 +28,6 @@ composer.lock
 /loaderio-b9a4fef7db9bdd57a2a9052b40244c5e/
 /docker/pgsql/
 /docker/meilisearch/
-/storage/sitemap.xml
+/storage/sitemap.xm
+/public/robots.txt
+/yandex_60800f0d3037a6e5
