@@ -10,6 +10,7 @@ class FeedController extends Controller
     public function turbo() {
         $articles = Article::orderBy('created_at', 'desc')
             ->where('published_at', '<', now())
+	    ->where('show_in_rss', '=', true)
             ->paginate(15);
 //        $randoms = Article::orderBy(DB::raw('RAND()'))
 //            ->where('published_at', '<', now())

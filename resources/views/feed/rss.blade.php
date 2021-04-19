@@ -19,17 +19,22 @@
             <turbo:content>
                 <![CDATA[
                 <header>
-                    <h1>{{ $article->heading }}</h1>
-                    <figure>
-{{--                        <img src="{{$article->images()->first()->preview}}"> --}}
-                    </figure>
+                    <h1>{{ $article->title }}</h1>
+{{--                    <figure> --}}
+{{--                        <img src="/{{$article->images()->first()->preview}}"> --}}
+{{--                    </figure> --}}
                     <menu>
-{{--                        @foreach( $categories as $category )--}}
-{{--                        <a href="{{ url('category', $category->slug) }}">{{ $category->name }}</a>--}}
-{{--                        @endforeach--}}
+{{--                        @foreach( $categories as $category )  --}}
+{{--                        <a href="{{ url('category', $category->slug) }}">{{ $category->name }}</a>  --}}
+{{--                        @endforeach --}}
+			<a href="https://histrf.ru/read">Читать</a>
+			<a href="https://histrf.ru/watch">Смотреть</a>
+			<a href="https://histrf.ru/listen">Слушать</a>
+			<a href="https://histrf.ru/tests">Тесты</a>
+			<a href="https://histrf.ru/collections">Подборки</a>
                     </menu>
                 </header>
-                {!! strip_tags($article->body) !!}
+                {!! $article->body !!}
                 ]]>
             </turbo:content>
         </item>
