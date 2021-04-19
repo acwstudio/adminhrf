@@ -32,8 +32,7 @@ class FeedController extends Controller
 
         return response()->view('feed.rss', [
             'articles' => $articles,
-            'url' => ,
-            'page' =>
+            'page' => $page
         ])->header('Content-Type', 'text/xml');
     }
 
@@ -46,7 +45,7 @@ class FeedController extends Controller
             ->where('published_at', '<', now())
             ->where('active', '=', true)
             ->forPage($page,$perPage)->get();
-        return response()->view('feed.turbo-articles.rss', [
+        return response()->view('feed.turbo-articles', [
             'articles' => $entities,
             'url' => 'read/articles',
             'page' => $page,
@@ -66,7 +65,7 @@ class FeedController extends Controller
             ->where('published_at', '<', now())
             ->where('show_in_rss', '=', true)
             ->forPage($page,$perPage)->get();
-        return response()->view('feed.turbo-biography.rss', [
+        return response()->view('feed.turbo-news', [
             'news' => $news,
             'url' => 'read/news',
             'page' => $page,
@@ -83,7 +82,7 @@ class FeedController extends Controller
             ->where('published_at', '<', now())
             ->where('active', '=', true)
             ->forPage($page,$perPage)->get();
-        return response()->view('feed.turbo-biography.rss', [
+        return response()->view('feed.turbo-biographies', [
             'biographies' => $biographies,
             'url' => 'read/biographies',
             'page' => $page,
@@ -98,8 +97,14 @@ class FeedController extends Controller
         $type = 'Лента времени';
         $lowerBound = Carbon::createFromDate($request->get('start_year', 1880))->startOfMonth()->startOfDay()->format('Y-m-d');
         $upperBound = Carbon::createFromDate($request->get('end_year', 2000))->endOfMonth()->endOfDay()->format('Y-m-d');
-        $entities = Timeline::where('date', '>', $lowerBound)
+        $timeline = Timeline::where('date', '>', $lowerBound)
             ->where('date', '<', $upperBound)->where('timelinable_type','=','article')->orderBy('date', 'asc')->paginate(100);
+        return response()->view('feed.turbo-timeline', [
+            'timeline' => $timeline,
+            'url' => 'timeline',
+            'page' => $page,
+            'type' => $type
+        ])->header('Content-Type', 'text/xml');
     }
 
 

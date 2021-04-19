@@ -1,27 +1,27 @@
 <rss xmlns:yandex="http://news.yandex.ru" xmlns:media="http://search.yahoo.com/mrss/" xmlns:turbo="http://turbo.yandex.ru" version="2.0">
     <channel>
         <title>История РФ</title>
-        <link></link>
+        <link>{{url("read/articles?page=",$page)}}</link>
         <img src="https://histrf.ru/favicon.ico"></img>
 
         <turbo:analytics type="Yandex" id="20561137"></turbo:analytics>
 
-        @foreach( $entities as $entity )
+        @foreach( $articles as $article )
             <item turbo="true">
-                <link>{{ url('read/articles', $entity->slug) }}</link>
-                {{--            <author>{{ $entity->authors->first()->lastname.$entity->authors->first()->name }}</author>--}}
-                {{--            <category>{{ $entity->tags()->get()->first()->title }}</category>--}}
-                <pubDate>{{ \Carbon\Carbon::parse( $entity->published_at )->format( 'D, d M Y H:i:s O' ) }}</pubDate>
+                <link>{{ url('read/articles', $article->slug) }}</link>
+                {{--            <author>{{ $article->authors->first()->lastname.$article->authors->first()->name }}</author>--}}
+                {{--            <category>{{ $article->tags()->get()->first()->title }}</category>--}}
+                <pubDate>{{ \Carbon\Carbon::parse( $article->published_at )->format( 'D, d M Y H:i:s O' ) }}</pubDate>
                 <yandex:genre>{{$type}}</yandex:genre>
-                <guid>{{ url($url, $entity->slug) }}</guid>
-                <description>{{ $entity->announce }}</description>
-                <yandex:full-text>{{ strip_tags($entity->body) }}</yandex:full-text>
+                <guid>{{ url($url, $article->slug) }}</guid>
+                <description>{{ $article->announce }}</description>
+                <yandex:full-text>{{ strip_tags($article->body) }}</yandex:full-text>
                 <turbo:content>
                     <![CDATA[
                     <header>
-                        <h1>{{ $entity->title }}</h1>
+                        <h1>{{ $article->title }}</h1>
                         {{--                    <figure> --}}
-                        {{--                        <img src="/{{$entity->images()->first()->preview}}"> --}}
+                        {{--                        <img src="/{{$article->images()->first()->preview}}"> --}}
                         {{--                    </figure> --}}
                         <menu>
                             {{--                        @foreach( $categories as $category )  --}}
@@ -34,7 +34,7 @@
                             <a href="https://histrf.ru/collections">Подборки</a>
                         </menu>
                     </header>
-                    {!! $entity->body !!}
+                    {!! $article->body !!}
                     ]]>
                 </turbo:content>
             </item>

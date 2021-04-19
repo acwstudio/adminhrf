@@ -214,12 +214,12 @@ Route::prefix('v1')->group(function () {
     Route::get('/random/highlights/', [\App\Http\Controllers\RandController::class, 'getRandHighlights']);
     Route::get('/random/podcasts/', [\App\Http\Controllers\RandController::class, 'getRandPodcasts']);
     Route::get('/rss', [\App\Http\Controllers\FeedController::class, 'rss']);
-    Route::get('/turbo-pages', [\App\Http\Controllers\FeedController::class, 'turbo']);
+    //Route::get('/turbo-pages', [\App\Http\Controllers\FeedController::class, 'turbo']);
     Route::get('/turbo/articles', [\App\Http\Controllers\FeedController::class, 'turboArticles']);
-    Route::get('/turbo/articles', [\App\Http\Controllers\FeedController::class, 'turbo']);
-    Route::get('/turbo/articles', [\App\Http\Controllers\FeedController::class, 'turboArticles']);
-    Route::get('/turbo/articles', [\App\Http\Controllers\FeedController::class, 'turboArticles']);
-    Route::get('/turbo/articles', [\App\Http\Controllers\FeedController::class, 'turboArticles']);
+    Route::get('/turbo/biographies', [\App\Http\Controllers\FeedController::class, 'turboBiographies']);
+    Route::get('/turbo/news', [\App\Http\Controllers\FeedController::class, 'turboNews']);
+    Route::get('/turbo/timeline', [\App\Http\Controllers\FeedController::class, 'turboTimeline']);
+    Route::get('/turbo/afisha', [\App\Http\Controllers\FeedController::class, 'turboAfisha']);
     Route::get('/turbo/articles', [\App\Http\Controllers\FeedController::class, 'turboArticles']);
     Route::get('/turbo/articles', [\App\Http\Controllers\FeedController::class, 'turboArticles']);
 
