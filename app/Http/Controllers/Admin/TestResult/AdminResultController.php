@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin\TestResult;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TestResult\ResultCreateRequest;
 use App\Http\Requests\TestResult\ResultUpdateRequest;
-use App\Http\Resources\Admin\AdminResultCollection;
-use App\Http\Resources\Admin\AdminResultResource;
+use App\Http\Resources\Admin\TestResult\AdminResultCollection;
+use App\Http\Resources\Admin\TestResult\AdminResultResource;
 use App\Models\TResult;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -21,7 +21,7 @@ class AdminResultController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return AdminResultCollection
+     * @return \App\Http\Resources\Admin\TestResult\AdminResultCollection
      */
     public function index(Request $request)
     {
@@ -77,7 +77,7 @@ class AdminResultController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return AdminResultResource
+     * @return \App\Http\Resources\Admin\TestResult\AdminResultResource
      */
     public function update(ResultUpdateRequest $request, TResult $result)
     {

@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Biography;
 use App\Models\News;
 use App\Models\Timeline;
+use App\Models\Videomaterial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -20,7 +21,7 @@ class FeedController extends Controller
         'timeline'
     ];
 
-    protected $perPage = 50;
+    protected $perPage = 100;
     public function rss(Request $request) {
         $perPage = $request->get('per_page',$this->perPage);
         $page = $request->get('page', 1);
@@ -35,7 +36,7 @@ class FeedController extends Controller
             'articles' => $articles,
             'page' => $page,
             'type' => $type,
-	    'url' => 'read/articles',
+	        'url' => 'read/articles',
         ])->header('Content-Type', 'text/xml');
     }
 
@@ -52,7 +53,8 @@ class FeedController extends Controller
             'articles' => $entities,
             'url' => 'read/articles',
             'page' => $page,
-            'type' => $type
+            'type' => $type,
+            'rand' => 'https://histrf.ru/read/articles'.Article::all()->where('active','=',true)->random(1)->first()->slug,
         ])->header('Content-Type', 'text/xml');
     }
 
@@ -66,14 +68,15 @@ class FeedController extends Controller
         $type = 'Новости';
         $news = News::orderBy('published_at', 'desc')
             ->where('published_at', '<', now())
-            ->where('active', '=', true)
-	    ->where('show_in_rss', '=', true)
+            ->where('status', '=', true)
+	        ->where('show_in_rss', '=', true)
             ->forPage($page,$perPage)->get();
         return response()->view('feed.turbo-news', [
             'news' => $news,
             'url' => 'read/news',
             'page' => $page,
-            'type' => $type
+            'type' => $type,
+            'rand' => News::all()->where('status','=',true)->random(1)->first()->slug,
         ])->header('Content-Type', 'text/xml');
     }
 
@@ -90,7 +93,8 @@ class FeedController extends Controller
             'biographies' => $biographies,
             'url' => 'read/biographies',
             'page' => $page,
-            'type' => $type
+            'type' => $type,
+            'rand' => Biography::all()->where('active','=',true)->random(1)->first()->slug,
         ])->header('Content-Type', 'text/xml');
     }
 
@@ -107,9 +111,47 @@ class FeedController extends Controller
             'timeline' => $timeline,
             'url' => 'timeline',
             'page' => $page,
-            'type' => $type
+            'type' => $type,
+            //'rand' => Article::where('active','=',true)->all()->random(1)->first()->slug,
         ])->header('Content-Type', 'text/xml');
     }
 
+    public function turboVideolectures(Request $request){
+        $perPage = $request->get('per_page',$this->perPage);
+        $page = $request->get('page', 1);
+        $type = 'Лекции';
+        $lectures = Videomaterial::orderBy('published_at', 'desc')
+            ->where('published_at', '<', now())
+            ->where('type', '=', 'lecture')
+            ->where('active', '=', true)
+            ->where('video_code','like','%https://www.youtube.com/embed/%')
+            ->forPage($page,$perPage)->get();
+
+        return response()->view('feed.turbo-videolectures', [
+            'lectures' => $lectures,
+            'page' => $page,
+            'type' => $type,
+            'url' => 'watch/lectures',
+        ])->header('Content-Type', 'text/xml');
+    }
+
+    public function turboFilms(Request $request){
+        $perPage = $request->get('per_page',$this->perPage*3);
+        $page = $request->get('page', 1);
+        $type = 'Документальные фильмы';
+        $films = Videomaterial::orderBy('published_at', 'desc')
+            ->where('published_at', '<', now())
+            ->where('type', '=', 'film')
+            ->where('active', '=', true)
+            ->where('video_code','like','%https://www.youtube.com/embed/%')
+            ->forPage($page,$perPage)->get();
+
+        return response()->view('feed.turbo-films', [
+            'films' => $films,
+            'page' => $page,
+            'type' => $type,
+            'url' => 'watch/films',
+        ])->header('Content-Type', 'text/xml');
+    }
 
 }

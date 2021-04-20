@@ -93,6 +93,7 @@ class AdminCityController extends Controller
      */
     public function destroy(City $city)
     {
+        $city->events()->delete();
         $city->delete();
 
         return response(null, 204);

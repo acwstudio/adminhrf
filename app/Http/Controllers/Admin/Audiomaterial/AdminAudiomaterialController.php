@@ -20,10 +20,10 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminAudiomaterialController extends Controller
 {
-    /** @var ImageService  */
+    /** @var ImageService */
     private $imageService;
 
-    /** @var ImageAssignmentService  */
+    /** @var ImageAssignmentService */
     private $imageAssignment;
 
     /**
@@ -56,7 +56,7 @@ class AdminAudiomaterialController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(AudiomaterialCreateRequest $request)
@@ -65,14 +65,15 @@ class AdminAudiomaterialController extends Controller
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
+
+        /** @var Audiomaterial $audiomaterial */
+        $audiomaterial = Audiomaterial::create($dataAttributes);
+
         if ($dataRelImages) {
-            /** @var Audiomaterial $audiomaterial */
-            $audiomaterial = Audiomaterial::create($dataAttributes);
+            /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
+            $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
+
         }
-
-        /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
-        $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
-
         $audiomaterial->tags()->attach($dataRelTags);
 
         return (new AdminAudiomaterialResource($audiomaterial))
@@ -85,7 +86,7 @@ class AdminAudiomaterialController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return AdminAudiomaterialResource
      */
     public function show(Audiomaterial $audiomaterial)
@@ -101,8 +102,8 @@ class AdminAudiomaterialController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return AdminAudiomaterialResource
      */
     public function update(AudiomaterialUpdateRequest $request, Audiomaterial $audiomaterial)

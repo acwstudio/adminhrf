@@ -129,10 +129,10 @@ class AdminNewsController extends Controller
 
         $news->update($data);
 
-//        if ($dataRelImages) {
-//            /** @see ImageAssignmentService creates a relationship Image to News */
-//            $this->imageAssignment->assign($news, $dataRelImages, 'news');
-//        }
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to News */
+            $this->imageAssignment->assign($news, $dataRelImages, 'news');
+        }
 
         $news->tags()->sync($dataRelTags);
 

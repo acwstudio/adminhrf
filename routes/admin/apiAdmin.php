@@ -86,6 +86,8 @@ use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelationshipsController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelationshipsController;
+use App\Http\Controllers\Admin\Leisure\AdminLeisureController;
+use App\Http\Controllers\Admin\Like\AdminLikeController;
 use App\Http\Controllers\Admin\News\AdminNewsBookmarksRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\News\AdminNewsCommentsRelatedController;
@@ -665,10 +667,6 @@ Route::post('/images', [AdminImageController::class, 'store'])->name('image.stor
 Route::post('/images/{image}', [AdminImageController::class, 'update'])->name('image.update');
 Route::delete('/images/{image}', [AdminImageController::class, 'destroy'])->name('image.destroy');
 
-/*****************  Likes ROUTES **************/
-
-Route::apiResource('/likes', \App\Http\Controllers\Admin\Like\AdminLikeController::class,['as' => 'admin']);
-
 /*****************  HIGHLIGHTS ROUTES **************/
 
 Route::apiResource('/highlights', AdminHighlightController::class, ['as' => 'admin']);
@@ -711,6 +709,15 @@ Route::patch('/highlights/{highlight}/relationships/highlightables', [
 Route::get('/highlights/{highlight}/highlightables', [
     AdminHighlightHighlightablesRelatedController::class, 'index'
 ])->name('highlights.highlightables');
+
+/*****************  LEISURE ROUTES **************/
+
+Route::apiResource('/leisures', AdminLeisureController::class, ['as' => 'admin']);
+
+/*****************  LIKES ROUTES **************/
+
+Route::apiResource('/likes', AdminLikeController::class, ['as' => 'admin']);
+
 
 /*****************  MESSAGES ROUTES **************/
 

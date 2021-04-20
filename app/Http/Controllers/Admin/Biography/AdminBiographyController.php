@@ -128,10 +128,10 @@ class AdminBiographyController extends Controller
 
         $biography->update($data);
 
-//        if ($dataRelImages) {
-//            /** @see ImageAssignmentService creates a relationship Image to Biography */
-//            $this->imageAssignment->assign($biography, $dataRelImages, 'biography');
-//        }
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to Biography */
+            $this->imageAssignment->assign($biography, $dataRelImages, 'biography');
+        }
 
         $biography->tags()->sync($dataRelTags);
         $biography->categories()->sync($dataRelCategories);

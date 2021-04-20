@@ -141,10 +141,10 @@ class AdminArticleController extends Controller
 
         $article->update($dataAttributes);
 
-//        if ($dataRelImages) {
-//            /** @see ImageAssignmentService creates a relationship Image to Article */
-//            $this->imageAssignment->assign($article, $dataRelImages, 'article');
-//        }
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to Article */
+            $this->imageAssignment->assign($article, $dataRelImages, 'article');
+        }
 
 //        if ($dataRelCategories) {
 //            $article->category()->associate($dataRelCategories[0])->save();

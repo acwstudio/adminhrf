@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Test;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Test\TestMessagesUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminMessagesIdentifierResource;
+use App\Http\Resources\Admin\TestMessage\AdminMessagesIdentifierResource;
 use App\Models\Test;
 use App\Models\TestMessage;
 use http\Env\Response;

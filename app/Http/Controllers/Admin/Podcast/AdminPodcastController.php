@@ -114,10 +114,10 @@ class AdminPodcastController extends Controller
         /** @var Podcast $podcast */
         $podcast->update($dataAttributes);
 
-//        if ($dataRelImages) {
-//            /** @see ImageAssignmentService creates a relationship Image to Podcast */
-//            $this->imageAssignment->assign($podcast, $dataRelImages, 'podcast');
-//        }
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to Podcast */
+            $this->imageAssignment->assign($podcast, $dataRelImages, 'podcast');
+        }
 
         $podcast->tags()->sync($dataRelTags);
 

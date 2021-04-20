@@ -5,9 +5,12 @@ namespace App\Http\Resources\Admin\Article;
 use App\Http\Resources\Admin\AdminBookmarkCollection;
 use App\Http\Resources\Admin\AdminBookmarksIdentifierResource;
 use App\Http\Resources\Admin\AdminCommentCollection;
+use App\Http\Resources\Admin\AdminCommentResource;
 use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
 use App\Http\Resources\Admin\AdminImageCollection;
+use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
+use App\Http\Resources\Admin\Tag\AdminTagResource;
 use App\Http\Resources\Admin\TimeLine\AdminTimelineIdentifierResource;
 use App\Http\Resources\Admin\TimeLine\AdminTimelineResource;
 use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryCollection;
@@ -72,7 +75,7 @@ class AdminArticleResource extends JsonResource
                         'related' => route('article.comments', ['article' => $this->id])
                     ],
 //                    'data' => AdminCommentsIdentifierResource::collection($this->whenLoaded('comments'))
-                    'data' => new AdminCommentCollection($this->whenLoaded('comments'))
+                    'data' => AdminCommentResource::collection($this->whenLoaded('comments'))
                 ],
                 'tags' => [
                     'links' => [
@@ -80,7 +83,7 @@ class AdminArticleResource extends JsonResource
                         'related' => route('articles.tags', ['article' => $this->id])
                     ],
 //                    'data' => AdminTagIdentifierResource::collection($this->whenLoaded('tags'))
-                    'data' => new AdminTagCollection($this->whenLoaded('tags'))
+                    'data' => AdminTagResource::collection($this->whenLoaded('tags'))
                 ],
                 'images' => [
                     'links' => [
@@ -88,7 +91,8 @@ class AdminArticleResource extends JsonResource
                         'related' => route('article.images', ['article' => $this->id])
                     ],
 //                    'data' => AdminImagesIdentifierResource::collection($this->whenLoaded('images'))
-                    'data' => new AdminImageCollection($this->whenLoaded('images'))
+//                    'data' => new AdminImageCollection($this->whenLoaded('images'))
+                    'data' => AdminImageResource::collection($this->whenLoaded('images'))
                 ],
                 'bookmarks' => [
                     'links' => [

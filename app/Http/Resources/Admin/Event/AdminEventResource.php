@@ -2,6 +2,11 @@
 
 namespace App\Http\Resources\Admin\Event;
 
+use App\Http\Resources\Admin\AdminBookmarkCollection;
+use App\Http\Resources\Admin\AdminCommentCollection;
+use App\Http\Resources\Admin\AdminImageCollection;
+use App\Http\Resources\Admin\City\AdminCityResource;
+use App\Http\Resources\Admin\Like\AdminLikeCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -40,31 +45,31 @@ class AdminEventResource extends JsonResource
             'relationships' => [
                 'images' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('event.relationships.images', ['event' => $this->id]),
+                        'related' => route('event.images', ['event' => $this->id])
                     ],
-                    'data' => []
+                    'data' => new AdminImageCollection($this->whenLoaded('images'))
                 ],
                 'comments' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('event.relationships.comments', ['event' => $this->id]),
+                        'related' => route('event.comments', ['event' => $this->id])
                     ],
-                    'data' => []
+                    'data' => new AdminCommentCollection($this->whenLoaded('comments'))
                 ],
                 'bookmarks' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('event.relationships.bookmarks', ['event' => $this->id]),
+                        'related' => route('event.bookmarks', ['event' => $this->id])
                     ],
-                    'data' => []
+                    'data' => new AdminBookmarkCollection($this->whenLoaded('bookmarks'))
                 ],
                 'likes' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('events.relationships.likes', ['event' => $this->id]),
+                        'related' => route('events.likes', ['event' => $this->id])
                     ],
-                    'data' => []
+                    'data' => new AdminLikeCollection($this->whenLoaded('likes'))
                 ],
                 'leisure' => [
                     'links' => [
@@ -75,10 +80,10 @@ class AdminEventResource extends JsonResource
                 ],
                 'city' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('events.relationships.city', ['event' => $this->id]),
+                        'related' => route('events.city', ['event' => $this->id])
                     ],
-                    'data' => []
+                    'data' => new AdminCityResource($this->whenLoaded('city'))
                 ]
             ]
         ];
