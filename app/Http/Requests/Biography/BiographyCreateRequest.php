@@ -42,7 +42,7 @@ class BiographyCreateRequest extends FormRequest
             'data.attributes.government_end' => 'required|integer',
             'data.attributes.published_at' => 'required|string',
 //            'data.attributes.viewed' => 'required|integer',
-            'data.attributes.biblio' => 'required|json',
+            'data.attributes.biblio' => 'json',
             'data.attributes.active' => 'required|boolean',
 
             'data.relationships.*' => 'present|array',
