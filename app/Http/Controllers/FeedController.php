@@ -27,7 +27,8 @@ class FeedController extends Controller
         $type = 'Статьи';
         $articles = Article::orderBy('published_at', 'desc')
             ->where('published_at', '<', now())
-	        ->where('show_in_rss', '=', true)
+	    ->where('show_in_rss', '=', true)
+	    ->where('active', '=', true)
             ->forPage($page,$perPage)->get();
 
         return response()->view('feed.rss', [
@@ -65,7 +66,8 @@ class FeedController extends Controller
         $type = 'Новости';
         $news = News::orderBy('published_at', 'desc')
             ->where('published_at', '<', now())
-            ->where('show_in_rss', '=', true)
+            ->where('active', '=', true)
+	    ->where('show_in_rss', '=', true)
             ->forPage($page,$perPage)->get();
         return response()->view('feed.turbo-news', [
             'news' => $news,
