@@ -37,13 +37,13 @@
                         </menu>
                     </header>
                     {!! $film->body !!}
-                    <iframe
+                    <p><iframe
                         width="100%"
                         height="560"
                         src='{{$film->video_code}}'
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen
-                    ></iframe>
+                    ></iframe></p>
                     ]]>
                 </turbo:content>
             </item>

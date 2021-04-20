@@ -13,16 +13,14 @@ class SearchController extends Controller
     public function search($query, Request $request)
     {
         $perPage = $request->get('per_page', $this->perPage);
-
-        /*        return Article::search($str, function(Indexes $meilisearch, $query, $options) use ($perPage) {
-                    $options['filters'] = ['active=true'];
-
-                    return  $meilisearch->search($query,$options);  //->paginate($perPage);
-                })->paginate($perPage); */
-//        $tests=Test::search($query)->orderBy('published_at', 'desc');
-
-//        Article::search($query)->orderBy('published_at', 'desc')->union($tests);
-        return ArticleSearchResource::collection(Article::search($query)->orderBy('published_at', 'desc')->paginate($perPage)); //->union()
+        $model= $request->get('model', 'article');
+        if($model=='article')
+        {
+            return ArticleSearchResource::collection(Article::where('active','=',true)->search($query)->orderBy('published_at', 'desc')->paginate($perPage)); //->union()
+        }
+        elseif($model =='test'){
+            return TestSearchController::collection(Article::search($query)->orderBy('published_at', 'desc')->paginate($perPage))
+        }
 
     }
 }
