@@ -58,7 +58,7 @@ class AdminArticleController extends Controller
             ->allowedFilters([
                 'yatextid',
                 AllowedFilter::callback(
-                    'has_timeline', fn (Builder $query) => $query->whereDoesntHave('timeline')
+                    'no_timeline', fn (Builder $query) => $query->whereDoesntHave('timeline')
                 ),
             ])
             ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'event_date'])
@@ -86,8 +86,10 @@ class AdminArticleController extends Controller
 
         $article = Article::create($dataAttributes);
 
-        /** @see ImageAssignmentService creates a relationship Image to Article */
-        $this->imageAssignment->assign($article, $dataRelImages, 'article');
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to Article */
+            $this->imageAssignment->assign($article, $dataRelImages, 'article');
+        }
 
         $article->authors()->attach($dataRelAuthors);
         $article->tags()->attach($dataRelTags);
@@ -139,8 +141,10 @@ class AdminArticleController extends Controller
 
         $article->update($dataAttributes);
 
-        /** @see ImageAssignmentService creates a relationship Image to Article */
-        $this->imageAssignment->assign($article, $dataRelImages, 'article');
+//        if ($dataRelImages) {
+//            /** @see ImageAssignmentService creates a relationship Image to Article */
+//            $this->imageAssignment->assign($article, $dataRelImages, 'article');
+//        }
 
 //        if ($dataRelCategories) {
 //            $article->category()->associate($dataRelCategories[0])->save();

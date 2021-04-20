@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\City;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EventUpdateRequest extends FormRequest
+/**
+ * Class CityEventsUpdateRelationshipsRequest
+ * @package App\Http\Requests\City
+ */
+class CityEventsUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +17,7 @@ class EventUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +28,9 @@ class EventUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'data' => 'present|array',
+            'data.*.id' => 'required|integer|exists:cities,id',
+            'data.*.type' => 'required|in:cities',
         ];
     }
 }

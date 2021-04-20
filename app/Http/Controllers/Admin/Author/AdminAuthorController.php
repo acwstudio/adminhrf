@@ -64,6 +64,7 @@ class AdminAuthorController extends Controller
      */
     public function store(AuthorCreateRequest $request)
     {
+
         $dataAttributes = $request->input('data.attributes');
         $dataRelArticles = $request->input('data.relationships.articles.data.*.id');
         $dataRelVideomaterials = $request->input('data.relationships.videomaterials.data.*.id');
@@ -71,8 +72,10 @@ class AdminAuthorController extends Controller
 
         $author = Author::create($dataAttributes);
 
-        /** @see ImageAssignmentService creates a relationship Image to Author */
-        $this->imageAssignment->assign($author, $dataRelImages, 'author');
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to Author */
+            $this->imageAssignment->assign($author, $dataRelImages, 'author');
+        }
 
         $author->articles()->attach($dataRelArticles);
         $author->video()->attach($dataRelVideomaterials);
@@ -117,8 +120,10 @@ class AdminAuthorController extends Controller
 
         $author->update($dataAttributes);
 
-        /** @see ImageAssignmentService creates a relationship Image to Author */
-        $this->imageAssignment->assign($author, $dataRelImages, 'author');
+//        if ($dataRelImages) {
+//            /** @see ImageAssignmentService creates a relationship Image to Author */
+//            $this->imageAssignment->assign($author, $dataRelImages, 'author');
+//        }
 
         $author->articles()->sync($dataRelArticles);
         $author->video()->sync($dataRelVideomaterials);

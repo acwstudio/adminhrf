@@ -65,8 +65,10 @@ class AdminAudiomaterialController extends Controller
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
-        /** @var Audiomaterial $audiomaterial */
-        $audiomaterial = Audiomaterial::create($dataAttributes);
+        if ($dataRelImages) {
+            /** @var Audiomaterial $audiomaterial */
+            $audiomaterial = Audiomaterial::create($dataAttributes);
+        }
 
         /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
         $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
@@ -111,8 +113,10 @@ class AdminAudiomaterialController extends Controller
 
         $audiomaterial->update($dataAttributes);
 
-        /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
-        $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
+//        if ($dataRelImages) {
+//            /** @var Audiomaterial $audiomaterial */
+//            $audiomaterial = Audiomaterial::create($dataAttributes);
+//        }
 
         $audiomaterial->tags()->sync($dataRelTags);
 

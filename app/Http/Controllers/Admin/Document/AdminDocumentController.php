@@ -125,7 +125,7 @@ class AdminDocumentController extends Controller
         $document->update($data);
 
         /** @see ImageAssignmentService creates a relationship Image to Document */
-        $this->imageAssignment->assign($document, $dataRelImages, 'document');
+//        $this->imageAssignment->assign($document, $dataRelImages, 'document');
 
         $document->tags()->sync($dataRelTags);
 

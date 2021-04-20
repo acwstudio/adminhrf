@@ -75,8 +75,10 @@ class AdminTestController extends Controller
 
         $test = Test::create($dataAttributes);
 
-        /** @see ImageAssignmentService creates a relationship Image to Test */
-        $this->imageAssignment->assign($test, $dataRelImages, 'test');
+        if ($dataRelImages){
+            /** @see ImageAssignmentService creates a relationship Image to Test */
+            $this->imageAssignment->assign($test, $dataRelImages, 'test');
+        }
 
 //        $test->questions()->attach($dataRelQuestions);
         $test->categories()->attach($dataRelCategories);
@@ -127,8 +129,10 @@ class AdminTestController extends Controller
 
         $test->update($data);
 
-        /** @see ImageAssignmentService creates a relationship Image to Test */
-        $this->imageAssignment->assign($test, $dataRelImages, 'test');
+//        if ($dataRelImages){
+//            /** @see ImageAssignmentService creates a relationship Image to Test */
+//            $this->imageAssignment->assign($test, $dataRelImages, 'test');
+//        }
 
         $test->categories()->sync($dataRelCategories);
 

@@ -75,8 +75,10 @@ class AdminBiographyController extends Controller
         /** @var Biography $biography */
         $biography = Biography::create($data);
 
-        /** @see ImageAssignmentService creates a relationship Image to Biography */
-        $this->imageAssignment->assign($biography, $dataRelImages, 'biography');
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to Biography */
+            $this->imageAssignment->assign($biography, $dataRelImages, 'biography');
+        }
 
         $biography->tags()->attach($dataRelTags);
         $biography->categories()->attach($dataRelCategories);
@@ -126,8 +128,10 @@ class AdminBiographyController extends Controller
 
         $biography->update($data);
 
-        /** @see ImageAssignmentService creates a relationship Image to Biography */
-        $this->imageAssignment->assign($biography, $dataRelImages, 'biography');
+//        if ($dataRelImages) {
+//            /** @see ImageAssignmentService creates a relationship Image to Biography */
+//            $this->imageAssignment->assign($biography, $dataRelImages, 'biography');
+//        }
 
         $biography->tags()->sync($dataRelTags);
         $biography->categories()->sync($dataRelCategories);

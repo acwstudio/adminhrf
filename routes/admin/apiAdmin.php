@@ -22,11 +22,22 @@ use App\Http\Controllers\Admin\Biography\AdminBiographyImagesRelatedController;
 use App\Http\Controllers\Admin\Biography\AdminBiographyImagesRelationshipsController;
 use App\Http\Controllers\Admin\Biography\AdminBiographyTimelineRelatedController;
 use App\Http\Controllers\Admin\Biography\AdminBiographyTimelineRelationshipsController;
+use App\Http\Controllers\Admin\City\AdminCityController;
+use App\Http\Controllers\Admin\City\AdminCityEventsRelatedController;
+use App\Http\Controllers\Admin\City\AdminCityEventsRelationshipsController;
 use App\Http\Controllers\Admin\Document\AdminDocumentBookmarksRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsDocumentCategoryRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsDocumentCategoryRelationshipsController;
+use App\Http\Controllers\Admin\Event\AdminEventBookmarksRelatedController;
+use App\Http\Controllers\Admin\Event\AdminEventBookmarksRelationshipsController;
+use App\Http\Controllers\Admin\Event\AdminEventCommentsRelatedController;
+use App\Http\Controllers\Admin\Event\AdminEventCommentsRelationshipsController;
 use App\Http\Controllers\Admin\Event\AdminEventController;
+use App\Http\Controllers\Admin\Event\AdminEventsCityRelatedController;
+use App\Http\Controllers\Admin\Event\AdminEventsCityRelationshipsController;
+use App\Http\Controllers\Admin\Event\AdminEventsLikesRelatedController;
+use App\Http\Controllers\Admin\Event\AdminEventsLikesRelationshipsController;
 use App\Http\Controllers\Admin\Image\AdminImageController;
 use App\Http\Controllers\Admin\AllContent\AdminAllContentController;
 use App\Http\Controllers\Admin\Answer\AdminAnswerController;
@@ -152,6 +163,8 @@ use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialsAuthorsRelations
 use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialsTagsRelatedController;
 use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialsTagsRelationshipsController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialController;
+use App\Http\Controllers\Admin\Event\AdminEventImagesRelatedController;
+use App\Http\Controllers\Admin\Event\AdminEventImagesRelationshipsController;
 
 /*****************  ANSWERS ROUTES **************/
 Route::apiResource('/answers', AdminAnswerController::class, ['as' =>'admin']);
@@ -580,6 +593,71 @@ Route::get('/documents/{document}/bookmarks', [
 
 Route::apiResource('/events', AdminEventController::class, ['as' => 'admin']);
 
+// Event to Bookmarks relations
+Route::get('/events/{event}/relationships/bookmarks', [
+    AdminEventBookmarksRelationshipsController::class, 'index'
+])->name('event.relationships.bookmarks');
+
+Route::patch('/events/{event}/relationships/bookmarks', [
+    AdminEventBookmarksRelationshipsController::class, 'update'
+])->name('event.relationships.bookmarks');
+
+Route::get('/events/{event}/bookmarks', [
+    AdminEventBookmarksRelatedController::class, 'index'
+])->name('event.bookmarks');
+
+// Events to City relations
+Route::get('/events/{event}/relationships/city', [
+    AdminEventsCityRelationshipsController::class, 'index'
+])->name('events.relationships.city');
+
+Route::patch('/events/{event}/relationships/city', [
+    AdminEventsCityRelationshipsController::class, 'update'
+])->name('events.relationships.city');
+
+Route::get('/events/{event}/city', [
+    AdminEventsCityRelatedController::class, 'index'
+])->name('events.city');
+
+// Event to Comments relations
+Route::get('/events/{event}/relationships/comments', [
+    AdminEventCommentsRelationshipsController::class, 'index'
+])->name('event.relationships.comments');
+
+Route::patch('/events/{event}/relationships/comments', [
+    AdminEventCommentsRelationshipsController::class, 'update'
+])->name('event.relationships.comments');
+
+Route::get('/events/{event}/comments', [
+    AdminEventCommentsRelatedController::class, 'index'
+])->name('event.comments');
+
+// Event to Images relations
+Route::get('/events/{event}/relationships/images', [
+    AdminEventImagesRelationshipsController::class, 'index'
+])->name('event.relationships.images');
+
+Route::patch('/events/{event}/relationships/images', [
+    AdminEventImagesRelationshipsController::class, 'update'
+])->name('event.relationships.images');
+
+Route::get('/events/{event}/images', [
+    AdminEventImagesRelatedController::class, 'index'
+])->name('event.images');
+
+// Events to Likes relations
+Route::get('/events/{event}/relationships/likes', [
+    AdminEventsLikesRelationshipsController::class, 'index'
+])->name('events.relationships.likes');
+
+Route::patch('/events/{event}/relationships/likes', [
+    AdminEventsLikesRelationshipsController::class, 'update'
+])->name('events.relationships.likes');
+
+Route::get('/events/{event}/likes', [
+    AdminEventsLikesRelatedController::class, 'index'
+])->name('events.likes');
+
 /*****************  IMAGES ROUTES **************/
 
 Route::get('/images/{image}', [AdminImageController::class, 'show'])->name('image.show');
@@ -605,7 +683,7 @@ Route::patch('/highlights/{highlight}/relationships/images', [
 ])->name('highlight.relationships.images');
 
 Route::get('/highlights/{highlight}/images', [
-    AdminHighlightImagesRelatedController::class
+    AdminHighlightImagesRelatedController::class, 'index'
 ])->name('highlight.images');
 
 // Highlights to Tags relations
@@ -736,6 +814,23 @@ Route::patch('/podcasts/{podcast}/relationships/tags', [
 Route::get('/podcasts/{podcast}/tags', [
     AdminPodcastsTagsRelatedController::class, 'index'
 ])->name('podcasts.tags');
+
+/*****************  CITY ROUTES **************/
+
+Route::apiResource('/cities', AdminCityController::class, ['as' => 'admin']);
+
+// Cities to Event relations
+Route::get('/cities/{city}/relationships/events', [
+    AdminCityEventsRelationshipsController::class, 'index'
+])->name('city.relationships.events');
+
+Route::patch('/cities/{city}/relationships/events', [
+    AdminCityEventsRelationshipsController::class, 'update'
+])->name('city.relationships.events');
+
+Route::get('/cities/{city}/events', [
+    AdminCityEventsRelatedController::class, 'index'
+])->name('city.events');
 
 /*****************  QUESTIONS ROUTES **************/
 

@@ -78,8 +78,10 @@ class AdminNewsController extends Controller
 
         $news = News::create($data);
 
-        /** @see ImageAssignmentService creates a relationship Image to News */
-        $this->imageAssignment->assign($news, $dataRelImages, 'news');
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to News */
+            $this->imageAssignment->assign($news, $dataRelImages, 'news');
+        }
 
         $news->tags()->attach($dataRelTags);
 
@@ -127,8 +129,10 @@ class AdminNewsController extends Controller
 
         $news->update($data);
 
-        /** @see ImageAssignmentService creates a relationship Image to News */
-        $this->imageAssignment->assign($news, $dataRelImages, 'news');
+//        if ($dataRelImages) {
+//            /** @see ImageAssignmentService creates a relationship Image to News */
+//            $this->imageAssignment->assign($news, $dataRelImages, 'news');
+//        }
 
         $news->tags()->sync($dataRelTags);
 

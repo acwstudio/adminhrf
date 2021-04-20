@@ -16,8 +16,13 @@ class Event extends Model
     protected $fillable = [
         'title',
         'slug',
-        'announce'
-
+        'announce',
+        'body',
+        'street',
+        'published_at',
+        'afisha_date',
+        'leisure_id',
+        'city_id',
     ];
 
     public function sluggable(): array
