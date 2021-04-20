@@ -67,7 +67,7 @@ class AdminTestController extends Controller
      */
     public function store(TestCreateRequest $request)
     {
-        $this->authorize('manage', Test::class);
+//        $this->authorize('manage', Test::class);
 
         $dataAttributes = $request->input('data.attributes');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
@@ -99,7 +99,7 @@ class AdminTestController extends Controller
      */
     public function show(Test $test)
     {
-        $this->authorize('manage', Test::class);
+//        $this->authorize('manage', Test::class);
 
         $query = QueryBuilder::for(Test::class)
             ->where('id', $test->id)
@@ -121,7 +121,7 @@ class AdminTestController extends Controller
      */
     public function update(TestUpdateRequest $request, Test $test)
     {
-        $this->authorize('manage', Test::class);
+//        $this->authorize('manage', Test::class);
 
         $data = $request->input('data.attributes');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
@@ -148,7 +148,7 @@ class AdminTestController extends Controller
      */
     public function destroy(Test $test)
     {
-        $this->authorize('manage', Test::class);
+//        $this->authorize('manage', Test::class);
 
         $idCategories = $test->categories()->allRelatedIds();
         $idQuestions = $test->questions()->allRelatedIds();

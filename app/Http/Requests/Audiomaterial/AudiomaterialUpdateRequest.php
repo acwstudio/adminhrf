@@ -43,6 +43,7 @@ class AudiomaterialUpdateRequest extends FormRequest
             'data.relationships.tags.data.*.id' => 'exists:tags,id',
             'data.relationships.bookmarks.data.*.type' => 'present|in:bookmarks',
             'data.relationships.bookmarks.data.*.id' => 'exists:bookmarks,id',
+            'data.relationships.images.data' => 'required|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
             'data.relationships.images.data.*.id' => 'exists:images,id',
         ];

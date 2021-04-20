@@ -47,6 +47,7 @@ class VideomaterialCreateRequest extends FormRequest
             'data.relationships.tags.data.*.id' => 'exists:tags,id',
             'data.relationships.authors.data.*.type' => 'present|in:authors',
             'data.relationships.authors.data.*.id' => 'exists:authors,id',
+            'data.relationships.images.data' => 'required|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
             'data.relationships.images.data.*.id' => 'exists:images,id',
         ];

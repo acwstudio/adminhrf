@@ -50,6 +50,7 @@ class BiographyUpdateRequest extends FormRequest
             'data.relationships.tags.data.*.id' => 'exists:tags,id',
             'data.relationships.biocategories.data.*.type' => 'present|in:biocategories',
             'data.relationships.biocategories.data.*.id' => 'exists:biocategories,id',
+            'data.relationships.images.data' => 'required|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
             'data.relationships.images.data.*.id' => 'exists:images,id',
         ];

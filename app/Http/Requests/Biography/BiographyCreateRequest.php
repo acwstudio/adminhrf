@@ -42,7 +42,7 @@ class BiographyCreateRequest extends FormRequest
             'data.attributes.government_end' => 'required|integer',
             'data.attributes.published_at' => 'required|string',
 //            'data.attributes.viewed' => 'required|integer',
-            'data.attributes.biblio' => 'required|json',
+            'data.attributes.biblio' => 'json',
             'data.attributes.active' => 'required|boolean',
 
             'data.relationships.*' => 'present|array',
@@ -50,6 +50,7 @@ class BiographyCreateRequest extends FormRequest
             'data.relationships.tags.data.*.id' => 'exists:tags,id',
             'data.relationships.biocategories.data.*.type' => 'present|in:biocategories',
             'data.relationships.biocategories.data.*.id' => 'exists:biocategories,id',
+            'data.relationships.images.data' => 'required|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
             'data.relationships.images.data.*.id' => 'exists:images,id',
         ];

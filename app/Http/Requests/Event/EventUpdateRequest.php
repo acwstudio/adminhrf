@@ -43,6 +43,7 @@ class EventUpdateRequest extends FormRequest
 
 //            'data.relationships' => 'required|array',
             'data.relationships.*' => 'present|array',
+            'data.relationships.images.data' => 'required|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
             'data.relationships.images.data.*.id' => 'exists:images,id',
         ];
