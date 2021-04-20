@@ -1,5 +1,4 @@
 User-Agent: *
-Disallow: /*?*
 Allow: *.css?*
 Allow: *.js?*
 Disallow: /bundles/
@@ -9,11 +8,13 @@ Disallow: /*sort_by
 Disallow: /*search
 Disallow: /*?utm
 Disallow: /api/v1/*
+Allow: /rss
 User-Agent: Yandex
 Disallow: /*?clink=
 Disallow: /*sort_by
 Disallow: /*search
 Disallow: /*?utm
 Disallow: /api/v1/*
+Allow: /rss
 User-agent: Twitterbot
 Allow: /
