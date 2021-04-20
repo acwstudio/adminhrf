@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Test;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminQuestionCollection;
+use App\Http\Resources\Admin\Question\AdminQuestionCollection;
 use App\Models\Test;
 use Illuminate\Http\Request;
 

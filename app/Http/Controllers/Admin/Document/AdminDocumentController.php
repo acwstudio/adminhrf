@@ -69,16 +69,23 @@ class AdminDocumentController extends Controller
         $this->authorize('manage', Document::class);
 
         $data = $request->input('data.attributes');
-
-        $dataRelImages = $request->input('data.relationships.images.data.*.id');
-        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
-
         $document = Document::create($data);
 
-        /** @see ImageAssignmentService creates a relationship Image to Document */
-        $this->imageAssignment->assign($document, $dataRelImages, 'document');
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
+        if (!empty($dataRelTags)) {
+            $document->tags()->attach($dataRelTags);
+        }
 
-        $document->tags()->attach($dataRelTags);
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        if (!empty($dataRelImages)) {
+
+            $this->imageAssignment->assign($document, $dataRelImages, 'document');
+
+        } else {
+            $document->tags()->detach();
+            $document->delete();
+            abort(403, 'Resource must have image relation!');
+        }
 
         return (new AdminDocumentResource($document))
             ->response()
@@ -119,14 +126,9 @@ class AdminDocumentController extends Controller
         $this->authorize('manage', Document::class);
 
         $data = $request->input('data.attributes');
-        $dataRelImages = $request->input('data.relationships.images.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
 
         $document->update($data);
-
-        /** @see ImageAssignmentService creates a relationship Image to Document */
-//        $this->imageAssignment->assign($document, $dataRelImages, 'document');
-
         $document->tags()->sync($dataRelTags);
 
         return new AdminDocumentResource($document);
@@ -143,10 +145,7 @@ class AdminDocumentController extends Controller
     {
         $this->authorize('manage', Document::class);
 
-        $idTags = $document->tags()->allRelatedIds();
-
-        $document->tags()->detach($idTags);
-
+        $document->tags()->detach();
         $document->images()->delete();
         $document->bookmarks()->delete();
         $document->delete();

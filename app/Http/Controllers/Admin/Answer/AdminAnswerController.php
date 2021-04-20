@@ -7,7 +7,7 @@ use App\Http\Requests\Answer\AnswerCreateRequest;
 use App\Http\Requests\Answer\AnswerUpdateRequest;
 use App\Http\Resources\Admin\Answer\AdminAnswerCollection;
 use App\Http\Resources\Admin\Answer\AdminAnswerResource;
-use App\Http\Resources\Admin\AdminQuestionResource;
+use App\Http\Resources\Admin\Question\AdminQuestionResource;
 use App\Models\TAnswer;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;

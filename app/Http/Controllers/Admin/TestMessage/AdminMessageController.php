@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin\TestMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TestMessage\MessageCreateRequest;
 use App\Http\Requests\TestMessage\MessageUpdateRequest;
-use App\Http\Resources\Admin\AdminMessageCollection;
-use App\Http\Resources\Admin\AdminMessageResource;
+use App\Http\Resources\Admin\TestMessage\AdminMessageCollection;
+use App\Http\Resources\Admin\TestMessage\AdminMessageResource;
 use App\Models\TestMessage;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -57,7 +57,7 @@ class AdminMessageController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return AdminMessageResource
+     * @return \App\Http\Resources\Admin\TestMessage\AdminMessageResource
      */
     public function show(TestMessage $message)
     {

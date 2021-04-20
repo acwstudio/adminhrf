@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin\TestCategory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TestCategory\TCategoryCreateRequest;
 use App\Http\Requests\TestCategory\TCategoryUpdateRequest;
-use App\Http\Resources\Admin\AdminTCategoryCollection;
-use App\Http\Resources\Admin\AdminTCategoryLightResource;
-use App\Http\Resources\Admin\AdminTCategoryResource;
+use App\Http\Resources\Admin\TestCategory\AdminTCategoryCollection;
+use App\Http\Resources\Admin\TestCategory\AdminTCategoryLightResource;
+use App\Http\Resources\Admin\TestCategory\AdminTCategoryResource;
 use App\Models\QCategory;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -58,7 +58,7 @@ class AdminTestCategoryController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return AdminTCategoryResource
+     * @return \App\Http\Resources\Admin\TestCategory\AdminTCategoryResource
      */
     public function show(QCategory $QCategory)
     {
@@ -75,7 +75,7 @@ class AdminTestCategoryController extends Controller
      *
      * @param TCategoryUpdateRequest $request
      * @param QCategory $QCategory
-     * @return AdminTCategoryResource
+     * @return \App\Http\Resources\Admin\TestCategory\AdminTCategoryResource
      */
     public function update(TCategoryUpdateRequest $request, QCategory $QCategory)
     {

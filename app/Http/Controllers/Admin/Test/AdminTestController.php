@@ -44,7 +44,7 @@ class AdminTestController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('manage', Test::class);
+//        $this->authorize('manage', Test::class);
 
         $perPage = $request->get('per_page');
 
@@ -129,10 +129,10 @@ class AdminTestController extends Controller
 
         $test->update($data);
 
-//        if ($dataRelImages){
-//            /** @see ImageAssignmentService creates a relationship Image to Test */
-//            $this->imageAssignment->assign($test, $dataRelImages, 'test');
-//        }
+        if ($dataRelImages){
+            /** @see ImageAssignmentService creates a relationship Image to Test */
+            $this->imageAssignment->assign($test, $dataRelImages, 'test');
+        }
 
         $test->categories()->sync($dataRelCategories);
 

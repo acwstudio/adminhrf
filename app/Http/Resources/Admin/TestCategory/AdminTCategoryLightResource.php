@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\TestCategory;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminTCategoryIdentifierResource
+ * Class AdminTCategoryLightResource
  * @package App\Http\Resources\Admin
  */
-class AdminTCategoryIdentifierResource extends JsonResource
+class AdminTCategoryLightResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,8 @@ class AdminTCategoryIdentifierResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => 'tcategories'
+            'type' => 'tcategories',
+            'title' => $this->text
         ];
     }
 }

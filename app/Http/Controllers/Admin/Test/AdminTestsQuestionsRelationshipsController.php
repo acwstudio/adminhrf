@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Test;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Test\TestsQuestionsUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminQuestionsIdentifireResource;
+use App\Http\Resources\Admin\Question\AdminQuestionsIdentifireResource;
 use App\Models\Question;
 use App\Models\Test;
 use Illuminate\Http\Request;

@@ -121,10 +121,10 @@ class AdminVideomaterialController extends Controller
 
         $videomaterial->update($dataAttributes);
 
-//        if ($dataRelImages) {
-//            /** @see  ImageAssignmentService creates a relationship Image to Videomaterial */
-//            $this->imageAssignment->assign($videomaterial, $dataRelImages, 'videomaterial');
-//        }
+        if ($dataRelImages) {
+            /** @see  ImageAssignmentService creates a relationship Image to Videomaterial */
+            $this->imageAssignment->assign($videomaterial, $dataRelImages, 'videomaterial');
+        }
 
         $videomaterial->authors()->sync($dataRelAuthors);
         $videomaterial->tags()->sync($dataRelTags);

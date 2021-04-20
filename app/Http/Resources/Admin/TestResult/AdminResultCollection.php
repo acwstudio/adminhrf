@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\TestResult;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class AdminTCategoryCollection extends ResourceCollection
+/**
+ * Class AdminResultCollection
+ * @package App\Http\Resources\Admin
+ */
+class AdminResultCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Test;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Test\TestsTCategoriesUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminTCategoryIdentifierResource;
+use App\Http\Resources\Admin\TestCategory\AdminTCategoryIdentifierResource;
 use App\Models\Test;
 use Illuminate\Http\Request;
 
