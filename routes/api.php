@@ -170,6 +170,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/subscriptions/tags/', [\App\Http\Controllers\SubscriptionController::class,'getTags']);
             //Route::get('/subscriptions/tags/', [\App\Http\Controllers\SubscriptionController::class,'getTags']);
 
+            Route::get('/search/{query}', [\App\Http\Controllers\SearchController::class, 'articles']);
             Route::get('/search/articles/{query}', [\App\Http\Controllers\SearchController::class, 'articles']);
             Route::get('/search/news/{query}', [\App\Http\Controllers\SearchController::class, 'news']);
             Route::get('/search/biographies/{query}', [\App\Http\Controllers\SearchController::class, 'biograpies']);
