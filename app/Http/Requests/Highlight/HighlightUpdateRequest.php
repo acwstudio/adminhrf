@@ -40,6 +40,7 @@ class HighlightUpdateRequest extends FormRequest
             'data.relationships.*' => 'present|array',
             'data.relationships.tags.data.*.type' => 'present|in:tags',
             'data.relationships.tags.data.*.id' => 'exists:tags,id',
+            'data.relationships.images.data' => 'required|array',
             'data.relationships.highlightables.data.*.type' => 'present',
             'data.relationships.highlightables.data.*.id' => 'present',
             'data.relationships.highlightables.data.*.is_additional' => 'sometimes|boolean',

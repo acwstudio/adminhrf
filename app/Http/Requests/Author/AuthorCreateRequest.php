@@ -40,6 +40,7 @@ class AuthorCreateRequest extends FormRequest
             'data.relationships.*' => 'present|array',
             'data.relationships.articles.data.*.type' => 'present|in:articles',
             'data.relationships.articles.data.*.id' => 'exists:articles,id',
+            'data.relationships.images.data' => 'required|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
             'data.relationships.images.data.*.id' => 'exists:images,id',
         ];

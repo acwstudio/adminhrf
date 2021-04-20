@@ -39,6 +39,8 @@ class DocumentCreateRequest extends FormRequest
             'data.attributes.document_date' => 'required|string',
             'data.attributes.document_text_date' => 'required|string',
             'data.attributes.options' => 'required|json',
+
+            'data.relationships.images.data' => 'required|array',
         ];
     }
 }

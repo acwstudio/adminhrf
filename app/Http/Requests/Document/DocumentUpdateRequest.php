@@ -41,6 +41,7 @@ class DocumentUpdateRequest extends FormRequest
             'data.attributes.document_text_date' => 'string',
             'data.attributes.options' => 'json',
 
+            'data.relationships.images.data' => 'required|array',
         ];
     }
 }
