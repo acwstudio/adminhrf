@@ -1,7 +1,7 @@
 <rss xmlns:yandex="http://news.yandex.ru" xmlns:media="http://search.yahoo.com/mrss/" xmlns:turbo="http://turbo.yandex.ru" version="2.0">
     <channel>
         <title>История РФ</title>
-        <link>{{url("read/articles?page=",$page)}}</link>
+        <link>{{url($url.'?page'.$page)}}</link>
         <img src="https://histrf.ru/favicon.ico"></img>
 
         <turbo:analytics type="Yandex" id="20561137"></turbo:analytics>

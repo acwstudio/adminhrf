@@ -33,8 +33,11 @@
                             <a href="https://histrf.ru/read">Читать</a>
                             <a href="https://histrf.ru/watch">Смотреть</a>
                             <a href="https://histrf.ru/listen">Слушать</a>
-                            <a href="https://histrf.ru/tests">Тесты</a>
                             <a href="https://histrf.ru/collections">Подборки</a>
+                            <a href="https://histrf.ru/timeline">Лента времени</a>
+                            <a href="https://histrf.ru/tests">Тесты</a>
+                            <a href="https://histrf.ru/poster">Афиша</a>
+
                         </menu>
                     </header>
                     {!! $article->body !!}

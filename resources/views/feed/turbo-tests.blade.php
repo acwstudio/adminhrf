@@ -1,14 +1,14 @@
 <rss xmlns:yandex="http://news.yandex.ru" xmlns:media="http://search.yahoo.com/mrss/" xmlns:turbo="http://turbo.yandex.ru" version="2.0">
     <channel>
         <title>История РФ</title>
-        <link></link>
+        <link>{{url($url.'?page'.$page)}}</link>
         <img src="https://histrf.ru/favicon.ico"></img>
 
         <turbo:analytics type="Yandex" id="20561137"></turbo:analytics>
 
         @foreach( $entities as $entity )
             <item turbo="true">
-                <link>{{ url('read/articles', $entity->slug) }}</link>
+                <link>{{ url('read/articles', $entity->id) }}</link>
                 {{--            <author>{{ $entity->authors->first()->lastname.$entity->authors->first()->name }}</author>--}}
                 {{--            <category>{{ $entity->tags()->get()->first()->title }}</category>--}}
                 <pubDate>{{ \Carbon\Carbon::parse( $entity->published_at )->format( 'D, d M Y H:i:s O' ) }}</pubDate>
