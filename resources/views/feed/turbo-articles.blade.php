@@ -1,25 +1,22 @@
-<rss
-     xmlns:content="http://purl.org/rss/1.0/modules/content/"
-     xmlns:dc="http://purl.org/dc/elements/1.1/"
-     xmlns:media="http://search.yahoo.com/mrss/"
-     xmlns:atom="http://www.w3.org/2005/Atom"
-     xmlns:georss="http://www.georss.org/georss" version="2.0">
+<rss xmlns:yandex="http://news.yandex.ru" xmlns:media="http://search.yahoo.com/mrss/" xmlns:turbo="http://turbo.yandex.ru" version="2.0">
     <channel>
         <title>История РФ</title>
-        <link>{{url("read/articles?page=".$page)}}</link>
+        <link>{{url("read/articles?page=",$page)}}</link>
         <img src="https://histrf.ru/favicon.ico"></img>
+
+        <turbo:analytics type="Yandex" id="20561137"></turbo:analytics>
+
         @foreach( $articles as $article )
-            <item>
+            <item turbo="true">
                 <link>{{ url('read/articles', $article->slug) }}</link>
-                <pdalink>{{ url('read/articles', $article->slug) }}</pdalink>
-                <amplink>{{ url('read/articles', $article->slug) }}</amplink>
                 {{--            <author>{{ $article->authors->first()->lastname.$article->authors->first()->name }}</author>--}}
                 {{--            <category>{{ $article->tags()->get()->first()->title }}</category>--}}
                 <pubDate>{{ \Carbon\Carbon::parse( $article->published_at )->format( 'D, d M Y H:i:s O' ) }}</pubDate>
+                <yandex:genre>{{$type}}</yandex:genre>
                 <guid>{{ url($url, $article->slug) }}</guid>
                 <description>{{ $article->announce }}</description>
-                <language>ru</language>
-                <content:encoded>
+                <yandex:full-text>{{ strip_tags($article->body) }}</yandex:full-text>
+                <turbo:content>
                     <![CDATA[
                     <header>
                         <h1>{{ $article->title }}</h1>
@@ -39,7 +36,7 @@
                     </header>
                     {!! $article->body !!}
                     ]]>
-                </content:encoded>
+                </turbo:content>
             </item>
         @endforeach
     </channel>
