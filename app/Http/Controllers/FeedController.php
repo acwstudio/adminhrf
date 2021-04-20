@@ -33,7 +33,8 @@ class FeedController extends Controller
         return response()->view('feed.rss', [
             'articles' => $articles,
             'page' => $page,
-            'type' => $type
+            'type' => $type,
+	    'url' => 'read/articles',
         ])->header('Content-Type', 'text/xml');
     }
 

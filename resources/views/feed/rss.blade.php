@@ -6,7 +6,7 @@
      xmlns:georss="http://www.georss.org/georss" version="2.0">
     <channel>
         <title>История РФ</title>
-        <link>{{url("read/articles?page=",$page)}}</link>
+        <link>{{url("read/articles?page=".$page)}}</link>
         <img src="https://histrf.ru/favicon.ico"></img>
         @foreach( $articles as $article )
             <item>
