@@ -219,7 +219,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/turbo/biographies', [\App\Http\Controllers\FeedController::class, 'turboBiographies']);
     Route::get('/turbo/news', [\App\Http\Controllers\FeedController::class, 'turboNews']);
     Route::get('/turbo/timeline', [\App\Http\Controllers\FeedController::class, 'turboTimeline']);
-    Route::get('/turbo/afisha', [\App\Http\Controllers\FeedContCroller::class, 'turboAfisha']);
+    Route::get('/turbo/afisha', [\App\Http\Controllers\FeedController::class, 'turboAfisha']);
+    Route::get('/turbo/videolectures', [\App\Http\Controllers\FeedController::class, 'turboVideolectures']);
+    Route::get('/turbo/films', [\App\Http\Controllers\FeedController::class, 'turboFilms']);
 
     //Route::get('/magazine/', [MagazineController::class, 'index']);
     Route::get('/magazine/', [MagazineController::class, 'indexMagazines']);

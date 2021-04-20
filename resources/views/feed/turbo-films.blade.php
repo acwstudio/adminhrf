@@ -6,22 +6,22 @@
 
         <turbo:analytics type="Yandex" id="20561137"></turbo:analytics>
 
-        @foreach( $videolectures as $videolecture )
+        @foreach( $films as $film )
             <item turbo="true">
-                <link>{{url($url.'/'.$videolecture->slug)}}</link>
-                {{--            <author>{{ $videolecture->authors->first()->lastname.$videolecture->authors->first()->name }}</author>--}}
-                {{--            <category>{{ $videolecture->tags()->get()->first()->title }}</category>--}}
-                <pubDate>{{ \Carbon\Carbon::parse( $videolecture->published_at )->format( 'D, d M Y H:i:s O' ) }}</pubDate>
+                <link>{{url($url.'/'.$film->slug)}}</link>
+                {{--            <author>{{ $film->authors->first()->lastname.$film->authors->first()->name }}</author>--}}
+                {{--            <category>{{ $film->tags()->get()->first()->title }}</category>--}}
+                <pubDate>{{ \Carbon\Carbon::parse( $film->published_at )->format( 'D, d M Y H:i:s O' ) }}</pubDate>
                 <yandex:genre>{{$type}}</yandex:genre>
-                <guid>{{ url($url, $videolecture->slug) }}</guid>
-                <description>{{ $videolecture->announce }}</description>
-                <yandex:full-text>{{ strip_tags($videolecture->body) }}</yandex:full-text>
+                <guid>{{ url($url, $film->slug) }}</guid>
+                <description>{{ $film->announce }}</description>
+                <yandex:full-text>{{ strip_tags($film->body) }}</yandex:full-text>
                 <turbo:content>
                     <![CDATA[
                     <header>
-                        <h1>{{ $videolecture->title }}</h1>
+                        <h1>{{ $film->title }}</h1>
                         {{--                    <figure> --}}
-                        {{--                        <img src="/{{$videolecture->images()->first()->preview}}"> --}}
+                        {{--                        <img src="/{{$film->images()->first()->preview}}"> --}}
                         {{--                    </figure> --}}
                         <menu>
                             {{--                        @foreach( $categories as $category )  --}}
@@ -36,13 +36,13 @@
                             <a href="https://histrf.ru/poster">Афиша</a>
                         </menu>
                     </header>
-                    {!! $videolecture->body !!}
+                    {!! $film->body !!}
                     <iframe
                         width="100%"
                         height="560"
-                        :src='{{$videolecture->video_code}}'
+                        src='{{$film->video_code}}'
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
+                        allowfullscreen
                     ></iframe>
                     ]]>
                 </turbo:content>
