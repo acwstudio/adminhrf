@@ -10,6 +10,7 @@ use App\Http\Resources\Admin\AdminHighlightResource;
 use App\Models\Bookmark;
 use App\Models\Highlight;
 use App\Models\Image;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -22,6 +23,7 @@ class AdminHighlightController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return AdminHighlightCollection
      */
     public function index(Request $request)
@@ -39,35 +41,55 @@ class AdminHighlightController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param HighlightCreateRequest $request
+     * @return JsonResponse
      */
     public function store(HighlightCreateRequest $request)
     {
 
+        $error = false;
+        $messages = [];
+
         $data = $request->input('data.attributes');
-        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
-        $dataRelImages = $request->input('data.relationships.images.data.*.id');
-        $dataRelHighlightables =  $request->input('data.relationships.highlightables.data');
-
-//        dd($data, $dataRelTags, $dataRelImages, $dataRelHighlightables);
-
         $highlight = Highlight::create($data);
-        $highlight->tags()->attach($dataRelTags);
 
-        $image = Image::find($dataRelImages[0]);
-        if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'highlight') {
-            $highlight->images()->save($image);
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
+        if (!empty($dataRelTags)) {
+            $highlight->tags()->attach($dataRelTags);
         }
 
-        foreach ($dataRelHighlightables as $highlightable) {
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        if (!empty($dataRelImages)) {
+            $image = Image::find($dataRelImages[0]);
+            if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'highlight') {
+                $highlight->images()->save($image);
+            }
+        } else {
+            $error = true;
+            $messages[] = 'Resource must have image relation!';
+        }
 
-            $created = $highlight->highlightable()->create([
-                'highlightable_type' => $highlightable['type'],
-                'highlightable_id' => $highlightable['id'],
-                'is_additional' => $highlightable['is_additional'] ?? false,
-            ]);
+        $dataRelHighlightables =  $request->input('data.relationships.highlightables.data');
+        if (!empty($dataRelHighlightables)) {
+            foreach ($dataRelHighlightables as $highlightable) {
 
+                $highlight->highlightable()->create([
+                    'highlightable_type' => $highlightable['type'],
+                    'highlightable_id' => $highlightable['id'],
+                    'is_additional' => $highlightable['is_additional'] ?? false,
+                ]);
+
+            }
+        } else {
+            $error = true;
+            $messages[] = 'Resource must have highlightables!';
+        }
+
+        if ($error) {
+            $highlight->images()->delete();
+            $highlight->highlightable()->delete();
+            $highlight->delete();
+            abort(403, join('|', $messages));
         }
 
         return (new AdminHighlightResource($highlight))
@@ -80,7 +102,7 @@ class AdminHighlightController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Highlight $highlight
      * @return AdminHighlightResource
      */
     public function show(Highlight $highlight)
@@ -96,7 +118,7 @@ class AdminHighlightController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
      * @return AdminHighlightResource
      */
@@ -105,6 +127,24 @@ class AdminHighlightController extends Controller
         $data = $request->input('data.attributes');
 
         $highlight->update($data);
+
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
+        $highlight->tags()->sync($dataRelTags);
+
+        $dataRelHighlightables =  $request->input('data.relationships.highlightables.data');
+        if (!empty($dataRelHighlightables)) {
+
+            $highlight->highlightable()->delete();
+
+            foreach ($dataRelHighlightables as $highlightable) {
+
+                $highlight->highlightable()->create([
+                    'highlightable_type' => $highlightable['type'],
+                    'highlightable_id' => $highlightable['id'],
+                    'is_additional' => $highlightable['is_additional'] ?? false,
+                ]);
+            }
+        }
 
         return new AdminHighlightResource($highlight);
     }
@@ -118,6 +158,9 @@ class AdminHighlightController extends Controller
      */
     public function destroy(Highlight $highlight)
     {
+        $highlight->tags()->sync(null);
+        $highlight->images()->delete();
+        $highlight->highlightable()->delete();
         $highlight->delete();
 
         return response(null, 204);

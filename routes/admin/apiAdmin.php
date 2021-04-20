@@ -709,7 +709,7 @@ Route::patch('/highlights/{highlight}/relationships/highlightables', [
 ])->name('highlights.relationships.highlightables');
 
 Route::get('/highlights/{highlight}/highlightables', [
-    AdminHighlightHighlightablesRelatedController::class
+    AdminHighlightHighlightablesRelatedController::class, 'index'
 ])->name('highlights.highlightables');
 
 /*****************  MESSAGES ROUTES **************/

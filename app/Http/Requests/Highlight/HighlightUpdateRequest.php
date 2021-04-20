@@ -31,13 +31,18 @@ class HighlightUpdateRequest extends FormRequest
             'data' => 'required|array',
             'data.type' => 'required|in:highlights',
             'data.attributes' => 'required|array',
-//            'data.attributes.created_at' => 'string',
-//            'data.attributes.updated_at' => 'string',
-            'data.attributes.title' => 'string',
-            'data.attributes.type' => 'string',
-            'data.attributes.announce' => 'string',
-            'data.attributes.order' => 'integer',
-            'data.attributes.published_at' => 'string',
+            'data.attributes.title' => 'required|string',
+            'data.attributes.announce' => 'required|string',
+            'data.attributes.order' => 'required|integer',
+            'data.attributes.published_at' => 'required|string',
+            'data.attributes.active' => 'required|boolean',
+
+            'data.relationships.*' => 'present|array',
+            'data.relationships.tags.data.*.type' => 'present|in:tags',
+            'data.relationships.tags.data.*.id' => 'exists:tags,id',
+            'data.relationships.highlightables.data.*.type' => 'present',
+            'data.relationships.highlightables.data.*.id' => 'present',
+            'data.relationships.highlightables.data.*.is_additional' => 'sometimes|boolean',
         ];
     }
 }
