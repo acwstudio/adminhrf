@@ -6,6 +6,7 @@ use App\Http\Resources\Admin\AdminBookmarkCollection;
 use App\Http\Resources\Admin\AdminCommentCollection;
 use App\Http\Resources\Admin\AdminImageCollection;
 use App\Http\Resources\Admin\City\AdminCityResource;
+use App\Http\Resources\Admin\Leisure\AdminLeisureResource;
 use App\Http\Resources\Admin\Like\AdminLikeCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -73,10 +74,10 @@ class AdminEventResource extends JsonResource
                 ],
                 'leisure' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('event.relationships.leisure', ['event' => $this->id]),
+                        'related' => route('event.leisure', ['event' => $this->id])
                     ],
-                    'data' => []
+                    'data' => new AdminLeisureResource($this->whenLoaded('leisure'))
                 ],
                 'city' => [
                     'links' => [

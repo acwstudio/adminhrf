@@ -34,6 +34,8 @@ use App\Http\Controllers\Admin\Event\AdminEventBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Event\AdminEventCommentsRelatedController;
 use App\Http\Controllers\Admin\Event\AdminEventCommentsRelationshipsController;
 use App\Http\Controllers\Admin\Event\AdminEventController;
+use App\Http\Controllers\Admin\Event\AdminEventLeisureRelatedController;
+use App\Http\Controllers\Admin\Event\AdminEventLeisureRelationshipsController;
 use App\Http\Controllers\Admin\Event\AdminEventsCityRelatedController;
 use App\Http\Controllers\Admin\Event\AdminEventsCityRelationshipsController;
 use App\Http\Controllers\Admin\Event\AdminEventsLikesRelatedController;
@@ -87,6 +89,8 @@ use App\Http\Controllers\Admin\Highlight\AdminHighlightImagesRelationshipsContro
 use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelatedController;
 use App\Http\Controllers\Admin\Highlight\AdminHighlightsTagsRelationshipsController;
 use App\Http\Controllers\Admin\Leisure\AdminLeisureController;
+use App\Http\Controllers\Admin\Leisure\AdminLeisureEventRelatedController;
+use App\Http\Controllers\Admin\Leisure\AdminLeisureEventRelationshipsController;
 use App\Http\Controllers\Admin\Like\AdminLikeController;
 use App\Http\Controllers\Admin\News\AdminNewsBookmarksRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsBookmarksRelationshipsController;
@@ -660,6 +664,19 @@ Route::get('/events/{event}/likes', [
     AdminEventsLikesRelatedController::class, 'index'
 ])->name('events.likes');
 
+// Event to Leisure relations
+Route::get('/events/{event}/relationships/leisure', [
+    AdminEventLeisureRelationshipsController::class, 'index'
+])->name('event.relationships.leisure');
+
+Route::patch('/events/{event}/relationships/leisure', [
+    AdminEventLeisureRelationshipsController::class, 'update'
+])->name('event.relationships.leisure');
+
+Route::get('/events/{event}/leisure', [
+    AdminEventLeisureRelatedController::class, 'index'
+])->name('event.leisure');
+
 /*****************  IMAGES ROUTES **************/
 
 Route::get('/images/{image}', [AdminImageController::class, 'show'])->name('image.show');
@@ -713,6 +730,19 @@ Route::get('/highlights/{highlight}/highlightables', [
 /*****************  LEISURE ROUTES **************/
 
 Route::apiResource('/leisures', AdminLeisureController::class, ['as' => 'admin']);
+
+// Leisure to Event relations
+Route::get('/leisures/{leisure}/relationships/event', [
+    AdminLeisureEventRelationshipsController::class, 'index'
+])->name('leisure.relationships.event');
+
+Route::patch('/leisures/{leisure}/relationships/event', [
+    AdminLeisureEventRelationshipsController::class, 'update'
+])->name('leisure.relationships.event');
+
+Route::get('/leisures/{leisure}/event', [
+    AdminLeisureEventRelatedController::class, 'index'
+])->name('leisure.event');
 
 /*****************  LIKES ROUTES **************/
 

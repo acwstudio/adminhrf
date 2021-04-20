@@ -21,9 +21,15 @@ class Leisure extends Model
         ];
     }
 
+    protected $fillable = [
+        'title',
+        'active',
+        'count',
+    ];
 
     public function events()
     {
         return $this->hasOne(Event::class, 'leisure_id', 'id');
     }
+
 }

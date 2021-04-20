@@ -49,6 +49,7 @@ class AdminEventController extends Controller
             ->allowedIncludes([
                 'images','leisure','city','likes','bookmarks','comments'
             ])
+            ->allowedSorts(['id'])
             ->jsonPaginate($perPage);
 
         return new AdminEventCollection($query);

@@ -31,8 +31,9 @@ class AdminEventsCityRelationshipsController extends Controller
     public function update(EventsCityUpdateRelationshipsRequest $request, Event $event)
     {
         $ids = $request->input('data.*.id');
+        $id = array_shift($ids);
 
-        $event->city()->associate($ids);
+        $event->city()->associate($id)->save();
 
         return response(null, 204);
     }
