@@ -14,8 +14,17 @@ class CommentResource extends JsonResource
      */
     public function toArray($request)
     {
+        $map = [
+            'highlight', 'videomaterial'
+        ];
+        $notMap = [
+            'news', 'highlight', 'event', 'audiomaterial', 'biography'
+        ];
         $user = $request->user();
-
+        $arr = in_array($this->commentable_type, $map) ? $this->commentable->type : $this->commentable_type;
+        if ($arr == 'audiomaterial') {
+            $arr = 'audiolecture';
+        }
         return [
             'model_type' => $this->type,
             'id' => $this->id,
@@ -32,7 +41,7 @@ class CommentResource extends JsonResource
             ]),
             $this->mergeWhen($request->routeIs('popular.comments', 'profile.comments', 'popular.reviews'), [
                 'resource' => [
-                    'model_type' => $this->commentable_type,
+                    'model_type' => $arr,
                     'id' => $this->commentable_id,
                     'title' => optional($this->commentable)->title,
                     'slug' => optional($this->commentable)->slug,
