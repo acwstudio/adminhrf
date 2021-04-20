@@ -10,8 +10,10 @@ use App\Http\Resources\Admin\AdminHighlightResource;
 use App\Models\Bookmark;
 use App\Models\Highlight;
 use App\Models\Image;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -25,9 +27,12 @@ class AdminHighlightController extends Controller
      *
      * @param Request $request
      * @return AdminHighlightCollection
+     * @throws AuthorizationException
      */
     public function index(Request $request)
     {
+        $this->authorize('manage', Highlight::class);
+
         $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Highlight::class)
             ->allowedIncludes(['tags', 'images', 'highlightable'])
@@ -43,9 +48,11 @@ class AdminHighlightController extends Controller
      *
      * @param HighlightCreateRequest $request
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function store(HighlightCreateRequest $request)
     {
+        $this->authorize('manage', Highlight::class);
 
         $error = false;
         $messages = [];
@@ -104,9 +111,12 @@ class AdminHighlightController extends Controller
      *
      * @param Highlight $highlight
      * @return AdminHighlightResource
+     * @throws AuthorizationException
      */
     public function show(Highlight $highlight)
     {
+        $this->authorize('manage', Highlight::class);
+
         $query = QueryBuilder::for(Highlight::class)
             ->where('id', $highlight->id)
             ->allowedIncludes(['tags', 'images', 'highlightable'])
@@ -118,12 +128,15 @@ class AdminHighlightController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  int  $id
+     * @param HighlightUpdateRequest $request
+     * @param Highlight $highlight
      * @return AdminHighlightResource
+     * @throws AuthorizationException
      */
     public function update(HighlightUpdateRequest $request, Highlight $highlight)
     {
+        $this->authorize('manage', Highlight::class);
+
         $data = $request->input('data.attributes');
 
         $highlight->update($data);
@@ -152,13 +165,15 @@ class AdminHighlightController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
+     * @param Highlight $highlight
+     * @return Response
+     * @throws AuthorizationException
      */
     public function destroy(Highlight $highlight)
     {
-        $highlight->tags()->sync(null);
+        $this->authorize('manage', Highlight::class);
+
+        $highlight->tags()->detach();
         $highlight->images()->delete();
         $highlight->highlightable()->delete();
         $highlight->delete();
