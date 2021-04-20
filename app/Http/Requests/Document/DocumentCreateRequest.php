@@ -34,13 +34,17 @@ class DocumentCreateRequest extends FormRequest
             'data.attributes.document_category_id' => 'required|integer',
             'data.attributes.title' => 'required|string',
             'data.attributes.announce' => 'required|string',
-            'data.attributes.body' => 'required|string',
+            'data.attributes.body' => 'nullable|string',
             'data.attributes.file' => 'required|string',
             'data.attributes.document_date' => 'required|string',
-            'data.attributes.document_text_date' => 'required|string',
-            'data.attributes.options' => 'required|json',
+            'data.attributes.document_text_date' => 'nullable|string',
+            'data.attributes.options' => 'nullable|json',
 
-            'data.relationships.images.data' => 'required|array',
+            'data.relationships.*' => 'present|array',
+            'data.relationships.tags.data.*.type' => 'present|in:tags',
+            'data.relationships.tags.data.*.id' => 'exists:tags,id',
+            'data.relationships.images.data.*.type' => 'present|in:images',
+            'data.relationships.images.data.*.id' => 'exists:images,id',
         ];
     }
 }

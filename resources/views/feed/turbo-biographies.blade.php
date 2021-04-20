@@ -19,7 +19,7 @@
                 <turbo:content>
                     <![CDATA[
                     <header>
-                        <h1>{{ $entity->title }}</h1>
+                        <h1>{{ $entity->surname.' '.$entity->firstname }}</h1>
                         {{--                    <figure> --}}
                         {{--                        <img src="/{{$entity->images()->first()->preview}}"> --}}
                         {{--                    </figure> --}}

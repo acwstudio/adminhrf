@@ -8,6 +8,7 @@ namespace App\Services;
 
 use App\Models\Image;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class ImageAssignmentService
@@ -22,9 +23,10 @@ class ImageAssignmentService
      * @param Model $model
      * @param array $Ids
      * @param string $imageableType
-     * @return \Illuminate\Http\JsonResponse
+     * @param bool $response
+     * @return JsonResponse|boolean
      */
-    public function assign(Model $model, array $Ids, string $imageableType)
+    public function assign(Model $model, array $Ids, string $imageableType, $response = true)
     {
         $messages = [];
 
@@ -32,18 +34,27 @@ class ImageAssignmentService
 
             $image = Image::find($id);
             $result = $this->checkRelationships($image, $imageableType, $model->id);
+            array_push($messages, $result);
 
             if ($result['result']) {
+
                 $model->images()->save($image);
-                array_push($messages, $result);
-            } else {
-                response();
-                array_push($messages, $result);
+
             }
+        }
+
+        if ($response) {
+
+            return response()->json($messages);
+
+        } else {
+
+            return collect($messages)->every(function ($value, $key) {
+                return $value['result'];
+            });
 
         }
 
-        return response()->json($messages, 200);
     }
 
     /**
