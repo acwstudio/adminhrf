@@ -19,7 +19,7 @@ class SearchController extends Controller
             return ArticleSearchResource::collection(Article::where('active','=',true)->search($query)->orderBy('published_at', 'desc')->paginate($perPage)); //->union()
         }
         elseif($model =='test'){
-            return TestSearchController::collection(Article::search($query)->orderBy('published_at', 'desc')->paginate($perPage))
+            return TestSearchController::collection(Test::search($query)->orderBy('published_at', 'desc')->paginate($perPage));
         }
 
     }
