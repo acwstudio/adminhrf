@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Question;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminResultsIdentifierResource
+ * Class AdminQuestionsIdentifireResource
  * @package App\Http\Resources\Admin
  */
-class AdminResultsIdentifierResource extends JsonResource
+class AdminQuestionsIdentifireResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,7 @@ class AdminResultsIdentifierResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => 'results'
+            'type' => 'questions'
         ];
     }
 }

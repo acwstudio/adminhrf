@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Test;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminMessageCollection;
+use App\Http\Resources\Admin\TestMessage\AdminMessageCollection;
 use App\Models\Test;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class AdminTestMessagesRelatedController extends Controller
 {
     /**
      * @param Test $test
-     * @return AdminMessageCollection
+     * @return \App\Http\Resources\Admin\TestMessage\AdminMessageCollection
      */
     public function index(Test $test)
     {

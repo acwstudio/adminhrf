@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\TestCategory;
 
 use App\Http\Resources\Admin\Test\AdminTestsIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;

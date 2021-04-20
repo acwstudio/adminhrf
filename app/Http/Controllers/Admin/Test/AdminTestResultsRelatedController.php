@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Test;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminResultCollection;
+use App\Http\Resources\Admin\TestResult\AdminResultCollection;
 use App\Models\Test;
 
 /**
@@ -14,7 +14,7 @@ class AdminTestResultsRelatedController extends Controller
 {
     /**
      * @param Test $test
-     * @return AdminResultCollection
+     * @return \App\Http\Resources\Admin\TestResult\AdminResultCollection
      */
     public function index(Test $test)
     {
