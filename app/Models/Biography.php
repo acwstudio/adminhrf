@@ -35,6 +35,8 @@ class Biography extends Model
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
         'published_at' => 'datetime',
+        'birth_date' => 'datetime',
+        'death_date' => 'datetime',
 //	'viewed' => 'bigint'
     ];
 
