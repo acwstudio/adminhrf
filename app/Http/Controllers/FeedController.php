@@ -76,7 +76,7 @@ class FeedController extends Controller
             'url' => 'read/news',
             'page' => $page,
             'type' => $type,
-            'rand' => News::all()->where('status','=',true)->random(1)->first()->slug,
+            'rand' => 'https://histrf.ru/read/news'.News::all()->where('status','=',true)->random(1)->first()->slug,
         ])->header('Content-Type', 'text/xml');
     }
 
