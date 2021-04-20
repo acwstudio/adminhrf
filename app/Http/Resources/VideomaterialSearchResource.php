@@ -4,29 +4,32 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NewsShortResource extends JsonResource
+class VideomaterialSearchResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)
     {
         $user = $request->user();
         return [
-            'model_type' => 'news',
+            'model_type' => $this->type,
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'announce' => $this->announce,
-            'image' => ImageResource::make($this->images()->orderBy('order', 'asc')->first()),
+            'video_code' => explode('"',$this->video_code)[0],
             'published_at' => $this->published_at,
-            'views' => $this->viewed,
-            'has_bookmark' => $user ? $this->hasBookmark($user): false,
-            'tags' => TagResource::collection($this->tags),
+            'lector' => AuthorShortResource::collection($this->authors),
             'comments' => $this->commented,
+            'likes' => $this->liked,
+            'views' => $this->viewed,
+            'has_like' => $user ? $this->checkLiked($user) : false,
+            'has_bookmark' => $user ? $this->hasBookmark($user): false,
+            'image' => ImageResource::make($this->images->first()),
         ];
     }
 }

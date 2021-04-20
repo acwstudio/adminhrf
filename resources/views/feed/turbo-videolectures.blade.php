@@ -6,22 +6,22 @@
 
         <turbo:analytics type="Yandex" id="20561137"></turbo:analytics>
 
-        @foreach( $videolectures as $videolecture )
+        @foreach( $lectures as $lecture )
             <item turbo="true">
-                <link>{{url($url.'/'.$videolecture->slug)}}</link>
-                {{--            <author>{{ $videolecture->authors->first()->lastname.$videolecture->authors->first()->name }}</author>--}}
-                {{--            <category>{{ $videolecture->tags()->get()->first()->title }}</category>--}}
-                <pubDate>{{ \Carbon\Carbon::parse( $videolecture->published_at )->format( 'D, d M Y H:i:s O' ) }}</pubDate>
+                <link>{{url($url.'/'.$lecture->slug)}}</link>
+                {{--            <author>{{ $lecture->authors->first()->lastname.$lecture->authors->first()->name }}</author>--}}
+                {{--            <category>{{ $lecture->tags()->get()->first()->title }}</category>--}}
+                <pubDate>{{ \Carbon\Carbon::parse( $lecture->published_at )->format( 'D, d M Y H:i:s O' ) }}</pubDate>
                 <yandex:genre>{{$type}}</yandex:genre>
-                <guid>{{ url($url, $videolecture->slug) }}</guid>
-                <description>{{ $videolecture->announce }}</description>
-                <yandex:full-text>{{ strip_tags($videolecture->body) }}</yandex:full-text>
+                <guid>{{ url($url, $lecture->slug) }}</guid>
+                <description>{{ $lecture->announce }}</description>
+                <yandex:full-text>{{ strip_tags($lecture->body) }}</yandex:full-text>
                 <turbo:content>
                     <![CDATA[
                     <header>
-                        <h1>{{ $videolecture->title }}</h1>
+                        <h1>{{ $lecture->title }}</h1>
                         {{--                    <figure> --}}
-                        {{--                        <img src="/{{$videolecture->images()->first()->preview}}"> --}}
+                        {{--                        <img src="/{{$lecture->images()->first()->preview}}"> --}}
                         {{--                    </figure> --}}
                         <menu>
                             {{--                        @foreach( $categories as $category )  --}}
@@ -36,14 +36,15 @@
                             <a href="https://histrf.ru/poster">Афиша</a>
                         </menu>
                     </header>
-                    {!! $videolecture->body !!}
-                    <iframe
+                    {!! $lecture->body !!}
+
+                    <p><iframe
                         width="100%"
                         height="560"
-                        src='{{$videolecture->video_code}}'
+                        src='{{$lecture->video_code}}'
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen
-                    ></iframe>
+                    ></iframe></p>
                     ]]>
                 </turbo:content>
             </item>
