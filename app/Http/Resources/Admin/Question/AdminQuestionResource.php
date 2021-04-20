@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Question;
 
 use App\Http\Resources\Admin\Answer\AdminAnswerIdentifireResource;
 use App\Http\Resources\Admin\Test\AdminTestsIdentifierResource;

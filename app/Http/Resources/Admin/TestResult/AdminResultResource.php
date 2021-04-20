@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\TestResult;
 
+use App\Http\Resources\Admin\AdminUserIdentifierResource;
 use App\Http\Resources\Admin\Test\AdminTestsIdentifierResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 

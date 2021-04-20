@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Test;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminTCategoryCollection;
+use App\Http\Resources\Admin\TestCategory\AdminTCategoryCollection;
 use App\Models\Test;
 use Illuminate\Http\Request;
 

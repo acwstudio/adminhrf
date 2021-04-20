@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\TestMessage;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

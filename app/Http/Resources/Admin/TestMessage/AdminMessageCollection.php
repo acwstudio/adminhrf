@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\TestMessage;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class AdminQuestionCollection extends ResourceCollection
+/**
+ * Class AdminMessageCollection
+ * @package App\Http\Resources\Admin\TestMessage
+ */
+class AdminMessageCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin\Question;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Question\QuestionCreateRequest;
 use App\Http\Requests\Question\QuestionUpdateRequest;
-use App\Http\Resources\Admin\AdminQuestionCollection;
-use App\Http\Resources\Admin\AdminQuestionResource;
+use App\Http\Resources\Admin\Question\AdminQuestionCollection;
+use App\Http\Resources\Admin\Question\AdminQuestionResource;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -57,7 +57,7 @@ class AdminQuestionController extends Controller
      * Display the specified resource.
      *
      * @param Question $question
-     * @return AdminQuestionResource
+     * @return \App\Http\Resources\Admin\Question\AdminQuestionResource
      */
     public function show(Question $question)
     {
@@ -74,7 +74,7 @@ class AdminQuestionController extends Controller
      *
      * @param QuestionUpdateRequest $request
      * @param Question $question
-     * @return AdminQuestionResource
+     * @return \App\Http\Resources\Admin\Question\AdminQuestionResource
      */
     public function update(QuestionUpdateRequest $request, Question $question)
     {

@@ -1,27 +1,26 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\TestResult;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminMessagesIdentifierResource
+ * Class AdminResultsIdentifierResource
  * @package App\Http\Resources\Admin
  */
-class AdminMessagesIdentifierResource extends JsonResource
+class AdminResultsIdentifierResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)
-
     {
         return [
-            'id' => (string)$this->id,
-            'type' => 'messages'
+            'id' => $this->id,
+            'type' => 'results'
         ];
     }
 }

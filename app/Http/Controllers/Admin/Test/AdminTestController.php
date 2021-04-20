@@ -44,7 +44,7 @@ class AdminTestController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('manage', Test::class);
+//        $this->authorize('manage', Test::class);
 
         $perPage = $request->get('per_page');
 
