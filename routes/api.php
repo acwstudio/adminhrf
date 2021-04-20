@@ -170,6 +170,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/subscriptions/tags/', [\App\Http\Controllers\SubscriptionController::class,'getTags']);
             //Route::get('/subscriptions/tags/', [\App\Http\Controllers\SubscriptionController::class,'getTags']);
 
+            Route::get('/search/{query}', [\App\Http\Controllers\SearchController::class, 'search']);
 
         }
     );
@@ -199,7 +200,7 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/categories/article', [\App\Http\Controllers\CategoryController::class, 'index']);
 
-    Route::get('/search/{query}', [\App\Http\Controllers\SearchController::class, 'search']);
+    //Route::get('/search/{query}', [\App\Http\Controllers\SearchController::class, 'search']);
 
     Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
     Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
