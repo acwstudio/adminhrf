@@ -120,10 +120,10 @@ class AdminAuthorController extends Controller
 
         $author->update($dataAttributes);
 
-//        if ($dataRelImages) {
-//            /** @see ImageAssignmentService creates a relationship Image to Author */
-//            $this->imageAssignment->assign($author, $dataRelImages, 'author');
-//        }
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to Author */
+            $this->imageAssignment->assign($author, $dataRelImages, 'author');
+        }
 
         $author->articles()->sync($dataRelArticles);
         $author->video()->sync($dataRelVideomaterials);

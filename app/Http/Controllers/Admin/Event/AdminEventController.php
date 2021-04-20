@@ -109,10 +109,10 @@ class AdminEventController extends Controller
 
         $event->update($dataAttributes);
 
-//        if ($dataRelImages) {
-//            /** @see ImageAssignmentService creates a relationship Image to Event */
-//            $this->imageAssignment->assign($event, $dataRelImages, 'afisha');
-//        }
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to Event */
+            $this->imageAssignment->assign($event, $dataRelImages, 'afisha');
+        }
 
         return new AdminEventResource($event);
     }

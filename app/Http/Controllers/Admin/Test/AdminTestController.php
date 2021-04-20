@@ -129,10 +129,10 @@ class AdminTestController extends Controller
 
         $test->update($data);
 
-//        if ($dataRelImages){
-//            /** @see ImageAssignmentService creates a relationship Image to Test */
-//            $this->imageAssignment->assign($test, $dataRelImages, 'test');
-//        }
+        if ($dataRelImages){
+            /** @see ImageAssignmentService creates a relationship Image to Test */
+            $this->imageAssignment->assign($test, $dataRelImages, 'test');
+        }
 
         $test->categories()->sync($dataRelCategories);
 
