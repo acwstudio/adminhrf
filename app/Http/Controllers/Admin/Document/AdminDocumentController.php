@@ -77,14 +77,13 @@ class AdminDocumentController extends Controller
         }
 
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
-        if (!empty($dataRelImages)) {
+        if (empty($dataRelImages) || !$this->imageAssignment->assign($document, $dataRelImages, 'document', false)) {
 
-            $this->imageAssignment->assign($document, $dataRelImages, 'document');
-
-        } else {
+            $document->images()->delete();
             $document->tags()->detach();
             $document->delete();
-            abort(403, 'Resource must have image relation!');
+            abort(403, 'Resource must have proper image relations!');
+
         }
 
         return (new AdminDocumentResource($document))
