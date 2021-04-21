@@ -173,7 +173,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/search/{query}', [\App\Http\Controllers\SearchController::class, 'articles']);//old Route
             Route::get('/search/articles/{query}', [\App\Http\Controllers\SearchController::class, 'articles']);
             Route::get('/search/news/{query}', [\App\Http\Controllers\SearchController::class, 'news']);
-            Route::get('/search/biographies/{query}', [\App\Http\Controllers\SearchController::class, 'biograpies']);
+            Route::get('/search/biographies/{query}', [\App\Http\Controllers\SearchController::class, 'biographies']);
             Route::get('/search/tests/{query}', [\App\Http\Controllers\SearchController::class, 'tests']);
             Route::get('/search/videomaterials/{query}', [\App\Http\Controllers\SearchController::class, 'videomaterials']);
         }
