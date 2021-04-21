@@ -33,18 +33,9 @@ class TimelineCreateRequest extends FormRequest
             'data.type' => 'required|in:timelines',
             'data.attributes' => 'required|array',
             'data.attributes.date' => 'required|string',
-            'data.attributes.timelinable_type' => 'required|string|in:articles,biographies',
-//            'data.attributes.timelinable_id' => 'required|integer',
-            'data.attributes.timelinable_id' => [
-                'required', 'integer', new ExistsInAnyTable(['articles', 'biographies'])
-            ],
+            'data.attributes.timelinable_type' => 'required|string|in:article,biography',
+            'data.attributes.timelinable_id' => 'required|integer',
             'data.attributes.active' => 'required|boolean',
-
-//            'data.relationships.*' => 'present|array',
-//            'data.relationships.timelineable.data.*.id' => [
-//                'required', 'integer', new ExistsInAnyTable(['articles', 'biographies'])
-//            ],
-//            'data.relationships.timelineable.data.*.type' => 'required|in:articles,biographies',
         ];
     }
 }

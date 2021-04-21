@@ -7,10 +7,11 @@ use App\Http\Requests\Timeline\TimelineCreateRequest;
 use App\Http\Requests\Timeline\TimelineUpdateRequest;
 use App\Http\Resources\Admin\TimeLine\AdminTimelineCollection;
 use App\Http\Resources\Admin\TimeLine\AdminTimelineResource;
-use App\Models\Biography;
-use App\Models\Image;
 use App\Models\Timeline;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -24,9 +25,12 @@ class AdminTimelineController extends Controller
      * Display a listing of the resource.
      *
      * @return \App\Http\Resources\Admin\TimeLine\AdminTimelineCollection
+     * @throws AuthorizationException
      */
     public function index(request $request)
     {
+        $this->authorize('manage', Timeline::class);
+
         $perPage = $request->get('per_page');
 
         $query = QueryBuilder::for(Timeline::class)
@@ -41,26 +45,35 @@ class AdminTimelineController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws AuthorizationException
      */
     public function store(TimelineCreateRequest $request)
     {
-        $data = $request->input('data.attributes');
-        $dataRelTimelineable = $request->input('data.relationships.timelineable.data');
+        $this->authorize('manage', Timeline::class);
 
-        foreach ($data as $item) {
-//            return $data['id'];
-            $timeline = Timeline::create($item);
+        $data = $request->input('data.attributes');
+
+        if (is_null(Relation::$morphMap[$data['timelinable_type']]::find($data['timelinable_id']))) {
+
+            abort(403, 'Not found timelinable with type='.$data['timelinable_type'].' and id='.$data['timelinable_id']);
+
+        } elseif (Timeline::where('timelinable_type', $data['timelinable_type'])->where('timelinable_id', $data['timelinable_id'])->first()) {
+
+            abort(403, 'Timeline with type='.$data['timelinable_type'].' and id='.$data['timelinable_id'].' already exists!');
+
+        } else {
+
+            $timeline = Timeline::create($data);
+
         }
 
-//        $timeline = Timeline::create($data);
-//
-//        return (new AdminTimelineResource($timeline))
-//            ->response()
-//            ->header('Location', route('admin.timelines.show', [
-//                'timeline' => $timeline
-//            ]));
+        return (new AdminTimelineResource($timeline))
+            ->response()
+            ->header('Location', route('admin.timelines.show', [
+                'timeline' => $timeline
+            ]));
     }
 
     /**
@@ -68,13 +81,16 @@ class AdminTimelineController extends Controller
      *
      * @param Timeline $timeline
      * @return AdminTimelineResource
+     * @throws AuthorizationException
      */
     public function show(Timeline $timeline)
     {
+        $this->authorize('manage', Timeline::class);
+
         $query = QueryBuilder::for(Timeline::class)
             ->where('id', $timeline->id)
             ->allowedIncludes(['timelinable'])
-            ->firstOrFail();
+            ->first();
 
         return new AdminTimelineResource($query);
     }
@@ -85,10 +101,16 @@ class AdminTimelineController extends Controller
      * @param TimelineUpdateRequest $request
      * @param Timeline $timeline
      * @return AdminTimelineResource
+     * @throws AuthorizationException
      */
     public function update(TimelineUpdateRequest $request, Timeline $timeline)
     {
-        $data = $request->input('data.attributes');
+        $this->authorize('manage', Timeline::class);
+
+        $data = collect($request->only([
+            'data.attributes.date',
+            'data.attributes.active',
+        ]))->pull('data.attributes');
 
         $timeline->update($data);
 
@@ -99,11 +121,13 @@ class AdminTimelineController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Timeline $timeline
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
+     * @return Response
+     * @throws AuthorizationException
      */
     public function destroy(Timeline $timeline)
     {
+        $this->authorize('manage', Timeline::class);
+
         $timeline->delete();
 
         return response(null, 204);

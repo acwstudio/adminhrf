@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Timeline;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\Article\AdminArticleResource;
 use App\Http\Resources\Admin\Biography\AdminBiographyResource;
+use App\Http\Resources\Admin\TimeLine\AdminTimelineResource;
 use App\Models\Timeline;
 use Illuminate\Http\Request;
 
@@ -16,16 +17,12 @@ class AdminTimelineTimelineableRelatedController extends Controller
 {
     /**
      * @param Timeline $timeline
-     * @return AdminArticleResource|AdminBiographyResource
+     * @return AdminTimelineResource
      */
     public function index(Timeline $timeline)
     {
-        if ($timeline->timelinable_type === 'biography') {
-            return new AdminBiographyResource($timeline->timelinable);
-        } elseif ($timeline->timelinable_type === 'article') {
-            return new AdminArticleResource($timeline->timelinable);
-        } else {
-            return response(null, 204);
-        }
+        $timeline->load('timelinable');
+
+        return AdminTimelineResource::make($timeline);
     }
 }

@@ -1058,18 +1058,6 @@ Route::get('/timelines/{timeline}/timelineable', [
     AdminTimelineTimelineableRelatedController::class, 'index'
 ])->name('timeline.timelineable');
 
-// Timeline to Biography relations
-//Route::get('/timelines/{timeline}/relationships/biography', [
-//    AdminTimelineBiographyRelationshipsController::class, 'index'
-//])->name('timeline.relationships.biography');
-//
-//Route::patch('/timelines/{timeline}/relationships/biography', [
-//    AdminTimelineBiographyRelationshipsController::class, 'update'
-//])->name('timeline.relationships.biography');
-//
-//Route::get('/timelines/{timeline}/biography', [
-//    AdminTimelineBiographyRelatedController::class, 'index'
-//])->name('timeline.biography');
 
 /*****************  TESTS ROUTES **************/
 
