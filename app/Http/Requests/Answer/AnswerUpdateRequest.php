@@ -35,7 +35,11 @@ class AnswerUpdateRequest extends FormRequest
             'data.attributes.title' => 'string',
             'data.attributes.is_right' => 'boolean',
             'data.attributes.description' => 'string',
-            'data.attributes.points' => 'integer'
+            'data.attributes.points' => 'integer',
+
+            'data.relationships.*' => 'present|array',
+            'data.relationships.questions.data.*.type' => 'present|in:questions',
+            'data.relationships.questions.data.*.id' => 'exists:questions,id',
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin\Answer;
 
+use App\Http\Resources\Admin\Question\AdminQuestionResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -31,8 +32,10 @@ class AdminAnswerResource extends JsonResource
             'relationships' => [
                 'question' => [
                     'links' => [
-                        'related' => route('answers.question', [$this->id])
+                        'self' => route('answers.relationships.question', ['answer' => $this->id]),
+                        'related' => route('answers.question', ['answer' => $this->id])
                     ],
+                    'data' => new AdminQuestionResource($this->whenLoaded('question'))
                 ]
             ]
         ];

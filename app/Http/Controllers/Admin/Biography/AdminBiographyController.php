@@ -48,6 +48,7 @@ class AdminBiographyController extends Controller
         $this->authorize('manage', Biography::class);
 
         $perPage = $request->get('per_page');
+
         $biographies = QueryBuilder::for(Biography::class)
             ->allowedIncludes(['tags', 'bookmarks', 'categories', 'images', 'timeline'])
             ->allowedSorts(['firstname', 'surname', 'published_at'])

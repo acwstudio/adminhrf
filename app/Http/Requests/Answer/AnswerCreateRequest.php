@@ -35,7 +35,11 @@ class AnswerCreateRequest extends FormRequest
             'data.attributes.title' => 'required|string',
             'data.attributes.is_right' => 'required|boolean',
             'data.attributes.description' => 'required|string',
-            'data.attributes.points' => 'required|integer'
+            'data.attributes.points' => 'required|integer',
+
+            'data.relationships.*' => 'present|array',
+            'data.relationships.questions.data.*.type' => 'present|in:questions',
+            'data.relationships.questions.data.*.id' => 'exists:questions,id',
         ];
     }
 }

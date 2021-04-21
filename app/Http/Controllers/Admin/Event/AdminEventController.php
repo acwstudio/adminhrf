@@ -49,7 +49,7 @@ class AdminEventController extends Controller
             ->allowedIncludes([
                 'images','leisure','city','likes','bookmarks','comments'
             ])
-            ->allowedSorts(['id'])
+            ->allowedSorts(['id', 'afisha_date', 'published_at', 'title'])
             ->jsonPaginate($perPage);
 
         return new AdminEventCollection($query);
@@ -91,6 +91,9 @@ class AdminEventController extends Controller
     {
         $query = QueryBuilder::for(Event::class)
             ->where('id', $event->id)
+            ->allowedIncludes([
+                'images','leisure','city','likes','bookmarks','comments'
+            ])
             ->firstOrFail();
 
         return new AdminEventResource($query);

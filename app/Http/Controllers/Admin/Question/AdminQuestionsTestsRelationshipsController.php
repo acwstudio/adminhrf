@@ -30,10 +30,10 @@ class AdminQuestionsTestsRelationshipsController extends Controller
      */
     public function update(QuestionsTestsUpdateRelationshipsRequest $request, Question $question)
     {
-//        $ids = $request->input('data.*.id');
-//        $question->tests()->sync($ids);
-//
-//        return response(null, 204);
-        return response()->json(['message' => 'Update action is disabled']);
+        $ids = $request->input('data.*.id');
+        $question->tests()->sync($ids);
+
+        return response(null, 204);
+//        return response()->json(['message' => 'Update action is disabled']);
     }
 }

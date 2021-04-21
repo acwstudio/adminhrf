@@ -8,6 +8,7 @@ use App\Http\Requests\Answer\AnswerUpdateRequest;
 use App\Http\Resources\Admin\Answer\AdminAnswerCollection;
 use App\Http\Resources\Admin\Answer\AdminAnswerResource;
 use App\Http\Resources\Admin\Question\AdminQuestionResource;
+use App\Models\Question;
 use App\Models\TAnswer;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -44,8 +45,15 @@ class AdminAnswerController extends Controller
     public function store(AnswerCreateRequest $request)
     {
         $data = $request->input('data.attributes');
+        $dataRelQuestion = $request->input('data.relationships.tests.data.*.id');
 
+        /** @var TAnswer $answer */
         $answer = TAnswer::create($data);
+
+//        foreach ($dataRelQuestion as $item) {
+//            $question = Question::find($item);
+//            $answer->question()->associate($question)->save();
+//        }
 
         return (new AdminAnswerResource($answer))
             ->response()
@@ -72,7 +80,7 @@ class AdminAnswerController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
+     *,
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return AdminAnswerResource
@@ -80,8 +88,14 @@ class AdminAnswerController extends Controller
     public function update(AnswerUpdateRequest $request, TAnswer $answer)
     {
         $data = $request->input('data.attributes');
+        $dataRelQuestion = $request->input('data.relationships.tests.data.*.id');
 
         $answer->update($data);
+
+//        foreach ($dataRelQuestion as $item) {
+//            $question = Question::find($item);
+//            $answer->question()->associate($question)->save();
+//        }
 
         return new AdminAnswerResource($answer);
     }

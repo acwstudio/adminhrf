@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Question\QuestionAnswersUpdateRelationshipsRequest;
 use App\Http\Resources\Admin\Answer\AdminAnswerIdentifireResource;
 use App\Models\Question;
+use App\Models\TAnswer;
 use Illuminate\Http\Request;
 
 /**
@@ -30,6 +31,13 @@ class AdminQuestionAnswersRelationshipsController extends Controller
      */
     public function update(QuestionAnswersUpdateRelationshipsRequest $request, Question $question)
     {
-        return response()->json(['message' => 'Update action is disabled']);
+        $ids = $request->input('data.*.id');
+
+        foreach ($ids as $id) {
+            $answer = TAnswer::find($id);
+            $question->answers()->save($answer);
+        }
+
+        return response(null, 204);
     }
 }

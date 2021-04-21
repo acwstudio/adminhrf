@@ -29,7 +29,7 @@ class QuestionAnswersUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|string',
+            'data.*.id' => 'required|integer|exists:tanswers,id',
             'data.*.type' => 'required|in:answers',
         ];
     }
