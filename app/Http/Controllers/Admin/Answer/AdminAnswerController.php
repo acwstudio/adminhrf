@@ -45,7 +45,7 @@ class AdminAnswerController extends Controller
     public function store(AnswerCreateRequest $request)
     {
         $data = $request->input('data.attributes');
-        $dataRelQuestion = $request->input('data.relationships.tests.data.*.id');
+        $dataRelQuestion = $request->input('data.relationships.questions.data.*.id');
 
         /** @var TAnswer $answer */
         $answer = TAnswer::create($data);
@@ -88,7 +88,7 @@ class AdminAnswerController extends Controller
     public function update(AnswerUpdateRequest $request, TAnswer $answer)
     {
         $data = $request->input('data.attributes');
-        $dataRelQuestion = $request->input('data.relationships.tests.data.*.id');
+        $dataRelQuestion = $request->input('data.relationships.questions.data.*.id');
 
         $answer->update($data);
 

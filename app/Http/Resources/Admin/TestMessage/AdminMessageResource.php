@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin\TestMessage;
 
+use App\Http\Resources\Admin\Test\AdminTestResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -33,10 +34,10 @@ class AdminMessageResource extends JsonResource
             'relationships' => [
                 'tests' => [
                     'links' => [
-                        'self' => '',
-                        'related' => ''
+                        'self' => route('messages.relationships.test', ['message' => $this->id]),
+                        'related' => route('messages.test', ['message' => $this->id])
                     ],
-                    'data' =>[]
+                    'data' => new AdminTestResource($this->whenLoaded('test'))
                 ]
             ]
         ];

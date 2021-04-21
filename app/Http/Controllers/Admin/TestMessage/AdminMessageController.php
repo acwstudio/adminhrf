@@ -7,6 +7,7 @@ use App\Http\Requests\TestMessage\MessageCreateRequest;
 use App\Http\Requests\TestMessage\MessageUpdateRequest;
 use App\Http\Resources\Admin\TestMessage\AdminMessageCollection;
 use App\Http\Resources\Admin\TestMessage\AdminMessageResource;
+use App\Models\Test;
 use App\Models\TestMessage;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -28,7 +29,7 @@ class AdminMessageController extends Controller
 
         $query = QueryBuilder::for(TestMessage::class)
             ->allowedIncludes(['test'])
-            ->allowedSorts(['title'])
+            ->allowedSorts(['id', 'title'])
             ->jsonPaginate($perPage);
 
         return new AdminMessageCollection($query);
@@ -43,8 +44,15 @@ class AdminMessageController extends Controller
     public function store(MessageCreateRequest $request)
     {
         $data = $request->input('data.attributes');
+        $dataRelTest = $request->input('data.relationships.tests.data.*.id');
 
+        /** @var TestMessage $message */
         $message = TestMessage::create($data);
+
+//        foreach ($dataRelTest as $item) {
+//            $test = Test::find($item);
+//            $message->test()->associate($test)->save();
+//        }
 
         return (new AdminMessageResource($message))
             ->response()
@@ -62,7 +70,7 @@ class AdminMessageController extends Controller
     public function show(TestMessage $message)
     {
         $query = QueryBuilder::for(TestMessage::class)
-            ->with('test')
+            ->allowedIncludes(['test'])
             ->firstOrFail();
 
         return new AdminMessageResource($query);
@@ -78,8 +86,14 @@ class AdminMessageController extends Controller
     public function update(MessageUpdateRequest $request, TestMessage $message)
     {
         $data = $request->input('data.attributes');
+        $dataRelTest = $request->input('data.relationships.tests.data.*.id');
 
         $message->update($data);
+
+//        foreach ($dataRelTest as $item) {
+//            $test = Test::find($item);
+//            $message->test()->associate($test)->save();
+//        }
 
         return new AdminMessageResource($message);
     }

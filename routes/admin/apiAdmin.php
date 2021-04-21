@@ -145,6 +145,8 @@ use App\Http\Controllers\Admin\TestCategory\AdminTestCategoriesTestsRelatedContr
 use App\Http\Controllers\Admin\TestCategory\AdminTestCategoriesTestsRelationshipsController;
 use App\Http\Controllers\Admin\TestCategory\AdminTestCategoryController;
 use App\Http\Controllers\Admin\TestMessage\AdminMessageController;
+use App\Http\Controllers\Admin\TestMessage\AdminMessagesTestRelatedController;
+use App\Http\Controllers\Admin\TestMessage\AdminMessagesTestRelationshipsController;
 use App\Http\Controllers\Admin\TestResult\AdminResultController;
 use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelationshipsController;
@@ -752,6 +754,19 @@ Route::apiResource('/likes', AdminLikeController::class, ['as' => 'admin']);
 /*****************  MESSAGES ROUTES **************/
 
 Route::apiResource('/messages', AdminMessageController::class, ['as' => 'admin']);
+
+// Messages to Test relations
+Route::get('/messages/{message}/relationships/test', [
+    AdminMessagesTestRelationshipsController::class, 'index'
+])->name('messages.relationships.test');
+
+Route::patch('/messages/{message}/relationships/test', [
+    AdminMessagesTestRelationshipsController::class, 'update'
+])->name('messages.relationships.test');
+
+Route::get('/messages/{message}/test', [
+    AdminMessagesTestRelatedController::class, 'index'
+])->name('messages.test');
 
 /*****************  NEWS ROUTES **************/
 
