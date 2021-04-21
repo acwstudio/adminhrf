@@ -48,6 +48,9 @@ class HighlightsSuperShortResource extends JsonResource
             'slug' => $this->highlightable ? $this->highlightable->slug : null,
             'image' => $this->highlightable->images ? ImageResource::make($this->highlightable->images()->first())
                 : null,
+	    'likes' => $this->highlightable_type!='news'?$this->highlightable->liked:null,
+            'views' => $this->highlightable->viewed,
+	    'comments' => $this->highlightable->commented,
         ] : null;
     }
 }

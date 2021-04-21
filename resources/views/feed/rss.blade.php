@@ -11,6 +11,7 @@
         @foreach( $articles as $article )
             <item>
                 <link>{{ url('read/articles', $article->slug) }}</link>
+		<title>{{ $article->title }}</title>
                 <pdalink>{{ url('read/articles', $article->slug) }}</pdalink>
                 <amplink>{{ url('read/articles', $article->slug) }}</amplink>
                 {{--            <author>{{ $article->authors->first()->lastname.$article->authors->first()->name }}</author>--}}
