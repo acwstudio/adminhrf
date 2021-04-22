@@ -29,7 +29,7 @@ class PodcastsBookmarksRelationshipsUpdateRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'present|integer',
+            'data.*.id' => 'present|integer|exists:bookmarks,id',
             'data.*.type' => 'present|in:bookmarks'
         ];
     }

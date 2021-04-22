@@ -49,18 +49,17 @@ class AdminTimelineController extends Controller
         $data = $request->input('data.attributes');
         $dataRelTimelineable = $request->input('data.relationships.timelineable.data');
 
-        foreach ($data as $item) {
-//            return $data['id'];
-            $timeline = Timeline::create($item);
-        }
+//        foreach ($data as $item) {
+//            $timeline = Timeline::create($item);
+//        }
 
-//        $timeline = Timeline::create($data);
-//
-//        return (new AdminTimelineResource($timeline))
-//            ->response()
-//            ->header('Location', route('admin.timelines.show', [
-//                'timeline' => $timeline
-//            ]));
+        $timeline = Timeline::create($data);
+
+        return (new AdminTimelineResource($timeline))
+            ->response()
+            ->header('Location', route('admin.timelines.show', [
+                'timeline' => $timeline
+            ]));
     }
 
     /**

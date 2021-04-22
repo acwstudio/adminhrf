@@ -31,15 +31,11 @@ class AnswerCreateRequest extends FormRequest
             'data' => 'required|array',
             'data.type' => 'required|in:answers',
             'data.attributes' => 'required|array',
-            'data.attributes.question_id' => 'required|integer',
+            'data.attributes.question_id' => 'required|integer|exists:questions,id',
             'data.attributes.title' => 'required|string',
             'data.attributes.is_right' => 'required|boolean',
             'data.attributes.description' => 'required|string',
             'data.attributes.points' => 'required|integer',
-
-            'data.relationships.*' => 'present|array',
-            'data.relationships.questions.data.*.type' => 'present|in:questions',
-            'data.relationships.questions.data.*.id' => 'exists:questions,id',
         ];
     }
 }

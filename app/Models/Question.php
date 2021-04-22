@@ -14,6 +14,7 @@ class Question extends Model
         'text',
         'type',
         'position',
+        'points',
     ];
 
     public function tests()

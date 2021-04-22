@@ -32,8 +32,6 @@ class ArticleCategoryUpdateRequest extends FormRequest
             'data.type' => 'required|in:articlecategories',
             'data.attributes' => 'required|array',
             'data.attributes.title' => 'string',
-//            'data.attributes.created_at' => 'string',
-//            'data.attributes.updated_at' => 'string',
         ];
     }
 }

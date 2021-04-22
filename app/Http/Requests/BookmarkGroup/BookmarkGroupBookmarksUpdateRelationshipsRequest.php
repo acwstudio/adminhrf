@@ -29,7 +29,7 @@ class BookmarkGroupBookmarksUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|string',
+            'data.*.id' => 'required|integer|exists:bookmarks,id',
             'data.*.type' => 'required|in:bookmarks',
         ];
     }

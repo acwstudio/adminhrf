@@ -30,6 +30,6 @@ class AdminResultsUserRelationshipsController extends Controller
      */
     public function update(ResultsUserRelationshipsUpdateRequest $request, TResult $result)
     {
-        return response()->json(['message' => 'Update action is disabled']);
+        return response('обновление User для связанных результатов отключено', 405);
     }
 }

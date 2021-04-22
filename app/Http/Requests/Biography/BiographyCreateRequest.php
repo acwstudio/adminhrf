@@ -47,12 +47,12 @@ class BiographyCreateRequest extends FormRequest
 
             'data.relationships.*' => 'present|array',
             'data.relationships.tags.data.*.type' => 'present|in:tags',
-            'data.relationships.tags.data.*.id' => 'exists:tags,id',
+            'data.relationships.tags.data.*.id' => 'integer|exists:tags,id',
             'data.relationships.biocategories.data.*.type' => 'present|in:biocategories',
-            'data.relationships.biocategories.data.*.id' => 'exists:biocategories,id',
+            'data.relationships.biocategories.data.*.id' => 'integer|exists:biocategories,id',
             'data.relationships.images.data' => 'required|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
-            'data.relationships.images.data.*.id' => 'exists:images,id',
+            'data.relationships.images.data.*.id' => 'integer|exists:images,id',
         ];
     }
 }

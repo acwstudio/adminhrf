@@ -32,8 +32,6 @@ class DocumentCategoryUpdateRequest extends FormRequest
             'data.type' => 'required|in:documentcategories',
             'data.attributes' => 'required|array',
             'data.attributes.title' => 'string',
-//            'data.attributes.created_at' => 'string',
-//            'data.attributes.updated_at' => 'string',
         ];
     }
 }

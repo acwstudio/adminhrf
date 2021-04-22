@@ -32,10 +32,8 @@ class ResultUpdateRequest extends FormRequest
             'data.id' => 'required|string',
             'data.type' => 'required|in:results',
             'data.attributes' => 'required|array',
-            'data.attributes.user_id' => 'integer',
-            'data.attributes.test_id' => 'integer',
-//            'data.attributes.is_closed' => 'boolean',
-//            'data.attributes.time_passed' => 'integer',
+            'data.attributes.user_id' => 'integer|exists:users,id',
+            'data.attributes.test_id' => 'integer|exists:tests,id',
             'data.attributes.value' => 'integer',
         ];
     }

@@ -931,7 +931,7 @@ Route::get('/results/{result}/test', [
     AdminResultsTestRelatedController::class, 'index'
 ])->name('results.test');
 
-// Results to Test relations
+// Results to User relations
 Route::get('/results/{result}/relationships/user', [
     AdminResultsUserRelationshipsController::class, 'index'
 ])->name('results.relationships.user');

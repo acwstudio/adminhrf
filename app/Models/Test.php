@@ -19,11 +19,18 @@ class Test extends Model
         'description',
         'is_active',
         'time',
-        'slug'
+        'slug',
+        'total_questions',
+        'max_points',
+        'has_points',
+        'is_ege',
+        'published_at',
+        'is_reversable',
     ];
     public $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'published_at' => 'datetime',
     ];
 
     public function sluggable(): array
