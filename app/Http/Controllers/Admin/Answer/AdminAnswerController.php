@@ -29,7 +29,7 @@ class AdminAnswerController extends Controller
         $perPage = $request->get('per_page');
 
         $query = QueryBuilder::for(TAnswer::class)
-            ->allowedIncludes(['questions'])
+            ->allowedIncludes(['question'])
             ->allowedSorts(['id', 'title', 'created_at'])
             ->jsonPaginate($perPage);
 

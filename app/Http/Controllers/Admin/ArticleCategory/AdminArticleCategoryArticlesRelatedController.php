@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\ArticleCategory;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryCollection;
+use App\Http\Resources\Admin\Article\AdminArticleCollection;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use Illuminate\Http\Request;
@@ -16,10 +16,10 @@ class AdminArticleCategoryArticlesRelatedController extends Controller
 {
     /**
      * @param Article $article
-     * @return \App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryCollection
+     * @return AdminArticleCollection
      */
     public function index(ArticleCategory $articleCategory)
     {
-        return new AdminArticleCategoryCollection($articleCategory->articles);
+        return new AdminArticleCollection($articleCategory->articles);
     }
 }
