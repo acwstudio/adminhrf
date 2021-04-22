@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\CommentAdded;
 use App\Events\CommentDeleted;
 use App\Models\Traits\Rateable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -55,6 +56,20 @@ class Comment extends Model
     public function parent()
     {
         return $this->belongsTo(Comment::class, 'parent_id', 'id');
+    }
+
+    public function scopeAproved($query)
+    {
+        return $query->whereHas('user', function (Builder $query) {
+            $query->where('status', User::STATUS_APROVED);
+        });
+    }
+
+    public function scopeUserStatus($query, $status)
+    {
+        return $query->whereHas('user', function (Builder $query) use ($status) {
+            $query->where('status', $status);
+        });
     }
 
 }

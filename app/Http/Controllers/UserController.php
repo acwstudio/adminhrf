@@ -6,6 +6,7 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 
@@ -81,6 +82,20 @@ class UserController extends Controller
         }
 
         return response(null, 204);
+
+    }
+
+    public function setStatus(Request $request, User $user)
+    {
+        $this->authorize('manage', User::class);
+
+        $status = $request->post('status');
+
+        if ($user->changeStatus($status)) {
+            return response('Status changed', 201);
+        }
+
+        return response('Wrong status', 403);
 
     }
 

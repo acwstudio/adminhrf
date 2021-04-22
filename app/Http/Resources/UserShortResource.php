@@ -31,8 +31,8 @@ class UserShortResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'image' => ImageResource::make($image)
-
+            'image' => ImageResource::make($image),
+            'status' => $this->status
         ];
     }
 }
