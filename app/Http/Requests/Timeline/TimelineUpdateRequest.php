@@ -29,15 +29,10 @@ class TimelineUpdateRequest extends FormRequest
     {
         return [
             'data' => 'required|array',
-            'data.id' => 'required|integer',
             'data.type' => 'required|in:timelines',
             'data.attributes' => 'required|array',
-            'data.attributes.date' => 'string',
-            'data.attributes.timelinable_type' => 'string',
-            'data.attributes.timelinable_id' => 'integer',
-            'data.attributes.active' => 'boolean',
-            'data.attributes.created_at' => 'string',
-            'data.attributes.updated_at' => 'string',
+            'data.attributes.date' => 'required|string',
+            'data.attributes.active' => 'required|boolean',
         ];
     }
 }
