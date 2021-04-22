@@ -9,10 +9,10 @@ use App\Models\Bookmark;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminBookmarksBookmarkCroupRelatedController
+ * Class AdminBookmarksBookmarkGroupRelatedController
  * @package App\Http\Controllers\Admin\Bookmark
  */
-class AdminBookmarksBookmarkCroupRelatedController extends Controller
+class AdminBookmarksBookmarkGroupRelatedController extends Controller
 {
     /**
      * @param Bookmark $bookmark

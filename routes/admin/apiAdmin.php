@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialBookmarksRelatedC
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialImagesRelatedController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialImagesRelationshipsController;
+use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialsHighlightsRelatedController;
+use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialsHighlightsRelationshipsController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialsTagsRelatedController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialsTagsRelationshipsController;
 use App\Http\Controllers\Admin\Author\AdminAuthorImageRelatedController;
@@ -70,7 +72,7 @@ use App\Http\Controllers\Admin\Biography\AdminBiographiesBioCategoriesRelatedCon
 use App\Http\Controllers\Admin\Biography\AdminBiographiesBioCategoriesRelationshipsController;
 use App\Http\Controllers\Admin\Biography\AdminBiographyController;
 use App\Http\Controllers\Admin\Bookmark\AdminBookmarkController;
-use App\Http\Controllers\Admin\Bookmark\AdminBookmarksBookmarkCroupRelatedController;
+use App\Http\Controllers\Admin\Bookmark\AdminBookmarksBookmarkGroupRelatedController;
 use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelatedController;
 use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupController;
 //use App\Http\Controllers\Admin\Comment\AdminCommentController;
@@ -312,18 +314,31 @@ Route::get('/article-categories/{article_category}/articles', [
 
 Route::apiResource('/audiomaterials', AdminAudiomaterialController::class, ['as' => 'admin']);
 
-// Audiomaterials to Tags relations
-Route::get('/audiomaterials/{audiomaterial}/relationships/tags', [
-    AdminAudiomaterialsTagsRelationshipsController::class, 'index'
-])->name('audiomaterials.relationships.tags');
+// Audiomaterial to Bookmarks relations
+Route::get('/audiomaterials/{audiomaterial}/relationships/bookmarks', [
+    AdminAudiomaterialBookmarksRelationshipsController::class, 'index'
+])->name('audiomaterial.relationships.bookmarks');
 
-Route::patch('/audiomaterials/{audiomaterial}/relationships/tags', [
-    AdminAudiomaterialsTagsRelationshipsController::class, 'update'
-])->name('audiomaterials.relationships.tags');
+Route::patch('/audiomaterials/{audiomaterial}/relationships/bookmarks', [
+    AdminAudiomaterialBookmarksRelationshipsController::class, 'update'
+])->name('audiomaterial.relationships.bookmarks');
 
-Route::get('/audiomaterials/{audiomaterial}/tags', [
-    AdminAudiomaterialsTagsRelatedController::class, 'index'
-])->name('audiomaterials.tags');
+Route::get('/audiomaterials/{audiomaterial}/bookmarks', [
+    AdminAudiomaterialBookmarksRelatedController::class, 'index'
+])->name('audiomaterial.bookmarks');
+
+// Audiomaterials to Highlights relations
+Route::get('/audiomaterials/{audiomaterial}/relationships/highlights', [
+    AdminAudiomaterialsHighlightsRelationshipsController::class, 'index'
+])->name('audiomaterials.relationships.highlights');
+
+Route::patch('/audiomaterials/{audiomaterial}/relationships/highlights', [
+    AdminAudiomaterialsHighlightsRelationshipsController::class, 'update'
+])->name('audiomaterials.relationships.highlights');
+
+Route::get('/audiomaterials/{audiomaterial}/highlights', [
+    AdminAudiomaterialsHighlightsRelatedController::class, 'index'
+])->name('audiomaterials.highlights');
 
 // Audiomaterial to Images relations
 Route::get('/audiomaterials/{audiomaterial}/relationships/images', [
@@ -338,18 +353,18 @@ Route::get('/audiomaterials/{audiomaterial}/images', [
     AdminAudiomaterialImagesRelatedController::class, 'index'
 ])->name('audiomaterial.images');
 
-// Audiomaterial to Bookmarks relations
-Route::get('/audiomaterials/{audiomaterial}/relationships/bookmarks', [
-    AdminAudiomaterialBookmarksRelationshipsController::class, 'index'
-])->name('audiomaterial.relationships.bookmarks');
+// Audiomaterials to Tags relations
+Route::get('/audiomaterials/{audiomaterial}/relationships/tags', [
+    AdminAudiomaterialsTagsRelationshipsController::class, 'index'
+])->name('audiomaterials.relationships.tags');
 
-Route::patch('/audiomaterials/{audiomaterial}/relationships/bookmarks', [
-    AdminAudiomaterialBookmarksRelationshipsController::class, 'update'
-])->name('audiomaterial.relationships.bookmarks');
+Route::patch('/audiomaterials/{audiomaterial}/relationships/tags', [
+    AdminAudiomaterialsTagsRelationshipsController::class, 'update'
+])->name('audiomaterials.relationships.tags');
 
-Route::get('/audiomaterials/{audiomaterial}/bookmarks', [
-    AdminAudiomaterialBookmarksRelatedController::class, 'index'
-])->name('audiomaterial.bookmarks');
+Route::get('/audiomaterials/{audiomaterial}/tags', [
+    AdminAudiomaterialsTagsRelatedController::class, 'index'
+])->name('audiomaterials.tags');
 
 /*****************  AUTHORS ROUTES **************/
 
@@ -492,7 +507,7 @@ Route::apiResource('/bookmarks', AdminBookmarkController::class, ['as' => 'admin
 
 // Bookmarks to BookmarkGroup relations
 Route::get('/bookmarks/{bookmark}/bookmark-groups', [
-    AdminBookmarksBookmarkCroupRelatedController::class, 'index'
+    AdminBookmarksBookmarkGroupRelatedController::class, 'index'
 ])->name('bookmarks.bookmarkgroup');
 
 /*****************  BOOKMARKGROUPS ROUTES **************/

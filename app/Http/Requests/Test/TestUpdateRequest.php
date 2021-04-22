@@ -35,8 +35,6 @@ class TestUpdateRequest extends FormRequest
             'data.attributes.description' => 'string',
             'data.attributes.is_active' => 'bool',
             'data.attributes.time' => 'integer',
-            'data.attributes.created_at' => 'string',
-            'data.attributes.updated_at' => 'string',
             'data.attributes.published_at' => 'string',
             'data.attributes.total_questions' => 'integer',
             'data.attributes.max_points' => 'integer',

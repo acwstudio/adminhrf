@@ -26,6 +26,8 @@ class AdminBookmarkController extends Controller
     {
         $perPage = $request->get('per_page');
         $query = QueryBuilder::for(Bookmark::class)
+            ->allowedIncludes(['bookmarkGroup'])
+            ->allowedSorts(['id'])
             ->jsonPaginate($perPage);
 
         return new AdminBookmarkCollection($query);
@@ -60,6 +62,7 @@ class AdminBookmarkController extends Controller
     {
         $query = QueryBuilder::for(Bookmark::class)
             ->where('id', $bookmark->id)
+            ->allowedIncludes(['bookmarkGroup'])
             ->firstOrFail();
 
         return new AdminBookmarkResource($query);

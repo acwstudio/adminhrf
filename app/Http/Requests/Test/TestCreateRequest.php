@@ -35,8 +35,6 @@ class TestCreateRequest extends FormRequest
             'data.attributes.description' => 'required|string',
             'data.attributes.is_active' => 'required|bool',
             'data.attributes.time' => 'required|integer',
-            'data.attributes.created_at' => 'required|string',
-            'data.attributes.updated_at' => 'required|string',
             'data.attributes.published_at' => 'required|string',
             'data.attributes.total_questions' => 'required|integer',
             'data.attributes.max_points' => 'required|integer',
