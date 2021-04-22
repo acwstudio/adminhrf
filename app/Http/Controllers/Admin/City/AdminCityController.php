@@ -8,6 +8,7 @@ use App\Http\Requests\City\CityUpdateRequest;
 use App\Http\Resources\Admin\City\AdminCityCollection;
 use App\Http\Resources\Admin\City\AdminCityResource;
 use App\Models\City;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -43,8 +44,15 @@ class AdminCityController extends Controller
     public function store(CityCreateRequest $request)
     {
         $dataAttributes = $request->input('data.attributes');
+        $dataCities = $request->input('data.relationships.events.data.*.id');
 
+        /** @var City $city */
         $city = City::create($dataAttributes);
+
+//        foreach ($dataCities as $id) {
+//            $event = Event::find($id);
+//            $city->events()->save($event);
+//        }
 
         return (new AdminCityResource($city))
             ->response()
@@ -62,6 +70,7 @@ class AdminCityController extends Controller
     public function show(City $city)
     {
         $query = QueryBuilder::for(City::class)
+            ->where('id', $city->id)
             ->allowedIncludes(['events'])
             ->firstOrFail();
 
@@ -78,8 +87,14 @@ class AdminCityController extends Controller
     public function update(CityUpdateRequest $request, City $city)
     {
         $dataAttributes = $request->input('data.attributes');
+        $dataCities = $request->input('data.relationships.events.data.*.id');
 
         $city->update($dataAttributes);
+
+//        foreach ($dataCities as $id) {
+//            $event = Event::find($id);
+//            $city->events()->save($event);
+//        }
 
         return new AdminCityResource($city);
     }

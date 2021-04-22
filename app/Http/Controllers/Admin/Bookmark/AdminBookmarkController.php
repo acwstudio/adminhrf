@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin\Bookmark;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Bookmark\BookmarkCreateRequest;
 use App\Http\Requests\Bookmark\BookmarkUpdateRequest;
-use App\Http\Resources\Admin\AdminBookmarkCollection;
-use App\Http\Resources\Admin\AdminBookmarkResource;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkCollection;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkResource;
 use App\Models\Bookmark;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -20,7 +20,7 @@ class AdminBookmarkController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return AdminBookmarkCollection
+     * @return \App\Http\Resources\Admin\Bookmark\AdminBookmarkCollection
      */
     public function index(Request $request)
     {
@@ -73,7 +73,7 @@ class AdminBookmarkController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return AdminBookmarkResource
+     * @return \App\Http\Resources\Admin\Bookmark\AdminBookmarkResource
      */
     public function update(BookmarkUpdateRequest $request, Bookmark $bookmark)
     {

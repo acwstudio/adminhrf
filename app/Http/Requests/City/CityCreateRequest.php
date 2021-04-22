@@ -31,7 +31,11 @@ class CityCreateRequest extends FormRequest
             'data' => 'required|array',
             'data.type' => 'required|in:cities',
             'data.attributes' => 'required|array',
-            'data.attributes.name' => 'string|required'
+            'data.attributes.name' => 'string|required',
+
+            'data.relationships.*' => 'present|array',
+            'data.relationships.events.data.*.type' => 'present|in:events',
+            'data.relationships.events.data.*.id' => 'integer|exists:events,id',
         ];
     }
 }

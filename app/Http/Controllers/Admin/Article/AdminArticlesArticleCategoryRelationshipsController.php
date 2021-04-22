@@ -31,12 +31,9 @@ class AdminArticlesArticleCategoryRelationshipsController extends Controller
      */
     public function update(ArticlesArticleCategoryUpdateRelationshipsRequest $request, Article $article)
     {
-        $ids = $request->input('data.*.id');
+        $id = $request->input('data.id');
 
-        foreach ($ids as $item) {
-            $articleCategory = ArticleCategory::find($item);
-            $article->category()->associate($articleCategory)->save();
-        }
+        $article->update(['category_id' => $id]);
 
         return response(null, 204);
     }

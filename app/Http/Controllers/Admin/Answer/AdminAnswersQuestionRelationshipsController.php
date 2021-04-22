@@ -31,12 +31,9 @@ class AdminAnswersQuestionRelationshipsController extends Controller
      */
     public function update(AnswersQuestionUpdateRelationshipsRequest $request, TAnswer $answer)
     {
-        $ids = $request->input('data.*.id');
+        $id = $request->input('data.id');
 
-        foreach ($ids as $item) {
-            $question = Question::find($item);
-            $answer->question()->associate($question)->save();
-        }
+        $answer->update(['question_id' => $id]);
 
         return response(null, 204);
     }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\News;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkIdentifierResource;
 use App\Models\News;
 use Illuminate\Http\Request;
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Admin\Audiomaterial;
 
-use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
-use App\Http\Resources\Admin\AdminBookmarkResource;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkResource;
 use App\Http\Resources\Admin\AdminHighlightResource;
 use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;

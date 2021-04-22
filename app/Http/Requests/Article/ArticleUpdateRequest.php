@@ -53,8 +53,7 @@ class ArticleUpdateRequest extends FormRequest
             'data.relationships.images.data' => 'required|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
             'data.relationships.images.data.*.id' => 'integer|exists:images,id',
-//            'data.relationships.category.data.*.type' => 'present|in:category',
-//            'data.relationships.category.data.*.id' => 'exists:category,id',
+            'data.relationships.timelines.meta.date' => 'string',
         ];
     }
 }

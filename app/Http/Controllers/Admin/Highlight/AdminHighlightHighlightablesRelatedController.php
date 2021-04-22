@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Highlight;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminBookmarkCollection;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkCollection;
 use App\Http\Resources\Admin\AdminHighlightableResource;
 use App\Models\Highlight;
 use Illuminate\Http\Request;

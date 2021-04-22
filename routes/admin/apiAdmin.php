@@ -24,6 +24,8 @@ use App\Http\Controllers\Admin\Biography\AdminBiographyImagesRelatedController;
 use App\Http\Controllers\Admin\Biography\AdminBiographyImagesRelationshipsController;
 use App\Http\Controllers\Admin\Biography\AdminBiographyTimelineRelatedController;
 use App\Http\Controllers\Admin\Biography\AdminBiographyTimelineRelationshipsController;
+use App\Http\Controllers\Admin\Bookmark\AdminBookmarksBookmarkGroupRelationshipsController;
+use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\City\AdminCityController;
 use App\Http\Controllers\Admin\City\AdminCityEventsRelatedController;
 use App\Http\Controllers\Admin\City\AdminCityEventsRelationshipsController;
@@ -153,7 +155,6 @@ use App\Http\Controllers\Admin\TestResult\AdminResultController;
 use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsNewsRelationshipsController;
 use App\Http\Controllers\Admin\Tag\AdminTagsBiographiesRelationshipsController;
-use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\TestResult\AdminResultsTestRelatedController;
 use App\Http\Controllers\Admin\TestResult\AdminResultsTestRelationshipsController;
 use App\Http\Controllers\Admin\TestResult\AdminResultsUserRelatedController;
@@ -506,6 +507,14 @@ Route::get('/biographies/{biography}/timeline', [
 Route::apiResource('/bookmarks', AdminBookmarkController::class, ['as' => 'admin']);
 
 // Bookmarks to BookmarkGroup relations
+Route::get('/bookmarks/{bookmark}/relationships/bookmark-groups', [
+    AdminBookmarksBookmarkGroupRelationshipsController::class, 'index'
+])->name('bookmarks.relationships.bookmarkgroup');
+
+Route::patch('/bookmarks/{bookmark}/relationships/bookmark-groups', [
+    AdminBookmarksBookmarkGroupRelationshipsController::class, 'update'
+])->name('bookmarks.relationships.bookmarkgroup');
+
 Route::get('/bookmarks/{bookmark}/bookmark-groups', [
     AdminBookmarksBookmarkGroupRelatedController::class, 'index'
 ])->name('bookmarks.bookmarkgroup');
@@ -515,7 +524,15 @@ Route::get('/bookmarks/{bookmark}/bookmark-groups', [
 Route::apiResource('/bookmark-groups', AdminBookmarkGroupController::class, ['as' => 'admin']);
 
 // BookmarkGroup to Bookmarks relation
-Route::get('/bookmark-groups/{bookmark_groups}/bookmarks', [
+Route::get('/bookmark-groups/{bookmark_group}/relationships/bookmarks', [
+    AdminBookmarkGroupBookmarksRelationshipsController::class, 'index'
+])->name('bookmark-group.relationships.bookmarks');
+
+Route::patch('/bookmark-groups/{bookmark_group}/relationships/bookmarks', [
+    AdminBookmarkGroupBookmarksRelationshipsController::class, 'update'
+])->name('bookmark-group.relationships.bookmarks');
+
+Route::get('/bookmark-groups/{bookmark_group}/bookmarks', [
     AdminBookmarkGroupBookmarksRelatedController::class, 'index'
 ])->name('bookmark-group.bookmarks');
 

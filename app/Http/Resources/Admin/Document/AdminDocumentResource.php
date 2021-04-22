@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Admin\Document;
 
-use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkIdentifierResource;
 use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Http\Resources\Admin\DocumentCategory\AdminDocumentCategoryIdentifierResource;

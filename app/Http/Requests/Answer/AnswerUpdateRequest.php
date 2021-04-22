@@ -31,11 +31,11 @@ class AnswerUpdateRequest extends FormRequest
             'data' => 'required|array',
             'data.type' => 'required|in:answers',
             'data.attributes' => 'required|array',
-            'data.attributes.question_id' => 'integer|exists:questions,id',
-            'data.attributes.title' => 'string',
-            'data.attributes.is_right' => 'boolean',
-            'data.attributes.description' => 'string',
-            'data.attributes.points' => 'integer',
+            'data.attributes.question_id' => 'sometimes|integer|exists:questions,id',
+            'data.attributes.title' => 'sometimes|required|string',
+            'data.attributes.is_right' => 'sometimes|required|boolean',
+            'data.attributes.description' => 'sometimes|required|string',
+            'data.attributes.points' => 'sometimes|required|integer',
         ];
     }
 }

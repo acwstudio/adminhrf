@@ -45,15 +45,9 @@ class AdminAnswerController extends Controller
     public function store(AnswerCreateRequest $request)
     {
         $data = $request->input('data.attributes');
-        $dataRelQuestion = $request->input('data.relationships.questions.data.*.id');
 
         /** @var TAnswer $answer */
         $answer = TAnswer::create($data);
-
-//        foreach ($dataRelQuestion as $item) {
-//            $question = Question::find($item);
-//            $answer->question()->associate($question)->save();
-//        }
 
         return (new AdminAnswerResource($answer))
             ->response()
@@ -88,14 +82,8 @@ class AdminAnswerController extends Controller
     public function update(AnswerUpdateRequest $request, TAnswer $answer)
     {
         $data = $request->input('data.attributes');
-        $dataRelQuestion = $request->input('data.relationships.questions.data.*.id');
 
         $answer->update($data);
-
-//        foreach ($dataRelQuestion as $item) {
-//            $question = Question::find($item);
-//            $answer->question()->associate($question)->save();
-//        }
 
         return new AdminAnswerResource($answer);
     }

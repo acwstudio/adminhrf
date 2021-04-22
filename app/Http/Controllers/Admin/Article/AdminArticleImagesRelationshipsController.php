@@ -44,9 +44,9 @@ class AdminArticleImagesRelationshipsController extends Controller
      */
     public function update(ArticleImagesUpdateRelationshipsRequest $request, Article $article)
     {
-        $Ids = $request->input('data.*.id');
+        $ids = $request->input('data.*.id');
 
-        return $this->imageAssignment->assign($article, $Ids, 'article');
+        return $this->imageAssignment->assign($article, $ids, 'article');
     }
 
 }

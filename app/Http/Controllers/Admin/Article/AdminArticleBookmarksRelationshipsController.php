@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\ArticleBookmarksUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkIdentifierResource;
 use App\Models\Article;
 use App\Models\Bookmark;
 use App\Models\User;
@@ -33,6 +33,6 @@ class AdminArticleBookmarksRelationshipsController extends Controller
      */
     public function update(ArticleBookmarksUpdateRelationshipsRequest $request, Article $article)
     {
-        return response('Обновление закладок для статьи отключено', 405);
+        return response('Обновление связи с закладками отключено', 405);
     }
 }

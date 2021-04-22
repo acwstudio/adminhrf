@@ -10,6 +10,7 @@ use App\Http\Resources\Admin\Article\AdminArticleLightResource;
 use App\Http\Resources\Admin\Article\AdminArticleResource;
 use App\Models\Article;
 use App\Models\Image;
+use App\Models\Timeline;
 use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
 use Illuminate\Database\Eloquent\Builder;
@@ -83,6 +84,7 @@ class AdminArticleController extends Controller
         $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $timelineDate = $request->input('data.relationships.timelines.meta.date');
 
         $article = Article::create($dataAttributes);
 
@@ -91,8 +93,21 @@ class AdminArticleController extends Controller
             $this->imageAssignment->assign($article, $dataRelImages, 'article');
         }
 
-        $article->authors()->attach($dataRelAuthors);
-        $article->tags()->attach($dataRelTags);
+        if ($dataRelAuthors){
+            $article->authors()->attach($dataRelAuthors);
+        }
+
+        if ($dataRelAuthors){
+            $article->tags()->attach($dataRelTags);
+        }
+
+        if ($timelineDate){
+            Timeline::create([
+                'date' => $timelineDate,
+                'timelinable_type' => 'article',
+                'timelinable_id' => $article->id
+            ]);
+        }
 
         return (new AdminArticleResource($article))
             ->response()
@@ -135,9 +150,11 @@ class AdminArticleController extends Controller
         $this->authorize('manage', Article::class);
 
         $dataAttributes = $request->input('data.attributes');
+
         $dataRelAuthors = $request->input('data.relationships.authors.data.*.id');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $timelineDate = $request->input('data.relationships.timelines.meta.date');
 
         $article->update($dataAttributes);
 
@@ -146,12 +163,21 @@ class AdminArticleController extends Controller
             $this->imageAssignment->assign($article, $dataRelImages, 'article');
         }
 
-//        if ($dataRelCategories) {
-//            $article->category()->associate($dataRelCategories[0])->save();
-//        }
+        if ($dataRelAuthors){
+            $article->authors()->sync($dataRelAuthors);
+        }
 
-        $article->authors()->sync($dataRelAuthors);
-        $article->tags()->sync($dataRelTags);
+        if ($dataRelAuthors){
+            $article->tags()->sync($dataRelTags);
+        }
+
+        if ($timelineDate){
+            $article->timeline()->update([
+                'date' => $timelineDate,
+                'timelinable_type' => 'article',
+                'timelinable_id' => $article->id
+            ]);
+        }
 
         return new AdminArticleResource($article);
     }
@@ -184,6 +210,7 @@ class AdminArticleController extends Controller
         $article->comments()->delete();
         $article->timeline()->delete();
         $article->bookmarks()->delete();
+        $article->timeline()->delete();
 
         $article->delete();
 

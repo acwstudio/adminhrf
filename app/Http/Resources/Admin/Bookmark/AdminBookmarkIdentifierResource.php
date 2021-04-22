@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Bookmark;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class AdminBookmarkGroupsIdentifierResource
+ * Class AdminBookmarkIdentifierResource
  * @package App\Http\Resources\Admin
  */
-class AdminBookmarkGroupsIdentifierResource extends JsonResource
+class AdminBookmarkIdentifierResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,8 +19,8 @@ class AdminBookmarkGroupsIdentifierResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => (string)$this->id,
-            'type' => 'bookmarkgroups'
+            'id' => $this->id,
+            'type' => 'bookmarks'
         ];
     }
 }

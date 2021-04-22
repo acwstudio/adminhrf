@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Answer;
+namespace App\Http\Requests\Bookmark;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class AnswersQuestionUpdateRelationshipsRequest
- * @package App\Http\Requests\Answer
+ * Class BookmarksBookmarkGroupUpdateRelationshipsRequest
+ * @package App\Http\Requests\Bookmark
  */
-class AnswersQuestionUpdateRelationshipsRequest extends FormRequest
+class BookmarksBookmarkGroupUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,8 @@ class AnswersQuestionUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.id' => 'required|integer|exists:questions,id',
-            'data.type' => 'required|in:questions'
+            'data.*.id' => 'required|integer|exists:bookmark_groups,id',
+            'data.*.type' => 'required|in:bookmarkgroups',
         ];
     }
 }
