@@ -29,7 +29,7 @@ class PodcastsTagsRelationshipsUpdateRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'present|integer',
+            'data.*.id' => 'present|integer|exists:tags',
             'data.*.type' => 'present|in:tags'
         ];
     }

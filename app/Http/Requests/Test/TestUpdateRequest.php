@@ -35,8 +35,6 @@ class TestUpdateRequest extends FormRequest
             'data.attributes.description' => 'string',
             'data.attributes.is_active' => 'bool',
             'data.attributes.time' => 'integer',
-            'data.attributes.created_at' => 'string',
-            'data.attributes.updated_at' => 'string',
             'data.attributes.published_at' => 'string',
             'data.attributes.total_questions' => 'integer',
             'data.attributes.max_points' => 'integer',
@@ -46,9 +44,9 @@ class TestUpdateRequest extends FormRequest
 
             'data.relationships.*' => 'present|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
-            'data.relationships.images.data.*.id' => 'exists:images,id',
+            'data.relationships.images.data.*.id' => 'integer|exists:images,id',
             'data.relationships.categories.data.*.type' => 'present|in:categories',
-            'data.relationships.categories.data.*.id' => 'exists:qcategories,id',
+            'data.relationships.categories.data.*.id' => 'integer|exists:qcategories,id',
         ];
     }
 }

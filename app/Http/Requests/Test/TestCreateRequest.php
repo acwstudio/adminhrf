@@ -35,8 +35,6 @@ class TestCreateRequest extends FormRequest
             'data.attributes.description' => 'required|string',
             'data.attributes.is_active' => 'required|bool',
             'data.attributes.time' => 'required|integer',
-            'data.attributes.created_at' => 'required|string',
-            'data.attributes.updated_at' => 'required|string',
             'data.attributes.published_at' => 'required|string',
             'data.attributes.total_questions' => 'required|integer',
             'data.attributes.max_points' => 'required|integer',
@@ -46,9 +44,9 @@ class TestCreateRequest extends FormRequest
 
             'data.relationships.*' => 'present|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
-            'data.relationships.images.data.*.id' => 'exists:images,id',
+            'data.relationships.images.data.*.id' => 'integer|exists:images,id',
             'data.relationships.categories.data.*.type' => 'present|in:categories',
-            'data.relationships.categories.data.*.id' => 'exists:qcategories,id',
+            'data.relationships.categories.data.*.id' => 'integer|exists:qcategories,id',
         ];
     }
 }

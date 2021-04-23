@@ -50,7 +50,7 @@ class AdminAuthorController extends Controller
 
         $authors = QueryBuilder::for(Author::class)
             ->allowedIncludes(['articles', 'image', 'video'])
-            ->allowedSorts(['id', 'birth_date', 'firstname'])
+            ->allowedSorts(['id', 'birth_date', 'firstname', 'surname'])
             ->jsonPaginate($perPage);
 
         return new AdminAuthorCollection($authors);

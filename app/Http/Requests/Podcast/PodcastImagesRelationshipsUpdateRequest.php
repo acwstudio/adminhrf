@@ -29,7 +29,7 @@ class PodcastImagesRelationshipsUpdateRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'present|integer',
+            'data.*.id' => 'present|integer|exists:images,id',
             'data.*.type' => 'present|in:images'
         ];
     }

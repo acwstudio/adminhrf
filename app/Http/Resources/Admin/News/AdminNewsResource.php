@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Admin\News;
 
-use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
-use App\Http\Resources\Admin\AdminBookmarkResource;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkResource;
 use App\Http\Resources\Admin\AdminCommentResource;
 use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
 use App\Http\Resources\Admin\AdminImageResource;

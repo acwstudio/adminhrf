@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Event;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\EventBookmarksUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkIdentifierResource;
 use App\Models\Event;
 use Illuminate\Http\Request;
 

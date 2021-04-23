@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\BookmarkGroup;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminBookmarkCollection;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkCollection;
 use App\Models\BookmarkGroup;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class AdminBookmarkGroupBookmarksRelatedController extends Controller
 {
     /**
      * @param BookmarkGroup $bookmarkGroup
-     * @return AdminBookmarkCollection
+     * @return \App\Http\Resources\Admin\Bookmark\AdminBookmarkCollection
      */
     public function index(BookmarkGroup $bookmarkGroup)
     {

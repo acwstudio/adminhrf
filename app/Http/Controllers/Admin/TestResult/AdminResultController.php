@@ -26,6 +26,7 @@ class AdminResultController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $query = QueryBuilder::for(TResult::class)
             ->allowedIncludes(['test', 'user'])
             ->allowedFilters([
@@ -66,7 +67,7 @@ class AdminResultController extends Controller
     {
         $query = QueryBuilder::for(TResult::class)
             ->where('id', $result->id)
-            ->with(['test'])
+            ->allowedIncludes(['test', 'user'])
             ->firstOrFail();
 
         return new AdminResultResource($query);

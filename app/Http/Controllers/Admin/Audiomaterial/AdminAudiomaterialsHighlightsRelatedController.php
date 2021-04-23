@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Admin\Audiomaterial;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\Bookmark\AdminBookmarkCollection;
+use App\Http\Resources\Admin\AdminHighlightCollection;
 use App\Models\Audiomaterial;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminAudiomaterialBookmarksRelatedController
+ * Class AdminAudiomaterialsHighlightsRelatedController
  * @package App\Http\Controllers\Admin\Audiomaterial
  */
-class AdminAudiomaterialBookmarksRelatedController extends Controller
+class AdminAudiomaterialsHighlightsRelatedController extends Controller
 {
     /**
      * @param Audiomaterial $audiomaterial
-     * @return AdminBookmarkCollection
+     * @return AdminHighlightCollection
      */
     public function index(Audiomaterial $audiomaterial)
     {
-        return new AdminBookmarkCollection($audiomaterial->bookmarks);
+        return new AdminHighlightCollection($audiomaterial->highlights);
     }
 }

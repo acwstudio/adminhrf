@@ -32,8 +32,6 @@ class ArticleCategoryCreateRequest extends FormRequest
             'data.type' => 'required|in:articlecategories',
             'data.attributes' => 'required|array',
             'data.attributes.title' => 'required|string',
-//            'data.attributes.created_at' => 'present|string',
-//            'data.attributes.updated_at' => 'present|string',
         ];
     }
 }

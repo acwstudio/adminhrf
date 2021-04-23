@@ -29,7 +29,7 @@ class BiographyTimelineUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|string|exists:timelines,id',
+            'data.*.id' => 'required|integer|exists:timelines,id',
             'data.*.type' => 'required|in:timelines',
         ];
     }

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\DocumentCategory;
+namespace App\Http\Requests\Audiomaterial;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class DocumentCategoryUpdateRequest
- * @package App\Http\Requests\DocumentCategory
+ * Class AudiomaterialsHighlightsUpdateRelationshipsRequest
+ * @package App\Http\Requests\Audiomaterial
  */
-class DocumentCategoryUpdateRequest extends FormRequest
+class AudiomaterialsHighlightsUpdateRelationshipsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,10 +28,9 @@ class DocumentCategoryUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'required|array',
-            'data.type' => 'required|in:documentcategories',
-            'data.attributes' => 'required|array',
-            'data.attributes.title' => 'string',
+            'data' => 'present|array',
+            'data.*.id' => 'required|integer|exists:highlights,id',
+            'data.*.type' => 'required|in:highlights',
         ];
     }
 }

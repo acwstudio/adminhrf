@@ -29,8 +29,10 @@ class ArticlesArticleCategoryUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer|exists:article_categories,id',
-            'data.*.type' => 'required|in:articlecategories'
+//            'data.*.id' => 'required|integer|exists:article_categories,id',
+//            'data.*.type' => 'required|in:articlecategories'
+            'data.id' => 'required|integer|exists:article_categories,id',
+            'data.type' => 'required|in:articlecategories'
         ];
     }
 }

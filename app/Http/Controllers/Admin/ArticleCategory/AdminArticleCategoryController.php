@@ -28,7 +28,7 @@ class AdminArticleCategoryController extends Controller
         $perPage = $request->get('per_page');
         $query = QueryBuilder::for(ArticleCategory::class)
             ->allowedIncludes('articles')
-            ->allowedSorts('title')
+            ->allowedSorts(['id', 'title'])
             ->jsonPaginate($perPage);
 
         return new AdminArticleCategoryCollection($query);

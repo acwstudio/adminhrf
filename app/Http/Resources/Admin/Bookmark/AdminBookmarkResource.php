@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Bookmark;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -30,6 +30,7 @@ class AdminBookmarkResource extends JsonResource
             'relationships' => [
                 'bookmarkGroup' => [
                     'links' => [
+                        'self' => route('bookmarks.relationships.bookmarkgroup', ['bookmark' => $this->id]),
                         'related' => route('bookmarks.bookmarkgroup', ['bookmark' => $this->id])
                     ]
                 ]

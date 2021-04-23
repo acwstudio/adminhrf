@@ -46,8 +46,8 @@ class AdminAudiomaterialController extends Controller
     {
         $perPage = $request->get('per_page');
         $audiomaterials = QueryBuilder::for(Audiomaterial::class)
-            ->allowedIncludes(['tags', 'authors', 'images'])
-            ->allowedSorts(['firstname', 'surname'])
+            ->allowedIncludes(['tags', 'highlights', 'images', 'bookmarks'])
+            ->allowedSorts(['id', 'firstname', 'surname'])
             ->jsonPaginate($perPage);
 
         return new AdminAudiomaterialCollection($audiomaterials);
@@ -93,7 +93,7 @@ class AdminAudiomaterialController extends Controller
     {
         $query = QueryBuilder::for(Audiomaterial::class)
             ->where('id', $audiomaterial->id)
-            ->allowedIncludes(['tags', 'authors', 'images'])
+            ->allowedIncludes(['tags', 'highlights', 'images', 'bookmarks'])
             ->firstOrFail();
 
         return new AdminAudiomaterialResource($query);

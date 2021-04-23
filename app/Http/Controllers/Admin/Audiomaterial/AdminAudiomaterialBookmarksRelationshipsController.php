@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Audiomaterial;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Audiomaterial\AudiomaterialBookmarksUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkIdentifierResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Models\Audiomaterial;
 use Illuminate\Http\Request;

@@ -31,11 +31,11 @@ class ResultCreateRequest extends FormRequest
             'data' => 'required|array',
             'data.type' => 'required|in:results',
             'data.attributes' => 'required|array',
-            'data.attributes.user_id' => 'required|integer',
-            'data.attributes.test_id' => 'required|integer',
-//            'data.attributes.is_closed' => 'required|boolean',
-//            'data.attributes.time_passed' => 'required|integer',
+            'data.attributes.user_id' => 'required|integer|exists:users,id',
+            'data.attributes.test_id' => 'required|integer|exists:tests,id',
             'data.attributes.value' => 'required|integer',
+
+
         ];
     }
 }

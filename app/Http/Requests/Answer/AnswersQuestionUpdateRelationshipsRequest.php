@@ -29,8 +29,8 @@ class AnswersQuestionUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|integer',
-            'data.*.type' => 'required|in:questions'
+            'data.id' => 'required|integer|exists:questions,id',
+            'data.type' => 'required|in:questions'
         ];
     }
 }

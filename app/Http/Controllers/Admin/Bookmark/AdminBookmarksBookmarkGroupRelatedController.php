@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\Admin\Bookmark;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminBookmarkGroupCollection;
-use App\Http\Resources\Admin\AdminBookmarkGroupResource;
+use App\Http\Resources\Admin\BookmarkGroup\AdminBookmarkGroupCollection;
+use App\Http\Resources\Admin\BookmarkGroup\AdminBookmarkGroupResource;
 use App\Models\Bookmark;
 use Illuminate\Http\Request;
 
 /**
- * Class AdminBookmarksBookmarkCroupRelatedController
+ * Class AdminBookmarksBookmarkGroupRelatedController
  * @package App\Http\Controllers\Admin\Bookmark
  */
-class AdminBookmarksBookmarkCroupRelatedController extends Controller
+class AdminBookmarksBookmarkGroupRelatedController extends Controller
 {
     /**
      * @param Bookmark $bookmark
-     * @return AdminBookmarkGroupResource
+     * @return \App\Http\Resources\Admin\BookmarkGroup\AdminBookmarkGroupResource
      */
     public function index(Bookmark $bookmark)
     {

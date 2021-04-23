@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\Article\AdminArticleCollection;
-use App\Http\Resources\Admin\AdminBookmarkCollection;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkCollection;
 use App\Models\Article;
 use Illuminate\Http\Request;
 
@@ -16,7 +16,7 @@ class AdminArticleBookmarksRelatedController extends Controller
 {
     /**
      * @param Article $article
-     * @return AdminBookmarkCollection
+     * @return \App\Http\Resources\Admin\Bookmark\AdminBookmarkCollection
      */
     public function index(Article $article)
     {

@@ -31,6 +31,6 @@ class AdminArticleCommentsRelationshipsController extends Controller
      */
     public function update(ArticleCommentsUpdateRelationshipsRequest $request, Article $article)
     {
-        return response('обновление комментариев для статьи отключено', 405);
+        return response('обновление связи с комментариями отключено', 405);
     }
 }

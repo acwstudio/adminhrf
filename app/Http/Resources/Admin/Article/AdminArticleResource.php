@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Admin\Article;
 
-use App\Http\Resources\Admin\AdminBookmarkCollection;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkCollection;
 use App\Http\Resources\Admin\AdminBookmarksIdentifierResource;
 use App\Http\Resources\Admin\AdminCommentCollection;
 use App\Http\Resources\Admin\AdminCommentResource;

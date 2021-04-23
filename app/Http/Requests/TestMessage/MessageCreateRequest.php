@@ -35,7 +35,7 @@ class MessageCreateRequest extends FormRequest
             'data.attributes.text' => 'required|string',
             'data.attributes.lowest_value' => 'required|integer',
             'data.attributes.highest_value' => 'required|integer',
-            'data.attributes.test_id' => 'required|integer',
+            'data.attributes.test_id' => 'required|integer|exists:tests,id',
         ];
     }
 }

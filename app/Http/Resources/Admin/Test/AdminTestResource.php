@@ -40,7 +40,7 @@ class AdminTestResource extends JsonResource
                 'description' => $this->description,
                 'is_active' => $this->is_active,
                 'time' => $this->time,
-                'total_question' => $this->total_question,
+                'total_questions' => $this->total_questions,
                 'max_points' => $this->max_points,
                 'has_points' => $this->has_points,
                 'viewed' => $this->viewed,

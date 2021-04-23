@@ -35,7 +35,7 @@ class MessageUpdateRequest extends FormRequest
             'data.attributes.text' => 'string',
             'data.attributes.lowest_value' => 'integer',
             'data.attributes.highest_value' => 'integer',
-            'data.attributes.test_id' => 'integer',
+            'data.attributes.test_id' => 'integer|exists:tests,id',
         ];
     }
 }

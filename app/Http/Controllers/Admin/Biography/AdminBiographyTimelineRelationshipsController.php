@@ -30,6 +30,6 @@ class AdminBiographyTimelineRelationshipsController extends Controller
      */
     public function update(BiographyTimelineUpdateRelationshipsRequest $request, Biography $biography)
     {
-        return response()->json(['message' => 'Update timeline action for article is disabled']);
+        return response('Обновление ленты времени для биографии отключено', 405);
     }
 }

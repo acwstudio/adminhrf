@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\Biography\AdminBiographyCollection;
 use App\Http\Resources\Admin\Biography\AdminBiographyResource;
 use App\Models\Biography;
 use App\Models\Image;
+use App\Models\Timeline;
 use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
@@ -51,7 +52,7 @@ class AdminBiographyController extends Controller
 
         $biographies = QueryBuilder::for(Biography::class)
             ->allowedIncludes(['tags', 'bookmarks', 'categories', 'images', 'timeline'])
-            ->allowedSorts(['firstname', 'surname', 'published_at'])
+            ->allowedSorts(['id', 'firstname', 'surname', 'published_at'])
             ->jsonPaginate($perPage);
 
         return new AdminBiographyCollection($biographies);
@@ -69,9 +70,11 @@ class AdminBiographyController extends Controller
         $this->authorize('manage', Biography::class);
 
         $data = $request->input('data.attributes');
+
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $timelineDate = $request->input('data.relationships.timelines.meta.date');
 
         /** @var Biography $biography */
         $biography = Biography::create($data);
@@ -81,8 +84,21 @@ class AdminBiographyController extends Controller
             $this->imageAssignment->assign($biography, $dataRelImages, 'biography');
         }
 
-        $biography->tags()->attach($dataRelTags);
-        $biography->categories()->attach($dataRelCategories);
+        if ($dataRelTags){
+            $biography->tags()->attach($dataRelTags);
+        }
+
+        if ($dataRelCategories){
+            $biography->categories()->attach($dataRelCategories);
+        }
+
+        if ($timelineDate){
+            Timeline::create([
+                'date' => $timelineDate,
+                'timelinable_type' => 'biography',
+                'timelinable_id' => $biography->id
+            ]);
+        }
 
         return (new AdminBiographyResource($biography))
             ->response()
@@ -123,9 +139,11 @@ class AdminBiographyController extends Controller
         $this->authorize('manage', Biography::class);
 
         $data = $request->input('data.attributes');
+
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $timelineDate = $request->input('data.relationships.timelines.meta.date');
 
         $biography->update($data);
 
@@ -134,8 +152,21 @@ class AdminBiographyController extends Controller
             $this->imageAssignment->assign($biography, $dataRelImages, 'biography');
         }
 
-        $biography->tags()->sync($dataRelTags);
-        $biography->categories()->sync($dataRelCategories);
+        if ($dataRelTags){
+            $biography->tags()->sync($dataRelTags);
+        }
+
+        if ($dataRelCategories){
+            $biography->categories()->sync($dataRelCategories);
+        }
+
+        if ($timelineDate){
+            $biography->timeline()->update([
+                'date' => $timelineDate,
+                'timelinable_type' => 'biography',
+                'timelinable_id' => $biography->id
+            ]);
+        }
 
         return new AdminBiographyResource($biography);
     }

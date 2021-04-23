@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Document;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Document\DocumentBookmarksUpdateRelationshipsRequest;
-use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkIdentifierResource;
 use App\Models\Document;
 use Illuminate\Http\Request;
 

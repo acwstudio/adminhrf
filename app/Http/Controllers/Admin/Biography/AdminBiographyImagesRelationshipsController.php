@@ -46,6 +46,7 @@ class AdminBiographyImagesRelationshipsController extends Controller
     {
         $Ids = $request->input('data.*.id');
 
+        /** @see ImageAssignmentService */
         return $this->imageAssignment->assign($biography, $Ids, 'biography');
     }
 }

@@ -34,7 +34,6 @@ class BookmarkUpdateRequest extends FormRequest
             'data.attributes.group_id' => 'integer',
             'data.attributes.bookmarkable_type' => 'string',
             'data.attributes.bookmarkable_id' => 'integer',
-//            'data.attributes.created_at' => 'string',
         ];
     }
 }

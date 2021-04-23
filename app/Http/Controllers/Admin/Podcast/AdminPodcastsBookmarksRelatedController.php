@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Podcast;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminBookmarkCollection;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkCollection;
 use App\Models\Podcast;
 use Illuminate\Http\Request;
 

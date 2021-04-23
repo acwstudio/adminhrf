@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Bookmark;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 

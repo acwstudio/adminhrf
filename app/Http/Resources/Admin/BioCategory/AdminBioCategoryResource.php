@@ -30,8 +30,10 @@ class AdminBioCategoryResource extends JsonResource
             'relationships' => [
                 'biographies' => [
                     'links' => [
-                        'self' => '',
-                        'related' => '',
+                        'self' => route('biocategories.relationships.biographies', [
+                            'biocategory' => $this->id
+                        ]),
+                        'related' => route('biocategories.biographies', ['biocategory' => $this->id]),
                     ],
                     'data' => AdminBiographyResource::collection($this->whenLoaded('biographies'))
                 ]

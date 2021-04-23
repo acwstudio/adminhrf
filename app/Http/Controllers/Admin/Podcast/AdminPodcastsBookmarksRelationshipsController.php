@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Podcast;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Podcast\PodcastsBookmarksRelationshipsUpdateRequest;
-use App\Http\Resources\Admin\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\Bookmark\AdminBookmarkIdentifierResource;
 use App\Models\Podcast;
 use Illuminate\Http\Request;
 

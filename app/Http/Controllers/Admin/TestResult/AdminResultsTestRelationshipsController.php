@@ -32,6 +32,7 @@ class AdminResultsTestRelationshipsController extends Controller
     public function update(ResultsTestRelationshipsUpdateRequest $request, Tresult $result)
     {
         $ids = $request->input('data.*.id');
+
         foreach ($ids as $item) {
             $test = Test::find($item);
             $result->test()->associate($test)->save();

@@ -29,7 +29,7 @@ class BiographiesBioCategoriesUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'required|string|exists:biocategories,id',
+            'data.*.id' => 'required|integer|exists:biocategories,id',
             'data.*.type' => 'required|in:biocategories',
         ];
     }

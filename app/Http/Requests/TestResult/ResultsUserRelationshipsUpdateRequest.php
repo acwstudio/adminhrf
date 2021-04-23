@@ -29,7 +29,7 @@ class ResultsUserRelationshipsUpdateRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.*.id' => 'present|integer',
+            'data.*.id' => 'present|integerexists:users,id',
             'data.*.type' => 'present|in:users'
         ];
     }
