@@ -85,19 +85,6 @@ class UserController extends Controller
 
     }
 
-    public function setStatus(Request $request, User $user)
-    {
-        $this->authorize('manage', User::class);
-
-        $status = $request->post('status');
-
-        if ($user->changeStatus($status)) {
-            return response('Status changed', 201);
-        }
-
-        return response('Wrong status', 403);
-
-    }
 
 
 }

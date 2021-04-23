@@ -33,7 +33,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role' => $this->getRole(),
             'permissions' => $this->getPermissionsArray(),
-            'image' => ImageResource::make($image)
+            'image' => ImageResource::make($image),
+            'status' => $this->status
 
         ];
     }

@@ -166,6 +166,7 @@ use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelationshipsContr
 use App\Http\Controllers\Admin\TestResult\AdminResultsUserRelationshipsController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineTimelineableRelatedController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineTimelineableRelationshipsController;
+use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialController;
 use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialImagesRelatedController;
 use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialImagesRelationshipsController;
@@ -1204,6 +1205,10 @@ Route::patch('/test-categories/{test_category}/relationships/tests', [
 Route::patch('/test-categories/{test_category}/tests', [
     AdminTestCategoriesTestsRelatedController::class, 'index'
 ])->name('test-categories.tests');
+
+/*****************  USERS ROUTES **************/
+
+Route::apiResource('/users', AdminUserController::class);
 
 /*****************  VIDEOMATERIALS ROUTES **************/
 

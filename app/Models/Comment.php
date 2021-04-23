@@ -17,6 +17,15 @@ class Comment extends Model
     const TYPE_REVIEW = 'review';
     const ESTIMATE_NEGATIVE = 'negative';
     const ESTIMATE_POSITIVE = 'positive';
+    const STATUS_PENDING =  'pending';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_SPAM =   'spam';
+
+    public static array $statuses = [
+        self::STATUS_PENDING,
+        self::STATUS_APPROVED,
+        self::STATUS_SPAM
+    ];
 
     public $guarded = [];
 
@@ -60,9 +69,12 @@ class Comment extends Model
 
     public function scopeAproved($query)
     {
-        return $query->whereHas('user', function (Builder $query) {
-            $query->where('status', User::STATUS_APROVED);
-        });
+        $query->where('status', Comment::STATUS_APPROVED);
+    }
+
+    public function scopeStatus($query, $status)
+    {
+        $query->where('status', $status);
     }
 
     public function scopeUserStatus($query, $status)

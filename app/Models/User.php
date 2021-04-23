@@ -19,15 +19,15 @@ class User extends Authenticatable implements MustVerifyEmail
      * User statuses
      */
 
-    const STATUS_NEW =      1;
-    const STATUS_PENDING =  2;
-    const STATUS_APROVED =  3;
-    const STATUS_BANNED =   4;
+    const STATUS_NEW =      'new';
+    const STATUS_PENDING =  'pending';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_BANNED =   'banned';
 
-    public static $statuses = [
+    public static array $statuses = [
         self::STATUS_NEW,
         self::STATUS_PENDING,
-        self::STATUS_APROVED,
+        self::STATUS_APPROVED,
         self::STATUS_BANNED
     ];
 

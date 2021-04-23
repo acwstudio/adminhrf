@@ -122,7 +122,7 @@ class CommentController extends Controller
         if (!CensorService::isAllowed($data['text'])) {
 
             $user->changeStatus(User::STATUS_PENDING);
-            $data['text'] = CensorService::getFiltered($data['text']);
+//            $data['text'] = CensorService::getFiltered($data['text']); // Замена матов звёздочками
 
         }
 
