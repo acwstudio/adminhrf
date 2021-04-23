@@ -37,6 +37,8 @@ class TestController extends Controller
 
     public function show(Test $test, Request $request)
     {
+        $test->increment('viewed');
+
         return TestResource::make($test);
     }
 
