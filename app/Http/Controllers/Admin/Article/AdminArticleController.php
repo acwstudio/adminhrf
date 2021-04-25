@@ -97,7 +97,7 @@ class AdminArticleController extends Controller
             $article->authors()->attach($dataRelAuthors);
         }
 
-        if ($dataRelAuthors){
+        if ($dataRelTags){
             $article->tags()->attach($dataRelTags);
         }
 
@@ -167,7 +167,7 @@ class AdminArticleController extends Controller
             $article->authors()->sync($dataRelAuthors);
         }
 
-        if ($dataRelAuthors){
+        if ($dataRelTags){
             $article->tags()->sync($dataRelTags);
         }
 
@@ -206,11 +206,9 @@ class AdminArticleController extends Controller
             $this->imageService->delete($image);
         }
 
-        $article->images()->delete();
         $article->comments()->delete();
         $article->timeline()->delete();
         $article->bookmarks()->delete();
-        $article->timeline()->delete();
 
         $article->delete();
 

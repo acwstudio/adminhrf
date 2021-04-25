@@ -29,8 +29,8 @@ class ArticleTimelineUpdateRelationshipsRequest extends FormRequest
     {
         return [
             'data' => 'present|array',
-            'data.id' => 'required|integer|exists:timelines,id',
             'data.type' => 'required|in:timelines',
+            'data.attributes.date' => 'string|required'
         ];
     }
 }

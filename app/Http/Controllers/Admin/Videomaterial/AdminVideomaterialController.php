@@ -77,8 +77,13 @@ class AdminVideomaterialController extends Controller
             $this->imageAssignment->assign($videomaterial, $dataRelImages, 'videomaterial');
         }
 
-        $videomaterial->authors()->attach($dataRelAuthors);
-        $videomaterial->tags()->attach($dataRelTags);
+        if ($dataRelAuthors){
+            $videomaterial->authors()->attach($dataRelAuthors);
+        }
+
+        if ($dataRelTags){
+            $videomaterial->tags()->attach($dataRelTags);
+        }
 
         return (new AdminVideomaterialResource($videomaterial))
             ->response()
@@ -125,9 +130,13 @@ class AdminVideomaterialController extends Controller
             /** @see  ImageAssignmentService creates a relationship Image to Videomaterial */
             $this->imageAssignment->assign($videomaterial, $dataRelImages, 'videomaterial');
         }
+        if ($dataRelAuthors){
+            $videomaterial->authors()->sync($dataRelAuthors);
+        }
 
-        $videomaterial->authors()->sync($dataRelAuthors);
-        $videomaterial->tags()->sync($dataRelTags);
+        if ($dataRelTags){
+            $videomaterial->tags()->sync($dataRelTags);
+        }
 
         return new AdminVideomaterialResource($videomaterial);
     }
@@ -154,7 +163,12 @@ class AdminVideomaterialController extends Controller
             $this->imageService->delete($image);
         }
 
-        $videomaterial->images()->delete();
+        $videomaterial->comments()->delete();
+        $videomaterial->likes()->delete();
+        $videomaterial->bookmarks()->delete();
+
+        $videomaterial->tags()->detach($idTags);
+        $videomaterial->authors()->detach($idAuthors);
 
         $videomaterial->delete();
 

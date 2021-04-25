@@ -30,6 +30,10 @@ class AdminArticleTimelineRelationshipsController extends Controller
      */
     public function update(ArticleTimelineUpdateRelationshipsRequest $request, Article $article)
     {
-        return response('обновление таймлайн статьи отключено', 405);
+        $timelineDate = $request->input('data.attributes.date');
+
+        $article->timeline()->update([
+            'date' => $timelineDate,
+        ]);
     }
 }

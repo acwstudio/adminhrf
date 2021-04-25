@@ -8,6 +8,7 @@ use App\Http\Requests\Audiomaterial\AudiomaterialUpdateRequest;
 use App\Http\Resources\Admin\Audiomaterial\AdminAudiomaterialCollection;
 use App\Http\Resources\Admin\Audiomaterial\AdminAudiomaterialResource;
 use App\Models\Audiomaterial;
+use App\Models\Bookmark;
 use App\Models\Image;
 use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
@@ -45,9 +46,10 @@ class AdminAudiomaterialController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $audiomaterials = QueryBuilder::for(Audiomaterial::class)
             ->allowedIncludes(['tags', 'highlights', 'images', 'bookmarks'])
-            ->allowedSorts(['id', 'firstname', 'surname'])
+            ->allowedSorts(['id', 'title'])
             ->jsonPaginate($perPage);
 
         return new AdminAudiomaterialCollection($audiomaterials);
@@ -62,9 +64,11 @@ class AdminAudiomaterialController extends Controller
     public function store(AudiomaterialCreateRequest $request)
     {
         $dataAttributes = $request->input('data.attributes');
-        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
-        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
+        $dataRelTags = $request->input('data.relationships.tags.data.*.id');
+        $dataRelHighlights = $request->input('data.relationships.highlights.data.*.id');
+        $dataRelBookmarks = $request->input('data.relationships.bookmarks.attributes');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         /** @var Audiomaterial $audiomaterial */
         $audiomaterial = Audiomaterial::create($dataAttributes);
@@ -72,9 +76,19 @@ class AdminAudiomaterialController extends Controller
         if ($dataRelImages) {
             /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
             $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
-
         }
-        $audiomaterial->tags()->attach($dataRelTags);
+
+        if ($dataRelTags){
+            $audiomaterial->tags()->attach($dataRelTags);
+        }
+
+        if ($dataRelHighlights){
+            $audiomaterial->highlights()->attach($dataRelHighlights);
+        }
+
+        if ($dataRelBookmarks){
+//            ToDo create bookmarks
+        }
 
         return (new AdminAudiomaterialResource($audiomaterial))
             ->response()
@@ -102,24 +116,31 @@ class AdminAudiomaterialController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param AudiomaterialUpdateRequest $request
+     * @param Audiomaterial $audiomaterial
      * @return AdminAudiomaterialResource
      */
     public function update(AudiomaterialUpdateRequest $request, Audiomaterial $audiomaterial)
     {
         $dataAttributes = $request->input('data.attributes');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
+        $dataRelHighlights = $request->input('data.relationships.highlights.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $audiomaterial->update($dataAttributes);
 
-//        if ($dataRelImages) {
-//            /** @var Audiomaterial $audiomaterial */
-//            $audiomaterial = Audiomaterial::create($dataAttributes);
-//        }
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
+            $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
+        }
 
-        $audiomaterial->tags()->sync($dataRelTags);
+        if ($dataRelTags){
+            $audiomaterial->tags()->sync($dataRelTags);
+        }
+
+        if ($dataRelHighlights){
+            $audiomaterial->highlights()->sync($dataRelHighlights);
+        }
 
         return new AdminAudiomaterialResource($audiomaterial);
     }
@@ -138,14 +159,15 @@ class AdminAudiomaterialController extends Controller
         $audiomaterial->tags()->detach($idTags);
 
         $images = Image::where('imageable_id', $audiomaterial->id)
-            ->where('imageable_type', 'videomaterial')->get();
+            ->where('imageable_type', 'audiomaterial')->get();
 
         foreach ($images as $image) {
             $this->imageService->delete($image);
         }
 
-        $audiomaterial->images()->delete();
-
+        $audiomaterial->tags()->detach();
+        $audiomaterial->highlights()->detach();
+        $audiomaterial->bookmarks()->delete();
         $audiomaterial->delete();
 
         return response(null, 204);

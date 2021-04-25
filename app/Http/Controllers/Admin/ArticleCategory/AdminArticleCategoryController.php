@@ -26,6 +26,7 @@ class AdminArticleCategoryController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+
         $query = QueryBuilder::for(ArticleCategory::class)
             ->allowedIncludes('articles')
             ->allowedSorts(['id', 'title'])

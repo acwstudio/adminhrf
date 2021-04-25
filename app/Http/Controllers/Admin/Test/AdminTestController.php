@@ -81,7 +81,9 @@ class AdminTestController extends Controller
         }
 
 //        $test->questions()->attach($dataRelQuestions);
-        $test->categories()->attach($dataRelCategories);
+        if ($dataRelCategories){
+            $test->categories()->attach($dataRelCategories);
+        }
 
         return (new AdminTestResource($test))
             ->response()
@@ -134,7 +136,9 @@ class AdminTestController extends Controller
             $this->imageAssignment->assign($test, $dataRelImages, 'test');
         }
 
-        $test->categories()->sync($dataRelCategories);
+        if ($dataRelCategories) {
+            $test->categories()->sync($dataRelCategories);
+        }
 
         return new AdminTestResource($test);
     }

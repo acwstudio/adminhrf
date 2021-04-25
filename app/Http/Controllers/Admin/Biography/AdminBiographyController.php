@@ -195,7 +195,6 @@ class AdminBiographyController extends Controller
             $this->imageService->delete($image);
         }
 
-        $biography->images()->delete();
         $biography->timeline()->delete();
         $biography->bookmarks()->delete();
 

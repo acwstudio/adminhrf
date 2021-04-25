@@ -30,7 +30,7 @@ class AudiomaterialBookmarksUpdateRelationshipsRequest extends FormRequest
         return [
             'data' => 'present|array',
             'data.*.id' => 'required|integer|exists:bookmarks,id',
-            'data.*.type' => 'required|in:bookmarks',
+            'data.*.type' => 'required|in:bookmarks'
         ];
     }
 }

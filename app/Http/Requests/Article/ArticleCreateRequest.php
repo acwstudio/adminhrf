@@ -40,7 +40,6 @@ class ArticleCreateRequest extends FormRequest
             'data.attributes.yatextid' => 'string',
             'data.attributes.active' => 'present|integer',
             'data.attributes.published_at' => 'required|string',
-//            'data.attributes.commented' => 'required|integer',
             'data.attributes.biblio' => 'json',
 //            'data.attributes.event_start_date' => 'string',
 //            'data.attributes.event_end_date' => 'string',
