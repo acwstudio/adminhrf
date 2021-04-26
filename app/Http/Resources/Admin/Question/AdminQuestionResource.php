@@ -25,7 +25,7 @@ class AdminQuestionResource extends JsonResource
             'type' => 'questions',
             'attributes' => [
                 'text' => $this->text,
-                'title' => $this->title,
+                'type' => $this->type,
                 'position' => $this->position,
                 'points' => $this->points,
                 'has_points' => $this->has_points,

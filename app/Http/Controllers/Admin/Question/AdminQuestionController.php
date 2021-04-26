@@ -44,18 +44,15 @@ class AdminQuestionController extends Controller
     public function store(QuestionCreateRequest $request)
     {
         $data = $request->input('data.attributes');
-        $dataRelAnswers = $request->input('data.relationships.answers.data.*.id');
+//        $dataRelAnswers = $request->input('data.relationships.answers.data.*.id');
         $dataRelTests = $request->input('data.relationships.tests.data.*.id');
 
         /** @var Question $question */
         $question = Question::create($data);
 
-//        foreach ($dataRelAnswers as $id) {
-//            $answer = TAnswer::find($id);
-//            $question->answers()->save($answer);
-//        }
-
-//        $question->tests()->sync($dataRelTests);
+        if ($dataRelTests){
+            $question->tests()->attach($dataRelTests);
+        }
 
         return (new AdminQuestionResource($question))
             ->response()
@@ -90,17 +87,23 @@ class AdminQuestionController extends Controller
     public function update(QuestionUpdateRequest $request, Question $question)
     {
         $data = $request->input('data.attributes');
-        $dataRelAnswers = $request->input('data.relationships.answers.data.*.id');
+//        $dataRelAnswers = $request->input('data.relationships.answers.data.*.id');
         $dataRelTests = $request->input('data.relationships.tests.data.*.id');
+        $dataOldTest = $request->input('data.relationships.tests.meta.old_test');
+        $idTests = $question->tests()->allRelatedIds()->toArray();
 
         $question->update($data);
 
-//        foreach ($dataRelAnswers as $id) {
-//            $answer = TAnswer::find($id);
-//            $question->answers()->save($answer);
-//        }
-//
-//        $question->tests()->sync($dataRelTests);
+        // Create new $dataRelTests
+        foreach ($idTests as $key => $idTest){
+            if ($idTest === $dataOldTest){
+                $newDataRelTests = array_replace($idTests, [$key => $dataRelTests[0]]);
+            }
+        }
+
+        if ($newDataRelTests) {
+            $question->tests()->sync($newDataRelTests);
+        }
 
         return new AdminQuestionResource($question);
     }
