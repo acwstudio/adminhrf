@@ -15,6 +15,7 @@ class Question extends Model
         'type',
         'position',
         'points',
+        'has_points'
     ];
 
     public function tests()
