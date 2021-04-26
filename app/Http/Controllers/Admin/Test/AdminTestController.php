@@ -70,6 +70,7 @@ class AdminTestController extends Controller
 //        $this->authorize('manage', Test::class);
 
         $dataAttributes = $request->input('data.attributes');
+
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
         $dataRelCategories = $request->input('data.relationships.categories.data.*.id');
 

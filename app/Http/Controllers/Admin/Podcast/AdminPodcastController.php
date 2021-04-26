@@ -62,6 +62,7 @@ class AdminPodcastController extends Controller
     public function store(PodcastCreateRequest $request)
     {
         $dataAttributes = $request->input('data.attributes');
+
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
@@ -73,7 +74,9 @@ class AdminPodcastController extends Controller
             $this->imageAssignment->assign($podcast, $dataRelImages, 'podcast');
         }
 
-        $podcast->tags()->attach($dataRelTags);
+        if ($dataRelTags){
+            $podcast->tags()->attach($dataRelTags);
+        }
 
         return (new AdminPodcastResource($podcast))
             ->response()
@@ -119,7 +122,9 @@ class AdminPodcastController extends Controller
             $this->imageAssignment->assign($podcast, $dataRelImages, 'podcast');
         }
 
-        $podcast->tags()->sync($dataRelTags);
+        if ($dataRelTags){
+            $podcast->tags()->sync($dataRelTags);
+        }
 
         return new AdminPodcastResource($podcast);
     }
@@ -143,8 +148,6 @@ class AdminPodcastController extends Controller
         foreach ($images as $image) {
             $this->imageService->delete($image);
         }
-
-        $podcast->images()->delete();
 
         $podcast->delete();
 

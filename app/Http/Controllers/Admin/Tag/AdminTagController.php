@@ -101,7 +101,24 @@ class AdminTagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        return response('удаление тегов отключено', 405);
+//        return response('удаление тегов отключено', 405);
+        $idArticles = $tag->articles()->allRelatedIds();
+        $idNews = $tag->news()->allRelatedIds();
+        $idDocuments = $tag->documents()->allRelatedIds();
+        $idBiographies = $tag->biographies()->allRelatedIds();
+        $idHighlights = $tag->highlights()->allRelatedIds();
+        $idVideomaterials = $tag->videomaterials()->allRelatedIds();
+        $idAudiomaterials = $tag->audiomaterials()->allRelatedIds();
+
+        $tag->articles()->detach($idArticles);
+        $tag->news()->detach($idNews);
+        $tag->documents()->detach($idDocuments);
+        $tag->biographies()->detach($idBiographies);
+        $tag->highlights()->detach($idHighlights);
+        $tag->videomaterials()->detach($idVideomaterials);
+        $tag->audiomaterials()->detach($idAudiomaterials);
+
+        $tag->delete();
     }
 
     /**

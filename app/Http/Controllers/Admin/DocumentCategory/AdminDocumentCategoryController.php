@@ -29,7 +29,7 @@ class AdminDocumentCategoryController extends Controller
 
         $query = QueryBuilder::for(DocumentCategory::class)
             ->allowedIncludes('documents')
-            ->allowedSorts('title')
+            ->allowedSorts(['id', 'title'])
             ->jsonPaginate($perPage);
 
         return new AdminDocumentCategoryCollection($query);
@@ -96,7 +96,7 @@ class AdminDocumentCategoryController extends Controller
     public function destroy(DocumentCategory $documentCategory)
     {
         if ($documentCategory->documents()) {
-            return response('Категория имеет связанные статьи', 405);
+            return response('Категория имеет связанные документы', 405);
         }
 
         $documentCategory->delete();

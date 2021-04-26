@@ -83,7 +83,9 @@ class AdminNewsController extends Controller
             $this->imageAssignment->assign($news, $dataRelImages, 'news');
         }
 
-        $news->tags()->attach($dataRelTags);
+        if ($dataRelTags){
+            $news->tags()->attach($dataRelTags);
+        }
 
         return (new AdminNewsResource($news))
             ->response()
@@ -134,7 +136,9 @@ class AdminNewsController extends Controller
             $this->imageAssignment->assign($news, $dataRelImages, 'news');
         }
 
-        $news->tags()->sync($dataRelTags);
+        if ($dataRelTags){
+            $news->tags()->sync($dataRelTags);
+        }
 
         return new AdminNewsResource($news);
     }
@@ -161,7 +165,6 @@ class AdminNewsController extends Controller
             $this->imageService->delete($image);
         }
 
-        $news->images()->delete();
         $news->comments()->delete();
         $news->bookmarks()->delete();
         $news->delete();

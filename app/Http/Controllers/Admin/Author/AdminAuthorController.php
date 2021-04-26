@@ -66,6 +66,7 @@ class AdminAuthorController extends Controller
     {
 
         $dataAttributes = $request->input('data.attributes');
+
         $dataRelArticles = $request->input('data.relationships.articles.data.*.id');
         $dataRelVideomaterials = $request->input('data.relationships.videomaterials.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
@@ -77,8 +78,13 @@ class AdminAuthorController extends Controller
             $this->imageAssignment->assign($author, $dataRelImages, 'author');
         }
 
-        $author->articles()->attach($dataRelArticles);
-        $author->video()->attach($dataRelVideomaterials);
+        if ($dataRelArticles){
+            $author->articles()->attach($dataRelArticles);
+        }
+
+        if ($dataRelVideomaterials){
+            $author->video()->attach($dataRelVideomaterials);
+        }
 
         return (new AdminAuthorResource($author))
             ->response()
@@ -125,8 +131,13 @@ class AdminAuthorController extends Controller
             $this->imageAssignment->assign($author, $dataRelImages, 'author');
         }
 
-        $author->articles()->sync($dataRelArticles);
-        $author->video()->sync($dataRelVideomaterials);
+        if ($dataRelArticles){
+            $author->articles()->sync($dataRelArticles);
+        }
+
+        if ($dataRelVideomaterials){
+            $author->video()->sync($dataRelVideomaterials);
+        }
 
         return new AdminAuthorResource($author);
     }
@@ -152,8 +163,6 @@ class AdminAuthorController extends Controller
         foreach ($images as $image) {
             $this->imageService->delete($image);
         }
-
-        $author->image()->delete();
 
         $author->delete();
 

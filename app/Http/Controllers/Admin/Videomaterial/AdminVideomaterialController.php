@@ -167,9 +167,6 @@ class AdminVideomaterialController extends Controller
         $videomaterial->likes()->delete();
         $videomaterial->bookmarks()->delete();
 
-        $videomaterial->tags()->detach($idTags);
-        $videomaterial->authors()->detach($idAuthors);
-
         $videomaterial->delete();
 
         return response(null, 204);
