@@ -49,7 +49,7 @@ class AdminVideomaterialController extends Controller
             ->allowedIncludes([
                 'authors', 'comments', 'bookmarks', 'tags','images'
             ])
-            ->allowedFilters(['yatextid'])
+            ->allowedFilters(['type'])
             ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'event_date'])
             ->jsonPaginate($perPage);
 

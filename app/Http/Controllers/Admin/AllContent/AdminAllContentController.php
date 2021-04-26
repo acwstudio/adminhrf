@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\AllContent\AdminAllContentCollection;
 use App\Http\Resources\Admin\AllContent\AdminAllContentResource;
 use App\Models\Article;
+//use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -48,11 +50,21 @@ class AdminAllContentController extends Controller
             ->union($videomaterials)
             ->union($audiomaterials)
             ->allowedFilters(db::raw('type'))
+            /** @var QueryBuilder $query */
+//            ->allowedFilters([AllowedFilter::exact('type', $query->where('type'))])
+//            ->allowedFilters([
+                /** @var QueryBuilder $queryD */
+//                AllowedFilter::callback('type_field',
+//                    fn (QueryBuilder $query) => $query->where('type', 'type_field')),
+//                ])
             ->allowedSorts(['created_at', 'title'])
 //            ->get();
+//                ->where()
             ->jsonPaginate($perPage);
 
         return AdminAllContentResource::collection($query);
+        /** @var QueryBuilder $query */
+//        return $query->where('type', 'news');
     }
 
     /**
