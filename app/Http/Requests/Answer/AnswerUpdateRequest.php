@@ -37,7 +37,7 @@ class AnswerUpdateRequest extends FormRequest
             'data.attributes.description' => 'sometimes|required|string',
             'data.attributes.points' => 'sometimes|required|integer',
 
-            'data.relationships.images.data' => 'required|array',
+//            'data.relationships.images.data' => 'required|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
             'data.relationships.images.data.*.id' => 'integer|exists:images,id',
         ];

@@ -37,9 +37,9 @@ class MessageCreateRequest extends FormRequest
             'data.attributes.highest_value' => 'required|integer',
             'data.attributes.test_id' => 'required|integer|exists:tests,id',
 
-            'data.relationships.images.data' => 'required|array',
+//            'data.relationships.images.data' => 'required|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
-            'data.relationships.images.data.*.id' => 'integer|required|exists:images,id',
+            'data.relationships.images.data.*.id' => 'present|integer|exists:images,id',
         ];
     }
 }
