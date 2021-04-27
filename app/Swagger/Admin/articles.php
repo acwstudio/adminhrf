@@ -10,8 +10,13 @@
  *     @OA\Parameter(
  *         name="include",
  *         in="query",
- *
- *     )
+ *         description="Includes related models",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="string",
+ *             enum={"tags", "authors"}
+ *         )
+ *     ),
  *
  *     @OA\Parameter(
  *         name="id",
@@ -19,7 +24,7 @@
  *         description="Article id",
  *         required=true,
  *         @OA\Schema(
- *             type="integer",
+ *             type="integer"
  *         )
  *     ),
  *

@@ -2,12 +2,10 @@
 
 namespace App\Http\Resources\Admin\Audiomaterial;
 
-use App\Http\Resources\Admin\Bookmark\AdminBookmarkIdentifierResource;
+use App\Http\Resources\Admin\Audiofile\AdminAudiofileResource;
 use App\Http\Resources\Admin\Bookmark\AdminBookmarkResource;
 use App\Http\Resources\Admin\AdminHighlightResource;
 use App\Http\Resources\Admin\AdminImageResource;
-use App\Http\Resources\Admin\AdminImagesIdentifierResource;
-use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use App\Http\Resources\Admin\Tag\AdminTagResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -73,6 +71,13 @@ class AdminAudiomaterialResource extends JsonResource
                     ],
 //                    'data' => AdminBookmarkIdentifierResource::collection($this->whenLoaded('bookmarks'))
                     'data' => AdminHighlightResource::collection($this->whenLoaded('highlights'))
+                ],
+                'audiofiles' => [
+                    'links' => [
+                        'self' => route('audiomaterial.relationships.audiofile', ['audiomaterial' => $this->id]),
+                        'related' => route('audiomaterial.audiofile', ['audiomaterial' => $this->id])
+                    ],
+                    'data' => new AdminAudiofileResource($this->whenLoaded('audiofile'))
                 ]
             ]
         ];

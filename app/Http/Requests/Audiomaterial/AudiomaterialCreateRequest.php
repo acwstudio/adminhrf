@@ -49,6 +49,8 @@ class AudiomaterialCreateRequest extends FormRequest
             'data.relationships.images.data.*.id' => 'integer|exists:images,id',
             'data.relationships.highlights.data.*.type' => 'present|in:highlights',
             'data.relationships.highlights.data.*.id' => 'integer|exists:highlights,id',
+            'data.relationships.audiofiles.data.*.id' => 'integer|exists:audiofiles,id',
+            'data.relationships.audiofiles.data.*.type' => 'present|in:audiofiles',
         ];
     }
 }
