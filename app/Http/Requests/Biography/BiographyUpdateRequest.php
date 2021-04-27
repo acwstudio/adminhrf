@@ -35,7 +35,7 @@ class BiographyUpdateRequest extends FormRequest
             'data.attributes.firstname' => 'string',
             'data.attributes.patronymic' => 'string',
             'data.attributes.birth_date' => 'string',
-            'data.attributes.death_date' => 'string',
+            'data.attributes.death_date' => 'nullable|string',
             'data.attributes.announce' => 'string',
             'data.attributes.description' => 'string',
             'data.attributes.government_start' => 'nullable|integer',

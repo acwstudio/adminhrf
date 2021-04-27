@@ -35,7 +35,7 @@ class BiographyCreateRequest extends FormRequest
             'data.attributes.firstname' => 'required|string',
             'data.attributes.patronymic' => 'required|string',
             'data.attributes.birth_date' => 'required',
-            'data.attributes.death_date' => 'required',
+            'data.attributes.death_date' => 'nullable',
             'data.attributes.announce' => 'required|string',
             'data.attributes.description' => 'required|string',
             'data.attributes.government_start' => 'nullable|integer',
