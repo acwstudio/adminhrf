@@ -40,6 +40,9 @@ class SubscriptionController extends Controller
                     $data[] = SubscriptionResource::make($element); //$element->taggable;
                 }
             }
+            $data = $data->map(function ($array) {
+                return collect($array)->unique('id')->all();
+            });
             return $data;
         } elseif (key_exists($category, $this->map)) {
             $subscriptions = User::findOrFail($user->id)->subscriptions;
@@ -54,6 +57,9 @@ class SubscriptionController extends Controller
                     $data[] = SubscriptionResource::make($element);
                 }
             }
+            $data = $data->map(function ($array) {
+                return collect($array)->unique('id')->all();
+            });
             return $data;
         }
 
