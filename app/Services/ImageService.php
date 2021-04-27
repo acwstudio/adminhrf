@@ -28,6 +28,7 @@ class ImageService
     const TEST_PATH = '/images/test/';
     const QUESTION_PATH = '/images/question/';
     const ANSWER_PATH = '/images/answer/';
+    const MESSAGE_PATH = '/images/message/';
     const TIMELINE_PATH = '/images/timeline/';
     const VIDEOMATERIAL_PATH = '/images/videomaterial/';
     const AUDIOMATERIAL_PATH = '/images/audiomaterial/';
@@ -70,6 +71,7 @@ class ImageService
         'test' => self::TEST_PATH,
         'question' => self::QUESTION_PATH,
         'answer' => self::ANSWER_PATH,
+        'message' => self::MESSAGE_PATH,
         'timeline' => self::TIMELINE_PATH,
         'videomaterial' => self::VIDEOMATERIAL_PATH,
         'audiomaterial' => self::AUDIOMATERIAL_PATH,

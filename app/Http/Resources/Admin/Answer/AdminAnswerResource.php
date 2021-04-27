@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Admin\Answer;
 
+use App\Http\Resources\Admin\AdminImageCollection;
+use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\Question\AdminQuestionResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -36,6 +38,13 @@ class AdminAnswerResource extends JsonResource
                         'related' => route('answers.question', ['answer' => $this->id])
                     ],
                     'data' => new AdminQuestionResource($this->whenLoaded('question'))
+                ],
+                'images' => [
+                    'links' => [
+                        'self' => route('answer.relationships.images', ['answer' => $this->id]),
+                        'related' => route('answer.images', ['answer' => $this->id])
+                    ],
+                    'data' => new AdminImageCollection($this->whenLoaded('images'))
                 ]
             ]
         ];

@@ -7,8 +7,11 @@ use App\Http\Requests\TestMessage\MessageCreateRequest;
 use App\Http\Requests\TestMessage\MessageUpdateRequest;
 use App\Http\Resources\Admin\TestMessage\AdminMessageCollection;
 use App\Http\Resources\Admin\TestMessage\AdminMessageResource;
+use App\Models\Image;
 use App\Models\Test;
 use App\Models\TestMessage;
+use App\Services\ImageAssignmentService;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -18,6 +21,22 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class AdminMessageController extends Controller
 {
+    /** @var ImageService  */
+    private $imageService;
+
+    /** @var ImageAssignmentService  */
+    private $imageAssignment;
+
+    /**
+     * AdminArticleController constructor.
+     * @param ImageService $imageService
+     */
+    public function __construct(ImageService $imageService, ImageAssignmentService $imageAssignment)
+    {
+        $this->imageService = $imageService;
+        $this->imageAssignment = $imageAssignment;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +47,7 @@ class AdminMessageController extends Controller
         $perPage = $request->get('per_page');
 
         $query = QueryBuilder::for(TestMessage::class)
-            ->allowedIncludes(['test'])
+            ->allowedIncludes(['test', 'images'])
             ->allowedSorts(['id', 'title'])
             ->jsonPaginate($perPage);
 
@@ -44,15 +63,17 @@ class AdminMessageController extends Controller
     public function store(MessageCreateRequest $request)
     {
         $data = $request->input('data.attributes');
-        $dataRelTest = $request->input('data.relationships.tests.data.*.id');
+
+//        $dataRelTest = $request->input('data.relationships.tests.data.*.id');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         /** @var TestMessage $message */
         $message = TestMessage::create($data);
 
-//        foreach ($dataRelTest as $item) {
-//            $test = Test::find($item);
-//            $message->test()->associate($test)->save();
-//        }
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to Message */
+            $this->imageAssignment->assign($message, $dataRelImages, 'message');
+        }
 
         return (new AdminMessageResource($message))
             ->response()
@@ -86,14 +107,16 @@ class AdminMessageController extends Controller
     public function update(MessageUpdateRequest $request, TestMessage $message)
     {
         $data = $request->input('data.attributes');
-        $dataRelTest = $request->input('data.relationships.tests.data.*.id');
+
+//        $dataRelTest = $request->input('data.relationships.tests.data.*.id');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
 
         $message->update($data);
 
-//        foreach ($dataRelTest as $item) {
-//            $test = Test::find($item);
-//            $message->test()->associate($test)->save();
-//        }
+        if ($dataRelImages) {
+            /** @see ImageAssignmentService creates a relationship Image to Message */
+            $this->imageAssignment->assign($message, $dataRelImages, 'message');
+        }
 
         return new AdminMessageResource($message);
     }
@@ -107,6 +130,14 @@ class AdminMessageController extends Controller
      */
     public function destroy(TestMessage $message)
     {
+        $images = Image::where('imageable_id', $message->id)
+            ->where('imageable_type', 'message')->get();
+
+        foreach ($images as $image) {
+            $this->imageService->delete($image);
+        }
+
+
         $message->delete();
 
         return response(null, 204);

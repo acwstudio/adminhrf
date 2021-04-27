@@ -28,4 +28,12 @@ class TAnswer extends Model
     {
         return $this->belongsTo(Question::class, 'question_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 }

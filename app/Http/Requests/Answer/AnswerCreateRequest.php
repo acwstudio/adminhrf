@@ -36,6 +36,10 @@ class AnswerCreateRequest extends FormRequest
             'data.attributes.is_right' => 'required|boolean',
             'data.attributes.description' => 'required|string',
             'data.attributes.points' => 'required|integer',
+
+            'data.relationships.images.data' => 'required|array',
+            'data.relationships.images.data.*.type' => 'present|in:images',
+            'data.relationships.images.data.*.id' => 'integer|required|exists:images,id',
         ];
     }
 }

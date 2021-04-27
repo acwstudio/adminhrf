@@ -44,8 +44,8 @@ class AdminTestImagesRelationshipsController extends Controller
      */
     public function update(TestImagesUpdateRelationshipsRequest $request, Test $test)
     {
-        $Ids = $request->input('data.*.id');
+        $ids = $request->input('data.*.id');
 
-        return $this->imageAssignment->assign($test, $Ids, 'test');
+        return $this->imageAssignment->assign($test, $ids, 'test');
     }
 }

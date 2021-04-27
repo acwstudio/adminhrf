@@ -23,4 +23,12 @@ class TestMessage extends Model
     {
         return $this->belongsTo(Test::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 }

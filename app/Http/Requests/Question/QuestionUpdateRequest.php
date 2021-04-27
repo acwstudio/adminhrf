@@ -39,7 +39,7 @@ class QuestionUpdateRequest extends FormRequest
             'data.relationships.*' => 'present|array',
             'data.relationships.tests.data.*.type' => 'present|in:tests',
             'data.relationships.tests.data.*.id' => 'integer|exists:tests,id',
-            'data.relationships.tests.meta.old_test' => 'integer|exists:tests,id',
+//            'data.relationships.tests.meta.old_test' => 'integer|exists:tests,id',
             'data.relationships.answers.data.*.type' => 'present|in:answers',
             'data.relationships.answers.data.*.id' => 'integer|exists:answers,id',
         ];

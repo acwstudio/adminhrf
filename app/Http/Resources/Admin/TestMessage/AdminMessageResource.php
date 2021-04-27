@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin\TestMessage;
 
+use App\Http\Resources\Admin\AdminImageCollection;
 use App\Http\Resources\Admin\Test\AdminTestResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -38,6 +39,13 @@ class AdminMessageResource extends JsonResource
                         'related' => route('messages.test', ['message' => $this->id])
                     ],
                     'data' => new AdminTestResource($this->whenLoaded('test'))
+                ],
+                'images' => [
+                    'links' => [
+                        'self' => route('message.relationships.images', ['message' => $this->id]),
+                        'related' => route('message.images', ['message' => $this->id])
+                    ],
+                    'data' => new AdminImageCollection($this->whenLoaded('test'))
                 ]
             ]
         ];

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\Answer\AdminAnswerImagesRelatedController;
+use App\Http\Controllers\Admin\Answer\AdminAnswerImagesRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticleController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialBookmarksRelatedController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialBookmarksRelationshipsController;
@@ -149,6 +151,8 @@ use App\Http\Controllers\Admin\TestCategory\AdminTestCategoriesTestsRelatedContr
 use App\Http\Controllers\Admin\TestCategory\AdminTestCategoriesTestsRelationshipsController;
 use App\Http\Controllers\Admin\TestCategory\AdminTestCategoryController;
 use App\Http\Controllers\Admin\TestMessage\AdminMessageController;
+use App\Http\Controllers\Admin\TestMessage\AdminMessageImagesRelatedController;
+use App\Http\Controllers\Admin\TestMessage\AdminMessageImagesRelationshipsController;
 use App\Http\Controllers\Admin\TestMessage\AdminMessagesTestRelatedController;
 use App\Http\Controllers\Admin\TestMessage\AdminMessagesTestRelationshipsController;
 use App\Http\Controllers\Admin\TestResult\AdminResultController;
@@ -180,7 +184,20 @@ use App\Http\Controllers\Admin\Event\AdminEventImagesRelationshipsController;
 /*****************  ANSWERS ROUTES **************/
 Route::apiResource('/answers', AdminAnswerController::class, ['as' =>'admin']);
 
-// Answer to Questions relations
+// Answer to Images relations
+Route::get('/answers/{answer}/relationships/images', [
+    AdminAnswerImagesRelationshipsController::class, 'index'
+])->name('answer.relationships.images');
+
+Route::patch('/answers/{answer}/relationships/images', [
+    AdminAnswerImagesRelationshipsController::class, 'update'
+])->name('answer.relationships.images');
+
+Route::get('/answers/{answer}/images', [
+    AdminAnswerImagesRelatedController::class, 'index'
+])->name('answer.images');
+
+// Answers to Question relations
 Route::get('/answers/{answer}/relationships/question', [
     AdminAnswersQuestionRelationshipsController::class, 'index'
 ])->name('answers.relationships.question');
@@ -786,6 +803,19 @@ Route::apiResource('/likes', AdminLikeController::class, ['as' => 'admin']);
 /*****************  MESSAGES ROUTES **************/
 
 Route::apiResource('/messages', AdminMessageController::class, ['as' => 'admin']);
+
+// Message to Images relations
+Route::get('/messages/{message}/relationships/images', [
+    AdminMessageImagesRelationshipsController::class, 'index'
+])->name('message.relationships.images');
+
+Route::patch('/messages/{message}/relationships/images', [
+    AdminMessageImagesRelationshipsController::class, 'update'
+])->name('message.relationships.images');
+
+Route::get('/messages/{message}/images', [
+    AdminMessageImagesRelatedController::class, 'index'
+])->name('message.images');
 
 // Messages to Test relations
 Route::get('/messages/{message}/relationships/test', [

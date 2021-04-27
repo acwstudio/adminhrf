@@ -88,22 +88,27 @@ class AdminQuestionController extends Controller
     {
         $data = $request->input('data.attributes');
 //        $dataRelAnswers = $request->input('data.relationships.answers.data.*.id');
-        $dataRelTests = $request->input('data.relationships.tests.data.*.id');
-        $dataOldTest = $request->input('data.relationships.tests.meta.old_test');
-        $idTests = $question->tests()->allRelatedIds()->toArray();
-
+//        $dataRelTests = $request->input('data.relationships.tests.data.*.id');
+//        $dataOldTest = $request->input('data.relationships.tests.meta.old_test');
+//        $idTests = $question->tests()->allRelatedIds()->toArray();
+//        return $idTests;
         $question->update($data);
 
-        // Create new $dataRelTests
-        foreach ($idTests as $key => $idTest){
-            if ($idTest === $dataOldTest){
-                $newDataRelTests = array_replace($idTests, [$key => $dataRelTests[0]]);
-            }
-        }
+//        $newDataRelTests = [];
+//
+//        foreach ($idTests as $key => $idTest){
+//            if ($idTest === $dataOldTest){
+//                $newDataRelTests = array_replace($idTests, [$key => $dataRelTests[0]]);
+//                return $newDataRelTests;
+//            } else {
+//                $newDataRelTests = $idTests;
+//            }
+//        }
 
-        if ($newDataRelTests) {
-            $question->tests()->sync($newDataRelTests);
-        }
+        /** @var array $newDataRelTests */
+//        if ($newDataRelTests) {
+//            $question->tests()->sync($newDataRelTests);
+//        }
 
         return new AdminQuestionResource($question);
     }
@@ -117,7 +122,10 @@ class AdminQuestionController extends Controller
      */
     public function destroy(Question $question)
     {
+        $idTests = $question->tests()->allRelatedIds();
+
         $question->answers()->delete();
+        $question->tests()->detach($idTests);
         $question->delete();
 
         return response(null, 204);

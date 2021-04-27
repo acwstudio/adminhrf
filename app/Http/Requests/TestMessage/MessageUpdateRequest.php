@@ -36,6 +36,10 @@ class MessageUpdateRequest extends FormRequest
             'data.attributes.lowest_value' => 'integer',
             'data.attributes.highest_value' => 'integer',
             'data.attributes.test_id' => 'integer|exists:tests,id',
+
+            'data.relationships.images.data' => 'required|array',
+            'data.relationships.images.data.*.type' => 'present|in:images',
+            'data.relationships.images.data.*.id' => 'integer|exists:images,id',
         ];
     }
 }
