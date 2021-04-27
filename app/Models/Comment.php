@@ -84,4 +84,24 @@ class Comment extends Model
         });
     }
 
+    /**
+     * Changes comment status
+     *
+     * @param $status
+     * @return bool
+     */
+    public function changeStatus($status)
+    {
+        if (in_array($status, self::$statuses)) {
+
+            $this->status = $status;
+            $this->save();
+
+            return true;
+
+        }
+
+        return false;
+    }
+
 }

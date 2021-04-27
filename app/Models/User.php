@@ -210,6 +210,14 @@ class User extends Authenticatable implements MustVerifyEmail
                 $this->comments()->delete();
             }
 
+            if ($status == User::STATUS_APPROVED) {
+                $this->comments()->where('status', '!=', Comment::STATUS_SPAM)->update(['status' => Comment::STATUS_APPROVED]);
+            }
+
+            if ($status == User::STATUS_PENDING) {
+                $this->comments()->where('status', '!=', Comment::STATUS_SPAM)->update(['status' => Comment::STATUS_PENDING]);
+            }
+
             UserStatusChanged::dispatch($this);
 
             return true;

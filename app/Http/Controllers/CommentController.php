@@ -93,6 +93,7 @@ class CommentController extends Controller
 
         $data['answer_to'] = $data['answer_to'] ?? null;
         $data['type'] = $data['type'] ?? 'comment';
+        $data['estimate'] = $data['type'] == 'review' ? $data['estimate'] : null;
 
         if (!is_null($data['parent_id']) && !is_null($data['answer_to'])) {
 
@@ -115,25 +116,24 @@ class CommentController extends Controller
         }
 
         $data['user_id'] = $user->id;
-
-
+        $data['status'] = Comment::STATUS_APPROVED;
         $data['text'] = preg_replace( '/\b(?:https?:\/\/)(?:www\d?)?[\w\/\#&?=\-\.]+\b/', '', strip_tags($data['text']));
-
-        if (!CensorService::isAllowed($data['text'])) {
-
-            $user->changeStatus(User::STATUS_PENDING);
-//            $data['text'] = CensorService::getFiltered($data['text']); // Замена матов звёздочками
-
-        }
-
-        $comment = Comment::create($data);
 
         if ($user->status == User::STATUS_NEW) {
 
             $user->changeStatus(User::STATUS_PENDING);
+            $data['status'] = Comment::STATUS_PENDING;
 
         }
 
+        if (!CensorService::isAllowed($data['text'])) {
+
+            $data['status'] = Comment::STATUS_SPAM;
+//          $data['text'] = CensorService::getFiltered($data['text']); // Замена матов звёздочками
+
+        }
+
+        $comment = Comment::create($data);
         return CommentResource::make($comment);
 
     }

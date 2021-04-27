@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelation
 use App\Http\Controllers\Admin\City\AdminCityController;
 use App\Http\Controllers\Admin\City\AdminCityEventsRelatedController;
 use App\Http\Controllers\Admin\City\AdminCityEventsRelationshipsController;
+use App\Http\Controllers\Admin\Comment\AdminCommentController;
 use App\Http\Controllers\Admin\Document\AdminDocumentBookmarksRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsDocumentCategoryRelatedController;
@@ -539,11 +540,7 @@ Route::get('/bookmark-groups/{bookmark_group}/bookmarks', [
 
 /*****************  COMMENTS ROUTES **************/
 
-Route::apiResource(
-    '/comments',
-    \App\Http\Controllers\Admin\Comment\AdminCommentController::class,
-    ['as' => 'admin']
-);
+Route::apiResource('/comments', AdminCommentController::class, ['except' => ['store']]);
 
 /*****************  DOCUMENT CATEGORIES ROUTES **************/
 
