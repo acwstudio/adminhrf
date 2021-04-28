@@ -24,8 +24,8 @@ class SubscriptionController extends Controller
 
         foreach($array as $val) {
             if (!in_array($val->id, $key_array)) {
-                $key_array[$i] = $val->key;
-                $temp_array[$i] = $val;
+                $key_array[] = $val->id;
+                $temp_array[] = $val;
             }
             $i++;
         }
@@ -42,6 +42,7 @@ class SubscriptionController extends Controller
         if (!$user) {
             return ['err' => 'Not authorized'];
         }
+	$key_array=[];
         if (is_null($category)) {
             $subscriptions = User::findOrFail($user->id)->subscriptions;
             $data = [];
@@ -52,11 +53,18 @@ class SubscriptionController extends Controller
                 $all = Taggable::where('tag_id', '=', $subscription->tag_id) //->where('updated_at','>',Carbon::now()->subDays(30))
                 ->orderBy('taggable_id', 'desc')->paginate($perPage / $count);
                 foreach ($all as $element) {
-                    $data[] = SubscriptionResource::make($element); //$element->taggable;
+                   	if(!in_array($element->taggable_id, $key_array))
+			{
+				$data[] = SubscriptionResource::make($element);
+				$key_array[]= $element->taggable_id;
+				//return $element;
+			}
+			//$data[] = SubscriptionResource::make($element); //$element->taggable;
                 }
             }
 
-            return $this->unique_multidim_array($data);
+//            return  $this->unique_multidim_array($data);
+		return $data;
         } elseif (key_exists($category, $this->map)) {
             $subscriptions = User::findOrFail($user->id)->subscriptions;
             $data = [];
@@ -67,11 +75,17 @@ class SubscriptionController extends Controller
 //                    ->where('updated_at','>',Carbon::now()->subDays(30))
                     ->whereIn('taggable_type', $array)->orderBy('taggable_id', 'desc')->paginate($perPage / $count);
                 foreach ($all as $element) {
-                    $data[] = SubscriptionResource::make($element);
+			if(!in_array($element->taggable_id, $key_array))
+                        {
+                                $data[] = SubscriptionResource::make($element);
+                                $key_array[]= $element->taggable_id;
+                                //return $element;
+                        }
+                    //$data[] = SubscriptionResource::make($element);
                 }
             }
 
-            return $this->unique_multidim_array($data);
+            return $data;
         }
 
 
