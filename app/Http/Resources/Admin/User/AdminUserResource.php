@@ -4,6 +4,9 @@ namespace App\Http\Resources\Admin\User;
 
 use App\Http\Resources\Admin\AdminCommentResource;
 use App\Http\Resources\Admin\AdminImageResource;
+use App\Http\Resources\Admin\Permission\AdminPermissionResource;
+use App\Http\Resources\Admin\Role\AdminRoleResource;
+use App\Http\Resources\Admin\SocialUser\AdminSocialUserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -34,13 +37,13 @@ class AdminUserResource extends JsonResource
             ],
             'relationships' => [
                 'socials' => [
-                    'data' => []
+                    'data' => AdminSocialUserResource::collection($this->whenLoaded('socials'))
                 ],
                 'role' => [
-                    'data' => []
+                    'data' => AdminRoleResource::make($this->whenLoaded('role'))
                 ],
                 'permissions' => [
-                    'data' => []
+                    'data' => AdminPermissionResource::collection($this->whenLoaded('permissions'))
                 ],
                 'comments' => [
                     'data' => AdminCommentResource::collection($this->whenLoaded('comments'))

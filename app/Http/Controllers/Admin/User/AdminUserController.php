@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers\Admin\User;
 
+use App\Filters\FiltersUserPermission;
+use App\Filters\FiltersUserRole;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Resources\Admin\User\AdminUserCollection;
+use App\Http\Resources\Admin\User\AdminUserResource;
+use App\Http\Requests\User\UserUpdateRequest;
+use App\Models\Image;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -16,6 +26,7 @@ class AdminUserController extends Controller
      * Display a listing of the resource.
      *
      * @return AdminUserCollection
+     * @throws AuthorizationException
      */
     public function index(Request $request)
     {
@@ -28,7 +39,10 @@ class AdminUserController extends Controller
                 'socials', 'role', 'permissions', 'comments', 'image'
             ])
             ->allowedFilters([
-                'role', 'permissions', 'email'
+                AllowedFilter::custom('permission', new FiltersUserPermission),
+                AllowedFilter::custom('role', new FiltersUserRole),
+                'email',
+                'status'
             ])
             ->allowedSorts(['id', 'name', 'created_at'])
             ->jsonPaginate($perPage);
@@ -39,48 +53,128 @@ class AdminUserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param UserCreateRequest $request
+     * @return AdminUserResource
      */
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
-        //
+        $this->authorize('manage', User::class);
+
+        $data = $request->input('data.attributes');
+
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'role_id' => $data['role_id'],
+            'status' => $data['status'],
+            'email_verified_at' => now()
+        ]);
+
+        $permissions = $request->input('data.relationships.permissions.data.*.id');
+        if (!empty($permissions)) {
+            $user->permissions()->attach($permissions);
+        }
+
+        $images = $request->input('data.relationships.images.data.*.id');
+        if (!empty($images)) {
+            $user->image()->save(Image::find($images[0]));
+        }
+
+
+        return AdminUserResource::make($user->refresh());
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return AdminUserResource
+     * @throws AuthorizationException
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        $this->authorize('manage', User::class);
+
+        $user = QueryBuilder::for(User::class)
+            ->where('id', $user->id)
+            ->allowedIncludes([
+                'socials', 'role', 'permissions', 'comments', 'image'
+            ])
+            ->firstOrFail();
+
+        return AdminUserResource::make($user);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UserUpdateRequest $request
+     * @param User $user
+     * @return AdminUserResource
+     * @throws AuthorizationException
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        //
+
+        $this->authorize('manage', User::class);
+
+        $data = Arr::only($request->input('data.attributes'), ['name', 'role_id', 'status']);
+
+        $user->update($data);
+
+        if ($password = $request->input('data.attributes.password')) {
+
+            $user->password = Hash::make($password);
+            $user->save();
+            $user->tokens()->delete();
+
+        }
+
+        $permissions = $request->input('data.relationships.permissions.data.*.id');
+        if (!empty($permissions)) {
+            $user->permissions()->sync($permissions);
+        }
+
+        return AdminUserResource::make($user->refresh());
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove user and all relationships.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->image()->delete();
+        $user->permissions()->detach();
+        $user->comments()->delete();
+        $user->subscriptions()->delete();
+        $user->testResults()->delete();
+        $user->tokens()->delete();
+        $user->socials()->delete();
+
+        if ($bookmarkGroup = $user->bookmarkGroup) {
+            $bookmarkGroup->bookmarks()->delete();
+            $bookmarkGroup->delete();
+        }
+
+        $user->delete();
+
+        return response(null, 204);
     }
 
+    /**
+     *
+     * Change user status
+     *
+     * @param Request $request
+     * @param User $user
+     * @return Response
+     * @throws AuthorizationException
+     */
     public function setStatus(Request $request, User $user)
     {
         $this->authorize('manage', User::class);

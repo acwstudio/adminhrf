@@ -107,6 +107,7 @@ use App\Http\Controllers\Admin\News\AdminNewsImagesRelationshipsController;
 use App\Http\Controllers\Admin\News\AdminNewsTagsRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsTagsRelationshipsController;
 use App\Http\Controllers\Admin\Pdf\AdminPdfController;
+use App\Http\Controllers\Admin\Permission\AdminPermissionController;
 use App\Http\Controllers\Admin\Podcast\AdminPodcastController;
 use App\Http\Controllers\Admin\Podcast\AdminPodcastImagesRelatedController;
 use App\Http\Controllers\Admin\Podcast\AdminPodcastImagesRelationshipsController;
@@ -119,6 +120,7 @@ use App\Http\Controllers\Admin\Question\AdminQuestionAnswersRelationshipsControl
 use App\Http\Controllers\Admin\Question\AdminQuestionController;
 use App\Http\Controllers\Admin\Question\AdminQuestionsTestsRelatedController;
 use App\Http\Controllers\Admin\Question\AdminQuestionsTestsRelationshipsController;
+use App\Http\Controllers\Admin\Role\AdminRoleController;
 use App\Http\Controllers\Admin\Tag\AdminTagController;
 use App\Http\Controllers\Admin\Tag\AdminTagsArticlesRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsArticlesRelationshipsController;
@@ -540,7 +542,7 @@ Route::get('/bookmark-groups/{bookmark_group}/bookmarks', [
 
 /*****************  COMMENTS ROUTES **************/
 
-Route::apiResource('/comments', AdminCommentController::class, ['except' => ['store']]);
+Route::apiResource('/comments', AdminCommentController::class, ['except' => ['store'], 'as' => 'admin']);
 
 /*****************  DOCUMENT CATEGORIES ROUTES **************/
 
@@ -1205,7 +1207,11 @@ Route::patch('/test-categories/{test_category}/tests', [
 
 /*****************  USERS ROUTES **************/
 
-Route::apiResource('/users', AdminUserController::class);
+Route::apiResource('/users', AdminUserController::class, ['as' => 'admin']);
+
+Route::get('/roles', [AdminRoleController::class, 'index'])->name('admin.roles');
+
+Route::get('/permissions', [AdminPermissionController::class, 'index'])->name('admin.permissions');
 
 /*****************  VIDEOMATERIALS ROUTES **************/
 

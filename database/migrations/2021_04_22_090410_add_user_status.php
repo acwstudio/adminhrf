@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,8 +15,10 @@ class AddUserStatus extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('status')->default('approved');
+            $table->string('status')->default('new');
+            $table->dropSoftDeletes();
         });
+        User::where('status', 'new')->update(['status' => 'approved']);
     }
 
     /**
@@ -27,6 +30,7 @@ class AddUserStatus extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('status');
+            $table->softDeletes();
         });
     }
 }

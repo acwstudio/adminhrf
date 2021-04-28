@@ -9,6 +9,8 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -26,19 +28,29 @@ class UserController extends Controller
         return new UserResource($request->user());
     }
 
-    public function updateProfile(UserUpdateRequest $request)
+    public function updateProfile(Request $request)
     {
-        $data = $request->validated();
+        $data = Validator::make($request->input(), [
+            'name' => ['required', 'string', 'max:255'],
+            'current_password' => 'required_with:password',
+            'password' => 'sometimes|required|string',
+            'password_confirmation' => 'required_with:password|same:password',
+        ])->validated();
 
         $user = $request->user();
         $user->name = $data['name'];
         $user->save();
 
+        $response = ['user' => new UserResource($user)];
+
         if (!is_null($password = $data['password'] ?? null)) {
             (new UpdateUserPassword())->update($user, $data);
+
+            $user->tokens()->delete();
+            $response['token'] = $user->createToken('user')->plainTextToken;
         }
 
-        return new UserResource($user);
+        return response()->json($response);
 
     }
 
