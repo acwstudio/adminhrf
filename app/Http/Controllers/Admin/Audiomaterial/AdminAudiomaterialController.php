@@ -7,6 +7,7 @@ use App\Http\Requests\Audiomaterial\AudiomaterialCreateRequest;
 use App\Http\Requests\Audiomaterial\AudiomaterialUpdateRequest;
 use App\Http\Resources\Admin\Audiomaterial\AdminAudiomaterialCollection;
 use App\Http\Resources\Admin\Audiomaterial\AdminAudiomaterialResource;
+use App\Models\Audiofile;
 use App\Models\Audiomaterial;
 use App\Models\Bookmark;
 use App\Models\Image;
@@ -48,7 +49,7 @@ class AdminAudiomaterialController extends Controller
         $perPage = $request->get('per_page');
 
         $audiomaterials = QueryBuilder::for(Audiomaterial::class)
-            ->allowedIncludes(['tags', 'highlights', 'images', 'bookmarks'])
+            ->allowedIncludes(['tags', 'highlights', 'images', 'bookmarks', 'audiofile'])
             ->allowedSorts(['id', 'title'])
             ->jsonPaginate($perPage);
 
@@ -69,9 +70,22 @@ class AdminAudiomaterialController extends Controller
         $dataRelHighlights = $request->input('data.relationships.highlights.data.*.id');
         $dataRelBookmarks = $request->input('data.relationships.bookmarks.attributes');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $dataRelAudio = $request->input('data.relationships.audiofiles.data.*.id');
 
         /** @var Audiomaterial $audiomaterial */
         $audiomaterial = Audiomaterial::create($dataAttributes);
+
+        if ($dataRelAudio){
+            foreach ($dataRelAudio as $id) {
+                /** @var Audiofile $audiofile */
+                $audiofile = Audiofile::find($id);
+                if (!$audiofile->audiomaterial_id){
+                    $audiofile->update([
+                        'audiomaterial_id' => $audiomaterial->id
+                    ]);
+                }
+            }
+        }
 
         if ($dataRelImages) {
             /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
@@ -107,7 +121,7 @@ class AdminAudiomaterialController extends Controller
     {
         $query = QueryBuilder::for(Audiomaterial::class)
             ->where('id', $audiomaterial->id)
-            ->allowedIncludes(['tags', 'highlights', 'images', 'bookmarks'])
+            ->allowedIncludes(['tags', 'highlights', 'images', 'bookmarks', 'audiofile'])
             ->firstOrFail();
 
         return new AdminAudiomaterialResource($query);
@@ -126,8 +140,21 @@ class AdminAudiomaterialController extends Controller
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelHighlights = $request->input('data.relationships.highlights.data.*.id');
         $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        $dataRelAudio = $request->input('data.relationships.audiofiles.data.*.id');
 
         $audiomaterial->update($dataAttributes);
+
+        if ($dataRelAudio){
+            foreach ($dataRelAudio as $id) {
+                /** @var Audiofile $audiofile */
+                $audiofile = Audiofile::find($id);
+                if (!$audiofile->audiomaterial_id){
+                    $audiofile->update([
+                        'audiomaterial_id' => $audiomaterial->id
+                    ]);
+                }
+            }
+        }
 
         if ($dataRelImages) {
             /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
@@ -156,18 +183,28 @@ class AdminAudiomaterialController extends Controller
     {
         $idTags = $audiomaterial->tags()->allRelatedIds();
 
-        $audiomaterial->tags()->detach($idTags);
-
+        // remove images
         $images = Image::where('imageable_id', $audiomaterial->id)
             ->where('imageable_type', 'audiomaterial')->get();
 
         foreach ($images as $image) {
             $this->imageService->delete($image);
         }
+        // remove audiofile
+        $audiofile = $audiomaterial->audiofile;
 
+        if ($audiofile){
+            $path = $audiofile->path . $audiofile->name . '.' . $audiofile->ext;
+            \Storage::delete($path);
+        }
+
+        // remove all related models
+        $audiomaterial->tags()->detach($idTags);
+        $audiomaterial->audiofile()->delete();
         $audiomaterial->tags()->detach();
         $audiomaterial->highlights()->detach();
         $audiomaterial->bookmarks()->delete();
+
         $audiomaterial->delete();
 
         return response(null, 204);

@@ -3,6 +3,10 @@
 use App\Http\Controllers\Admin\Answer\AdminAnswerImagesRelatedController;
 use App\Http\Controllers\Admin\Answer\AdminAnswerImagesRelationshipsController;
 use App\Http\Controllers\Admin\Article\AdminArticleController;
+use App\Http\Controllers\Admin\Audiofile\AdminAudiofileAudiomaterialRelatedController;
+use App\Http\Controllers\Admin\Audiofile\AdminAudiofileController;
+use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialAudiofileRelatedController;
+use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialAudiofileRelationshipsController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialBookmarksRelatedController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Audiomaterial\AdminAudiomaterialImagesRelatedController;
@@ -162,11 +166,7 @@ use App\Http\Controllers\Admin\Tag\AdminTagsBiographiesRelationshipsController;
 use App\Http\Controllers\Admin\TestResult\AdminResultsTestRelatedController;
 use App\Http\Controllers\Admin\TestResult\AdminResultsTestRelationshipsController;
 use App\Http\Controllers\Admin\TestResult\AdminResultsUserRelatedController;
-use App\Http\Controllers\Admin\Timeline\AdminTimelineArticleRelatedController;
-use App\Http\Controllers\Admin\Timeline\AdminTimelineArticleRelationshipsController;
-use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelatedController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineController;
-use App\Http\Controllers\Admin\Timeline\AdminTimelineBiographyRelationshipsController;
 use App\Http\Controllers\Admin\TestResult\AdminResultsUserRelationshipsController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineTimelineableRelatedController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineTimelineableRelationshipsController;
@@ -328,9 +328,39 @@ Route::get('/article-categories/{article_category}/articles', [
     AdminArticleCategoryArticlesRelatedController::class, 'index'
 ])->name('article-category.articles');
 
+/*****************  AUDIOFILES ROUTES **************/
+
+Route::apiResource('/audiofiles', AdminAudiofileController::class, ['as' => 'admin']);
+
+// Audiomaterial to Audiofile relations
+Route::get('/audiofiles/{audiofile}/relationships/audiomaterial', [
+    AdminAudiomaterialAudiofileRelationshipsController::class, 'index'
+])->name('audiofile.relationships.audiomaterial');
+
+Route::patch('/audiofiles/{audiofile}/relationships/audiomaterial', [
+    AdminAudiomaterialAudiofileRelationshipsController::class, 'update'
+])->name('audiofile.relationships.audiomaterial');
+
+Route::get('/audiofiles/{audiofile}/audiomaterial', [
+    AdminAudiofileAudiomaterialRelatedController::class, 'index'
+])->name('audiofile.audiomaterial');
+
 /*****************  AUDIOMATERIALS ROUTES **************/
 
 Route::apiResource('/audiomaterials', AdminAudiomaterialController::class, ['as' => 'admin']);
+
+// Audiomaterial to Audiofile relations
+Route::get('/audiomaterials/{audiomaterial}/relationships/audiofile', [
+    AdminAudiomaterialAudiofileRelationshipsController::class, 'index'
+])->name('audiomaterial.relationships.audiofile');
+
+Route::patch('/audiomaterials/{audiomaterial}/relationships/audiofile', [
+    AdminAudiomaterialAudiofileRelationshipsController::class, 'update'
+])->name('audiomaterial.relationships.audiofile');
+
+Route::get('/audiomaterials/{audiomaterial}/audiofile', [
+    AdminAudiomaterialAudiofileRelatedController::class, 'index'
+])->name('audiomaterial.audiofile');
 
 // Audiomaterial to Bookmarks relations
 Route::get('/audiomaterials/{audiomaterial}/relationships/bookmarks', [

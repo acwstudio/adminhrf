@@ -42,6 +42,14 @@ class Audiomaterial extends Model
         return $this->morphMany(Image::class, 'imageable')->orderBy('order');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function audiofile()
+    {
+        return $this->hasOne(Audiofile::class);
+    }
+
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
