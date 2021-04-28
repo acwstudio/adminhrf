@@ -144,6 +144,18 @@ class AdminAudiomaterialController extends Controller
 
         $audiomaterial->update($dataAttributes);
 
+        if ($dataRelAudio){
+            foreach ($dataRelAudio as $id) {
+                /** @var Audiofile $audiofile */
+                $audiofile = Audiofile::find($id);
+                if (!$audiofile->audiomaterial_id){
+                    $audiofile->update([
+                        'audiomaterial_id' => $audiomaterial->id
+                    ]);
+                }
+            }
+        }
+
         if ($dataRelImages) {
             /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
             $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
