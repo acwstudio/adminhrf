@@ -10,6 +10,6 @@ class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        return CategoryArticleShortResource::collection(ArticleCategory::all());
+        return CategoryArticleShortResource::collection(ArticleCategory::where('count','>',10));
     }
 }
