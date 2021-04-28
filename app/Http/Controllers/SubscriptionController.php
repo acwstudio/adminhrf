@@ -17,6 +17,21 @@ class SubscriptionController extends Controller
         'highlights' => ['highlights']
     ];
 
+    public function unique_multidim_array($array) {
+        $temp_array = array();
+        $i = 0;
+        $key_array = array();
+
+        foreach($array as $val) {
+            if (!in_array($val->id, $key_array)) {
+                $key_array[$i] = $val->key;
+                $temp_array[$i] = $val;
+            }
+            $i++;
+        }
+        return $temp_array;
+    }
+
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 50); //TODO: change to $this->perPage
@@ -40,10 +55,8 @@ class SubscriptionController extends Controller
                     $data[] = SubscriptionResource::make($element); //$element->taggable;
                 }
             }
-            $data = $data->map(function ($array) {
-                return collect($array)->unique('id')->all();
-            });
-            return $data;
+
+            return $this->unique_multidim_array($data);
         } elseif (key_exists($category, $this->map)) {
             $subscriptions = User::findOrFail($user->id)->subscriptions;
             $data = [];
@@ -57,10 +70,8 @@ class SubscriptionController extends Controller
                     $data[] = SubscriptionResource::make($element);
                 }
             }
-            $data = $data->map(function ($array) {
-                return collect($array)->unique('id')->all();
-            });
-            return $data;
+
+            return $this->unique_multidim_array($data);
         }
 
 
