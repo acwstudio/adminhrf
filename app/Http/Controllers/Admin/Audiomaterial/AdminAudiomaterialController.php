@@ -77,9 +77,13 @@ class AdminAudiomaterialController extends Controller
 
         if ($dataRelAudio){
             foreach ($dataRelAudio as $id) {
-                Audiofile::find($id)->update([
-                    'audiomaterial_id' => $audiomaterial->id
-                ]);
+                /** @var Audiofile $audiofile */
+                $audiofile = Audiofile::find($id);
+                if (!$audiofile->audiomaterial_id){
+                    $audiofile->update([
+                        'audiomaterial_id' => $audiomaterial->id
+                    ]);
+                }
             }
         }
 
