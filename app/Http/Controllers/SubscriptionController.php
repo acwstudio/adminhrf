@@ -17,21 +17,6 @@ class SubscriptionController extends Controller
         'highlights' => ['highlights']
     ];
 
-    public function unique_multidim_array($array) {
-        $temp_array = array();
-        $i = 0;
-        $key_array = array();
-
-        foreach($array as $val) {
-            if (!in_array($val->id, $key_array)) {
-                $key_array[] = $val->id;
-                $temp_array[] = $val;
-            }
-            $i++;
-        }
-        return $temp_array;
-    }
-
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 50); //TODO: change to $this->perPage
@@ -49,21 +34,18 @@ class SubscriptionController extends Controller
             $count = 10;
             foreach ($subscriptions as $subscription) {
                 //return Carbon::now()->subDays(30);
-//		$count = (int)$subscriptions->count;
+                //		$count = (int)$subscriptions->count;
                 $all = Taggable::where('tag_id', '=', $subscription->tag_id) //->where('updated_at','>',Carbon::now()->subDays(30))
                 ->orderBy('taggable_id', 'desc')->paginate($perPage / $count);
                 foreach ($all as $element) {
-                   	if(!in_array($element->taggable_id, $key_array))
-			{
-				$data[] = SubscriptionResource::make($element);
-				$key_array[]= $element->taggable_id;
-				//return $element;
-			}
-			//$data[] = SubscriptionResource::make($element); //$element->taggable;
+                    if(!in_array($element->taggable_id, $key_array))
+                    {
+                        $data[] = SubscriptionResource::make($element);
+                        $key_array[]= $element->taggable_id;
+                    }
                 }
             }
 
-//            return  $this->unique_multidim_array($data);
 		return $data;
         } elseif (key_exists($category, $this->map)) {
             $subscriptions = User::findOrFail($user->id)->subscriptions;
@@ -75,14 +57,12 @@ class SubscriptionController extends Controller
 //                    ->where('updated_at','>',Carbon::now()->subDays(30))
                     ->whereIn('taggable_type', $array)->orderBy('taggable_id', 'desc')->paginate($perPage / $count);
                 foreach ($all as $element) {
-			if(!in_array($element->taggable_id, $key_array))
+                    if(!in_array($element->taggable_id, $key_array))
                         {
                                 $data[] = SubscriptionResource::make($element);
                                 $key_array[]= $element->taggable_id;
-                                //return $element;
                         }
-                    //$data[] = SubscriptionResource::make($element);
-                }
+                    }
             }
 
             return $data;
