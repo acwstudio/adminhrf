@@ -58,9 +58,13 @@ class AdminArticleController extends Controller
             ])
             ->allowedFilters([
                 'yatextid',
-                AllowedFilter::callback(
-                    'no_timeline', fn (Builder $query) => $query->whereDoesntHave('timeline')
-                ),
+                AllowedFilter::callback('is_timeline', function (Builder $query, $value){
+                    if ($value === true){
+                        $query->whereHas('timeline');
+                    } elseif ($value === false){
+                        $query->whereDoesntHave('timeline');
+                    }
+                })
             ])
             ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'event_date'])
             ->jsonPaginate($perPage);

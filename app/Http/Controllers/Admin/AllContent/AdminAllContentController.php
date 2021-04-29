@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\AllContent\AdminAllContentCollection;
 use App\Http\Resources\Admin\AllContent\AdminAllContentResource;
 use App\Models\Article;
-//use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
+//use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -26,6 +27,8 @@ class AdminAllContentController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page');
+//        $typeFilter = request()->get('filter') ? request()->get('filter')['has_type'] : null;
+
         $podcasts = DB::table('podcasts')
             ->select('id', 'title', 'created_at', DB::raw("'podcasts' as type"));
         $videomaterials = DB::table('videomaterials')
@@ -49,22 +52,16 @@ class AdminAllContentController extends Controller
             ->union($podcasts)
             ->union($videomaterials)
             ->union($audiomaterials)
-            ->allowedFilters(db::raw('type'))
-            /** @var QueryBuilder $query */
-//            ->allowedFilters([AllowedFilter::exact('type', $query->where('type'))])
+            ->allowedSorts(['id', 'type', 'created_at', 'title'])
+//            ->get()->where('type', 'podcasts')
+//            ->toQuery()->paginate();
+//            ->allowedFilters(['title'])
 //            ->allowedFilters([
-                /** @var QueryBuilder $queryD */
-//                AllowedFilter::callback('type_field',
-//                    fn (QueryBuilder $query) => $query->where('type', 'type_field')),
-//                ])
-            ->allowedSorts(['created_at', 'title'])
-//            ->get();
-//                ->where()
+//                AllowedFilter::custom('has_type', new FilterTypeContent)
+//            ])
             ->jsonPaginate($perPage);
 
         return AdminAllContentResource::collection($query);
-        /** @var QueryBuilder $query */
-//        return $query->where('type', 'news');
     }
 
     /**

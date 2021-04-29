@@ -12,7 +12,9 @@ use App\Models\Image;
 use App\Models\Timeline;
 use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -53,6 +55,15 @@ class AdminBiographyController extends Controller
         $biographies = QueryBuilder::for(Biography::class)
             ->allowedIncludes(['tags', 'bookmarks', 'categories', 'images', 'timeline'])
             ->allowedSorts(['id', 'firstname', 'surname', 'published_at'])
+            ->allowedFilters([
+                AllowedFilter::callback('is_timeline', function (Builder $query, $value){
+                    if ($value === true){
+                        $query->whereHas('timeline');
+                    } elseif ($value === false){
+                        $query->whereDoesntHave('timeline');
+                    }
+                })
+            ])
             ->jsonPaginate($perPage);
 
         return new AdminBiographyCollection($biographies);
