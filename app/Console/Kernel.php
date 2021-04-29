@@ -26,6 +26,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('count:article_categories')->hourly();
         $schedule->command('count:tags')->hourly();
+
+        $schedule->command('clear:tokens')->monthly();
     }
 
     /**
