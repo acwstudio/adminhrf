@@ -50,6 +50,7 @@ class AdminAuthorController extends Controller
 
         $authors = QueryBuilder::for(Author::class)
             ->allowedIncludes(['articles', 'image', 'video'])
+            ->allowedFilters('firstname')
             ->allowedSorts(['id', 'birth_date', 'firstname', 'surname'])
             ->jsonPaginate($perPage);
 
@@ -104,7 +105,6 @@ class AdminAuthorController extends Controller
         $query = QueryBuilder::for(Author::class)
             ->where('id', $author->id)
             ->allowedIncludes(['articles', 'video', 'image'])
-            ->allowedFilters('firstname')
             ->firstOrFail();
 
         return new AdminAuthorResource($query);

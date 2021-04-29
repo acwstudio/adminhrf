@@ -74,7 +74,7 @@
  *                  @OA\Property(property="attributes", type="object",
  *                      @OA\Property(property="firstname", type="string", example="Ivan"),
  *                      @OA\Property(property="surname", type="string", example="Ivanov"),
- *                      @OA\Property(property="patronimic",type="string",example="Ivanovich"),
+ *                      @OA\Property(property="patronymic",type="string",example="Ivanovich"),
  *                      @OA\Property(property="birth_date", type="string", example="1980-10-20"),
  *                      @OA\Property(property="death_date", type="string", example=null),
  *                      @OA\Property(property="announce", type="text", example="any announce..."),
