@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin;
 
+use App\Http\Resources\Admin\User\AdminUserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -21,7 +22,6 @@ class AdminCommentResource extends JsonResource
         return [
             'id' => $this->id,
             'type' => 'comments',
-            'slug' => $this->slug,
             'attributes' => [
                 'user_id' => $this->user_id,
                 'text' => $this->text,
@@ -29,20 +29,18 @@ class AdminCommentResource extends JsonResource
                 'commentable_type' => $this->commentable_type,
                 'parent_id' => $this->parent_id,
                 'answer_to' => $this->answer_to,
-                'liked' => $this->liked,
                 'children_count' => $this->children_count,
+                'rate' => $this->rate,
+                'type' => $this->type,
+                'estimate' => $this->estimate,
+                'status' => $this->status,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
             ],
             'relationships' => [
-                'articles' => [
-                    'links' => [
-//                        'self' => route('admin.comments.article'),
-//                        'related' =>
-                    ],
+                'user' => [
 
-//                    'data' => AdminArticleIdentifireResource::collection($this->article)
-//                    'data' => AdminArticleIdentifireResource::collection($this->whenLoaded('articles'))
+                    'data' => AdminUserResource::make($this->whenLoaded('user'))
                 ]
             ]
         ];

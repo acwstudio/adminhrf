@@ -6,6 +6,8 @@ use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\CommentResource;
 use App\Models\Article;
 use App\Models\Comment;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class PopularController extends Controller
@@ -31,6 +33,7 @@ class PopularController extends Controller
         $comments = Comment::with('user')
             ->where('type','=','comment')
             ->whereNull('parent_id')
+            ->aproved()
             ->latest()
             ->take($qty)
             ->get();
@@ -46,6 +49,7 @@ class PopularController extends Controller
 
         $comments = Comment::with('user')
             ->where('type','=','review')
+            ->aproved()
             ->latest()
             ->take($qty)
             ->get();

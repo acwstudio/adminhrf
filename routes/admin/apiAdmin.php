@@ -35,6 +35,7 @@ use App\Http\Controllers\Admin\BookmarkGroup\AdminBookmarkGroupBookmarksRelation
 use App\Http\Controllers\Admin\City\AdminCityController;
 use App\Http\Controllers\Admin\City\AdminCityEventsRelatedController;
 use App\Http\Controllers\Admin\City\AdminCityEventsRelationshipsController;
+use App\Http\Controllers\Admin\Comment\AdminCommentController;
 use App\Http\Controllers\Admin\Document\AdminDocumentBookmarksRelatedController;
 use App\Http\Controllers\Admin\Document\AdminDocumentBookmarksRelationshipsController;
 use App\Http\Controllers\Admin\Document\AdminDocumentsDocumentCategoryRelatedController;
@@ -112,6 +113,7 @@ use App\Http\Controllers\Admin\News\AdminNewsImagesRelationshipsController;
 use App\Http\Controllers\Admin\News\AdminNewsTagsRelatedController;
 use App\Http\Controllers\Admin\News\AdminNewsTagsRelationshipsController;
 use App\Http\Controllers\Admin\Pdf\AdminPdfController;
+use App\Http\Controllers\Admin\Permission\AdminPermissionController;
 use App\Http\Controllers\Admin\Podcast\AdminPodcastController;
 use App\Http\Controllers\Admin\Podcast\AdminPodcastImagesRelatedController;
 use App\Http\Controllers\Admin\Podcast\AdminPodcastImagesRelationshipsController;
@@ -124,6 +126,7 @@ use App\Http\Controllers\Admin\Question\AdminQuestionAnswersRelationshipsControl
 use App\Http\Controllers\Admin\Question\AdminQuestionController;
 use App\Http\Controllers\Admin\Question\AdminQuestionsTestsRelatedController;
 use App\Http\Controllers\Admin\Question\AdminQuestionsTestsRelationshipsController;
+use App\Http\Controllers\Admin\Role\AdminRoleController;
 use App\Http\Controllers\Admin\Tag\AdminTagController;
 use App\Http\Controllers\Admin\Tag\AdminTagsArticlesRelatedController;
 use App\Http\Controllers\Admin\Tag\AdminTagsArticlesRelationshipsController;
@@ -170,6 +173,7 @@ use App\Http\Controllers\Admin\Timeline\AdminTimelineController;
 use App\Http\Controllers\Admin\TestResult\AdminResultsUserRelationshipsController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineTimelineableRelatedController;
 use App\Http\Controllers\Admin\Timeline\AdminTimelineTimelineableRelationshipsController;
+use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialController;
 use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialImagesRelatedController;
 use App\Http\Controllers\Admin\Videomaterial\AdminVideomaterialImagesRelationshipsController;
@@ -585,11 +589,7 @@ Route::get('/bookmark-groups/{bookmark_group}/bookmarks', [
 
 /*****************  COMMENTS ROUTES **************/
 
-Route::apiResource(
-    '/comments',
-    \App\Http\Controllers\Admin\Comment\AdminCommentController::class,
-    ['as' => 'admin']
-);
+Route::apiResource('/comments', AdminCommentController::class, ['except' => ['store'], 'as' => 'admin']);
 
 /*****************  DOCUMENT CATEGORIES ROUTES **************/
 
@@ -1264,6 +1264,14 @@ Route::patch('/test-categories/{test_category}/relationships/tests', [
 Route::patch('/test-categories/{test_category}/tests', [
     AdminTestCategoriesTestsRelatedController::class, 'index'
 ])->name('test-categories.tests');
+
+/*****************  USERS ROUTES **************/
+
+Route::apiResource('/users', AdminUserController::class, ['as' => 'admin']);
+
+Route::get('/roles', [AdminRoleController::class, 'index'])->name('admin.roles');
+
+Route::get('/permissions', [AdminPermissionController::class, 'index'])->name('admin.permissions');
 
 /*****************  VIDEOMATERIALS ROUTES **************/
 

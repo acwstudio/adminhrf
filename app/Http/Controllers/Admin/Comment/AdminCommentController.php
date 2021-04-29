@@ -9,6 +9,8 @@ use App\Http\Resources\Admin\AdminCommentCollection;
 use App\Http\Resources\Admin\AdminCommentResource;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -28,34 +30,17 @@ class AdminCommentController extends Controller
 
         $query = QueryBuilder::for(Comment::class)
             ->allowedIncludes('user')
+            ->allowedSorts(['id', 'created_at'])
+            ->allowedFilters(['type', 'status'])
             ->jsonPaginate($perPage);
 
         return new AdminCommentCollection($query);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function store(CommentCreateRequest $request)
-    {
-//        $data = $request->validated();
-//
-//        $comment = Comment::create($data['data']);
-//
-//        return (new AdminCommentResource($comment))
-//            ->response()
-//            ->header('Location', route('admin.comments.show', [
-//                'comment' => $comment
-//            ]));
-    }
-
-    /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Comment $comment
      * @return AdminCommentResource
      */
     public function show(Comment $comment)
@@ -70,24 +55,26 @@ class AdminCommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param CommentUpdateRequest $request
+     * @param Comment $comment
      * @return AdminCommentResource
      */
     public function update(CommentUpdateRequest $request, Comment $comment)
     {
-//        $data = $request->validated();
-//
-//        $comment->update($data['data']);
-//
-//        return new AdminCommentResource($comment);
+        $dataAttributes = $request->input('data.attributes');
+        $data = Arr::only($dataAttributes, ['text', 'status']);
+
+        $comment->update($data);
+
+        return new AdminCommentResource($comment);
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Comment $comment
-     * @return \Illuminate\Http\Response
+     * @return Response
      * @throws \Exception
      */
     public function destroy(Comment $comment)

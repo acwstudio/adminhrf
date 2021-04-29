@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Comment;
 
+use App\Models\Comment;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * Class CommentUpdateRequest
@@ -28,14 +30,14 @@ class CommentUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.user_id' => 'integer',
-            'data.text' => 'string',
-            'data.commentable_id' => 'integer',
-            'data.commentable_type' => 'string',
-            'data.parent_id' => 'integer',
-            'data.answer_to' => 'json',
-            'data.liked' => 'integer',
-            'data.children_count' => 'integer',
+            'data' => 'required|array',
+            'data.type' => 'required|in:comments',
+            'data.attributes' => 'required|array',
+            'data.attributes.text' => 'required|string',
+            'data.attributes.status' => [
+                'required',
+                Rule::in(Comment::$statuses)
+            ],
         ];
     }
 }

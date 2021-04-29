@@ -27,23 +27,26 @@ class SubscriptionController extends Controller
         if (!$user) {
             return ['err' => 'Not authorized'];
         }
+	$key_array=[];
         if (is_null($category)) {
             $subscriptions = User::findOrFail($user->id)->subscriptions;
             $data = [];
             $count = 10;
             foreach ($subscriptions as $subscription) {
                 //return Carbon::now()->subDays(30);
-//		$count = (int)$subscriptions->count;
+                //		$count = (int)$subscriptions->count;
                 $all = Taggable::where('tag_id', '=', $subscription->tag_id) //->where('updated_at','>',Carbon::now()->subDays(30))
                 ->orderBy('taggable_id', 'desc')->paginate($perPage / $count);
                 foreach ($all as $element) {
-                    $data[] = SubscriptionResource::make($element); //$element->taggable;
+                    if(!in_array($element->taggable_id, $key_array))
+                    {
+                        $data[] = SubscriptionResource::make($element);
+                        $key_array[]= $element->taggable_id;
+                    }
                 }
             }
-            $data = $data->map(function ($array) {
-                return collect($array)->unique('id')->all();
-            });
-            return $data;
+
+		return $data;
         } elseif (key_exists($category, $this->map)) {
             $subscriptions = User::findOrFail($user->id)->subscriptions;
             $data = [];
@@ -54,12 +57,14 @@ class SubscriptionController extends Controller
 //                    ->where('updated_at','>',Carbon::now()->subDays(30))
                     ->whereIn('taggable_type', $array)->orderBy('taggable_id', 'desc')->paginate($perPage / $count);
                 foreach ($all as $element) {
-                    $data[] = SubscriptionResource::make($element);
-                }
+                    if(!in_array($element->taggable_id, $key_array))
+                        {
+                                $data[] = SubscriptionResource::make($element);
+                                $key_array[]= $element->taggable_id;
+                        }
+                    }
             }
-            $data = $data->map(function ($array) {
-                return collect($array)->unique('id')->all();
-            });
+
             return $data;
         }
 

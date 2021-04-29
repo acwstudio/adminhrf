@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Admin\TestResult;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminUserResource;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\Admin\User\AdminUserResource;
 use App\Models\TResult;
-use Illuminate\Http\Request;
 
 /**
  * Class AdminResultsUserRelatedController
