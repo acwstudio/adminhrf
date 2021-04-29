@@ -6,6 +6,8 @@ use App\Http\Requests\Comment\CommentCreateRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\User;
+use App\Services\CensorService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -42,6 +44,7 @@ class CommentController extends Controller
             ->where('commentable_type', $model_type)
             ->where('commentable_id', $id)
             ->whereNull('parent_id')
+            ->aproved()
             ->latest()
             ->paginate($perPage);
 
@@ -73,7 +76,7 @@ class CommentController extends Controller
     {
         $perPage = $request->get('per_page', 10);
 
-        $comments = $comment->children()->with('user')->orderBy('created_at')->paginate($perPage);
+        $comments = $comment->children()->with('user')->aproved()->orderBy('created_at')->paginate($perPage);
 
         return CommentResource::collection($comments);
     }
@@ -81,10 +84,16 @@ class CommentController extends Controller
 
     public function store(CommentCreateRequest $request)
     {
+        /** @var User $user */
+        $user = $request->user();
+
+        abort_if($user->status == User::STATUS_BANNED, 403, 'User banned!');
+
         $data = $request->validated();
 
         $data['answer_to'] = $data['answer_to'] ?? null;
         $data['type'] = $data['type'] ?? 'comment';
+        $data['estimate'] = $data['type'] == 'review' ? $data['estimate'] : null;
 
         if (!is_null($data['parent_id']) && !is_null($data['answer_to'])) {
 
@@ -106,9 +115,26 @@ class CommentController extends Controller
             $data['answer_to'] = null;
         }
 
-        $data['user_id'] = $request->user()->id;
+        $data['user_id'] = $user->id;
+        $data['status'] = Comment::STATUS_APPROVED;
+        $data['text'] = preg_replace( '/\b(?:https?:\/\/)(?:www\d?)?[\w\/\#&?=\-\.]+\b/', '', strip_tags($data['text']));
 
-        return CommentResource::make(Comment::create($data));
+        if ($user->status == User::STATUS_NEW) {
+
+            $user->changeStatus(User::STATUS_PENDING);
+            $data['status'] = Comment::STATUS_PENDING;
+
+        }
+
+        if (!CensorService::isAllowed($data['text'])) {
+
+            $data['status'] = Comment::STATUS_SPAM;
+//          $data['text'] = CensorService::getFiltered($data['text']); // Замена матов звёздочками
+
+        }
+
+        $comment = Comment::create($data);
+        return CommentResource::make($comment);
 
     }
 

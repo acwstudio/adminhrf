@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin\TestResult;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TestResult\ResultsUserRelationshipsUpdateRequest;
-use App\Http\Resources\Admin\AdminUserIdentifierResource;
+use App\Http\Resources\Admin\User\AdminUserIdentifierResource;
 use App\Models\TResult;
-use Illuminate\Http\Request;
+
 
 /**
  * Class AdminResultsUserRelationshipsController

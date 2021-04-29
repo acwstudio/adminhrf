@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\UserStatusChanged;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,7 +13,23 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * User statuses
+     */
+
+    const STATUS_NEW =      'new';
+    const STATUS_PENDING =  'pending';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_BANNED =   'banned';
+
+    public static array $statuses = [
+        self::STATUS_NEW,
+        self::STATUS_PENDING,
+        self::STATUS_APPROVED,
+        self::STATUS_BANNED
+    ];
 
     /**
      * The attributes that are not mass assignable.
@@ -174,6 +191,40 @@ class User extends Authenticatable implements MustVerifyEmail
     public function image()
     {
         return $this->morphOne(Image::class, 'imageable');
+    }
+
+    /**
+     * Changes User status and dispatch event
+     *
+     * @param $status
+     * @return bool
+     */
+    public function changeStatus($status)
+    {
+        if (in_array($status, self::$statuses)) {
+
+            $this->status = $status;
+            $this->save();
+
+            if ($status == User::STATUS_BANNED) {
+                $this->comments()->delete();
+            }
+
+            if ($status == User::STATUS_APPROVED) {
+                $this->comments()->where('status', '!=', Comment::STATUS_SPAM)->update(['status' => Comment::STATUS_APPROVED]);
+            }
+
+            if ($status == User::STATUS_PENDING) {
+                $this->comments()->where('status', '!=', Comment::STATUS_SPAM)->update(['status' => Comment::STATUS_PENDING]);
+            }
+
+            UserStatusChanged::dispatch($this);
+
+            return true;
+
+        }
+
+        return false;
     }
 
 }
