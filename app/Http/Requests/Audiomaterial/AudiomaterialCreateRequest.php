@@ -32,7 +32,7 @@ class AudiomaterialCreateRequest extends FormRequest
             'data.type' => 'required|in:audiomaterials',
             'data.attributes' => 'required|array',
             'data.attributes.title' => 'string|required',
-            'data.attributes.paren_id' => 'integer',
+            'data.attributes.paren_id' => 'nullable|integer',
             'data.attributes.description' => 'string|required',
             'data.attributes.path' => 'string|required',
             'data.attributes.position' => 'integer|required',
