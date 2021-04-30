@@ -17,11 +17,26 @@ class Article extends Model
     use HasFactory, Sluggable, Likeable, Commentable, Searchable;
 
     /**
-     * The attributes that are not mass assignable.
+     * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id',
+        'title',
+        'announce',
+        'body',
+        'show_in_rss',
+        'yatextid',
+        'active',
+        'published_at',
+        'biblio',
+        'event_date',
+        'event_start_date',
+        'event_end_date',
+        'category_id'
+    ];
+
 
     /**
      * The attributes that should be cast to native types.
