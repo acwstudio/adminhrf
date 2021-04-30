@@ -2,24 +2,24 @@
 
 /**
  *  @OA\Get(
- *      path="/admin/article-categories", operationId="AdminArticleCategoriesIndex",
- *      tags={"Admin Article Categories"},
- *      summary="Fetches article categories collection",
+ *      path="/admin/cities", operationId="AdminCitiesIndex",
+ *      tags={"Admin Cities"},
+ *      summary="Fetches cities collection",
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
- *          example="?include=articles",
+ *          example="?include=events",
  *          @OA\Schema(
  *              type="string",
- *              enum={"articles"}
+ *              enum={"events"}
  *          )
  *      ),
  *
  *      @OA\Parameter(
  *          name="sort", in="query", description="Sorts by field", required=false,
- *          example="?sort=title (-title)",
+ *          example="?sort=name (-name)",
  *          @OA\Schema(
- *              type="string", enum={"id", "title"}
+ *              type="string", enum={"id", "name"}
  *          )
  *      ),
  *
@@ -34,21 +34,21 @@
  *  )
  *
  *  @OA\Get(
- *      path="/admin/article-categories/{id}", operationId="AdminArticleCategoriesShow",
- *     tags={"Admin Article Categories"},
- *      summary="Fetches the article category resource",
+ *      path="/admin/cities/{id}", operationId="AdminCitiesShow",
+ *     tags={"Admin Cities"},
+ *      summary="Fetches the city resource",
  *
  *      @OA\Parameter(
- *          name="id", in="path", description="Article Category id", required=true,
+ *          name="id", in="path", description="City id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
- *          example="?include=articles",
+ *          example="?include=events",
  *          @OA\Schema(
  *              type="string",
- *              enum={"articles"}
+ *              enum={"events"}
  *          )
  *      ),
  *      @OA\Response(response="200", description="Everything is fine",
@@ -60,16 +60,16 @@
  *  )
  *
  *  @OA\Post(
- *      path="/admin/article-categories", operationId="AdminArticleCategoriesCreate",
- *     tags={"Admin Article Categories"},
- *      summary="Create a new article resource",
+ *      path="/admin/cities", operationId="AdminCitiesCreate",
+ *     tags={"Admin Cities"},
+ *      summary="Create a new city resource",
  *
- *      @OA\RequestBody(required=true, description="Pass article categories properties",
- *          @OA\JsonContent(required={"title"},
+ *      @OA\RequestBody(required=true, description="Pass city properties",
+ *          @OA\JsonContent(required={"name"},
  *              @OA\Property(property="data", type="object",
- *                  @OA\Property(property="type", type="string", example="articlecategories"),
+ *                  @OA\Property(property="type", type="string", example="cities"),
  *                  @OA\Property(property="attributes", type="object",
- *                      @OA\Property(property="title",type="string",example="new category"),
+ *                      @OA\Property(property="name",type="string",example="New City"),
  *                  ),
  *              )
  *          )
@@ -87,22 +87,22 @@
  *  )
  *
  *  @OA\Patch(
- *      path="/admin/article-categories/{id}", operationId="AdminArticleCategoriesUpdate",
- *      tags={"Admin Article Categories"},
- *      summary="Update the article category resource",
+ *      path="/admin/cities/{id}", operationId="AdminCitiesUpdate",
+ *      tags={"Admin Cities"},
+ *      summary="Update the city resource",
  *
  *      @OA\Parameter(
- *          name="id", in="path", description="Article Category id", required=true,
+ *          name="id", in="path", description="City id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
- *      @OA\RequestBody(required=true, description="Pass article categories properties",
+ *      @OA\RequestBody(required=true, description="Pass city properties",
  *          @OA\JsonContent(required={"type", "id"},
  *              @OA\Property(property="data", type="object",
  *                  @OA\Property(property="id", type="integer", example=5),
- *                  @OA\Property(property="type", type="string", example="articlecategories"),
+ *                  @OA\Property(property="type", type="string", example="cities"),
  *                  @OA\Property(property="attributes", type="object",
- *                      @OA\Property(property="title",type="string",example="Another title"),
+ *                      @OA\Property(property="name",type="string",example="Another City"),
  *                  ),
  *              )
  *          )
@@ -120,12 +120,12 @@
  *  )
  *
  * @OA\Delete(
- *     path="/admin/article-categories/{id}", operationId="AdminArticleCategoriesDelete",
- *     tags={"Admin Article Categories"},
- *     summary="Delete the article category resource",
+ *     path="/admin/cities/{id}", operationId="AdminCitiesDelete",
+ *     tags={"Admin Cities"},
+ *     summary="Delete the city resource",
  *
  *     @OA\Parameter(
- *          name="id", in="path", description="Article Category id", required=true,
+ *          name="id", in="path", description="City id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
@@ -137,3 +137,5 @@
  *     )
  *  )
  */
+
+

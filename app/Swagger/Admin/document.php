@@ -2,30 +2,24 @@
 
 /**
  *  @OA\Get(
- *      path="/admin/biographies", operationId="AdminBiographiesIndex", tags={"Admin Biographies"},
- *      summary="Fetches biographies collection",
+ *      path="/admin/documents", operationId="AdminDocumentsIndex", tags={"Admin Documents"},
+ *      summary="Fetches documents collection",
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
  *          example="?include=tags,images",
  *          @OA\Schema(
  *              type="string",
- *              enum={"tags", "bookmarks", "categories", "images", "timeline"}
+ *              enum={"category", "bookmarks", "images", "tags"}
  *          )
  *      ),
  *
  *      @OA\Parameter(
  *          name="sort", in="query", description="Sorts by field", required=false,
- *          example="?sort=surname (-surname)",
+ *          example="?sort=title (-title)",
  *          @OA\Schema(
- *              type="string", enum={"id", "firstname", "surname", "published_at"}
+ *              type="string", enum={"id", "title", "document_date", "created_at"}
  *          )
- *      ),
- *
- *      @OA\Parameter(
- *          name="filter", in="query", description="Filter by field value", required=false,
- *          example="?filter[is_timeline]=true (false)",
- *          @OA\Schema(type="string", enum={"is_timeline"})
  *      ),
  *
  *      @OA\Response(
@@ -39,20 +33,20 @@
  *  )
  *
  *  @OA\Get(
- *      path="/admin/biographies/{id}", operationId="AdminBiographiesShow", tags={"Admin Biographies"},
- *      summary="Fetches the biography resource",
+ *      path="/admin/documents/{id}", operationId="AdminDocumentsShow", tags={"Admin Documents"},
+ *      summary="Fetches the document resource",
  *
  *      @OA\Parameter(
- *          name="id", in="path", description="Biography id", required=true,
+ *          name="id", in="path", description="Document id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
- *          example="?include=images,categories",
+ *          example="?include=tags,images",
  *          @OA\Schema(
  *              type="string",
- *              enum={"tags", "bookmarks", "categories", "images", "timeline"}
+ *              enum={"category", "tags", "bookmarks", "images"}
  *          )
  *      ),
  *      @OA\Response(response="200", description="Everything is fine",
@@ -63,26 +57,23 @@
  *      ),
  *  )
  *
- * @OA\Post(
- *      path="/admin/biographies", operationId="AdminBiographiesCreate", tags={"Admin Biographies"},
- *      summary="Create a new biography resource",
+ *  @OA\Post(
+ *      path="/admin/documents", operationId="AdminDocumentsCreate", tags={"Admin Documents"},
+ *      summary="Create a new document resource",
  *
- *      @OA\RequestBody(required=true, description="Pass biography properties",
- *          @OA\JsonContent(required={"type", "surname", "firstname"},
+ *      @OA\RequestBody(required=true, description="Pass document properties",
+ *          @OA\JsonContent(required={"type", "title", "document_category_id"},
  *              @OA\Property(property="data", type="object",
- *                  @OA\Property(property="type", type="string", example="articles"),
+ *                  @OA\Property(property="type", type="string", example="documents"),
  *                  @OA\Property(property="attributes", type="object",
- *                      @OA\Property(property="firstname", type="string", example="Ivan"),
- *                      @OA\Property(property="surname", type="string", example="Ivanov"),
- *                      @OA\Property(property="patronymic",type="string",example="Ivanovich"),
- *                      @OA\Property(property="birth_date", type="string", example="1980-10-20"),
- *                      @OA\Property(property="death_date", type="string", example=null),
- *                      @OA\Property(property="announce", type="text", example="any announce..."),
- *                      @OA\Property(property="description", type="text", example="any description..."),
- *                      @OA\Property(property="government_start", type="text", example="1980-10-20"),
- *                      @OA\Property(property="government_end", type="text", example=null),
- *                      @OA\Property(property="active", type="boolean",example=true),
- *                      @OA\Property(property="published_at", type="boolean",example="1962-09-18"),
+ *                      @OA\Property(property="document_category_id", type="integer", example="1"),
+ *                      @OA\Property(property="title",type="string",example="Document title"),
+ *                      @OA\Property(property="body", type="text", example="Something text..."),
+ *                      @OA\Property(property="announce", type="text",example="the announce..."),
+ *                      @OA\Property(property="file", type="string", example="/path"),
+ *                      @OA\Property(property="document_date", type="string", example="1962-09-18"),
+ *                      @OA\Property(property="document_text_date", type="string",example="1962-09-18"),
+ *                      @OA\Property(property="options", type="json",example=""),
  *                  ),
  *                  @OA\Property(property="relationships", type="object",
  *                      @OA\Property(property="tags", type="object",
@@ -118,31 +109,29 @@
  *  )
  *
  *  @OA\Patch(
- *      path="/admin/biographies/{id}", operationId="AdminBiographiesUpdate", tags={"Admin Biographies"},
- *      summary="Update the biography resource",
+ *      path="/admin/documents/{id}", operationId="AdminDocumentsUpdate", tags={"Admin Documents"},
+ *      summary="Update the document resource",
  *
  *      @OA\Parameter(
- *          name="id", in="path", description="Biography id", required=true,
+ *          name="id", in="path", description="Document id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
- *      @OA\RequestBody(required=true, description="Pass biography properties",
+ *      @OA\RequestBody(required=true, description="Pass document properties",
  *          @OA\JsonContent(required={"type", "id"},
  *              @OA\Property(property="data", type="object",
  *                  @OA\Property(property="id", type="integer", example=5),
- *                  @OA\Property(property="type", type="string", example="biographies"),
+ *                  @OA\Property(property="type", type="string", example="documents"),
  *                  @OA\Property(property="attributes", type="object",
- *                      @OA\Property(property="firstname",type="string",example="Peter"),
- *                      @OA\Property(property="active", type="boolean",example=true),
- *                      @OA\Property(property="published_at", type="boolean",example="1992-09-18"),
+ *                      @OA\Property(property="title",type="string",example="Another Document title"),
  *                      @OA\Property(property="announce", type="text",example="another announce..."),
  *                  ),
  *                  @OA\Property(property="relationships", type="object",
- *                      @OA\Property(property="tags", type="object",
+ *                      @OA\Property(property="images", type="object",
  *                          @OA\Property(property="data", type="array",
  *                              @OA\Items(type="object",
  *                                  @OA\Property(property="id", type="integer", example="10"),
- *                                  @OA\Property(property="type", type="string", example="tags"),
+ *                                  @OA\Property(property="type", type="string", example="images"),
  *                              ),
  *                          )
  *                      ),
@@ -162,12 +151,12 @@
  *      ),
  *  )
  *
- *  @OA\Delete(
- *     path="/admin/biographies/{id}", operationId="AdminBiographiesDelete", tags={"Admin Biographies"},
- *     summary="Delete the biography resource",
+ * @OA\Delete(
+ *     path="/admin/documents/{id}", operationId="AdminDocumentsDelete", tags={"Admin Documents"},
+ *     summary="Delete the document resource",
  *
  *     @OA\Parameter(
- *          name="id", in="path", description="Article id", required=true,
+ *          name="id", in="path", description="Document id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *

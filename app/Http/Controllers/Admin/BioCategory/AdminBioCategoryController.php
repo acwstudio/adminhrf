@@ -28,7 +28,7 @@ class AdminBioCategoryController extends Controller
 
         $query = QueryBuilder::for(BioCategory::class)
             ->allowedIncludes(['biographies'])
-            ->allowedSorts(['title'])
+            ->allowedSorts(['id', 'title'])
             ->jsonPaginate($perPage);
 
         return new AdminBioCategoryCollection($query);

@@ -135,7 +135,7 @@
  *  )
  *
  *  @OA\Delete(
- *     path="/admin/answers/{id}", operationId="AdminAnswersUpdate", tags={"Admin Answers"},
+ *     path="/admin/answers/{id}", operationId="AdminAnswersDelete", tags={"Admin Answers"},
  *     summary="Delete the answer resource",
  *
  *     @OA\Parameter(

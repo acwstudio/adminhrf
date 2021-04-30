@@ -2,16 +2,16 @@
 
 /**
  *  @OA\Get(
- *      path="/admin/article-categories", operationId="AdminArticleCategoriesIndex",
- *      tags={"Admin Article Categories"},
- *      summary="Fetches article categories collection",
+ *      path="/admin/biocategories", operationId="AdminBiographyCategoriesIndex",
+ *      tags={"Admin Biography Categories"},
+ *      summary="Fetches biography categories collection",
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
- *          example="?include=articles",
+ *          example="?include=biographies",
  *          @OA\Schema(
  *              type="string",
- *              enum={"articles"}
+ *              enum={"biographies"}
  *          )
  *      ),
  *
@@ -34,21 +34,21 @@
  *  )
  *
  *  @OA\Get(
- *      path="/admin/article-categories/{id}", operationId="AdminArticleCategoriesShow",
- *     tags={"Admin Article Categories"},
- *      summary="Fetches the article category resource",
+ *      path="/admin/biocategories/{id}", operationId="AdminBiographyCategoriesShow",
+ *     tags={"Admin Biography Categories"},
+ *      summary="Fetches the biography category resource",
  *
  *      @OA\Parameter(
- *          name="id", in="path", description="Article Category id", required=true,
+ *          name="id", in="path", description="Biography Category id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
- *          example="?include=articles",
+ *          example="?include=biographies",
  *          @OA\Schema(
  *              type="string",
- *              enum={"articles"}
+ *              enum={"biographies"}
  *          )
  *      ),
  *      @OA\Response(response="200", description="Everything is fine",
@@ -60,14 +60,14 @@
  *  )
  *
  *  @OA\Post(
- *      path="/admin/article-categories", operationId="AdminArticleCategoriesCreate",
- *     tags={"Admin Article Categories"},
- *      summary="Create a new article resource",
+ *      path="/admin/biocategories", operationId="AdminBiographyCategoriesCreate",
+ *     tags={"Admin Biography Categories"},
+ *      summary="Create a new biography category resource",
  *
- *      @OA\RequestBody(required=true, description="Pass article categories properties",
+ *      @OA\RequestBody(required=true, description="Pass biography categories properties",
  *          @OA\JsonContent(required={"title"},
  *              @OA\Property(property="data", type="object",
- *                  @OA\Property(property="type", type="string", example="articlecategories"),
+ *                  @OA\Property(property="type", type="string", example="biocategories"),
  *                  @OA\Property(property="attributes", type="object",
  *                      @OA\Property(property="title",type="string",example="new category"),
  *                  ),
@@ -87,20 +87,20 @@
  *  )
  *
  *  @OA\Patch(
- *      path="/admin/article-categories/{id}", operationId="AdminArticleCategoriesUpdate",
- *      tags={"Admin Article Categories"},
- *      summary="Update the article category resource",
+ *      path="/admin/biocategories/{id}", operationId="AdminBiographyCategoriesUpdate",
+ *      tags={"Admin Biography Categories"},
+ *      summary="Update the biography category resource",
  *
  *      @OA\Parameter(
- *          name="id", in="path", description="Article Category id", required=true,
+ *          name="id", in="path", description="Biography Category id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
- *      @OA\RequestBody(required=true, description="Pass article categories properties",
+ *      @OA\RequestBody(required=true, description="Pass biography categories properties",
  *          @OA\JsonContent(required={"type", "id"},
  *              @OA\Property(property="data", type="object",
  *                  @OA\Property(property="id", type="integer", example=5),
- *                  @OA\Property(property="type", type="string", example="articlecategories"),
+ *                  @OA\Property(property="type", type="string", example="biocategories"),
  *                  @OA\Property(property="attributes", type="object",
  *                      @OA\Property(property="title",type="string",example="Another title"),
  *                  ),
@@ -120,12 +120,12 @@
  *  )
  *
  * @OA\Delete(
- *     path="/admin/article-categories/{id}", operationId="AdminArticleCategoriesDelete",
- *     tags={"Admin Article Categories"},
- *     summary="Delete the article category resource",
+ *     path="/admin/biocategories/{id}", operationId="AdminBiographyCategoriesDelete",
+ *     tags={"Admin Biography Categories"},
+ *     summary="Delete the biography category resource",
  *
  *     @OA\Parameter(
- *          name="id", in="path", description="Article Category id", required=true,
+ *          name="id", in="path", description="Biography Category id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
@@ -137,3 +137,4 @@
  *     )
  *  )
  */
+

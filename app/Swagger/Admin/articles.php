@@ -140,7 +140,7 @@
  *                          @OA\Property(property="data", type="array",
  *                              @OA\Items(type="object",
  *                                  @OA\Property(property="id", type="integer", example="10"),
- *                                  @OA\Property(property="type", type="string", example="tags"),
+ *                                  @OA\Property(property="type", type="string", example="authors"),
  *                              ),
  *                          )
  *                      ),
@@ -161,7 +161,7 @@
  *  )
  *
  * @OA\Delete(
- *     path="/admin/articles/{id}", operationId="AdminArticlesUpdate", tags={"Admin Articles"},
+ *     path="/admin/articles/{id}", operationId="AdminArticlesDelete", tags={"Admin Articles"},
  *     summary="Delete the article resource",
  *
  *     @OA\Parameter(

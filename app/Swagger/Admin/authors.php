@@ -137,7 +137,7 @@
  *  )
  *
  *  @OA\Delete(
- *     path="/admin/authors/{id}", operationId="AdminAuthorsUpdate", tags={"Admin Authors"},
+ *     path="/admin/authors/{id}", operationId="AdminAuthorsDelete", tags={"Admin Authors"},
  *     summary="Delete the author resource",
  *
  *     @OA\Parameter(

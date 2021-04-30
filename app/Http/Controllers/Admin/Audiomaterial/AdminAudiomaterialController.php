@@ -50,7 +50,7 @@ class AdminAudiomaterialController extends Controller
 
         $audiomaterials = QueryBuilder::for(Audiomaterial::class)
             ->allowedIncludes(['tags', 'highlights', 'images', 'bookmarks', 'audiofile'])
-            ->allowedSorts(['id', 'title'])
+            ->allowedSorts(['id', 'title', 'created_at'])
             ->jsonPaginate($perPage);
 
         return new AdminAudiomaterialCollection($audiomaterials);

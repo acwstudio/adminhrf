@@ -51,7 +51,7 @@ class AdminDocumentController extends Controller
 
         $query = QueryBuilder::for(Document::class)
             ->allowedIncludes(['category', 'bookmarks', 'images', 'tags'])
-            ->allowedSorts(['title', 'document_date', 'created_at'])
+            ->allowedSorts(['id', 'title', 'document_date', 'created_at'])
             ->jsonPaginate($perPage);
 
         return new AdminDocumentCollection($query);

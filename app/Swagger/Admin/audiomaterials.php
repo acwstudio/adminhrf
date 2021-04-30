@@ -2,30 +2,24 @@
 
 /**
  *  @OA\Get(
- *      path="/admin/biographies", operationId="AdminBiographiesIndex", tags={"Admin Biographies"},
- *      summary="Fetches biographies collection",
+ *      path="/admin/audiomaterials", operationId="AdminAudiomaterialsIndex",
+ *      tags={"Admin Audiomaterials"},summary="Fetches audiomaterials collection",
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
  *          example="?include=tags,images",
  *          @OA\Schema(
  *              type="string",
- *              enum={"tags", "bookmarks", "categories", "images", "timeline"}
+ *              enum={"tags", "highlights", "images", "bookmarks", "audiofile"}
  *          )
  *      ),
  *
  *      @OA\Parameter(
  *          name="sort", in="query", description="Sorts by field", required=false,
- *          example="?sort=surname (-surname)",
+ *          example="?sort=title (-title)",
  *          @OA\Schema(
- *              type="string", enum={"id", "firstname", "surname", "published_at"}
+ *              type="string", enum={"id", "title", "created_at"}
  *          )
- *      ),
- *
- *      @OA\Parameter(
- *          name="filter", in="query", description="Filter by field value", required=false,
- *          example="?filter[is_timeline]=true (false)",
- *          @OA\Schema(type="string", enum={"is_timeline"})
  *      ),
  *
  *      @OA\Response(
@@ -39,20 +33,20 @@
  *  )
  *
  *  @OA\Get(
- *      path="/admin/biographies/{id}", operationId="AdminBiographiesShow", tags={"Admin Biographies"},
- *      summary="Fetches the biography resource",
+ *      path="/admin/audiomaterials/{id}", operationId="AdminAudiomaterialsShow",
+ *      tags={"Admin Audiomaterials"},summary="Fetches the audiomaterial resource",
  *
  *      @OA\Parameter(
- *          name="id", in="path", description="Biography id", required=true,
+ *          name="id", in="path", description="Audiomaterial id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
- *          example="?include=images,categories",
+ *          example="?include=tags,authors",
  *          @OA\Schema(
  *              type="string",
- *              enum={"tags", "bookmarks", "categories", "images", "timeline"}
+ *              enum={"tags", "highlights", "images", "bookmarks", "audiofile"}
  *          )
  *      ),
  *      @OA\Response(response="200", description="Everything is fine",
@@ -63,26 +57,20 @@
  *      ),
  *  )
  *
- * @OA\Post(
- *      path="/admin/biographies", operationId="AdminBiographiesCreate", tags={"Admin Biographies"},
- *      summary="Create a new biography resource",
+ *  @OA\Post(
+ *      path="/admin/audiomaterials", operationId="AdminAudiomaterialsCreate",
+ *      tags={"Admin Audiomaterials"},summary="Create a new audiomaterial resource",
  *
- *      @OA\RequestBody(required=true, description="Pass biography properties",
- *          @OA\JsonContent(required={"type", "surname", "firstname"},
+ *      @OA\RequestBody(required=true, description="Pass audiomaterial properties",
+ *          @OA\JsonContent(required={"type", "title", "position"},
  *              @OA\Property(property="data", type="object",
- *                  @OA\Property(property="type", type="string", example="articles"),
+ *                  @OA\Property(property="type", type="string", example="audiomaterials"),
  *                  @OA\Property(property="attributes", type="object",
- *                      @OA\Property(property="firstname", type="string", example="Ivan"),
- *                      @OA\Property(property="surname", type="string", example="Ivanov"),
- *                      @OA\Property(property="patronymic",type="string",example="Ivanovich"),
- *                      @OA\Property(property="birth_date", type="string", example="1980-10-20"),
- *                      @OA\Property(property="death_date", type="string", example=null),
- *                      @OA\Property(property="announce", type="text", example="any announce..."),
- *                      @OA\Property(property="description", type="text", example="any description..."),
- *                      @OA\Property(property="government_start", type="text", example="1980-10-20"),
- *                      @OA\Property(property="government_end", type="text", example=null),
- *                      @OA\Property(property="active", type="boolean",example=true),
- *                      @OA\Property(property="published_at", type="boolean",example="1962-09-18"),
+ *                      @OA\Property(property="parent_id", type="integer", example="1"),
+ *                      @OA\Property(property="title",type="string",example="Audiomaterial title"),
+ *                      @OA\Property(property="description", type="text", example="Something text..."),
+ *                      @OA\Property(property="path", type="string", example="/path"),
+ *                      @OA\Property(property="show_in_rss_apple", type="boolean", example=true),
  *                  ),
  *                  @OA\Property(property="relationships", type="object",
  *                      @OA\Property(property="tags", type="object",
@@ -118,24 +106,21 @@
  *  )
  *
  *  @OA\Patch(
- *      path="/admin/biographies/{id}", operationId="AdminBiographiesUpdate", tags={"Admin Biographies"},
- *      summary="Update the biography resource",
+ *      path="/admin/audiomaterials/{id}", operationId="AdminAudiomaterialsUpdate",
+ *      tags={"Admin Audiomaterials"},summary="Update the audiomaterial resource",
  *
  *      @OA\Parameter(
- *          name="id", in="path", description="Biography id", required=true,
+ *          name="id", in="path", description="Audiomaterial id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
- *      @OA\RequestBody(required=true, description="Pass biography properties",
+ *      @OA\RequestBody(required=true, description="Pass audiomaterial properties",
  *          @OA\JsonContent(required={"type", "id"},
  *              @OA\Property(property="data", type="object",
  *                  @OA\Property(property="id", type="integer", example=5),
- *                  @OA\Property(property="type", type="string", example="biographies"),
+ *                  @OA\Property(property="type", type="string", example="audiomaterials"),
  *                  @OA\Property(property="attributes", type="object",
- *                      @OA\Property(property="firstname",type="string",example="Peter"),
- *                      @OA\Property(property="active", type="boolean",example=true),
- *                      @OA\Property(property="published_at", type="boolean",example="1992-09-18"),
- *                      @OA\Property(property="announce", type="text",example="another announce..."),
+ *                      @OA\Property(property="title",type="string",example="Another Audiomaterial title"),
  *                  ),
  *                  @OA\Property(property="relationships", type="object",
  *                      @OA\Property(property="tags", type="object",
@@ -162,12 +147,12 @@
  *      ),
  *  )
  *
- *  @OA\Delete(
- *     path="/admin/biographies/{id}", operationId="AdminBiographiesDelete", tags={"Admin Biographies"},
- *     summary="Delete the biography resource",
+ * @OA\Delete(
+ *     path="/admin/audiomaterials/{id}", operationId="AdminAudiomaterialsDelete",
+ *     tags={"Admin Audiomaterials"},summary="Delete the audiomaterial resource",
  *
  *     @OA\Parameter(
- *          name="id", in="path", description="Article id", required=true,
+ *          name="id", in="path", description="Audiomaterial id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
