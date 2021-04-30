@@ -2,23 +2,23 @@
 
 /**
  *  @OA\Get(
- *      path="/admin/articles", operationId="AdminArticlesIndex", tags={"Admin Articles"},
- *      summary="Fetches articles collection",
+ *      path="/admin/biographies", operationId="AdminBiographiesIndex", tags={"Admin Biographies"},
+ *      summary="Fetches biographies collection",
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
  *          example="?include=tags,images",
  *          @OA\Schema(
  *              type="string",
- *              enum={"tags", "authors", "comments", "bookmarks", "category", "images", "timeline"}
+ *              enum={"tags", "bookmarks", "categories", "images", "timeline"}
  *          )
  *      ),
  *
  *      @OA\Parameter(
  *          name="sort", in="query", description="Sorts by field", required=false,
- *          example="?sort=title (-title)",
+ *          example="?sort=surname (-surname)",
  *          @OA\Schema(
- *              type="string", enum={"id", "title", "published_at", "created_at", "event_date"}
+ *              type="string", enum={"id", "firstname", "surname", "published_at"}
  *          )
  *      ),
  *
@@ -39,20 +39,20 @@
  *  )
  *
  *  @OA\Get(
- *      path="/admin/articles/{id}", operationId="AdminArticlesShow", tags={"Admin Articles"},
- *      summary="Fetches the article resource",
+ *      path="/admin/biographies/{id}", operationId="AdminBiographiesShow", tags={"Admin Biographies"},
+ *      summary="Fetches the biography resource",
  *
  *      @OA\Parameter(
- *          name="id", in="path", description="Article id", required=true,
+ *          name="id", in="path", description="Biography id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
- *          example="?include=tags,authors",
+ *          example="?include=images,categories",
  *          @OA\Schema(
  *              type="string",
- *              enum={"tags", "authors", "comments", "bookmarks", "category", "images", "timeline"}
+ *              enum={"tags", "bookmarks", "categories", "images", "timeline"}
  *          )
  *      ),
  *      @OA\Response(response="200", description="Everything is fine",
@@ -63,31 +63,33 @@
  *      ),
  *  )
  *
- *  @OA\Post(
- *      path="/admin/articles", operationId="AdminArticlesCreate", tags={"Admin Articles"},
- *      summary="Create a new article resource",
+ * @OA\Post(
+ *      path="/admin/biographies", operationId="AdminBiographiesCreate", tags={"Admin Biographies"},
+ *      summary="Create a new biography resource",
  *
- *      @OA\RequestBody(required=true, description="Pass article properties",
- *          @OA\JsonContent(required={"type", "title", "user_id"},
+ *      @OA\RequestBody(required=true, description="Pass biography properties",
+ *          @OA\JsonContent(required={"type", "surname", "firstname"},
  *              @OA\Property(property="data", type="object",
  *                  @OA\Property(property="type", type="string", example="articles"),
  *                  @OA\Property(property="attributes", type="object",
- *                      @OA\Property(property="user_id", type="integer", example="1"),
- *                      @OA\Property(property="category_id", type="integer", example="2"),
- *                      @OA\Property(property="title",type="string",example="Article title"),
- *                      @OA\Property(property="body", type="text", example="Something text..."),
- *                      @OA\Property(property="show_in_rss", type="boolean", example=true),
- *                      @OA\Property(property="yatextid", type="string", example="any string"),
+ *                      @OA\Property(property="firstname", type="string", example="Ivan"),
+ *                      @OA\Property(property="surname", type="string", example="Ivanov"),
+ *                      @OA\Property(property="patronymic",type="string",example="Ivanovich"),
+ *                      @OA\Property(property="birth_date", type="string", example="1980-10-20"),
+ *                      @OA\Property(property="death_date", type="string", example=null),
+ *                      @OA\Property(property="announce", type="text", example="any announce..."),
+ *                      @OA\Property(property="description", type="text", example="any description..."),
+ *                      @OA\Property(property="government_start", type="text", example="1980-10-20"),
+ *                      @OA\Property(property="government_end", type="text", example=null),
  *                      @OA\Property(property="active", type="boolean",example=true),
  *                      @OA\Property(property="published_at", type="boolean",example="1962-09-18"),
- *                      @OA\Property(property="announce", type="text",example="the announce..."),
  *                  ),
  *                  @OA\Property(property="relationships", type="object",
- *                      @OA\Property(property="authors", type="object",
+ *                      @OA\Property(property="tags", type="object",
  *                          @OA\Property(property="data", type="array",
  *                              @OA\Items(type="object",
  *                                  @OA\Property(property="id", type="integer", example="2"),
- *                                  @OA\Property(property="type", type="string", example="authors"),
+ *                                  @OA\Property(property="type", type="string", example="tags"),
  *                              ),
  *                          )
  *                      ),
@@ -116,31 +118,31 @@
  *  )
  *
  *  @OA\Patch(
- *      path="/admin/articles/{id}", operationId="AdminArticlesUpdate", tags={"Admin Articles"},
- *      summary="Update the article resource",
+ *      path="/admin/biographies/{id}", operationId="AdminBiographiesUpdate", tags={"Admin Biographies"},
+ *      summary="Update the biography resource",
  *
  *      @OA\Parameter(
- *          name="id", in="path", description="Article id", required=true,
+ *          name="id", in="path", description="Biography id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
- *      @OA\RequestBody(required=true, description="Pass article properties",
+ *      @OA\RequestBody(required=true, description="Pass biography properties",
  *          @OA\JsonContent(required={"type", "id"},
  *              @OA\Property(property="data", type="object",
  *                  @OA\Property(property="id", type="integer", example=5),
- *                  @OA\Property(property="type", type="string", example="articles"),
+ *                  @OA\Property(property="type", type="string", example="biographies"),
  *                  @OA\Property(property="attributes", type="object",
- *                      @OA\Property(property="title",type="string",example="Another Article title"),
+ *                      @OA\Property(property="firstname",type="string",example="Peter"),
  *                      @OA\Property(property="active", type="boolean",example=true),
  *                      @OA\Property(property="published_at", type="boolean",example="1992-09-18"),
  *                      @OA\Property(property="announce", type="text",example="another announce..."),
  *                  ),
  *                  @OA\Property(property="relationships", type="object",
- *                      @OA\Property(property="authors", type="object",
+ *                      @OA\Property(property="tags", type="object",
  *                          @OA\Property(property="data", type="array",
  *                              @OA\Items(type="object",
  *                                  @OA\Property(property="id", type="integer", example="10"),
- *                                  @OA\Property(property="type", type="string", example="authors"),
+ *                                  @OA\Property(property="type", type="string", example="tags"),
  *                              ),
  *                          )
  *                      ),
@@ -160,9 +162,9 @@
  *      ),
  *  )
  *
- * @OA\Delete(
- *     path="/admin/articles/{id}", operationId="AdminArticlesDelete", tags={"Admin Articles"},
- *     summary="Delete the article resource",
+ *  @OA\Delete(
+ *     path="/admin/biographies/{id}", operationId="AdminBiographiesDelete", tags={"Admin Biographies"},
+ *     summary="Delete the biography resource",
  *
  *     @OA\Parameter(
  *          name="id", in="path", description="Article id", required=true,

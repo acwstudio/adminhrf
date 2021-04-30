@@ -2,15 +2,15 @@
 
 /**
  *  @OA\Get(
- *      path="/admin/articles", operationId="AdminArticlesIndex", tags={"Admin Articles"},
- *      summary="Fetches articles collection",
+ *      path="/admin/audiomaterials", operationId="AdminAudiomaterialsIndex",
+ *      tags={"Admin Audiomaterials"},summary="Fetches audiomaterials collection",
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
  *          example="?include=tags,images",
  *          @OA\Schema(
  *              type="string",
- *              enum={"tags", "authors", "comments", "bookmarks", "category", "images", "timeline"}
+ *              enum={"tags", "highlights", "images", "bookmarks", "audiofile"}
  *          )
  *      ),
  *
@@ -18,14 +18,8 @@
  *          name="sort", in="query", description="Sorts by field", required=false,
  *          example="?sort=title (-title)",
  *          @OA\Schema(
- *              type="string", enum={"id", "title", "published_at", "created_at", "event_date"}
+ *              type="string", enum={"id", "title", "created_at"}
  *          )
- *      ),
- *
- *      @OA\Parameter(
- *          name="filter", in="query", description="Filter by field value", required=false,
- *          example="?filter[is_timeline]=true (false)",
- *          @OA\Schema(type="string", enum={"is_timeline"})
  *      ),
  *
  *      @OA\Response(
@@ -39,11 +33,11 @@
  *  )
  *
  *  @OA\Get(
- *      path="/admin/articles/{id}", operationId="AdminArticlesShow", tags={"Admin Articles"},
- *      summary="Fetches the article resource",
+ *      path="/admin/audiomaterials/{id}", operationId="AdminAudiomaterialsShow",
+ *      tags={"Admin Audiomaterials"},summary="Fetches the audiomaterial resource",
  *
  *      @OA\Parameter(
- *          name="id", in="path", description="Article id", required=true,
+ *          name="id", in="path", description="Audiomaterial id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
@@ -52,7 +46,7 @@
  *          example="?include=tags,authors",
  *          @OA\Schema(
  *              type="string",
- *              enum={"tags", "authors", "comments", "bookmarks", "category", "images", "timeline"}
+ *              enum={"tags", "highlights", "images", "bookmarks", "audiofile"}
  *          )
  *      ),
  *      @OA\Response(response="200", description="Everything is fine",
@@ -64,30 +58,26 @@
  *  )
  *
  *  @OA\Post(
- *      path="/admin/articles", operationId="AdminArticlesCreate", tags={"Admin Articles"},
- *      summary="Create a new article resource",
+ *      path="/admin/audiomaterials", operationId="AdminAudiomaterialsCreate",
+ *      tags={"Admin Audiomaterials"},summary="Create a new audiomaterial resource",
  *
- *      @OA\RequestBody(required=true, description="Pass article properties",
- *          @OA\JsonContent(required={"type", "title", "user_id"},
+ *      @OA\RequestBody(required=true, description="Pass audiomaterial properties",
+ *          @OA\JsonContent(required={"type", "title", "position"},
  *              @OA\Property(property="data", type="object",
- *                  @OA\Property(property="type", type="string", example="articles"),
+ *                  @OA\Property(property="type", type="string", example="audiomaterials"),
  *                  @OA\Property(property="attributes", type="object",
- *                      @OA\Property(property="user_id", type="integer", example="1"),
- *                      @OA\Property(property="category_id", type="integer", example="2"),
- *                      @OA\Property(property="title",type="string",example="Article title"),
- *                      @OA\Property(property="body", type="text", example="Something text..."),
- *                      @OA\Property(property="show_in_rss", type="boolean", example=true),
- *                      @OA\Property(property="yatextid", type="string", example="any string"),
- *                      @OA\Property(property="active", type="boolean",example=true),
- *                      @OA\Property(property="published_at", type="boolean",example="1962-09-18"),
- *                      @OA\Property(property="announce", type="text",example="the announce..."),
+ *                      @OA\Property(property="parent_id", type="integer", example="1"),
+ *                      @OA\Property(property="title",type="string",example="Audiomaterial title"),
+ *                      @OA\Property(property="description", type="text", example="Something text..."),
+ *                      @OA\Property(property="path", type="string", example="/path"),
+ *                      @OA\Property(property="show_in_rss_apple", type="boolean", example=true),
  *                  ),
  *                  @OA\Property(property="relationships", type="object",
- *                      @OA\Property(property="authors", type="object",
+ *                      @OA\Property(property="tags", type="object",
  *                          @OA\Property(property="data", type="array",
  *                              @OA\Items(type="object",
  *                                  @OA\Property(property="id", type="integer", example="2"),
- *                                  @OA\Property(property="type", type="string", example="authors"),
+ *                                  @OA\Property(property="type", type="string", example="tags"),
  *                              ),
  *                          )
  *                      ),
@@ -116,31 +106,28 @@
  *  )
  *
  *  @OA\Patch(
- *      path="/admin/articles/{id}", operationId="AdminArticlesUpdate", tags={"Admin Articles"},
- *      summary="Update the article resource",
+ *      path="/admin/audiomaterials/{id}", operationId="AdminAudiomaterialsUpdate",
+ *      tags={"Admin Audiomaterials"},summary="Update the audiomaterial resource",
  *
  *      @OA\Parameter(
- *          name="id", in="path", description="Article id", required=true,
+ *          name="id", in="path", description="Audiomaterial id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
- *      @OA\RequestBody(required=true, description="Pass article properties",
+ *      @OA\RequestBody(required=true, description="Pass audiomaterial properties",
  *          @OA\JsonContent(required={"type", "id"},
  *              @OA\Property(property="data", type="object",
  *                  @OA\Property(property="id", type="integer", example=5),
- *                  @OA\Property(property="type", type="string", example="articles"),
+ *                  @OA\Property(property="type", type="string", example="audiomaterials"),
  *                  @OA\Property(property="attributes", type="object",
- *                      @OA\Property(property="title",type="string",example="Another Article title"),
- *                      @OA\Property(property="active", type="boolean",example=true),
- *                      @OA\Property(property="published_at", type="boolean",example="1992-09-18"),
- *                      @OA\Property(property="announce", type="text",example="another announce..."),
+ *                      @OA\Property(property="title",type="string",example="Another Audiomaterial title"),
  *                  ),
  *                  @OA\Property(property="relationships", type="object",
- *                      @OA\Property(property="authors", type="object",
+ *                      @OA\Property(property="tags", type="object",
  *                          @OA\Property(property="data", type="array",
  *                              @OA\Items(type="object",
  *                                  @OA\Property(property="id", type="integer", example="10"),
- *                                  @OA\Property(property="type", type="string", example="authors"),
+ *                                  @OA\Property(property="type", type="string", example="tags"),
  *                              ),
  *                          )
  *                      ),
@@ -161,11 +148,11 @@
  *  )
  *
  * @OA\Delete(
- *     path="/admin/articles/{id}", operationId="AdminArticlesDelete", tags={"Admin Articles"},
- *     summary="Delete the article resource",
+ *     path="/admin/audiomaterials/{id}", operationId="AdminAudiomaterialsDelete",
+ *     tags={"Admin Audiomaterials"},summary="Delete the audiomaterial resource",
  *
  *     @OA\Parameter(
- *          name="id", in="path", description="Article id", required=true,
+ *          name="id", in="path", description="Audiomaterial id", required=true,
  *          @OA\Schema(type="integer")
  *      ),
  *
