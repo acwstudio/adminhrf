@@ -14,6 +14,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -37,9 +38,8 @@ class AdminHighlightController extends Controller
         $query = QueryBuilder::for(Highlight::class)
             ->allowedIncludes(['tags', 'images', 'highlightable'])
             ->allowedSorts(['title', 'order'])
-            ->allowedFilters('type')
+            ->allowedFilters(AllowedFilter::exact('type'))
             ->jsonPaginate($perPage);
-
         return new AdminHighlightCollection($query);
     }
 
