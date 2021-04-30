@@ -3,7 +3,7 @@
 /**
  *  @OA\Get(
  *      path="/admin/biographies", operationId="AdminBiographiesIndex", tags={"Admin Biographies"},
- *      summary="Show admin biographies collection",
+ *      summary="Fetches biographies collection",
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
@@ -40,7 +40,7 @@
  *
  *  @OA\Get(
  *      path="/admin/biographies/{id}", operationId="AdminBiographiesShow", tags={"Admin Biographies"},
- *      summary="Show admin biography resource",
+ *      summary="Fetches the biography resource",
  *
  *      @OA\Parameter(
  *          name="id", in="path", description="Biography id", required=true,

@@ -5,7 +5,7 @@
  *      path="/admin/audiofiles",
  *      operationId="AdminAudiofilesIndex",
  *      tags={"Admin Audiofiles"},
- *      summary="Fetches admin audiofiles collection",
+ *      summary="Fetches audiofiles collection",
  *
  *      @OA\Parameter(
  *          name="per_page",
@@ -144,7 +144,7 @@
  *      path="/admin/audiofiles/{id}",
  *      operationId="AdminAudiofileDelete",
  *      tags={"Admin Audiofiles"},
- *      summary="Delete an audiofile resource",
+ *      summary="Delete the audiofile resource",
  *
  *      @OA\Parameter(
  *          name="id",

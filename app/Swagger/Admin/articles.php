@@ -3,7 +3,7 @@
 /**
  *  @OA\Get(
  *      path="/admin/articles", operationId="AdminArticlesIndex", tags={"Admin Articles"},
- *      summary="Show admin articles collection",
+ *      summary="Fetches articles collection",
  *
  *      @OA\Parameter(
  *          name="include", in="query", description="Includes related models", required=false,
@@ -40,7 +40,7 @@
  *
  *  @OA\Get(
  *      path="/admin/articles/{id}", operationId="AdminArticlesShow", tags={"Admin Articles"},
- *      summary="Show admin article resource",
+ *      summary="Fetches the article resource",
  *
  *      @OA\Parameter(
  *          name="id", in="path", description="Article id", required=true,
