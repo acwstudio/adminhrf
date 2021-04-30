@@ -15,6 +15,7 @@ use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -111,7 +112,11 @@ class AdminArticleController extends Controller
                 'timelinable_type' => 'article',
                 'timelinable_id' => $article->id
             ]);
+
+            Cache::tags(['timeline'])->flush();
         }
+
+        Cache::tags(['articles'])->flush();
 
         return (new AdminArticleResource($article))
             ->response()
@@ -183,6 +188,8 @@ class AdminArticleController extends Controller
             ]);
         }
 
+        Cache::tags(['articles'])->flush();
+
         return new AdminArticleResource($article);
     }
 
@@ -215,6 +222,8 @@ class AdminArticleController extends Controller
         $article->bookmarks()->delete();
 
         $article->delete();
+
+        Cache::tags(['articles'])->flush();
 
         return response(null, 204);
     }

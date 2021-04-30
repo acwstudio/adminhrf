@@ -6,6 +6,7 @@ use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\AuthorResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class AuthorController extends Controller
 {
@@ -24,11 +25,29 @@ class AuthorController extends Controller
     {
         $perPage = $request->get('per_page', 8);
 
-        return AuthorResource::collection(
-            Author::withCount('articles')
-                ->orderBy('articles_count', 'desc')
-                ->paginate($perPage)
-        );
+        $query = Author::withCount('articles')->orderBy('articles_count', 'desc');
+
+        if (config('cache.enabled')) {
+
+            $result = Cache::tags(['authors'])
+                ->remember("query-{$request->fullUrl()}", $this->cacheTime, function () use ($query, $perPage) {
+                    return $query->paginate($perPage);
+                });
+
+            if (!$request->user()) {
+
+                return Cache::tags(['authors'])
+                    ->remember("resource-{$request->fullUrl()}", $this->cacheTime, function () use ($result) {
+                        return AuthorResource::collection($result);
+                    });
+            }
+
+        } else {
+
+            $result = $query->paginate($perPage);
+        }
+
+        return AuthorResource::collection($result);
     }
 
     /**
@@ -55,8 +74,27 @@ class AuthorController extends Controller
             $query->orderBy('liked', 'desc');
         }
 
-        $result = $query->orderBy('published_at', 'desc')
-            ->paginate($perPage);
+        $query = $query->orderBy('published_at', 'desc');
+
+        if (config('cache.enabled')) {
+
+            $result = Cache::tags(['articles'])
+                ->remember("query-{$request->fullUrl()}", $this->cacheTime, function () use ($query, $perPage) {
+                    return $query->paginate($perPage);
+                });
+
+            if (!$request->user()) {
+
+                return Cache::tags(['articles'])
+                    ->remember("resource-{$request->fullUrl()}", $this->cacheTime, function () use ($result) {
+                        return new ArticleCollection($result);
+                    });
+            }
+
+        } else {
+
+            $result = $query->paginate($perPage);
+        }
 
         return new ArticleCollection($result);
     }

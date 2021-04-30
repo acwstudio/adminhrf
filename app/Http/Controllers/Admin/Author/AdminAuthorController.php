@@ -14,6 +14,7 @@ use App\Models\Image;
 use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -87,6 +88,8 @@ class AdminAuthorController extends Controller
             $author->video()->attach($dataRelVideomaterials);
         }
 
+        Cache::tags(['authors'])->flush();
+
         return (new AdminAuthorResource($author))
             ->response()
             ->header('Location', route('admin.authors.show', [
@@ -138,6 +141,8 @@ class AdminAuthorController extends Controller
         if ($dataRelVideomaterials){
             $author->video()->sync($dataRelVideomaterials);
         }
+
+        Cache::tags(['authors'])->flush();
 
         return new AdminAuthorResource($author);
     }
