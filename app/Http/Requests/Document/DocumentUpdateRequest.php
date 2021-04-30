@@ -29,7 +29,7 @@ class DocumentUpdateRequest extends FormRequest
     {
         return [
             'data' => 'required|array',
-            'data.id' => 'string',
+            'data.id' => 'integer',
             'data.type' => 'required|in:documents',
             'data.attributes' => 'required|array',
             'data.attributes.document_category_id' => 'integer',
@@ -39,7 +39,7 @@ class DocumentUpdateRequest extends FormRequest
             'data.attributes.file' => 'string',
             'data.attributes.document_date' => 'string',
             'data.attributes.document_text_date' => 'string',
-            'data.attributes.options' => 'json',
+            'data.attributes.options' => 'array',
 
             'data.relationships.images.data' => 'required|array',
         ];

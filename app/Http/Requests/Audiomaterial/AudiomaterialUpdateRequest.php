@@ -32,7 +32,7 @@ class AudiomaterialUpdateRequest extends FormRequest
             'data.type' => 'required|in:audiomaterials',
             'data.attributes' => 'required|array',
             'data.attributes.title' => 'string',
-            'data.attributes.parent_id' => 'integer',
+            'data.attributes.parent_id' => 'nullable|integer',
             'data.attributes.description' => 'string',
             'data.attributes.path' => 'string',
             'data.attributes.position' => 'integer',
