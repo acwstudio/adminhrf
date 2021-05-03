@@ -12,6 +12,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -69,6 +70,8 @@ class AdminTimelineController extends Controller
 
         }
 
+        Cache::tags(['timeline'])->flush();
+
         return (new AdminTimelineResource($timeline))
             ->response()
             ->header('Location', route('admin.timelines.show', [
@@ -113,6 +116,8 @@ class AdminTimelineController extends Controller
         ]))->pull('data.attributes');
 
         $timeline->update($data);
+
+        Cache::tags(['timeline'])->flush();
 
         return new AdminTimelineResource($timeline);
     }

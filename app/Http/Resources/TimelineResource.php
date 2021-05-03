@@ -24,7 +24,7 @@ class TimelineResource extends JsonResource
             'title' => $this->timelinable_type == 'biography' ? $this->timelinable->surname . ' ' . $this->timelinable->firstname : $this->timelinable->title,
             'slug' => $this->timelinable->slug,
             'published_at' => $this->timelinable->published_at,
-            'likes' => $this->timelinable->countLikes(),
+            'likes' => $this->timelinable->liked,
             'views' => $this->timelinable->viewed,
             'has_like' => $user ? $this->timelinable->checkLiked($user) : false,
             'has_bookmark' => $user ? $this->timelinable->hasBookmark($user): false,

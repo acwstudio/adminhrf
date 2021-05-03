@@ -16,6 +16,7 @@ class Controller extends BaseController
     const SORT_POPULAR = 'popular';
 
     protected $perPage = 12;
+    protected $cacheTime = 86400; // 24*60*60
 
 
 }

@@ -7,31 +7,10 @@ use App\Http\Resources\NewsShortResource;
 use App\Models\News;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class NewsController extends Controller
 {
-    protected $announceColumns = [
-        'id',
-        'title',
-        'slug',
-        'viewed',
-        'announce',
-        'listorder',
-        'status',
-        'published_at',
-        'slug',
-    ];
-
-    protected $bodyColumns = [
-        'title',
-        'slug',
-        'body',
-        'viewed',
-        'show_in_main',
-        'close_commentation',
-        'published_at',
-    ];
-
     protected $sortParams = [
         self::SORT_POPULAR
     ];
@@ -48,7 +27,27 @@ class NewsController extends Controller
             $query->orderBy('viewed', 'desc');
         }
 
-        $result = $query->orderBy('published_at', 'desc')->paginate($perPage);
+        $query = $query->orderBy('published_at', 'desc');
+
+        if (config('cache.enabled')) {
+
+            $result = Cache::tags(['news'])
+                ->remember("query-{$request->fullUrl()}", $this->cacheTime, function () use ($query, $perPage) {
+                    return $query->paginate($perPage);
+                });
+
+            if (!$request->user()) {
+
+                return Cache::tags(['news'])
+                    ->remember("resource-{$request->fullUrl()}", $this->cacheTime, function () use ($result) {
+                        return NewsShortResource::collection($result);
+                    });
+            }
+
+        } else {
+
+            $result = $query->paginate($perPage);
+        }
 
         return NewsShortResource::collection($result);
     }
@@ -65,16 +64,36 @@ class NewsController extends Controller
         $perPage = $request->get('per_page', 16);
         $sortBy = $request->get('sort_by');
 
-        $query = $tag->news()->
-        where('status', true)->where('published_at', '<', now())
+        $query = $tag->news()
+            ->where('status', true)
+            ->where('published_at', '<', now())
             ->with('images');
 
         if ($sortBy && in_array($sortBy, $this->sortParams)) {
             $query->orderBy('viewed', 'desc');
         }
 
-        $result = $query->orderBy('published_at', 'desc')
-            ->paginate($perPage);
+        $query = $query->orderBy('published_at', 'desc');
+
+        if (config('cache.enabled')) {
+
+            $result = Cache::tags(['news'])
+                ->remember("query-{$request->fullUrl()}", $this->cacheTime, function () use ($query, $perPage) {
+                    return $query->paginate($perPage);
+                });
+
+            if (!$request->user()) {
+
+                return Cache::tags(['news'])
+                    ->remember("resource-{$request->fullUrl()}", $this->cacheTime, function () use ($result) {
+                        return NewsShortResource::collection($result);
+                    });
+            }
+
+        } else {
+
+            $result = $query->paginate($perPage);
+        }
 
         return NewsShortResource::collection($result);
     }

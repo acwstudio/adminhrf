@@ -14,6 +14,7 @@ use App\Models\Tag;
 use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -87,6 +88,8 @@ class AdminNewsController extends Controller
             $news->tags()->attach($dataRelTags);
         }
 
+        Cache::tags(['news'])->flush();
+
         return (new AdminNewsResource($news))
             ->response()
             ->header('Location', route('admin.news.show', [
@@ -139,6 +142,8 @@ class AdminNewsController extends Controller
         if ($dataRelTags){
             $news->tags()->sync($dataRelTags);
         }
+
+        Cache::tags(['news'])->flush();
 
         return new AdminNewsResource($news);
     }
