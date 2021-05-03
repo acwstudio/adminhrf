@@ -36,7 +36,7 @@ class AdminTimelineController extends Controller
         $query = QueryBuilder::for(Timeline::class)
             ->allowedFilters([AllowedFilter::scope('between_date')])
             ->allowedIncludes(['timelinable'])
-            ->allowedSorts(['id', 'timelinable_type'])
+            ->allowedSorts(['id', 'timelinable_type', 'date'])
             ->jsonPaginate($perPage);
 
         return new AdminTimelineCollection($query);

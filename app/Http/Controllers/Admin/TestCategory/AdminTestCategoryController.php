@@ -29,7 +29,7 @@ class AdminTestCategoryController extends Controller
 
         $query = QueryBuilder::for(QCategory::class)
             ->allowedIncludes(['tests'])
-            ->allowedSorts(['id', 'text'])
+            ->allowedSorts(['id', 'text', 'position'])
             ->jsonPaginate($perPage);
 
         return new AdminTCategoryCollection($query);

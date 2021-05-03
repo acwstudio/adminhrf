@@ -33,6 +33,7 @@ class AdminResultController extends Controller
                 AllowedFilter::exact('user', 'user_id'),
                 AllowedFilter::exact('test', 'test_id')
             ])
+            ->allowedSorts(['id', 'time_passed'])
             ->jsonPaginate($perPage);
 
         return new AdminResultCollection($query);

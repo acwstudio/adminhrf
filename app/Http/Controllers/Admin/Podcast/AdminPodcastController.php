@@ -46,7 +46,7 @@ class AdminPodcastController extends Controller
         $perPage = $request->get('per_page');
 
         $query = QueryBuilder::for(Podcast::class)
-            ->allowedIncludes(['tags', 'images', 'bookmarks'])
+            ->allowedIncludes(['tags', 'images', 'bookmarks', 'taggable'])
             ->allowedSorts(['id', 'title', 'order', 'created_at'])
             ->jsonPaginate($perPage);
 
@@ -95,7 +95,7 @@ class AdminPodcastController extends Controller
     {
         $query = QueryBuilder::for(Podcast::class)
             ->where('id', $podcast->id)
-            ->allowedIncludes(['tags', 'images', 'bookmarks'])
+            ->allowedIncludes(['tags', 'images', 'bookmarks', 'taggable'])
             ->firstOrFail();
 
         return new AdminPodcastResource($query);

@@ -29,7 +29,8 @@ class AdminQuestionController extends Controller
 
         $query = QueryBuilder::for(Question::class)
             ->allowedIncludes(['tests', 'answers'])
-            ->allowedSorts(['id'])
+            ->allowedSorts(['id', 'position', 'created_at'])
+            ->allowedFilters(['has_points'])
             ->jsonPaginate($perPage);
 
         return new AdminQuestionCollection($query);

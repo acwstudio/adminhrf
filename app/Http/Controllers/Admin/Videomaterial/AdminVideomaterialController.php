@@ -47,9 +47,9 @@ class AdminVideomaterialController extends Controller
 
         $videomaterials = QueryBuilder::for(Videomaterial::class)
             ->allowedIncludes([
-                'authors', 'comments', 'bookmarks', 'tags','images'
+                'authors', 'comments', 'bookmarks', 'tags','images', 'likes'
             ])
-            ->allowedFilters(['yatextid', 'type'])
+            ->allowedFilters(['type'])
             ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'event_date'])
             ->jsonPaginate($perPage);
 
@@ -103,7 +103,7 @@ class AdminVideomaterialController extends Controller
         $query = QueryBuilder::for(Videomaterial::class)
             ->where('id', $videomaterial->id)
             ->allowedIncludes([
-                'authors', 'comments', 'bookmarks', 'tags','images'
+                'authors', 'comments', 'bookmarks', 'tags','images', 'likes'
             ])
             ->firstOrFail();
 

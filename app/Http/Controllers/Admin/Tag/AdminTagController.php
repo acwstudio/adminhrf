@@ -34,7 +34,7 @@ class AdminTagController extends Controller
             ->allowedIncludes([
                 'articles', 'documents', 'news', 'biographies', 'videomaterials', 'audiomaterials'
             ])
-            ->allowedSorts('title')
+            ->allowedSorts(['id', 'title', 'created_at'])
             ->jsonPaginate($perPage);
 
         return new AdminTagCollection($tags);
