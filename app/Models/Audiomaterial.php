@@ -25,7 +25,7 @@ class Audiomaterial extends Model
     }
 
     /**
-     * Get all of the tags for the post.
+     * Get all
      */
     public function highlights()
     {
