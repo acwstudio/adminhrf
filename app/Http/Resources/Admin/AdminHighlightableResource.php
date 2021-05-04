@@ -5,6 +5,7 @@ namespace App\Http\Resources\Admin;
 use App\Http\Resources\Admin\Article\AdminArticleResource;
 use App\Http\Resources\Admin\Audiomaterial\AdminAudiomaterialResource;
 use App\Http\Resources\Admin\Biography\AdminBiographyResource;
+use App\Http\Resources\Admin\Document\AdminDocumentResource;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use App\Http\Resources\Admin\Tag\AdminTagResource;
 use App\Http\Resources\Admin\Videomaterial\AdminVideomaterialResource;
@@ -50,6 +51,9 @@ class AdminHighlightableResource extends JsonResource
                     ]),
                     $this->mergeWhen($this->highlightable_type === 'biography', [
                         'data' => AdminBiographyResource::make($this->highlightable)
+                    ]),
+                    $this->mergeWhen($this->highlightable_type === 'document', [
+                        'data' => AdminDocumentResource::make($this->highlightable)
                     ]),
                 ]
             ]

@@ -38,8 +38,7 @@ class AdminHighlightController extends Controller
         $query = QueryBuilder::for(Highlight::class)
             ->allowedIncludes(['tags', 'images', 'highlightable'])
             ->allowedFilters([
-                AllowedFilter::exact('type'),
-//                AllowedFilter::exact('highlightable.highlightable_type')
+                AllowedFilter::exact('type')
             ])
             ->allowedSorts(['title', 'order'])
             ->jsonPaginate($perPage);
