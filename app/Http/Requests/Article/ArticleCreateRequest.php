@@ -38,7 +38,7 @@ class ArticleCreateRequest extends FormRequest
             'data.attributes.body' => 'required|string',
             'data.attributes.show_in_rss' => 'present|boolean',
             'data.attributes.yatextid' => 'string',
-            'data.attributes.active' => 'present|integer',
+            'data.attributes.active' => 'present|boolean',
             'data.attributes.published_at' => 'required|string',
             'data.attributes.biblio' => 'json',
 //            'data.attributes.event_start_date' => 'string',
