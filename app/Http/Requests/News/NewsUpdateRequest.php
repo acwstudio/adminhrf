@@ -46,7 +46,7 @@ class NewsUpdateRequest extends FormRequest
             'data.relationships.*' => 'present|array',
             'data.relationships.tags.data.*.type' => 'present|in:tags',
             'data.relationships.tags.data.*.id' => 'integer|exists:tags,id',
-            'data.relationships.images.data' => 'required|array',
+//            'data.relationships.images.data' => 'required|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
             'data.relationships.images.data.*.id' => 'integer|exists:images,id',
         ];
