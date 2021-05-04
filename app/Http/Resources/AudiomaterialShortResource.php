@@ -22,7 +22,7 @@ class AudiomaterialShortResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'description' => $this->description,
-            'path' => $this->path,
+            'path' => $this->filepath,
             'position' => $this->position,
             'likes' => $this->liked,
             'views' => $this->viewed,

@@ -23,10 +23,9 @@ class AdminAudiofileResource extends JsonResource
             'id' => $this->id,
             'type' => 'audiofiles',
             'attributes' => [
-                'name' => $this->name,
-                'ext' => $this->ext,
                 'size' => $this->size,
                 'path' => $this->path,
+                'audiomaterial_id' => $this->audiomaterial_id,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
             ],

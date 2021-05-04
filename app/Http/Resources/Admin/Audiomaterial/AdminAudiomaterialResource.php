@@ -30,7 +30,6 @@ class AdminAudiomaterialResource extends JsonResource
                 'parent_id' => $this->parent_id,
                 'title' => $this->title,
                 'description' => $this->description,
-                'path' => $this->path,
                 'position' => $this->position,
                 'show_in_rss_apple' => $this->show_in_rss_apple,
                 'viewed' => $this->viewed,

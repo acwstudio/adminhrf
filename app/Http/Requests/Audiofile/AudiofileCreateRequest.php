@@ -28,8 +28,6 @@ class AudiofileCreateRequest extends FormRequest
     public function rules()
     {
         return [
-//            'type' => 'required|in:audiofiles',
-//            'file' => 'required|mimetypes:application/mp3'
             'audio' => 'required|mimes:mp3'
         ];
     }

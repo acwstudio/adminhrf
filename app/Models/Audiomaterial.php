@@ -12,7 +12,14 @@ class Audiomaterial extends Model
 {
     use HasFactory, Sluggable, Likeable, Commentable;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'parent_id',
+        'slug',
+        'title',
+        'description',
+        'position',
+        'show_in_rss_apple'
+    ];
 
 
     public function sluggable(): array
@@ -48,6 +55,13 @@ class Audiomaterial extends Model
     public function audiofile()
     {
         return $this->hasOne(Audiofile::class);
+    }
+
+    public function getfilepathAttribute()
+    {
+
+            return optional($this->audiofile)->path;
+
     }
 
     public function bookmarks()

@@ -13,7 +13,9 @@ use App\Models\Bookmark;
 use App\Models\Image;
 use App\Services\ImageAssignmentService;
 use App\Services\ImageService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -42,10 +44,12 @@ class AdminAudiomaterialController extends Controller
      * Display a listing of the resource.
      *
      * @return AdminAudiomaterialCollection
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function index(Request $request)
     {
+        $this->authorize('manage', Audiomaterial::class);
+
         $perPage = $request->get('per_page');
 
         $audiomaterials = QueryBuilder::for(Audiomaterial::class)
@@ -64,32 +68,51 @@ class AdminAudiomaterialController extends Controller
      */
     public function store(AudiomaterialCreateRequest $request)
     {
+        $this->authorize('manage', Audiomaterial::class);
+
+        $error = false;
+        $messages = [];
+
         $dataAttributes = $request->input('data.attributes');
 
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelHighlights = $request->input('data.relationships.highlights.data.*.id');
-        $dataRelBookmarks = $request->input('data.relationships.bookmarks.attributes');
-        $dataRelImages = $request->input('data.relationships.images.data.*.id');
-        $dataRelAudio = $request->input('data.relationships.audiofiles.data.*.id');
 
+
+        $dataRelAudio = $request->input('data.relationships.audiofiles.data.*.id');
         /** @var Audiomaterial $audiomaterial */
         $audiomaterial = Audiomaterial::create($dataAttributes);
 
-        if ($dataRelAudio){
-            foreach ($dataRelAudio as $id) {
-                /** @var Audiofile $audiofile */
-                $audiofile = Audiofile::find($id);
-                if (!$audiofile->audiomaterial_id){
-                    $audiofile->update([
-                        'audiomaterial_id' => $audiomaterial->id
-                    ]);
-                }
+        if (!empty($dataRelAudio)){
+
+            /** @var Audiofile $audiofile */
+            $audiofile = Audiofile::find($dataRelAudio[0]);
+            if (!$audiofile->audiomaterial_id){
+                $audiofile->update([
+                    'audiomaterial_id' => $audiomaterial->id
+                ]);
+            } else {
+                $error = true;
+                $messages[] = 'Bad audiofile relation!';
             }
+
+        } else {
+            $error = true;
+            $messages[] = 'Resource must have audiofile relation!';
         }
 
-        if ($dataRelImages) {
-            /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
-            $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
+        $dataRelImages = $request->input('data.relationships.images.data.*.id');
+        if (!empty($dataRelImages)) {
+            $image = Image::find($dataRelImages[0]);
+            if (!is_null($image) && is_null($image->imageable_id) && $image->imageable_type === 'audiomaterial') {
+                $audiomaterial->images()->save($image);
+            } else {
+                $error = true;
+                $messages[] = 'Bad image relation!';
+            }
+        } else {
+            $error = true;
+            $messages[] = 'Resource must have image relation!';
         }
 
         if ($dataRelTags){
@@ -100,9 +123,14 @@ class AdminAudiomaterialController extends Controller
             $audiomaterial->highlights()->attach($dataRelHighlights);
         }
 
-        if ($dataRelBookmarks){
-//            ToDo create bookmarks
+
+        if ($error) {
+            $audiomaterial->images()->delete();
+            $audiomaterial->highlights()->detach();
+            $audiomaterial->delete();
+            abort(403, join('|', $messages));
         }
+
 
         return (new AdminAudiomaterialResource($audiomaterial))
             ->response()
@@ -114,11 +142,14 @@ class AdminAudiomaterialController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param Audiomaterial $audiomaterial
      * @return AdminAudiomaterialResource
+     * @throws AuthorizationException
      */
     public function show(Audiomaterial $audiomaterial)
     {
+        $this->authorize('manage', Audiomaterial::class);
+
         $query = QueryBuilder::for(Audiomaterial::class)
             ->where('id', $audiomaterial->id)
             ->allowedIncludes(['tags', 'highlights', 'images', 'bookmarks', 'audiofile'])
@@ -136,30 +167,13 @@ class AdminAudiomaterialController extends Controller
      */
     public function update(AudiomaterialUpdateRequest $request, Audiomaterial $audiomaterial)
     {
+        $this->authorize('manage', Audiomaterial::class);
+
         $dataAttributes = $request->input('data.attributes');
         $dataRelTags = $request->input('data.relationships.tags.data.*.id');
         $dataRelHighlights = $request->input('data.relationships.highlights.data.*.id');
-        $dataRelImages = $request->input('data.relationships.images.data.*.id');
-        $dataRelAudio = $request->input('data.relationships.audiofiles.data.*.id');
 
         $audiomaterial->update($dataAttributes);
-
-        if ($dataRelAudio){
-            foreach ($dataRelAudio as $id) {
-                /** @var Audiofile $audiofile */
-                $audiofile = Audiofile::find($id);
-                if (!$audiofile->audiomaterial_id){
-                    $audiofile->update([
-                        'audiomaterial_id' => $audiomaterial->id
-                    ]);
-                }
-            }
-        }
-
-        if ($dataRelImages) {
-            /** @see ImageAssignmentService creates a relationship Image to Audiomaterial */
-            $this->imageAssignment->assign($audiomaterial, $dataRelImages, 'audiomaterial');
-        }
 
         if ($dataRelTags){
             $audiomaterial->tags()->sync($dataRelTags);
@@ -175,32 +189,17 @@ class AdminAudiomaterialController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
+     * @param Audiomaterial $audiomaterial
+     * @return Response
+     * @throws AuthorizationException
      */
     public function destroy(Audiomaterial $audiomaterial)
     {
-        $idTags = $audiomaterial->tags()->allRelatedIds();
+        $this->authorize('manage', Audiomaterial::class);
 
-        // remove images
-        $images = Image::where('imageable_id', $audiomaterial->id)
-            ->where('imageable_type', 'audiomaterial')->get();
-
-        foreach ($images as $image) {
-            $this->imageService->delete($image);
-        }
-        // remove audiofile
-        $audiofile = $audiomaterial->audiofile;
-
-        if ($audiofile){
-            $path = $audiofile->path . $audiofile->name . '.' . $audiofile->ext;
-            \Storage::delete($path);
-        }
-
-        // remove all related models
-        $audiomaterial->tags()->detach($idTags);
+        $audiomaterial->tags()->detach();
         $audiomaterial->audiofile()->delete();
+        $audiomaterial->images()->delete();
         $audiomaterial->tags()->detach();
         $audiomaterial->highlights()->detach();
         $audiomaterial->bookmarks()->delete();

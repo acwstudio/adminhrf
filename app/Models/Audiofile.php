@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class Audiofile
@@ -14,8 +15,20 @@ class Audiofile extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'size', 'path', 'ext', 'audiomaterial_id'
+        'size',
+        'path',
+        'audiomaterial_id'
     ];
+
+
+    protected static function booted()
+    {
+        static::deleted(function ($file) {
+
+            Storage::delete($file->path);
+
+        });
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

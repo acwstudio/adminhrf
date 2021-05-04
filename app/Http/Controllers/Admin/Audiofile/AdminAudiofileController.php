@@ -8,6 +8,8 @@ use App\Http\Resources\Admin\Audiofile\AdminAudiofileCollection;
 use App\Http\Resources\Admin\Audiofile\AdminAudiofileResource;
 use App\Models\Audiofile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -45,18 +47,22 @@ class AdminAudiofileController extends Controller
         $file = $request->file('audio');
 
         if ($request->hasFile('audio')){
-            $name = \Str::random(40);
+            $name = Str::random(40);
             $size = $file->getSize();
             $extension = $file->getClientOriginalExtension();
             $fileName = $name . '.' . $extension;
-            $path = $file->storeAs('files/audio/01', $fileName);
+            $path = $this->dirById(Audiofile::max('id') + 1);
 
-            $audiofile = Audiofile::create([
-                'name' => $name,
-                'path' => 'files/audio/01',
-                'size' => $size,
-                'ext' => $extension,
-            ]);
+            if ($file->storeAs($path, $fileName)) {
+
+                $audiofile = Audiofile::create(
+                    [
+                        'path' => $path . '/' . $fileName,
+                        'size' => $size
+                    ]
+                );
+            }
+
         }
 
         return (new AdminAudiofileResource($audiofile))
@@ -69,7 +75,7 @@ class AdminAudiofileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Audiofile $audiofile
      * @return AdminAudiofileResource
      */
     public function show(Audiofile $audiofile)
@@ -103,10 +109,21 @@ class AdminAudiofileController extends Controller
      */
     public function destroy(Audiofile $audiofile)
     {
-        $path = $audiofile->path . $audiofile->name . '.' . $audiofile->ext;
-        \Storage::delete($path);
+
         $audiofile->delete();
 
         return response(null, 204);
+    }
+
+
+    /**
+     * Return audiofile directory name by id
+     *
+     * @param int $id
+     * @return string
+     */
+    protected function dirById(int $id)
+    {
+        return 'files/audio/' . Str::padLeft((string) ceil($id/1000), 2, '0');
     }
 }
