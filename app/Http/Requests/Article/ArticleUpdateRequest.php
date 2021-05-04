@@ -50,7 +50,7 @@ class ArticleUpdateRequest extends FormRequest
             'data.relationships.tags.data.*.id' => 'integer|exists:tags,id',
             'data.relationships.authors.data.*.type' => 'present|in:authors',
             'data.relationships.authors.data.*.id' => 'integer|exists:authors,id',
-            'data.relationships.images.data' => 'required|array',
+//            'data.relationships.images.data' => 'required|array',
             'data.relationships.images.data.*.type' => 'present|in:images',
             'data.relationships.images.data.*.id' => 'integer|exists:images,id',
             'data.relationships.timelines.meta.date' => 'string',
