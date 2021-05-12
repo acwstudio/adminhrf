@@ -8,7 +8,7 @@ use App\Http\Requests\Author\AuthorUpdateRequest;
 use App\Http\Resources\Admin\Author\AdminAuthorCollection;
 use App\Http\Resources\Admin\Author\AdminAuthorLightResource;
 use App\Http\Resources\Admin\Author\AdminAuthorResource;
-use App\Http\Resources\AuthorResource;
+use App\Http\Resources\Site\AuthorResource;
 use App\Models\Author;
 use App\Models\Image;
 use App\Services\ImageAssignmentService;
@@ -88,7 +88,7 @@ class AdminAuthorController extends Controller
             $author->video()->attach($dataRelVideomaterials);
         }
 
-        Cache::tags(['authors'])->flush();
+//        Cache::tags(['authors'])->flush();
 
         return (new AdminAuthorResource($author))
             ->response()
@@ -142,7 +142,7 @@ class AdminAuthorController extends Controller
             $author->video()->sync($dataRelVideomaterials);
         }
 
-        Cache::tags(['authors'])->flush();
+//        Cache::tags(['authors'])->flush();
 
         return new AdminAuthorResource($author);
     }

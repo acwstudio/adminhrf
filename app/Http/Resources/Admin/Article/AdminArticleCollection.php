@@ -4,6 +4,8 @@ namespace App\Http\Resources\Admin\Article;
 
 use App\Http\Resources\Admin\Article\AdminArticleResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\MissingValue;
+use Illuminate\Support\Collection;
 
 /**
  * Class AdminArticleCollection
@@ -26,7 +28,23 @@ class AdminArticleCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return  parent::toArray($request);
+        return  [
+            'data' => $this->collection,
+            'included' => $this->mergeIncludedRelations($request),
+        ];
     }
 
+    /**
+     * @param $request
+     * @return MissingValue|Collection
+     */
+    private function mergeIncludedRelations($request): MissingValue|Collection
+    {
+        $includes = $this->collection->flatMap(function ($resource) use(
+            $request){
+            return $resource->included($request);
+        });
+//        return $includes;
+        return $includes->isNotEmpty() ? $includes : new MissingValue();
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Site\AuthorShortResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class VideomaterialSearchResource extends JsonResource

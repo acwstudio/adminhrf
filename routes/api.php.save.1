@@ -7,15 +7,15 @@ use App\Http\Controllers\Admin\AdminDocumentController;
 use App\Http\Controllers\Admin\AdminNewsController;
 use App\Http\Controllers\Admin\AdminTagController;
 use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\BiographyController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\LikeController;
-use App\Http\Controllers\NewsController;
-use App\Http\Controllers\SocialLoginController;
-use App\Http\Controllers\TokenAuthController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Site\AuthorController;
+use App\Http\Controllers\Site\BiographyController;
+use App\Http\Controllers\Site\CommentController;
+use App\Http\Controllers\Site\DocumentController;
+use App\Http\Controllers\Site\LikeController;
+use App\Http\Controllers\Site\NewsController;
+use App\Http\Controllers\Site\SocialLoginController;
+use App\Http\Controllers\Site\TokenAuthController;
+use App\Http\Controllers\Site\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\EmailVerificationNotificationController;
@@ -200,18 +200,18 @@ Route::prefix('v1')->group(function () {
     Route::get('/news/', [NewsController::class, 'index']);
     Route::get('/news/{news:slug}', [NewsController::class, 'show']);
 
-    Route::get('/tags/news/{tagId}', [\App\Http\Controllers\TagController::class, 'getNews']);
-    Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
-    //Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
-    //Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\TagController::class, 'getArticles']);
-    Route::get('/tags/all/{tagId}', [\App\Http\Controllers\TagController::class, 'getAll']);
+    Route::get('/tags/news/{tagId}', [\App\Http\Controllers\Site\TagController::class, 'getNews']);
+    Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\Site\TagController::class, 'getArticles']);
+    //Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\Site\TagController::class, 'getArticles']);
+    //Route::get('/tags/articles/{tagId}', [\App\Http\Controllers\Site\TagController::class, 'getArticles']);
+    Route::get('/tags/all/{tagId}', [\App\Http\Controllers\Site\TagController::class, 'getAll']);
     Route::get('/comments/{model}/{id}', [\App\Http\Controllers\CommentsController::class, 'getCommentsForModel']);
    # Route::get('/comments/user/{id}', [\App\Http\Controllers\CommentsController::class, 'getCommentsFromUser']);
-    Route::get('/bookmarks/', [\App\Http\Controllers\BookmarkController::class,'getBookmarks']);
-    Route::get('/bookmarks/{action}', [\App\Http\Controllers\BookmarkController::class,'getBookmarksActions']);
+    Route::get('/bookmarks/', [\App\Http\Controllers\Site\BookmarkController::class,'getBookmarks']);
+    Route::get('/bookmarks/{action}', [\App\Http\Controllers\Site\BookmarkController::class,'getBookmarksActions']);
 
 
-    Route::get('/subscription/', [\App\Http\Controllers\SubscriptionController::class,'getAll']);
+    Route::get('/subscription/', [\App\Http\Controllers\Site\SubscriptionController::class,'getAll']);
 
     Route::get('/biographies', [BiographyController::class,'index']);
     Route::get('/biographies/categories', [BiographyController::class,'categories']);
@@ -220,17 +220,17 @@ Route::prefix('v1')->group(function () {
     Route::patch('/biographies/{biography:slug}', [BiographyController::class,'update']);
     Route::delete('/biographies/{biography:slug}', [BiographyController::class,'destroy']);
 
-    Route::get('/timeline/events/{article:slug}', [\App\Http\Controllers\TimeLineController::class,'getEvent']);
-    Route::get('/timeline/biographies/{biography:slug}', [\App\Http\Controllers\TimeLineController::class,'getBiography']);
-    Route::get('/timeline', [\App\Http\Controllers\TimeLineController::class,'getAll']);
+    Route::get('/timeline/events/{article:slug}', [\App\Http\Controllers\Site\TimeLineController::class,'getEvent']);
+    Route::get('/timeline/biographies/{biography:slug}', [\App\Http\Controllers\Site\TimeLineController::class,'getBiography']);
+    Route::get('/timeline', [\App\Http\Controllers\Site\TimeLineController::class,'getAll']);
 
-    Route::get('/tests', [\App\Http\Controllers\TestController::class, 'index']);
-    #Route::get('/tests/{testId}/{question:slug}', [\App\Http\Controllers\TestController::class, 'getQuestion']);
-    Route::get('/tests/{testId}', [\App\Http\Controllers\TestController::class, 'show']);
-    Route::get('/tests/message/{testId}', [\App\Http\Controllers\TestController::class, 'showResultMessage']);
-    Route::get('/tests/result/{test:id}', [\App\Http\Controllers\TestController::class, 'postResult']);
+    Route::get('/tests', [\App\Http\Controllers\Site\TestController::class, 'index']);
+    #Route::get('/tests/{testId}/{question:slug}', [\App\Http\Controllers\Site\TestController::class, 'getQuestion']);
+    Route::get('/tests/{testId}', [\App\Http\Controllers\Site\TestController::class, 'show']);
+    Route::get('/tests/message/{testId}', [\App\Http\Controllers\Site\TestController::class, 'showResultMessage']);
+    Route::get('/tests/result/{test:id}', [\App\Http\Controllers\Site\TestController::class, 'postResult']);
 
-    Route::get('/random/news/', [\App\Http\Controllers\RandController::class, 'getRandNews']);
-    Route::get('/random/articles/', [\App\Http\Controllers\RandController::class, 'getRandArticles']);
-    Route::get('/random/biographies/', [\App\Http\Controllers\RandController::class, 'getRandBiographies']);
+    Route::get('/random/news/', [\App\Http\Controllers\Site\RandController::class, 'getRandNews']);
+    Route::get('/random/articles/', [\App\Http\Controllers\Site\RandController::class, 'getRandArticles']);
+    Route::get('/random/biographies/', [\App\Http\Controllers\Site\RandController::class, 'getRandBiographies']);
 });

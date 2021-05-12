@@ -3,7 +3,7 @@
 
 use App\Http\Controllers\Admin\AllContent\AdminAllContentController;
 use App\Http\Controllers\Admin\Image\AdminImageController;
-use App\Http\Controllers\TempTestingController;
+use App\Http\Controllers\Site\TempTestingController;
 use App\Http\Controllers\TestingController;
 use Illuminate\Support\Facades\Route;
 
