@@ -6,7 +6,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model
+class Tag extends AbstractAPIModel
 {
     use HasFactory, Sluggable;
 
@@ -74,4 +74,8 @@ class Tag extends Model
         return !is_null($user->subscriptions->firstWhere('tag_id', $this->id));
     }
 
+    public function type()
+    {
+        return 'tags';
+    }
 }

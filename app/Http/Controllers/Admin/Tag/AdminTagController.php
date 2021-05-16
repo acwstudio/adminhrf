@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Admin\Tag;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tag\TagCreateRequest;
 use App\Http\Requests\Tag\TagUpdateRequest;
+use App\Http\Resources\Admin\JSONAPICollection;
+use App\Http\Resources\Admin\JSONAPILightResource;
+use App\Http\Resources\Admin\JSONAPIResource;
 use App\Http\Resources\Admin\Tag\AdminTagCollection;
 use App\Http\Resources\Admin\Tag\AdminTagLightResource;
 use App\Http\Resources\Admin\Tag\AdminTagResource;
 use App\Models\Tag;
 use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -24,7 +28,7 @@ class AdminTagController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return AdminTagCollection
+     * @return JSONAPICollection
      */
     public function index(Request $request)
     {
@@ -37,7 +41,7 @@ class AdminTagController extends Controller
             ->allowedSorts(['id', 'title', 'created_at'])
             ->jsonPaginate($perPage);
 
-        return new AdminTagCollection($tags);
+        return new JSONAPICollection($tags);
     }
 
     /**
@@ -52,7 +56,7 @@ class AdminTagController extends Controller
 
         $tag = Tag::create($data);
 
-        return (new AdminTagResource($tag))
+        return (new JSONAPIResource($tag))
             ->response()
             ->header('Location', route('admin.tags.show', [
                 'tag' => $tag
@@ -63,7 +67,7 @@ class AdminTagController extends Controller
      * Display the specified resource.
      *
      * @param Tag $tag
-     * @return AdminTagResource
+     * @return JSONAPIResource
      */
     public function show(Tag $tag)
     {
@@ -73,7 +77,7 @@ class AdminTagController extends Controller
             ])
             ->firstOrFail();
 
-        return new AdminTagResource($tag);
+        return new JSONAPIResource($tag);
     }
 
     /**
@@ -81,7 +85,7 @@ class AdminTagController extends Controller
      *
      * @param \App\Http\Requests\Tag\TagUpdateRequest $request
      * @param Tag $tag
-     * @return \App\Http\Resources\Admin\Tag\AdminTagResource
+     * @return JSONAPIResource
      */
     public function update(TagUpdateRequest $request, Tag $tag)
     {
@@ -89,7 +93,7 @@ class AdminTagController extends Controller
 
         $tag->update($data);
 
-        return new AdminTagResource($tag);
+        return new JSONAPIResource($tag);
     }
 
     /**
@@ -134,6 +138,6 @@ class AdminTagController extends Controller
             ->allowedSorts(['id', 'title'])
             ->get();
 
-        return AdminTagLightResource::collection($tags);
+        return JSONAPILightResource::collection($tags);
     }
 }
