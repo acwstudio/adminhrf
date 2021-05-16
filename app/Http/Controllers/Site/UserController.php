@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Site;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateRequest;
-use App\Http\Resources\ImageResource;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\Site\ImageResource;
+use App\Http\Resources\Site\UserResource;
 use App\Models\User;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
@@ -22,7 +22,7 @@ class UserController extends Controller
      * Return logged in user
      *
      * @param Request $request
-     * @return UserResource
+     * @return \App\Http\Resources\Site\UserResource
      */
 
     public function getProfile(Request $request): UserResource

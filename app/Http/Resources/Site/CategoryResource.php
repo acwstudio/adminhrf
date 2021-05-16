@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Site;
 
-use App\Http\Resources\MagazineArticleShortResource;
+use App\Http\Resources\Site\MagazineArticleShortResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CategoryResource extends JsonResource

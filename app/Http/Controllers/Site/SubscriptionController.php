@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\SubscriptionResource;
+use App\Http\Resources\Site\SubscriptionResource;
 use App\Models\Tag;
 use App\Models\Taggable;
 use App\Models\User;

@@ -8,6 +8,8 @@ use App\Http\Resources\Admin\Article\AdminArticleIdentifireResource;
 use App\Http\Resources\Admin\Article\AdminArticleResource;
 use App\Http\Resources\Admin\Videomaterial\AdminVideomaterialIdentifierResource;
 use App\Http\Resources\Admin\Videomaterial\AdminVideomaterialResource;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -26,26 +28,15 @@ class AdminAuthorResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => 'authors',
-            'slug' => $this->slug,
-            'attributes' => [
-                'firstname' => $this->firstname,
-                'surname' => $this->surname,
-                'patronymic' => $this->patronymic,
-                'birth_date' => $this->birth_date,
-                'announce' => $this->announce,
-                'description' => $this->description,
-                'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at,
-            ],
+            'type' => $this->type(),
+            'attributes' => $this->allowedAttributes(),
             'relationships' => [
                 'articles' => [
                     'links' => [
                         'self' => route('authors.relationships.articles', ['author' => $this->id]),
                         'related' => route('authors.articles', ['author' => $this->id])
                     ],
-                    'data' => AdminArticleResource::collection(
-                        $this->whenLoaded('articles')
+                    'data' => AdminArticleIdentifireResource::collection($this->whenLoaded('articles')
                     ),
                 ],
                 'videomaterials' => [
@@ -53,8 +44,7 @@ class AdminAuthorResource extends JsonResource
                         'self' => route('authors.relationships.videomaterials', ['author' => $this->id]),
                         'related' => route('authors.videomaterials', ['author' => $this->id])
                     ],
-                    'data' => AdminVideomaterialResource::collection(
-                        $this->whenLoaded('video')
+                    'data' => AdminVideomaterialIdentifierResource::collection($this->whenLoaded('video')
                     ),
                 ],
                 'image' => [
@@ -62,9 +52,50 @@ class AdminAuthorResource extends JsonResource
                         'self' => route('author.relationships.image', ['author' => $this->id]),
                         'related' => route('author.image', ['author' => $this->id])
                     ],
-                    'data' => new AdminImageResource($this->whenLoaded('image')),
+                    'data' => new AdminImagesIdentifierResource($this->whenLoaded('image')),
                 ]
             ],
         ];
+    }
+
+    /**
+     * @return array
+     */
+    private function relations(): array
+    {
+        return [
+            AdminArticleResource::collection($this->whenLoaded('articles')),
+            AdminImageResource::collection($this->whenLoaded('images')),
+            AdminVideomaterialResource::collection($this->whenLoaded('videomaterials')),
+        ];
+    }
+
+    /**
+     * @param $request
+     * @return Collection|\Illuminate\Support\Collection
+     */
+    public function included($request)
+    {
+        return collect($this->relations())
+            ->filter(function ($resource) {
+                return $resource->collection !== null;
+            })
+            ->flatMap(function ($resource) use ($request) {
+                return $resource->flatten($request);
+            });
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function with($request): array
+    {
+        $with = [];
+
+        if ($this->included($request)->isNotEmpty()) {
+            $with['included'] = $this->included($request);
+        }
+        return $with;
     }
 }

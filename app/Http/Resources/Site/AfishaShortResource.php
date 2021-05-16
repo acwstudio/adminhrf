@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Site;
 
-use App\Http\Resources\CityResource;
-use App\Http\Resources\ImageResource;
-use App\Http\Resources\LeisureResource;
+use App\Http\Resources\Site\CityResource;
+use App\Http\Resources\Site\ImageResource;
+use App\Http\Resources\Site\LeisureResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AfishaShortResource extends JsonResource

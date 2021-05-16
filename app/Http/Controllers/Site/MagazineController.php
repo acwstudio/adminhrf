@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Site\CategoryResource;
-use App\Http\Resources\MagazineArticleResource;
-use App\Http\Resources\MagazineResource;
+use App\Http\Resources\Site\MagazineArticleResource;
+use App\Http\Resources\Site\MagazineResource;
 use App\Models\Old\MagazineRelease;
 use App\Models\Old\MagazineReleaseArticle;
 use Illuminate\Http\Request;

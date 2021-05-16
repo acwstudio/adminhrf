@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CourseResource;
-use App\Http\Resources\CourseShortResource;
+use App\Http\Resources\Site\CourseResource;
+use App\Http\Resources\Site\CourseShortResource;
 use App\Models\Highlight;
 use App\Models\Tag;
 use Illuminate\Http\Request;

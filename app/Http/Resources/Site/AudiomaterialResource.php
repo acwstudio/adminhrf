@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Site;
 
-use App\Http\Resources\CommentResource;
+use App\Http\Resources\Site\CommentResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AudiomaterialResource extends JsonResource

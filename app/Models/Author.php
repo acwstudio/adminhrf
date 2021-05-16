@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
-class Author extends Model
+class Author extends AbstractAPIModel
 {
     use HasFactory, Sluggable;
 
@@ -74,5 +74,10 @@ class Author extends Model
     public function image()
     {
         return $this->morphOne(Image::class, 'imageable');
+    }
+
+    public function type()
+    {
+        return 'authors';
     }
 }

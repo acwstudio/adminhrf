@@ -8,6 +8,8 @@ use App\Http\Requests\Author\AuthorUpdateRequest;
 use App\Http\Resources\Admin\Author\AdminAuthorCollection;
 use App\Http\Resources\Admin\Author\AdminAuthorLightResource;
 use App\Http\Resources\Admin\Author\AdminAuthorResource;
+use App\Http\Resources\Admin\JSONAPICollection;
+use App\Http\Resources\Admin\JSONAPIResource;
 use App\Http\Resources\Site\AuthorResource;
 use App\Models\Author;
 use App\Models\Image;
@@ -43,7 +45,7 @@ class AdminAuthorController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return AdminAuthorCollection
+     * @return JSONAPICollection
      */
     public function index(Request $request)
     {
@@ -55,7 +57,7 @@ class AdminAuthorController extends Controller
             ->allowedSorts(['id', 'birth_date', 'firstname', 'surname'])
             ->jsonPaginate($perPage);
 
-        return new AdminAuthorCollection($authors);
+        return new JSONAPICollection($authors);
     }
 
     /**
@@ -90,7 +92,7 @@ class AdminAuthorController extends Controller
 
 //        Cache::tags(['authors'])->flush();
 
-        return (new AdminAuthorResource($author))
+        return (new JSONAPIResource($author))
             ->response()
             ->header('Location', route('admin.authors.show', [
                 'author' => $author
@@ -101,7 +103,7 @@ class AdminAuthorController extends Controller
      * Display the specified resource.
      *
      * @param Author $author
-     * @return \App\Http\Resources\Admin\Author\AdminAuthorResource
+     * @return JSONAPIResource
      */
     public function show(Author $author)
     {
@@ -110,7 +112,7 @@ class AdminAuthorController extends Controller
             ->allowedIncludes(['articles', 'video', 'image'])
             ->firstOrFail();
 
-        return new AdminAuthorResource($query);
+        return new JSONAPIResource($query);
     }
 
     /**
@@ -118,7 +120,7 @@ class AdminAuthorController extends Controller
      *
      * @param \App\Http\Requests\Author\AuthorUpdateRequest $request
      * @param Author $author
-     * @return \App\Http\Resources\Admin\Author\AdminAuthorResource
+     * @return JSONAPIResource
      */
     public function update(AuthorUpdateRequest $request, Author $author)
     {
@@ -144,7 +146,7 @@ class AdminAuthorController extends Controller
 
 //        Cache::tags(['authors'])->flush();
 
-        return new AdminAuthorResource($author);
+        return new JSONAPIResource($author);
     }
 
     /**

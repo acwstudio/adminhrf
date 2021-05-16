@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\CommentCreateRequest;
-use App\Http\Resources\CommentResource;
+use App\Http\Resources\Site\CommentResource;
 use App\Models\Comment;
 use App\Models\User;
 use App\Services\CensorService;

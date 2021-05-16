@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Site\ArticleResource;
-use App\Http\Resources\NewsResource;
-use App\Http\Resources\NewsShortResource;
+use App\Http\Resources\Site\NewsResource;
+use App\Http\Resources\Site\NewsShortResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\DocumentCategoryResource;
-use App\Http\Resources\DocumentResource;
-use App\Http\Resources\DocumentShortResource;
+use App\Http\Resources\Site\DocumentCategoryResource;
+use App\Http\Resources\Site\DocumentResource;
+use App\Http\Resources\Site\DocumentShortResource;
 use App\Models\Document;
 use App\Models\DocumentCategory;
 use Illuminate\Http\Request;
@@ -46,7 +46,7 @@ class DocumentController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param DocumentCategory $category
      * @param Document $document
-     * @return DocumentResource
+     * @return \App\Http\Resources\Site\DocumentResource
      */
     public function show(Request $request, DocumentCategory $category, Document $document)
     {

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\HighlightShortResource;
+use App\Http\Resources\Site\HighlightShortResource;
 use App\Models\Highlight;
 use Illuminate\Http\Request;
 

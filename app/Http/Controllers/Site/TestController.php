@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TestResource;
-use App\Http\Resources\TestShortResource;
+use App\Http\Resources\Site\TestResource;
+use App\Http\Resources\Site\TestShortResource;
 use App\Models\Test;
 use App\Models\TResult;
 use Illuminate\Database\Eloquent\Builder;

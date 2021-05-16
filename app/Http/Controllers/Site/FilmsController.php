@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Tag;
-use App\Http\Resources\FilmsResource;
-use App\Http\Resources\FilmsShortResource;
+use App\Http\Resources\Site\FilmsResource;
+use App\Http\Resources\Site\FilmsShortResource;
 use App\Models\Videomaterial;
 use Illuminate\Http\Request;
 use function now;

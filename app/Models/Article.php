@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 
-class Article extends Model
+class Article extends AbstractAPIModel
 {
     use HasFactory, Sluggable, Likeable, Commentable, Searchable;
 
@@ -200,4 +200,8 @@ class Article extends Model
         return $this->belongsTo(ArticleCategory::class, 'category_id');
     }
 
+    public function type()
+    {
+        return 'articles';
+    }
 }

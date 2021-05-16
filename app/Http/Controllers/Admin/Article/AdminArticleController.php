@@ -8,6 +8,8 @@ use App\Http\Requests\Article\ArticleUpdateRequest;
 use App\Http\Resources\Admin\Article\AdminArticleCollection;
 use App\Http\Resources\Admin\Article\AdminArticleLightResource;
 use App\Http\Resources\Admin\Article\AdminArticleResource;
+use App\Http\Resources\Admin\JSONAPICollection;
+use App\Http\Resources\Admin\JSONAPIResource;
 use App\Models\Article;
 use App\Models\Image;
 use App\Models\Timeline;
@@ -44,7 +46,7 @@ class AdminArticleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \App\Http\Resources\Admin\Article\AdminArticleCollection
+     * @return JSONAPICollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
@@ -70,7 +72,7 @@ class AdminArticleController extends Controller
             ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'event_date'])
             ->jsonPaginate($perPage);
 
-        return new AdminArticleCollection($articles);
+        return new JSONAPICollection($articles);
     }
 
     /**
@@ -113,12 +115,12 @@ class AdminArticleController extends Controller
                 'timelinable_id' => $article->id
             ]);
 
-            Cache::tags(['timeline'])->flush();
+//            Cache::tags(['timeline'])->flush();
         }
 
-        Cache::tags(['articles'])->flush();
+//        Cache::tags(['articles'])->flush();
 
-        return (new AdminArticleResource($article))
+        return (new JSONAPIResource($article))
             ->response()
             ->header('Location', route('admin.articles.show', [
                 'article' => $article->id
@@ -129,7 +131,7 @@ class AdminArticleController extends Controller
      * Display the specified resource.
      *
      * @param Article $article
-     * @return \App\Http\Resources\Admin\Article\AdminArticleResource
+     * @return JSONAPIResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Article $article)
@@ -143,7 +145,7 @@ class AdminArticleController extends Controller
             ])
             ->firstOrFail();
 
-        return new AdminArticleResource($query);
+        return new JSONAPIResource($query);
     }
 
     /**
@@ -151,7 +153,7 @@ class AdminArticleController extends Controller
      *
      * @param \App\Http\Requests\Article\ArticleUpdateRequest $request
      * @param Article $article
-     * @return \App\Http\Resources\Admin\Article\AdminArticleResource
+     * @return JSONAPIResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(ArticleUpdateRequest $request, Article $article)
@@ -188,9 +190,9 @@ class AdminArticleController extends Controller
             ]);
         }
 
-        Cache::tags(['articles'])->flush();
+//        Cache::tags(['articles'])->flush();
 
-        return new AdminArticleResource($article);
+        return new JSONAPIResource($article);
     }
 
     /**

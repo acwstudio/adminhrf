@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PodcastResource;
+use App\Http\Resources\Site\PodcastResource;
 use App\Models\Podcast;
 use Illuminate\Http\Request;
 
@@ -46,7 +46,7 @@ class PodcastController extends Controller
      * Display article by id.
      *
      * @param Podcast $podcast
-     * @return PodcastResource
+     * @return \App\Http\Resources\Site\PodcastResource
      */
     public function show(Podcast $podcast)
     {

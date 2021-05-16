@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\DayInHistoryResource;
+use App\Http\Resources\Site\DayInHistoryResource;
 use App\Models\DayInHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;

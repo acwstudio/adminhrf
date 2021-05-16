@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\HighlightResource;
-use App\Http\Resources\HighlightShortResource;
-use App\Http\Resources\ImageResource;
+use App\Http\Resources\Site\HighlightResource;
+use App\Http\Resources\Site\HighlightShortResource;
+use App\Http\Resources\Site\ImageResource;
 use App\Models\Highlight;
 use App\Models\Tag;
 use Illuminate\Http\Request;

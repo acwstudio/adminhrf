@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Site\ArticleCollection;
-use App\Http\Resources\CommentResource;
+use App\Http\Resources\Site\CommentResource;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\User;

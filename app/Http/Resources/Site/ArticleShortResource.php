@@ -3,9 +3,9 @@
 namespace App\Http\Resources\Site;
 
 use App\Http\Resources\Site\AuthorShortResource;
-use App\Http\Resources\ImageResource;
+use App\Http\Resources\Site\ImageResource;
 use App\Http\Resources\Site\ArticleCategoryResource;
-use App\Http\Resources\TagResource;
+use App\Http\Resources\Site\TagResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ArticleShortResource extends JsonResource

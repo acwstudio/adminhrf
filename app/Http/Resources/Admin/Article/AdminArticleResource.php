@@ -3,23 +3,14 @@
 namespace App\Http\Resources\Admin\Article;
 
 use App\Http\Resources\Admin\Author\AdminAuthorResource;
-use App\Http\Resources\Admin\Bookmark\AdminBookmarkCollection;
-use App\Http\Resources\Admin\AdminCommentCollection;
-use App\Http\Resources\Admin\AdminCommentResource;
 use App\Http\Resources\Admin\AdminCommentsIdentifierResource;
-use App\Http\Resources\Admin\AdminImageCollection;
 use App\Http\Resources\Admin\AdminImageResource;
 use App\Http\Resources\Admin\AdminImagesIdentifierResource;
 use App\Http\Resources\Admin\Bookmark\AdminBookmarkIdentifierResource;
 use App\Http\Resources\Admin\Bookmark\AdminBookmarkResource;
 use App\Http\Resources\Admin\Tag\AdminTagResource;
 use App\Http\Resources\Admin\TimeLine\AdminTimelineIdentifierResource;
-use App\Http\Resources\Admin\TimeLine\AdminTimelineResource;
-use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryCollection;
-use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryResource;
-use App\Http\Resources\Admin\Author\AdminAuthorCollection;
 use App\Http\Resources\Admin\Author\AdminAuthorsIdentifireResource;
-use App\Http\Resources\Admin\Tag\AdminTagCollection;
 use App\Http\Resources\Admin\Tag\AdminTagIdentifierResource;
 use App\Http\Resources\Admin\ArticleCategory\AdminArticleCategoryIdentifierResource;
 use Illuminate\Http\Request;
@@ -42,28 +33,8 @@ class AdminArticleResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => 'articles',
-            'slug' => $this->slug,
-            'attributes' => [
-                'user_id' => $this->user_id,
-                'category_id' => $this->category_id,
-                'title' => $this->title,
-                'announce' => $this->announce,
-                'body' => $this->body,
-                'show_in_rss' => $this->show_in_rss,
-                'yatextid' => $this->yatextid,
-                'active' => $this->active,
-                'published_at' => $this->published_at,
-                'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at,
-                'viewed' => $this->viewed,
-                'liked' => $this->liked,
-                'commented' => $this->commented,
-                'biblio' => $this->biblio,
-                'event_date' => $this->event_date,
-                'event_start_date' => $this->event_start_date,
-                'event_end_date' => $this->event_end_date,
-            ],
+            'type' => $this->type(),
+            'attributes' => $this->allowedAttributes(),
             'relationships' => [
                 'authors' => [
                     'links' => [

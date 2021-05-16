@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\VideolectureResource;
-use App\Http\Resources\VideoLectureShortResource;
+use App\Http\Resources\Site\VideolectureResource;
+use App\Http\Resources\Site\VideoLectureShortResource;
 use App\Models\Tag;
 use App\Models\Videomaterial;
 use Illuminate\Http\Request;

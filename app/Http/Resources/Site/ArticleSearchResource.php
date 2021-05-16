@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Site;
 
 use App\Http\Resources\Site\AuthorShortResource;
-use App\Http\Resources\ImageResource;
+use App\Http\Resources\Site\ImageResource;
 use App\Http\Resources\Site\ArticleCategoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 

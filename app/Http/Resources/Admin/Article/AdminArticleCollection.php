@@ -44,7 +44,6 @@ class AdminArticleCollection extends ResourceCollection
             $request){
             return $resource->included($request);
         });
-//        return $includes;
         return $includes->isNotEmpty() ? $includes : new MissingValue();
     }
 }

@@ -3,10 +3,10 @@
 namespace App\Http\Resources\Site;
 
 use App\Http\Resources\Site\AuthorResource;
-use App\Http\Resources\CommentResource;
-use App\Http\Resources\ImageResource;
+use App\Http\Resources\Site\CommentResource;
+use App\Http\Resources\Site\ImageResource;
 use App\Http\Resources\Site\ArticleCategoryResource;
-use App\Http\Resources\TagResource;
+use App\Http\Resources\Site\TagResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ArticleResource extends JsonResource
