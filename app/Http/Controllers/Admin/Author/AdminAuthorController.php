@@ -10,6 +10,7 @@ use App\Http\Resources\Admin\Author\AdminAuthorLightResource;
 use App\Http\Resources\Admin\Author\AdminAuthorResource;
 use App\Http\Resources\Admin\JSONAPICollection;
 use App\Http\Resources\Admin\JSONAPIResource;
+use App\Http\Resources\Admin\JSONAPILightResource;
 use App\Http\Resources\Site\AuthorResource;
 use App\Models\Author;
 use App\Models\Image;
@@ -185,7 +186,7 @@ class AdminAuthorController extends Controller
             ->allowedSorts(['id', 'firstname', 'surname'])
             ->get();
 
-        return AdminAuthorLightResource::collection($authors);
+        return JSONAPILightResource::collection($authors);
     }
 
 }

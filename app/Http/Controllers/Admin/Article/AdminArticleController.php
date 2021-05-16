@@ -10,6 +10,7 @@ use App\Http\Resources\Admin\Article\AdminArticleLightResource;
 use App\Http\Resources\Admin\Article\AdminArticleResource;
 use App\Http\Resources\Admin\JSONAPICollection;
 use App\Http\Resources\Admin\JSONAPIResource;
+use App\Http\Resources\Admin\JSONAPILightResource;
 use App\Models\Article;
 use App\Models\Image;
 use App\Models\Timeline;
@@ -250,7 +251,7 @@ class AdminArticleController extends Controller
             ->allowedSorts(['id', 'title'])
             ->jsonPaginate($perPage);
 
-        return AdminArticleLightResource::collection($articles);
+        return JSONAPILightResource::collection($articles);
     }
 
 }
